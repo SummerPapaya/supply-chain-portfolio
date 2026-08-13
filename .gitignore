@@ -1,0 +1,38 @@
+# ===== WorkBuddy 私有上下文（绝不可发布）=====
+.workbuddy/
+
+# ===== 源仓库克隆与构建中间产物（480MB，与成品无关）=====
+site/sources/
+
+# ===== Node =====
+node_modules/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ===== 环境变量（保留 .env.example 模板，忽略真实凭据）=====
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# ===== 操作系统 =====
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+desktop.ini
+
+# ===== 编辑器 / IDE =====
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ===== 构建缓存 =====
+.cache/
+.dist/
+tmp/
