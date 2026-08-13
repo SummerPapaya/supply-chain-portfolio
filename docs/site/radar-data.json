@@ -1,0 +1,124 @@
+{
+  "updatedAt": "2026-08-13T15:00:00+08:00",
+  "columns": [
+    {
+      "cat": { "zh": "重点新闻", "en": "Key News" },
+      "color": "#e05656",
+      "items": [
+        {
+          "title": {
+            "zh": "美国对多晶硅及衍生品加征 15% 关税",
+            "en": "US slaps 15% tariff on polysilicon & derivatives"
+          },
+          "desc": {
+            "zh": "8 月 6 日总统公告：多晶硅最低进口价 $21/kg、晶锭晶圆 $100/kg，衍生品加征 15% 从价税，12 月 4 日生效；配套「回流美国」建厂激励，剑指半导体与光伏供应链。",
+            "en": "Aug 6 presidential proclamation: a $21/kg minimum import price on polysilicon and $100/kg on ingots/wafers, plus a 15% ad valorem tariff on derivatives, effective Dec 4; paired with “reshore America” factory incentives, targeting the semiconductor and solar supply chains."
+          },
+          "sources": [
+            { "label": "CGTN ↗", "url": "https://news.cgtn.com/news/2026-08-07/US-to-impose-15-tariff-on-polysilicon-imports-1PptIOcpbLW/p.html" },
+            { "label": "dpa ↗", "url": "https://new.mia.mk/al/story/us-announces-tariffs-on-material-used-in-solar-panels-and-chips1jN" }
+          ]
+        },
+        {
+          "title": {
+            "zh": "红海回升但未正常化，运价高位震荡",
+            "en": "Red Sea recovering, not normalized; rates stay high"
+          },
+          "desc": {
+            "zh": "Drewry WCI 8 月 6 日报 $4,297/40ft（+1%，止跌回升），7 月峰值 $4,639 为 2024 年 9 月以来最高；霍尔木兹仍基本关闭主流箱运，好望角继续承担亚欧主运力，航程 +10–14 天。",
+            "en": "Drewry WCI on Aug 6 read $4,297/40ft (+1%, halting the decline); July’s $4,639 peak was the highest since Sep 2024. Hormuz remains largely closed to mainstream container shipping, the Cape of Good Hope still carries the Asia–Europe mainlane, adding 10–14 days to transit."
+          },
+          "sources": [
+            { "label": "Drewry / SeaPrince ↗", "url": "https://seaprince.ae/blog/rising-pressure-on-red-sea-transit-5/red-sea-shipping-in-2026-what-the-suez-canal-recovery-really-means-for-your-cargo-30" },
+            { "label": "CargoLinked ↗", "url": "https://cargolinked.com/blog/global-freight-market-update-august-2026" }
+          ]
+        }
+      ]
+    },
+    {
+      "cat": { "zh": "研究瞭望", "en": "Research" },
+      "color": "#5b8cff",
+      "items": [
+        {
+          "title": {
+            "zh": "Gartner 2026 供应链八大技术趋势",
+            "en": "Gartner: 8 supply-chain tech trends for 2026"
+          },
+          "desc": {
+            "zh": "3 月报告 + 6 月简报：围绕「自主性与能动性 / 专业化与智能化 / 信任与治理」三大主题，Agentic AI、协作多智能体系统、决策治理等入选，AI 驱动的超互联被列为重塑供应链的主线。",
+            "en": "March report + June brief: organized around three themes — Autonomy & Agency / Specialization & Intelligence / Trust & Governance — with Agentic AI, collaborative multi-agent systems, and decision governance selected; AI-driven hyperconnectivity is named the through-line reshaping supply chains."
+          },
+          "sources": [
+            { "label": "罗戈网 ↗", "url": "https://logclub.com/articleInfo/ODUwNDA=" },
+            { "label": "The Agent Times ↗", "url": "https://theagenttimes.com/articles/gartner-names-eight-supply-chain-technology-trends-centered--5ae4c210" }
+          ]
+        },
+        {
+          "title": {
+            "zh": "MHI 2026 年度行业报告：人才与 AI 并进",
+            "en": "MHI 2026 Annual Report: talent meets AI"
+          },
+          "desc": {
+            "zh": "MODEX 发布：58% 供应链领袖将人才列为首要挑战（去年 50%）；48% 认为 AI 是重大 / 变革性颠覆（同比 +25pp）；要求 AI 实施技能的岗位发布量激增 245%，成为全球最紧缺技能。",
+            "en": "Released at MODEX: 58% of supply-chain leaders name talent their top challenge (up from 50%); 48% see AI as a significant/transformative disruption (+25pp YoY); postings requiring AI implementation skills surged 245%, the world’s most in-demand skill."
+          },
+          "sources": [
+            { "label": "MHI Blog ↗", "url": "https://mhiblog.org/the-ai%E2%80%91empowered-workforce" }
+          ]
+        }
+      ]
+    },
+    {
+      "cat": { "zh": "热门议题", "en": "Hot Topics" },
+      "color": "#f0a13a",
+      "items": [
+        {
+          "title": {
+            "zh": "Agentic AI 落地卡在「集成」而非「模型」",
+            "en": "Agentic AI stalls on integration, not models"
+          },
+          "desc": {
+            "zh": "Gartner 2026 调查：56% 的 CSCO 认为与遗留系统集成是规模化 AI 的首要障碍，仅 23% 组织有正式 AI 战略；行业同时警惕厂商把规则自动化包装成智能体的「agent washing」。",
+            "en": "Gartner 2026 survey: 56% of CSCOs see legacy-system integration as the top barrier to scaling AI, only 23% of organizations have a formal AI strategy; the industry also warns against vendors “agent-washing” rule-based automation as agents."
+          },
+          "sources": [
+            { "label": "Oraczen × Gartner ↗", "url": "https://www.oraczen.ai/research/insights/agentic-supply-chain-platform" }
+          ]
+        },
+        {
+          "title": {
+            "zh": "泰国暂缓 298 亿美元「陆桥」计划",
+            "en": "Thailand shelves $29.8B Land Bridge megaproject"
+          },
+          "desc": {
+            "zh": "泰国政府正式暂缓总投资近 1 万亿泰铢的陆桥项目，研究委员会指全球贸易环境变化加大收益风险，转向升级南部物流枢纽建设。",
+            "en": "The Thai government formally shelved the ~¥1 trillion baht ($29.8B) Land Bridge project; its study committee cited rising return-risk from shifting global trade conditions, pivoting to upgrading southern logistics hubs."
+          },
+          "sources": [
+            { "label": "宁波贸促会 × Thansettakij ↗", "url": "http://www.ccpitnb.org/art/2026/8/12/art_5590_638840.html" }
+          ]
+        }
+      ]
+    },
+    {
+      "cat": { "zh": "应用风向", "en": "Apps & Adoption" },
+      "color": "#35c2b0",
+      "items": [
+        {
+          "title": {
+            "zh": "仓库自动化与 AI 编排平台加速渗透",
+            "en": "Warehouse automation & AI orchestration accelerate"
+          },
+          "desc": {
+            "zh": "Gartner：93% 企业计划两年内投资信息物理自动化；82% 首次部署机器人后选择扩容。应用侧正从「单点助手」转向跨系统多智能体编排平台——也是本站点衍生应用 VeloCortex 所处的赛道。",
+            "en": "Gartner: 93% of firms plan to invest in cyber-physical automation within two years; 82% expand after their first robot deployment. The application layer is shifting from “point assistants” to cross-system multi-agent orchestration platforms — the same track as this site’s spin-off app, VeloCortex."
+          },
+          "sources": [
+            { "label": "Camcode × MHI ↗", "url": "https://www.camcode.com/blog/what-is-warehouse-automation/" },
+            { "label": "Oraczen ↗", "url": "https://www.oraczen.ai/research/insights/agentic-supply-chain-platform" }
+          ]
+        }
+      ]
+    }
+  ]
+}
