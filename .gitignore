@@ -3,6 +3,7 @@
 
 # ===== 源仓库克隆与构建中间产物（480MB，与成品无关）=====
 site/sources/
+docs/sources/
 
 # ===== Node =====
 node_modules/
