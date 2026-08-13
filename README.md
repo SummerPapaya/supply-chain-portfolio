@@ -1,5 +1,7 @@
 ![Supply Chain AI Research](assets/hero.svg)
 
+**[中文版 README](README.zh-cn.md) · [中文版封面](assets/hero-zh.svg)**
+
 A continuously updated portfolio of AI multi-model supply-chain research: collecting and comparing independent outputs from different models and agents on the same brief, while tracking global supply-chain shifts in real time.
 
 ![reports](https://img.shields.io/badge/reports-4-1a4fd6) ![spin-off app](https://img.shields.io/badge/spin--off%20app-1-0e7a6d) ![data sources](https://img.shields.io/badge/data%20sources-25%2B-0969da) ![license](https://img.shields.io/badge/license-MIT-1a7f37) ![window](https://img.shields.io/badge/window-2026%20H1-656d76)
