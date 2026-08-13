@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI 多模型视角下的全球供应链洞察研究 | Supply Chain AI Research Index</title>
+<meta name="description" content="用不同 AI 模型与 Agent 工具制作的供应链行业研究对比、每日热点雷达与衍生应用作品集" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+SC:wght@600;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  /* ================= 主题变量 ================= */
+  :root, html[data-theme="light"] {
+    --paper: #f7f6f2;
+    --paper-warm: #f1efe9;
+    --ink: #101418;
+    --ink-soft: #3d454d;
+    --ink-mute: #6e767f;
+    --line: #dcd9d0;
+    --line-soft: #e8e6df;
+    --accent: #1a4fd6;
+    --accent-deep: #123a9e;
+    --teal: #0e7a6d;
+    --card: #ffffff;
+    --grid-line: rgba(16,20,24,.035);
+    --glow: none;
+    --nav-bg: rgba(247,246,242,.82);
+    --matrix-hover: #fafbfe;
+    --shadow-card: 0 1px 2px rgba(16,20,24,.04), 0 12px 40px -24px rgba(16,20,24,.12);
+    --shadow-card-hover: 0 2px 4px rgba(16,20,24,.05), 0 24px 48px -20px rgba(16,20,24,.18);
+    --toggle-bg: #eceae3;
+    /* 衍生应用卡片（随主题切换） */
+    --app-bg: #ffffff;
+    --app-ink: #101418;
+    --app-soft: #3d454d;
+    --app-mute: #6e767f;
+    --app-border: #dcd9d0;
+    --viz-bg: linear-gradient(160deg, #f2f4f6, #e9edf1);
+    --viz-grid: rgba(16,20,24,.08);
+    --viz-land: rgba(16,20,24,.07);
+    --viz-label: rgba(16,20,24,.28);
+    --viz-chip-bg: #141a22;
+    --viz-chip-line: #2c3644;
+  }
+  html[data-theme="dark"] {
+    --paper: #0a0d11;
+    --paper-warm: #11151b;
+    --ink: #e9edf2;
+    --ink-soft: #cdd4dc;
+    --ink-mute: #9ba5b1;
+    --line: #272f39;
+    --line-soft: #1c232c;
+    --accent: #5b8cff;
+    --accent-deep: #7ba3ff;
+    --teal: #2dd4bf;
+    --card: #12171e;
+    --grid-line: rgba(233,237,242,.05);
+    --glow: radial-gradient(ellipse 55% 38% at 50% -6%, rgba(91,140,255,.13), transparent 70%),
+            radial-gradient(ellipse 30% 22% at 82% 4%, rgba(45,212,191,.07), transparent 70%);
+    --nav-bg: rgba(10,13,17,.78);
+    --matrix-hover: #161c24;
+    --shadow-card: 0 1px 2px rgba(0,0,0,.3), 0 12px 40px -24px rgba(0,0,0,.6);
+    --shadow-card-hover: 0 2px 4px rgba(0,0,0,.4), 0 24px 48px -20px rgba(0,0,0,.7);
+    --toggle-bg: #1a2029;
+    --app-bg: #0f141a;
+    --app-ink: #e9edf2;
+    --app-soft: #c3cbd4;
+    --app-mute: #9ba5b1;
+    --app-border: #232c36;
+    --viz-bg: radial-gradient(ellipse 70% 55% at 65% 40%, rgba(53,194,176,.10), transparent 65%),
+              linear-gradient(160deg, #131a21, #0b1015);
+    --viz-grid: rgba(233,237,242,.06);
+    --viz-land: rgba(233,237,242,.06);
+    --viz-label: rgba(233,237,242,.22);
+    --viz-chip-bg: #171e27;
+    --viz-chip-line: #2c3644;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-sans);
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    transition: background-color .4s ease, color .4s ease;
+  }
+  :root {
+    --font-sans: "Inter", -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    --font-serif: "Noto Serif SC", "Songti SC", serif;
+    --font-mono: "JetBrains Mono", "SF Mono", Menlo, monospace;
+  }
+  html[lang="en"] body { --font-serif: "Inter", -apple-system, sans-serif; }
+  html[lang="en"] .hero h1, html[lang="en"] .sec-title { letter-spacing: -.02em; font-weight: 700; }
+  ::selection { background: var(--accent); color: #fff; }
+
+  /* ---------- 背景网格与辉光 ---------- */
+  .grid-bg {
+    position: fixed; inset: 0; z-index: -2; pointer-events: none;
+    background-image:
+      linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 30%, transparent 75%);
+  }
+  .glow-bg { position: fixed; inset: 0; z-index: -3; pointer-events: none; background: var(--glow); }
+
+  /* ---------- 导航 ---------- */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 clamp(20px, 5vw, 64px); height: 64px;
+    background: var(--nav-bg);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid transparent;
+    transition: border-color .3s ease, background .4s ease;
+  }
+  nav.scrolled { border-bottom-color: var(--line-soft); }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+  .brand-mark {
+    width: 26px; height: 26px; border: 1.5px solid var(--ink); border-radius: 7px;
+    display: grid; place-items: center; position: relative; overflow: hidden;
+  }
+  .brand-mark::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(120deg, transparent 30%, rgba(91,140,255,.35) 50%, transparent 70%);
+    transform: translateX(-100%);
+    animation: sheen 4.5s ease-in-out infinite;
+  }
+  @keyframes sheen { 0%,55% { transform: translateX(-100%);} 85%,100% { transform: translateX(100%);} }
+  .brand-mark span { font-family: var(--font-mono); font-size: 11px; font-weight: 500; }
+  .brand-name { font-weight: 600; font-size: 14.5px; letter-spacing: .02em; }
+  .brand-name em { font-style: normal; color: var(--ink-mute); font-weight: 400; }
+  .nav-right { display: flex; align-items: center; gap: 20px; }
+  .nav-links { display: flex; align-items: center; gap: 26px; }
+  .nav-links a {
+    color: var(--ink-soft); text-decoration: none; font-size: 13.5px; font-weight: 500;
+    position: relative; transition: color .2s;
+  }
+  .nav-links a::after {
+    content: ""; position: absolute; left: 0; bottom: -4px; height: 1.5px; width: 0;
+    background: var(--accent); transition: width .28s cubic-bezier(.4,0,.2,1);
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* 主题 + 语言切换 */
+  .ctrl-group { display: flex; align-items: center; gap: 10px; }
+  .theme-btn {
+    width: 34px; height: 34px; border-radius: 9px; border: 1px solid var(--line);
+    background: var(--toggle-bg); color: var(--ink-soft); cursor: pointer;
+    display: grid; place-items: center; transition: all .25s;
+  }
+  .theme-btn:hover { color: var(--ink); border-color: var(--ink-mute); transform: translateY(-1px); }
+  .theme-btn svg { width: 16px; height: 16px; }
+  html[data-theme="light"] .icon-sun { display: none; }
+  html[data-theme="dark"] .icon-moon { display: none; }
+  .lang-btn {
+    height: 34px; padding: 0 4px; border-radius: 9px; border: 1px solid var(--line);
+    background: var(--toggle-bg); cursor: pointer; display: flex; align-items: center;
+    font-family: var(--font-mono); font-size: 11.5px; overflow: hidden; transition: border-color .25s;
+  }
+  .lang-btn:hover { border-color: var(--ink-mute); }
+  .lang-btn span {
+    padding: 0 10px; height: 100%; display: grid; place-items: center;
+    color: var(--ink-mute); transition: all .25s;
+  }
+  .lang-btn span.on { color: var(--accent); font-weight: 500; background: color-mix(in srgb, var(--accent) 10%, transparent); }
+  @media (max-width: 860px) { .nav-links { display: none; } }
+
+  /* ---------- Hero 封面 ---------- */
+  .hero {
+    padding: clamp(120px, 17vh, 170px) clamp(20px, 5vw, 64px) clamp(40px, 6vh, 72px);
+    max-width: 1200px; margin: 0 auto;
+  }
+  .hero-eyebrow {
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: .18em;
+    color: var(--accent); text-transform: uppercase;
+    display: inline-flex; align-items: center; gap: 10px; margin-bottom: 26px;
+  }
+  .hero-eyebrow::before { content: ""; width: 28px; height: 1.5px; background: var(--accent); }
+  .hero h1 {
+    font-family: var(--font-serif); font-weight: 900;
+    font-size: clamp(36px, 6vw, 68px); line-height: 1.18; letter-spacing: .01em;
+    max-width: 18em;
+  }
+  .hero h1 .thin { color: var(--ink-mute); }
+  .hero-sub {
+    margin-top: 24px; max-width: 680px; font-size: clamp(15px, 1.6vw, 17px);
+    color: var(--ink-soft);
+  }
+  .hero-stats {
+    margin-top: 44px; display: flex; flex-wrap: wrap; gap: clamp(24px, 4vw, 56px);
+    padding-top: 26px; border-top: 1px solid var(--line);
+  }
+  .stat .num {
+    font-family: var(--font-mono); font-size: clamp(26px, 3.4vw, 38px); font-weight: 500;
+    color: var(--ink); line-height: 1.1;
+  }
+  .stat .num i { font-style: normal; color: var(--accent); }
+  .stat .lbl { font-size: 12.5px; color: var(--ink-mute); margin-top: 6px; letter-spacing: .04em; }
+
+  /* ---------- 通用区块 ---------- */
+  section { max-width: 1200px; margin: 0 auto; padding: clamp(44px, 7vh, 80px) clamp(20px, 5vw, 64px); }
+  .sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; margin-bottom: 34px; flex-wrap: wrap; }
+  .sec-title { font-family: var(--font-serif); font-size: clamp(24px, 3.2vw, 34px); font-weight: 700; }
+  .sec-note { font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-mute); letter-spacing: .12em; text-transform: uppercase; }
+
+  /* ---------- 今日雷达 ---------- */
+  .brief-wrap {
+    border: 1px solid var(--line); border-radius: var(--radius, 14px);
+    background: var(--card); box-shadow: var(--shadow-card); overflow: hidden;
+  }
+  .brief-bar {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    padding: 14px 24px; background: var(--paper-warm); border-bottom: 1px solid var(--line);
+    font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-mute); letter-spacing: .06em;
+  }
+  .brief-bar .live { display: inline-flex; align-items: center; gap: 8px; color: var(--teal); font-weight: 500; }
+  .brief-bar .live::before {
+    content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--teal);
+    animation: blink 2s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: .3; } }
+  .brief-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+  @media (max-width: 1020px) { .brief-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 620px) { .brief-grid { grid-template-columns: 1fr; } }
+  .brief-col { padding: 24px 24px 20px; border-left: 1px solid var(--line-soft); }
+  .brief-col:first-child { border-left: none; }
+  @media (max-width: 1020px) {
+    .brief-col:nth-child(3) { border-left: none; }
+    .brief-col:nth-child(n+3) { border-top: 1px solid var(--line-soft); }
+  }
+  @media (max-width: 620px) {
+    .brief-col { border-left: none; }
+    .brief-col:nth-child(n+2) { border-top: 1px solid var(--line-soft); }
+  }
+  .brief-cat {
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--ink); font-weight: 500; margin-bottom: 18px; display: flex; align-items: center; gap: 8px;
+  }
+  .brief-cat::before { content: ""; width: 8px; height: 8px; border-radius: 2px; background: var(--cat, var(--accent)); }
+  .brief-item { padding: 13px 0; border-top: 1px solid var(--line-soft); }
+  .brief-item:first-of-type { border-top: none; padding-top: 0; }
+  .brief-item h4 { font-size: 13.8px; font-weight: 600; line-height: 1.5; margin-bottom: 6px; color: var(--ink); }
+  .brief-item p { font-size: 12.6px; color: var(--ink-soft); line-height: 1.65; margin-bottom: 8px; }
+  .brief-src { display: flex; flex-wrap: wrap; gap: 4px 10px; }
+  .brief-src a {
+    font-family: var(--font-mono); font-size: 10.5px; color: var(--accent);
+    text-decoration: none; letter-spacing: .02em; border-bottom: 1px solid transparent; transition: border-color .2s;
+  }
+  .brief-src a:hover { border-bottom-color: var(--accent); }
+  .brief-loading {
+    grid-column: 1 / -1; padding: 40px 0; text-align: center;
+    font-family: var(--font-mono); font-size: 12px; color: var(--ink-mute); letter-spacing: .04em;
+  }
+
+  /* 雷达刷新控件 */
+  .brief-ctrl { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .brief-eyebrow {
+    font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .18em;
+    color: var(--accent); text-transform: uppercase;
+  }
+  .brief-updated { font-family: var(--font-mono); font-size: 11px; color: var(--ink-mute); white-space: nowrap; }
+  .brief-updated b { color: var(--ink-soft); font-weight: 500; }
+  .brief-ok {
+    font-family: var(--font-mono); font-size: 11px; color: #2bb673;
+    opacity: 0; transform: translateY(2px); transition: opacity .3s, transform .3s; white-space: nowrap;
+  }
+  .brief-ok.show { opacity: 1; transform: translateY(0); }
+  .refresh-btn {
+    height: 34px; min-width: 34px; padding: 0 13px 0 11px; border-radius: 9px;
+    border: 1px solid var(--line); background: var(--toggle-bg); color: var(--ink-soft);
+    display: inline-flex; align-items: center; gap: 7px; cursor: pointer;
+    font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .04em; transition: all .25s;
+  }
+  .refresh-btn:hover:not(:disabled) { color: var(--ink); border-color: var(--ink-mute); transform: translateY(-1px); }
+  .refresh-btn:disabled { cursor: progress; opacity: .65; }
+  .refresh-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .refresh-btn svg { width: 15px; height: 15px; flex: none; }
+  .refresh-btn.spinning svg { animation: rb-spin .8s linear infinite; }
+  @keyframes rb-spin { to { transform: rotate(360deg); } }
+  .brief-error {
+    display: none; align-items: center; gap: 14px; flex-wrap: wrap;
+    margin-top: 18px; padding: 13px 16px; border-radius: 10px;
+    border: 1px solid color-mix(in srgb, #e05656 42%, transparent);
+    background: color-mix(in srgb, #e05656 8%, transparent);
+    font-size: 13px; color: var(--ink-soft);
+  }
+  .brief-error.show { display: flex; }
+  .brief-error .be-msg { flex: 1; min-width: 200px; line-height: 1.5; }
+  .brief-error .be-retry {
+    height: 32px; padding: 0 15px; border-radius: 8px; cursor: pointer;
+    border: 1px solid color-mix(in srgb, #e05656 55%, transparent); background: transparent;
+    color: #e05656; font-family: var(--font-mono); font-size: 12px; transition: background .2s;
+  }
+  .brief-error .be-retry:hover { background: color-mix(in srgb, #e05656 14%, transparent); }
+  @media (max-width: 560px) {
+    .rb-label { display: none; }
+    .refresh-btn { padding: 0; }
+    .brief-eyebrow { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .refresh-btn.spinning svg { animation-duration: 1.4s; }
+  }
+
+  /* ---------- 对比矩阵 ---------- */
+  .matrix-wrap {
+    border: 1px solid var(--line); border-radius: 14px;
+    background: var(--card); overflow: hidden; box-shadow: var(--shadow-card);
+    margin-bottom: 40px;
+  }
+  .matrix { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 760px; }
+  .matrix-scroll { overflow-x: auto; }
+  .matrix th {
+    text-align: left; font-family: var(--font-mono); font-weight: 500; font-size: 11.5px;
+    letter-spacing: .1em; text-transform: uppercase; color: var(--ink-mute);
+    padding: 16px 20px; background: var(--paper-warm); border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+  }
+  .matrix td { padding: 16px 20px; border-bottom: 1px solid var(--line-soft); vertical-align: top; color: var(--ink-soft); }
+  .matrix tr:last-child td { border-bottom: none; }
+  .matrix tbody tr { transition: background .2s; }
+  .matrix tbody tr:hover { background: var(--matrix-hover); }
+  .matrix .m-name { font-weight: 600; white-space: nowrap; color: var(--ink); }
+  .matrix .m-name small { display: block; font-weight: 400; color: var(--ink-mute); font-size: 12px; margin-top: 2px; }
+  .tag {
+    display: inline-block; font-size: 11.5px; font-family: var(--font-mono);
+    padding: 2px 9px; border-radius: 99px; border: 1px solid var(--line);
+    color: var(--ink-soft); background: var(--paper); margin: 1px 3px 1px 0; white-space: nowrap;
+    transition: background .4s, border-color .4s, color .4s;
+  }
+  .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 7px; vertical-align: 1px; }
+  .matrix td b { color: var(--ink); font-weight: 600; }
+
+  /* 次级区块标题 */
+  .sub-head {
+    display: flex; align-items: baseline; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+    margin: 8px 0 24px; padding-top: 4px;
+  }
+  .sub-title { font-family: var(--font-serif); font-size: clamp(19px, 2.2vw, 24px); font-weight: 700; color: var(--ink); position: relative; padding-left: 16px; }
+  .sub-title::before { content: ""; position: absolute; left: 0; top: 4px; bottom: 4px; width: 3px; background: var(--accent); border-radius: 2px; }
+
+  /* ---------- 报告卡片 ---------- */
+  .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+  @media (max-width: 860px) { .cards { grid-template-columns: 1fr; } }
+  .card {
+    position: relative; background: var(--card); border: 1px solid var(--line);
+    border-radius: 14px; padding: 30px 30px 26px;
+    display: flex; flex-direction: column;
+    transition: transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s, border-color .35s, background .4s;
+    overflow: hidden;
+  }
+  .card::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--card-accent, var(--accent));
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .45s cubic-bezier(.22,1,.36,1);
+  }
+  .card:hover { transform: translateY(-5px); border-color: var(--ink-mute); box-shadow: var(--shadow-card-hover); }
+  .card:hover::before { transform: scaleX(1); }
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
+  .card-tool {
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em;
+    padding: 4px 11px; border-radius: 6px; font-weight: 500;
+    color: var(--card-accent, var(--accent));
+    background: color-mix(in srgb, var(--card-accent, var(--accent)) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--card-accent, var(--accent)) 28%, transparent);
+  }
+  .card-idx { font-family: var(--font-mono); font-size: 12px; color: var(--ink-mute); }
+  .card h3 { font-family: var(--font-serif); font-size: 21px; font-weight: 700; line-height: 1.35; margin-bottom: 4px; color: var(--ink); }
+  .card .card-en { font-size: 12px; font-family: var(--font-mono); color: var(--ink-mute); margin-bottom: 14px; word-break: break-all; }
+  .card p { font-size: 13.8px; color: var(--ink-soft); margin-bottom: 14px; }
+  .card ul { list-style: none; margin-bottom: 18px; }
+  .card ul li { font-size: 13.2px; color: var(--ink-soft); padding-left: 18px; position: relative; margin-bottom: 7px; }
+  .card ul li::before {
+    content: ""; position: absolute; left: 2px; top: 9px; width: 6px; height: 1.5px;
+    background: var(--card-accent, var(--accent));
+  }
+  .card .tags { margin-bottom: 22px; }
+  .card-actions { margin-top: auto; display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 13.5px; font-weight: 600; text-decoration: none;
+    padding: 10px 18px; border-radius: 9px;
+    transition: all .25s cubic-bezier(.4,0,.2,1);
+  }
+  .btn-primary { background: var(--ink); color: var(--paper); }
+  .btn-primary:hover { background: var(--card-accent, var(--accent)); color: #fff; transform: translateY(-1px); box-shadow: 0 6px 16px -6px color-mix(in srgb, var(--card-accent, var(--accent)) 55%, transparent); }
+  .btn-ghost { border: 1px solid var(--line); color: var(--ink-soft); background: transparent; }
+  .btn-ghost:hover { border-color: var(--ink); color: var(--ink); transform: translateY(-1px); }
+  .btn .arr { transition: transform .25s; }
+  .btn:hover .arr { transform: translate(2px,-2px); }
+
+  /* ---------- 衍生应用（主题统一） ---------- */
+  .app-card {
+    --card-accent: var(--teal);
+    display: grid; grid-template-columns: 1.1fr .9fr;
+    background: var(--app-bg); color: var(--app-ink);
+    border: 1px solid var(--app-border); border-radius: 14px;
+    overflow: hidden; box-shadow: var(--shadow-card);
+    transition: background .4s, border-color .4s;
+  }
+  @media (max-width: 860px) { .app-card { grid-template-columns: 1fr; } }
+  .app-left { padding: clamp(30px, 4vw, 48px); }
+  .app-left h3 { font-family: var(--font-serif); font-size: clamp(22px, 2.6vw, 30px); font-weight: 700; color: var(--app-ink); margin: 12px 0 4px; }
+  .app-left .card-en { color: var(--app-mute); font-family: var(--font-mono); font-size: 12px; margin-bottom: 18px; }
+  .app-left p { color: var(--app-soft); font-size: 14px; margin-bottom: 18px; }
+  .app-left ul { list-style: none; margin-bottom: 26px; }
+  .app-left ul li { color: var(--app-soft); font-size: 13.5px; padding-left: 18px; position: relative; margin-bottom: 8px; }
+  .app-left ul li::before { content: ""; position: absolute; left: 2px; top: 9px; width: 6px; height: 1.5px; background: var(--teal); }
+  .app-left .btn-primary { background: var(--teal); color: #062a26; }
+  html[data-theme="dark"] .app-left .btn-primary { color: #05231f; }
+  .app-left .btn-primary:hover { filter: brightness(1.12); box-shadow: 0 6px 16px -6px rgba(45,212,176,.5); }
+  .app-left .btn-ghost { border-color: var(--app-border); color: var(--app-soft); }
+  .app-left .btn-ghost:hover { border-color: var(--app-ink); color: var(--app-ink); }
+  .app-right {
+    position: relative; min-height: 320px;
+    background: var(--viz-bg);
+    border-left: 1px solid var(--app-border);
+    display: flex; align-items: center; justify-content: center; overflow: hidden;
+    transition: background .4s, border-color .4s;
+  }
+  @media (max-width: 860px) { .app-right { border-left: none; border-top: 1px solid var(--app-border); } }
+  .app-right svg { width: 92%; max-width: 460px; height: auto; }
+  .viz-grid-line { stroke: var(--viz-grid); stroke-width: 1; }
+  .viz-land { fill: var(--viz-land); }
+  .viz-ocean { fill: var(--viz-label); font-family: "JetBrains Mono", monospace; letter-spacing: .25em; }
+  .viz-route { fill: none; stroke-width: 1.5; stroke-dasharray: 5 6; animation: dashmove 3.4s linear infinite; }
+  @keyframes dashmove { to { stroke-dashoffset: -44; } }
+  .viz-chip-bg { fill: var(--viz-chip-bg); stroke: var(--viz-chip-line); stroke-width: 1; }
+  .viz-chip-text { fill: #e9edf2; font-family: "JetBrains Mono", monospace; font-size: 8.5px; }
+  .viz-warn { fill: #f0a13a; }
+  .viz-alert { fill: #e05656; }
+  .viz-ok { fill: #35c2b0; }
+  .pulse { animation: pulse 2.4s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+  @keyframes pulse { 0%,100% { opacity: .9; transform: scale(1);} 50% { opacity: .2; transform: scale(2.1);} }
+
+  /* ---------- AI 补位缺口排行 ---------- */
+  .gap-legend {
+    display: flex; flex-wrap: wrap; gap: 10px 22px; margin-bottom: 26px;
+    font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-mute); letter-spacing: .04em;
+  }
+  .gap-legend b { color: var(--ink); font-weight: 500; }
+  .gap-list { display: flex; flex-direction: column; gap: 16px; }
+  .gap-row {
+    display: grid; grid-template-columns: 64px 1.05fr 1.35fr 96px; gap: clamp(16px, 3vw, 36px);
+    align-items: center; background: var(--card); border: 1px solid var(--line);
+    border-radius: 14px; padding: 24px 28px; box-shadow: var(--shadow-card);
+    transition: transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s, border-color .3s, background .4s;
+  }
+  .gap-row:hover { transform: translateY(-3px); border-color: var(--ink-mute); box-shadow: var(--shadow-card-hover); }
+  @media (max-width: 900px) { .gap-row { grid-template-columns: 44px 1fr; } .gap-bars { grid-column: 2; } .gap-score { grid-column: 2; justify-self: start; } }
+  .gap-rank {
+    font-family: var(--font-mono); font-size: clamp(26px, 3vw, 36px); font-weight: 500;
+    color: var(--ink-mute); line-height: 1;
+  }
+  .gap-row:first-child .gap-rank { color: var(--accent); }
+  .gap-main h4 { font-size: 16.5px; font-weight: 700; margin-bottom: 6px; color: var(--ink); }
+  .gap-main p { font-size: 13.2px; color: var(--ink-soft); line-height: 1.7; margin-bottom: 10px; }
+  .gap-evi { display: flex; flex-wrap: wrap; gap: 4px 8px; }
+  .gap-evi span {
+    font-family: var(--font-mono); font-size: 10.5px; color: var(--accent);
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    background: color-mix(in srgb, var(--accent) 7%, transparent);
+    padding: 2px 8px; border-radius: 99px; white-space: nowrap;
+  }
+  .gap-bars { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 22px; }
+  @media (max-width: 560px) { .gap-bars { grid-template-columns: 1fr; } }
+  .gap-bar .gb-top { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10.5px; color: var(--ink-mute); margin-bottom: 4px; letter-spacing: .04em; }
+  .gap-bar .gb-top b { color: var(--ink); font-weight: 500; }
+  .gap-bar .gb-track { height: 4px; border-radius: 2px; background: var(--line-soft); overflow: hidden; }
+  .gap-bar .gb-fill {
+    display: block; height: 100%; width: 0; border-radius: 2px;
+    background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 55%, var(--teal)));
+    transition: width 1.1s cubic-bezier(.22,1,.36,1);
+  }
+  .reveal.in .gb-fill { width: var(--w); }
+  .gap-score { text-align: center; }
+  .gap-score .gs-num {
+    font-family: var(--font-mono); font-size: clamp(24px, 2.6vw, 32px); font-weight: 500; color: var(--ink); line-height: 1;
+  }
+  .gap-score .gs-num i { font-style: normal; font-size: .5em; color: var(--ink-mute); }
+  .gap-score .gs-lbl { font-family: var(--font-mono); font-size: 10px; letter-spacing: .12em; color: var(--ink-mute); margin-top: 6px; text-transform: uppercase; }
+
+  /* ---------- 页脚 ---------- */
+  footer { border-top: 1px solid var(--line); margin-top: 40px; padding: 40px clamp(20px, 5vw, 64px) 48px; transition: border-color .4s; }
+  .foot-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; align-items: center; }
+  .foot-inner p { font-size: 12.5px; color: var(--ink-mute); }
+  .foot-inner .mono { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .06em; }
+
+  /* ---------- 入场动效 ---------- */
+  .reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1); }
+  .reveal.in { opacity: 1; transform: none; }
+  .reveal-d1 { transition-delay: .08s; } .reveal-d2 { transition-delay: .16s; }
+  .reveal-d3 { transition-delay: .24s; } .reveal-d4 { transition-delay: .32s; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .brand-mark::after, .viz-route, .pulse, .brief-bar .live::before { animation: none; }
+  }
+</style>
+</head>
+<body>
+<div class="glow-bg"></div>
+<div class="grid-bg"></div>
+
+<nav id="nav">
+  <a class="brand" href="#top">
+    <span class="brand-mark"><span>SC</span></span>
+    <span class="brand-name"><span data-i18n="brand">供应链 × AI 研究索引</span> <em>/ Research Index</em></span>
+  </a>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="#briefing" data-i18n="nav-brief">今日雷达</a>
+      <a href="#reports" data-i18n="nav-reports">报告对比</a>
+      <a href="#app" data-i18n="nav-app">衍生应用</a>
+      <a href="#gaps" data-i18n="nav-gaps">AI 补位</a>
+      <a href="https://github.com/SummerPapaya" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+    <div class="ctrl-group">
+      <button class="lang-btn" id="langBtn" aria-label="Switch language">
+        <span id="langZh" class="on">中</span><span id="langEn">EN</span>
+      </button>
+      <button class="theme-btn" id="themeBtn" aria-label="Toggle dark mode">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ 封面 ============ -->
+<header class="hero" id="top">
+  <div class="hero-eyebrow reveal" data-i18n="eyebrow">AI-Driven Global Supply Chain Research | Ongoing Series</div>
+  <h1 class="reveal reveal-d1" data-i18n="h1">AI 多模型视角下的<br />全球供应链<span class="thin">洞察研究</span></h1>
+  <p class="hero-sub reveal reveal-d2" data-i18n="hero-sub">
+    一个持续更新的 AI 多模型供应链研究作品集：以同一研究命题，收集并横向比较不同大模型与 Agent 的独立成果，实时追踪全球供应链变局。
+    下方「今日雷达」呈现 <span class="js-radar-date">2026-08-13</span> 当日的多源交叉情报，每条均附原始出处。
+  </p>
+  <div class="hero-stats reveal reveal-d3">
+    <div class="stat"><div class="num" data-count="4">0</div><div class="lbl" data-i18n="stat1">独立研究报告</div></div>
+    <div class="stat"><div class="num" data-count="1">0</div><div class="lbl" data-i18n="stat2">衍生应用</div></div>
+    <div class="stat"><div class="num"><i>25</i>+</div><div class="lbl" data-i18n="stat3">机构数据源（WTO / Drewry / NY Fed…）</div></div>
+    <div class="stat"><div class="num">2026<i>H1</i></div><div class="lbl" data-i18n="stat4">当前研究窗口</div></div>
+  </div>
+</header>
+
+<!-- ============ 今日雷达 ============ -->
+<section id="briefing" style="padding-top: 8px;">
+  <div class="sec-head reveal">
+    <h2 class="sec-title" data-i18n="brief-title">今日供应链雷达</h2>
+    <div class="brief-ctrl">
+      <span class="brief-eyebrow">Daily Briefing</span>
+      <span class="brief-updated"><span data-i18n="brief-updated">上次更新</span> <b id="buTime">—</b></span>
+      <span class="brief-ok" id="briefOk">✓ <span data-i18n="brief-ok">已刷新</span></span>
+      <button class="refresh-btn" id="refreshBtn" type="button" aria-label="刷新供应链雷达">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12a9 9 0 1 1-2.64-6.36"/>
+          <path d="M21 3v6h-6"/>
+        </svg>
+        <span class="rb-label" data-i18n="refresh">刷新</span>
+      </button>
+    </div>
+  </div>
+  <div class="brief-wrap reveal reveal-d1">
+    <div class="brief-bar">
+      <span class="live" data-i18n="brief-live">多源交叉验证 · 附原始出处</span>
+    </div>
+    <div class="brief-grid" id="briefGrid"><div class="brief-loading">加载雷达数据…</div></div>
+    <div class="brief-error" id="briefError" role="alert">
+      <span class="be-msg" data-i18n="brief-err">刷新失败：无法获取最新雷达数据，请检查网络后重试。</span>
+      <button class="be-retry" id="briefRetry" type="button" data-i18n="brief-retry">重试</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 第二部分：报告对比 ============ -->
+<section id="reports">
+  <div class="sec-head reveal">
+    <h2 class="sec-title" data-i18n="reports-title">研究与应用｜横向对比</h2>
+    <span class="sec-note">Research &amp; Application | Horizontal Comparison</span>
+  </div>
+
+  <div class="matrix-wrap reveal reveal-d1">
+    <div class="matrix-scroll">
+      <table class="matrix">
+        <thead>
+          <tr>
+            <th data-i18n="mh1">研究 / 应用</th><th data-i18n="mh2">模型 · 工具链</th><th data-i18n="mh3">形态与技术栈</th><th data-i18n="mh4">视角与窗口</th><th data-i18n="mh5">最鲜明的特点</th><th data-i18n="mh6">数据来源 · 研究人格</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="m-name"><span class="dot" style="background:#1a4fd6"></span>Cursor × Grok<small>industrial-research</small></td>
+            <td>Cursor Agent + Canvas</td>
+            <td><span class="tag">交互 Canvas (TSX)</span><span class="tag">HTML</span><span class="tag">Slides</span></td>
+            <td data-i18n="m1c4">中国 / 全球 · 季度 + 半年度</td>
+            <td data-i18n="m1c5">期刊化「决策支持」：每期固定回答同样的五个问题，期与期可直接对比</td>
+            <td data-i18n="m1c6">GSCPI / WTO / SCFI / WCI / LPI 五路公开指标<br /><b>研究人格：期刊主笔</b>——按期供稿、结构稳定</td>
+          </tr>
+          <tr>
+            <td class="m-name"><span class="dot" style="background:#7a3fd0"></span>Kimi Agent<small>research-kimiagent</small></td>
+            <td>Kimi Agent</td>
+            <td><span class="tag">单文件 752KB</span><span class="tag">Vanilla JS + D3.js</span><span class="tag">零依赖</span></td>
+            <td data-i18n="m2c4">全球 · 2026 年中</td>
+            <td data-i18n="m2c5">编辑部级排版 + 实时行情接入，数据源不可达时明示降级快照，绝不静默替换</td>
+            <td data-i18n="m2c6">stooq 实时行情 + 24 条分级溯源引用（K1–K24）<br /><b>研究人格：调查记者</b>——逐条核查、注明出处</td>
+          </tr>
+          <tr>
+            <td class="m-name"><span class="dot" style="background:#c25e1a"></span>WorkBuddy<small>research-workbuddy</small></td>
+            <td>WorkBuddy Agent</td>
+            <td><span class="tag">单页 HTML</span><span class="tag">Chart.js</span><span class="tag">零构建</span></td>
+            <td data-i18n="m3c4">中国 ⇄ 全球 · H1 / Q1 / Q2</td>
+            <td data-i18n="m3c5">吸顶控制条三维切换（视角 / 窗口 / 语言），全部 KPI 与图表瞬时联动</td>
+            <td data-i18n="m3c6">25+ 机构数据（WTO / UNCTAD / NY Fed / 海关总署 / WSTS…）<br /><b>研究人格：行业分析师</b>——全面均衡、即查即用</td>
+          </tr>
+          <tr>
+            <td class="m-name"><span class="dot" style="background:#1a8fc2"></span>Gemini<small>industry-research</small></td>
+            <td>Gemini 2.5 Flash + Search Grounding</td>
+            <td><span class="tag">React 19 + Express</span><span class="tag">Recharts</span><span class="tag">AI 问答 API</span></td>
+            <td data-i18n="m4c4">全球 · 5 个报告窗口</td>
+            <td data-i18n="m4c5">全栈研究工作台：AI 问答随所选报告期切换语境，密钥服务端代理不落地</td>
+            <td data-i18n="m4c6">WCI / SCSI 等指标 + Google Search 实时检索增强<br /><b>研究人格：驻场研究助理</b>——随问随答、语境在线</td>
+          </tr>
+          <tr>
+            <td class="m-name"><span class="dot" style="background:#0e7a6d"></span>VeloCortex<small data-i18n="m5sub">maritime（衍生应用）</small></td>
+            <td>Gemini AI + IoT 遥测</td>
+            <td><span class="tag">React 19 + Express</span><span class="tag">SheetJS 导出</span><span class="tag">i18n</span></td>
+            <td data-i18n="m5c4">全球海运走廊 · 实时</td>
+            <td data-i18n="m5c5">从研究到产品：集装箱追踪指挥中心，含冷链监控与滞箱费风险预测</td>
+            <td data-i18n="m5c6">IoT 传感器遥测 + Gemini 预测推理<br /><b>研究人格：运营指挥官</b>——盯船盯箱、先算风险</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="sub-head reveal">
+    <h3 class="sub-title" data-i18n="cards-title">四份洞察报告</h3>
+    <span class="sec-note">THE FOUR REPORTS · 01 — 04</span>
+  </div>
+
+  <div class="cards">
+
+    <article class="card reveal" style="--card-accent:#1a4fd6">
+      <div class="card-top"><span class="card-tool">CURSOR × GROK</span><span class="card-idx">01</span></div>
+      <h3 data-i18n="c1t">期刊化的决策支持研究</h3>
+      <div class="card-en">supply-chain-industrial-research-cursorgrok</div>
+      <p data-i18n="c1d">唯一按「刊物」思路组织的研究：每期固定回答五个问题（变化 / 市场表现 / 热点 / 趋势 / 行动建议），季度与半年度窗口之间可以直接对比，面向战略与采购决策层。</p>
+      <ul>
+        <li data-i18n="c1l1">七段叙事骨架 + 五大行业板块，中国 / 全球双视角雷达</li>
+        <li data-i18n="c1l2">四种输出形态：交互 Canvas、完整报告、一页纸、Slides</li>
+        <li data-i18n="c1l3">GSCPI、WTO、SCFI、WCI、LPI 五路指标；缺数时以标注的趋势代理视图兜底</li>
+        <li data-i18n="c1l4">工程细节到位：MIT + CC BY 双许可、安全扫描脚本、动画 README 流水线</li>
+      </ul>
+      <div class="tags"><span class="tag">Cursor Canvas</span><span class="tag">TSX</span><span class="tag" data-i18n="c1tag">中英双语</span><span class="tag" data-i18n="c1tag2">多期可比</span></div>
+      <div class="card-actions">
+        <a class="btn btn-primary" href="reports/cursorgrok/index.html" target="_blank" rel="noopener"><span data-i18n="btn-dash">查看 Dashboard</span> <span class="arr">↗</span></a>
+        <a class="btn btn-ghost" href="https://github.com/SummerPapaya/supply-chain-industrial-research-cursorgrok" target="_blank" rel="noopener"><span data-i18n="btn-gh">在 GitHub 查看</span> <span class="arr">↗</span></a>
+      </div>
+    </article>
+
+    <article class="card reveal reveal-d1" style="--card-accent:#7a3fd0">
+      <div class="card-top"><span class="card-tool">KIMI AGENT</span><span class="card-idx">02</span></div>
+      <h3 data-i18n="c2t">编辑部级的单文件深度报道</h3>
+      <div class="card-en">supply-chain-research-kimiagent</div>
+      <p data-i18n="c2d">把报告当作一件「编辑产品」来打磨：752KB 单文件、零运行时依赖，ET Book 衬线排版 + D3.js 图表，封面就是一艘动画集装箱船，全部数据点可点击下钻。</p>
+      <ul>
+        <li data-i18n="c2l1">三层产业拆解：物理网络 $11.97T / 计划层 $39.2B / 自动化约 $29B</li>
+        <li data-i18n="c2l2">接入 stooq 实时行情；接口不可达时显式标注「展示已核验快照」，绝不静默降级</li>
+        <li data-i18n="c2l3">24 条分级溯源引用（K1–K24），衍生值一律标注 [derived]；不做任何投资评级</li>
+        <li data-i18n="c2l4">中英双语运行时切换，语言偏好本地持久化</li>
+      </ul>
+      <div class="tags"><span class="tag">Vanilla JS</span><span class="tag">D3.js v7</span><span class="tag" data-i18n="c2tag">实时行情</span><span class="tag" data-i18n="c2tag2">证据纪律</span></div>
+      <div class="card-actions">
+        <a class="btn btn-primary" href="reports/kimiagent/index.html" target="_blank" rel="noopener"><span data-i18n="btn-dash">查看 Dashboard</span> <span class="arr">↗</span></a>
+        <a class="btn btn-ghost" href="https://github.com/SummerPapaya/supply-chain-research-kimiagent" target="_blank" rel="noopener"><span data-i18n="btn-gh">在 GitHub 查看</span> <span class="arr">↗</span></a>
+      </div>
+    </article>
+
+    <article class="card reveal" style="--card-accent:#c25e1a">
+      <div class="card-top"><span class="card-tool">WORKBUDDY</span><span class="card-idx">03</span></div>
+      <h3 data-i18n="c3t">三维联动的交互报告</h3>
+      <div class="card-en">supply-chain-research-workbuddy</div>
+      <p data-i18n="c3d">交互密度最高的一份：吸顶控制条提供中国 ⇄ 全球视角、H1 / Q1 / Q2 窗口、中 / 英语言三维切换，所有 KPI、图表与文案瞬时联动更新，打开即用的零依赖单页。</p>
+      <ul>
+        <li data-i18n="c3l1">七章结构 + 7 个子行业深潜（动画 Tab 切换 + 气泡矩阵 / 条形图双视图）</li>
+        <li data-i18n="c3l2">中国半导体设备进口 ¥2.38T（+48.6%）、新能源出口 +68.7% 等关键读数</li>
+        <li data-i18n="c3l3">25+ 机构数据溯源：WTO、UNCTAD、NY Fed、Drewry、海关总署、WSTS 等</li>
+        <li data-i18n="c3l4">Chart.js 七张实时图表：GSCPI、运价、外贸、物流景气指数等</li>
+      </ul>
+      <div class="tags"><span class="tag">HTML5 + ES6</span><span class="tag">Chart.js 4</span><span class="tag" data-i18n="c3tag">三维切换</span><span class="tag" data-i18n="c3tag2">中英双语</span></div>
+      <div class="card-actions">
+        <a class="btn btn-primary" href="reports/workbuddy/index.html" target="_blank" rel="noopener"><span data-i18n="btn-dash">查看 Dashboard</span> <span class="arr">↗</span></a>
+        <a class="btn btn-ghost" href="https://github.com/SummerPapaya/supply-chain-research-workbuddy" target="_blank" rel="noopener"><span data-i18n="btn-gh">在 GitHub 查看</span> <span class="arr">↗</span></a>
+      </div>
+    </article>
+
+    <article class="card reveal reveal-d1" style="--card-accent:#1a8fc2">
+      <div class="card-top"><span class="card-tool">GEMINI</span><span class="card-idx">04</span></div>
+      <h3 data-i18n="c4t">带 AI 问答的全栈研究工作台</h3>
+      <div class="card-en">supply-chain-industry-research-gemini</div>
+      <p data-i18n="c4d">四份报告中唯一的全栈应用：React 19 + Express，接入 Gemini 2.5 Flash 与 Google Search Grounding，AI 问答会随所选报告窗口自动切换语境，更像一个「分析工作台」而非静态报告。</p>
+      <ul>
+        <li data-i18n="c4l1">5 个报告窗口（2026 H1/Q1/Q2、2025 H2/FY）切换时全量指标重新同步</li>
+        <li data-i18n="c4l2">7 大行业垂直 + WCI 运价、SCSI 压力指数、近岸外包 2.0 等宏观主题</li>
+        <li data-i18n="c4l3">4 秒模拟行情 ticker（可暂停 + 延迟监控）；API 密钥仅驻留服务端代理</li>
+        <li data-i18n="c4l4">预置一键研究提示词：红海通行、CSDDD 审计、中墨走廊</li>
+      </ul>
+      <div class="tags"><span class="tag">React 19</span><span class="tag">Vite + Tailwind</span><span class="tag">Express</span><span class="tag">Gemini API</span></div>
+      <div class="card-actions">
+        <a class="btn btn-primary" href="reports/gemini/index.html" target="_blank" rel="noopener"><span data-i18n="btn-dash">查看 Dashboard</span> <span class="arr">↗</span></a>
+        <a class="btn btn-ghost" href="https://github.com/SummerPapaya/supply-chain-industry-research-gemini" target="_blank" rel="noopener"><span data-i18n="btn-gh">在 GitHub 查看</span> <span class="arr">↗</span></a>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ============ 衍生应用 ============ -->
+<section id="app">
+  <div class="sub-head reveal">
+    <h3 class="sub-title" data-i18n="app-title">从研究到产品 · 衍生应用</h3>
+    <span class="sec-note">SPIN-OFF APPLICATION</span>
+  </div>
+  <div class="app-card reveal reveal-d1">
+    <div class="app-left">
+      <span class="card-tool" style="--card-accent:var(--teal)">VELOCORTEX AI · MARITIME</span>
+      <h3 data-i18n="app-h3">全球海运集装箱追踪指挥中心</h3>
+      <div class="card-en">velocortex-maritime</div>
+      <p data-i18n="app-p">研究结论的产品化落地：把报告中反复出现的「可视化缺口」「滞箱费风险」「冷链失控」等痛点，做成一个可运行的海运与多式联运指挥平台。</p>
+      <ul>
+        <li data-i18n="app-l1">全球船队地图：七大船司船舶实时状态监控与多条件筛选（船司 / 状态 / 单号）</li>
+        <li data-i18n="app-l2">生物医药冷链 IoT 遥测：0.1°C 精度温度、湿度、震动、门封完整性监控与偏移告警</li>
+        <li data-i18n="app-l3">Gemini AI 预测：到港前测算滞箱 / 滞期费美元敞口，给出调速或换港建议</li>
+        <li data-i18n="app-l4">批量清单查询（PO / Invoice / BOL / 箱号混贴），一键导出 xlsx / csv 对接 ERP</li>
+      </ul>
+      <div class="card-actions">
+        <a class="btn btn-primary" href="reports/velocortex/index.html" target="_blank" rel="noopener"><span data-i18n="btn-app">打开应用</span> <span class="arr">↗</span></a>
+        <a class="btn btn-ghost" href="https://github.com/SummerPapaya/velocortex-maritime" target="_blank" rel="noopener"><span data-i18n="btn-gh">在 GitHub 查看</span> <span class="arr">↗</span></a>
+      </div>
+    </div>
+    <div class="app-right" aria-hidden="true">
+      <svg viewBox="0 0 460 320" fill="none">
+        <!-- 网格 -->
+        <g class="viz-grid-line">
+          <path d="M0 55 H460 M0 110 H460 M0 165 H460 M0 220 H460 M0 275 H460"/>
+          <path d="M60 0 V320 M130 0 V320 M200 0 V320 M270 0 V320 M340 0 V320 M410 0 V320"/>
+        </g>
+        <!-- 大陆（低多边形抽象） -->
+        <g class="viz-land">
+          <path d="M38 66 L72 52 L112 58 L128 80 L116 108 L88 120 L62 108 L42 90 Z"/>
+          <path d="M92 148 L114 142 L128 164 L120 202 L104 228 L90 196 L84 168 Z"/>
+          <path d="M216 52 L248 46 L270 60 L258 80 L232 86 L216 74 Z"/>
+          <path d="M216 108 L252 102 L274 118 L268 160 L246 192 L226 164 L212 132 Z"/>
+          <path d="M286 52 L352 42 L400 58 L412 84 L384 106 L340 112 L312 96 L288 78 Z"/>
+          <path d="M356 134 L392 130 L402 144 L368 150 Z"/>
+          <path d="M372 200 L410 194 L422 216 L398 232 L374 222 Z"/>
+        </g>
+        <!-- 洋名 -->
+        <text class="viz-ocean" x="30" y="140" font-size="8">NORTH PACIFIC OCEAN</text>
+        <text class="viz-ocean" x="296" y="182" font-size="8">INDIAN OCEAN</text>
+        <text class="viz-ocean" x="150" y="120" font-size="8">NORTH ATLANTIC</text>
+        <!-- 航线 -->
+        <path class="viz-route" stroke="#35c2b0" d="M398 96 C 386 116, 372 126, 366 138 C 340 152, 306 146, 284 128 C 272 118, 264 108, 258 100 C 248 88, 236 74, 226 62"/>
+        <path class="viz-route" stroke="#3a86ff" style="animation-duration:4.4s" d="M404 92 C 424 88, 442 86, 459 84 M1 82 C 18 86, 36 92, 52 96"/>
+        <path class="viz-route" stroke="#b06fd6" style="animation-duration:5.2s" d="M56 100 C 66 118, 78 134, 92 146 C 100 152, 106 150, 112 144 C 124 132, 132 118, 138 106"/>
+        <!-- 节点 -->
+        <circle cx="226" cy="62" r="4" class="viz-warn"/><circle cx="226" cy="62" r="4" fill="none" stroke="#f0a13a" class="pulse"/>
+        <circle cx="258" cy="100" r="4" class="viz-alert"/><circle cx="258" cy="100" r="4" fill="none" stroke="#e05656" class="pulse" style="animation-delay:.7s"/>
+        <circle cx="92" cy="146" r="4" class="viz-warn"/><circle cx="92" cy="146" r="4" fill="none" stroke="#f0a13a" class="pulse" style="animation-delay:1.2s"/>
+        <circle cx="52" cy="96" r="4" class="viz-warn"/><circle cx="52" cy="96" r="4" fill="none" stroke="#f0a13a" class="pulse" style="animation-delay:1.7s"/>
+        <circle cx="366" cy="138" r="4" class="viz-warn"/><circle cx="366" cy="138" r="4" fill="none" stroke="#f0a13a" class="pulse" style="animation-delay:.4s"/>
+        <circle cx="398" cy="96" r="4" class="viz-ok"/><circle cx="398" cy="96" r="4" fill="none" stroke="#35c2b0" class="pulse" style="animation-delay:2s"/>
+        <!-- 标签芯片 -->
+        <g>
+          <rect class="viz-chip-bg" x="130" y="46" width="148" height="16" rx="8"/>
+          <path class="viz-warn" d="M141 57 l3 -6 3 6 z"/>
+          <text class="viz-chip-text" x="150" y="57.5">Rotterdam Rail Queue +14h</text>
+        </g>
+        <g>
+          <rect class="viz-chip-bg" x="216" y="116" width="138" height="16" rx="8"/>
+          <path class="viz-alert" d="M227 127 l3 -6 3 6 z"/>
+          <text class="viz-chip-text" x="236" y="127.5">Red Sea Convoy Queue +72h</text>
+        </g>
+        <g>
+          <rect class="viz-chip-bg" x="96" y="158" width="128" height="16" rx="8"/>
+          <path class="viz-warn" d="M107 169 l3 -6 3 6 z"/>
+          <text class="viz-chip-text" x="116" y="169.5">Panama Slot Backlog +24h</text>
+        </g>
+        <g>
+          <rect class="viz-chip-bg" x="30" y="66" width="132" height="16" rx="8"/>
+          <path class="viz-warn" d="M41 77 l3 -6 3 6 z"/>
+          <text class="viz-chip-text" x="50" y="77.5">USLAX Berth Backlog +36h</text>
+        </g>
+        <g>
+          <rect class="viz-chip-bg" x="300" y="152" width="150" height="16" rx="8"/>
+          <path class="viz-warn" d="M311 163 l3 -6 3 6 z"/>
+          <text class="viz-chip-text" x="320" y="163.5">Malacca High Density +12h</text>
+        </g>
+        <!-- 图例 -->
+        <g>
+          <rect class="viz-chip-bg" x="330" y="232" width="122" height="78" rx="9"/>
+          <text class="viz-chip-text" x="342" y="248" font-size="9" font-weight="600">Map Legend</text>
+          <circle cx="346" cy="262" r="3.5" fill="#3a86ff"/><text class="viz-chip-text" x="356" y="265">Normal Transit</text>
+          <circle cx="346" cy="278" r="3.5" fill="#f0a13a"/><text class="viz-chip-text" x="356" y="281">Port Congestion</text>
+          <circle cx="346" cy="294" r="3.5" fill="#e05656"/><text class="viz-chip-text" x="356" y="297">Alert / Excursion</text>
+        </g>
+        <text class="viz-chip-text" x="12" y="20" fill="#35c2b0" font-size="9.5">LIVE TELEMETRY · HEATMAP ACTIVE</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ AI 补位：工作流缺口 Top 5 ============ -->
+<section id="gaps">
+  <div class="sec-head reveal">
+    <h2 class="sec-title" data-i18n="gaps-title">AI 补位 · 工作流缺口 Top 5</h2>
+    <span class="sec-note">WHERE AI FILLS IN · SCORED &amp; RANKED</span>
+  </div>
+  <p class="reveal reveal-d1" style="max-width:720px;font-size:14px;color:var(--ink-soft);margin:-14px 0 24px" data-i18n="gaps-intro">
+    综合今日雷达的热点议题与四份报告的共同发现，以下五个工作流缺口最值得用 AI 优先补位。
+    评分维度与权重：业务价值 35% · 落地可行性 25% · 数据就绪度 20% · 时效紧迫性 20%。
+  </p>
+  <div class="gap-legend reveal reveal-d1">
+    <span><b data-i18n="dim-v">业务价值</b> VALUE ×35%</span>
+    <span><b data-i18n="dim-f">落地可行性</b> FEASIBILITY ×25%</span>
+    <span><b data-i18n="dim-d">数据就绪度</b> DATA ×20%</span>
+    <span><b data-i18n="dim-u">时效紧迫性</b> URGENCY ×20%</span>
+  </div>
+  <div class="gap-list">
+
+    <div class="gap-row reveal">
+      <div class="gap-rank">01</div>
+      <div class="gap-main">
+        <h4 data-i18n="g1t">端到端运输可视性与滞期费预测</h4>
+        <p data-i18n="g1d">好望角绕航让亚欧航程波动 ±2 周，滞箱 / 滞期费在到港前无法量化。AIS + 港口排队 + 气象数据已足够成熟，AI 可把「被动等船」变成「提前算钱、主动调速」——本站的 VeloCortex 已验证该路径可行。</p>
+        <div class="gap-evi"><span>WCI $4,297 ↑</span><span data-i18n="g1e">雷达 · 红海局势</span><span>VeloCortex</span></div>
+      </div>
+      <div class="gap-bars">
+        <div class="gap-bar"><div class="gb-top"><span data-i18n="dim-v">业务价值</span><b>9.5</b></div><div class="gb-track"><i class="gb-fill" style="--w:95%"></i></div></div>
+        <div class="gap-bar"><div class="gb-top"><span data-i18n="dim-f">落地可行性</span><b>9.0</b></div><div class="gb-track"><i class="gb-fill" style="--w:90%"></i></div></div>
+        <div class="gap-bar"><div class="gb-top"><span data-i18n="dim-d">数据就绪度</span><b>9.0</b></div><div class="gb-track"><i class="gb-fill" style="--w:90%"></i></div></div>
+        <div class="gap-bar"><div class="gb-top"><span data-i18n="dim-u">时效紧迫性</span><b>9.5</b></div><div class="gb-track"><i class="gb-fill" style="--w:95%"></i></div></div>
+      </div>
+      <div class="gap-score"><div class="gs-num">9.3<i>/10</i></div><div class="gs-lbl" data-i18n="gs-lbl">综合评分</div></div>
+    </div>
+
+    <div class="gap-row reveal">
+      <div class="gap-rank">02</div>
+      <div class="gap-main">
+        <h4 data-i18n="g2t">关税与贸易合规自动化</h4>
+        <p data-i18n="g2d">多晶硅 232 关税 12 月 4 日生效、欧盟反规避调查频发的环境下，人工逐票核对税则、原产地与最低进口价已不可持续。AI 可自动归类 HTS、测算税负变化、标记违规风险票证——政策窗口期越短，该缺口越值钱。</p>
+        <div class="gap-evi"><span>§232 Polysilicon</span><span data-i18n="g2e">雷达 · 重点新闻</span><span>EU CSDDD</span></div>
+      </div>
+      <div class="gap-bars">
+        <div class="gap-bar"><div class="gb-top"><span data-i18n="dim-v">业务价值</span><b>9.0</b></div><div class="gb-track"><i class="gb-fill" style="--w:90%"></i></div></div>
+        <div class="gap-bar"><div class="gb-top"><span data-i18n="dim-f">落地可行性</span><b>7.5</b></div><div class="gb-track"><i class="gb-fill" style="--w:75%"></i></div></div>
+        <div class="gap-bar"><div class="gb-top"><span data-i18n="dim-d">数据就绪度</span><b>7.0</b></div><div class="gb-track"><i class="gb-fill" style="--w:70%"></i></div></div>
+        <div class="gap-bar"><div class="gb-top"><span data-i18n="dim-u">时效紧迫性</span><b>10</b></div><div class="gb-track"><i class="gb-fill" style="--w:100%"></i></div></div>
+      </div>
+      <div class="gap-score"><div class="gs-num">8.4<i>/10</i></div><div class="gs-lbl" data-i18n="gs-lbl">综合评分</div></div>
+    </div>
+
+    <div class="gap-row reveal">
+      <div class="gap-rank">03</div>
+      <div class="gap-main">
+        <h4 data-i18n="g3t">冷链遥测与 SLA 闭环</h4>
+        <p data-i18n="g3d">生物医药与生鲜冷链的温度偏移仍靠事后追责。0.1°C 级 IoT 传感器已普及，缺的是把遥测流接入 AI 的实时判定与自动处置（告警分级、保险取证、路由调整）——技术门槛最低、场景边界最清晰的缺口。</p>
+        <div class="gap-evi"><span data-i18n="g3e">雷达 · 应用风向</span><span>Reefer IoT</span><span>VeloCortex</span></div>
+      </div>
+      <div class="gap-bars">
+        <div class="gap-bar"><div class="gb-top"><span data-i18n="dim-v">业务价值</span><b>8.0</b></div><div class="gb-track"><i class="gb-fill" style="--w:80%"></i></div></div>
+        <div class="gap-bar"><div class="gb-top"><span data-i18n="dim-f">落地可行性</span><b>8.5</b></div><div class="gb-track"><i class="gb-fill" style="--w:85%"></i></div></div>
+        <div class="gap-bar"><div class="gb-top"><span data-i18n="dim-d">数据就绪度</span><b>8.5</b></div><div class="gb-track"><i class="gb-fill" style="--w:85%"></i></div></div>
+        <div class="gap-bar"><div class="gb-top"><span data-i18n="dim-u">时效紧迫性</span><b>7.0</b></div><div class="gb-track"><i class="gb-fill" style="--w:70%"></i></div></div>
+      </div>
+      <div class="gap-score"><div class="gs-num">8.0<i>/10</i></div><div class="gs-lbl" data-i18n="gs-lbl">综合评分</div></div>
+    </div>
+
+    <div class="gap-row reveal">
+      <div class="gap-rank">04</div>
+      <div class="gap-main">
+        <h4 data-i18n="g4t">多智能体异常处置编排</h4>
+        <p data-i18n="g4d">一票延误的跨部门调查动辄三天，而 Gartner 数据显示仅 23% 企业有正式 AI 战略、56% 卡在遗留系统集成。把「事件 → 取证 → 评估 → 执行」交给协作智能体，可将处置压缩到小时级——价值最高，但集成成本也最真实。</p>
+        <div class="gap-evi"><span>Gartner ×8 Trends</span><span data-i18n="g4e">雷达 · 热门议题</span><span>56% CSCO</span></div>
+      </div>
+      <div class="gap-bars">
+        <div class="gap-bar"><div class="gb-top"><span data-i18n="dim-v">业务价值</span><b>9.5</b></div><div class="gb-track"><i class="gb-fill" style="--w:95%"></i></div></div>
+        <div class="gap-bar"><div class="gb-top"><span data-i18n="dim-f">落地可行性</span><b>6.0</b></div><div class="gb-track"><i class="gb-fill" style="--w:60%"></i></div></div>
+        <div class="gap-bar"><div class="gb-top"><span data-i18n="dim-d">数据就绪度</span><b>6.5</b></div><div class="gb-track"><i class="gb-fill" style="--w:65%"></i></div></div>
+        <div class="gap-bar"><div class="gb-top"><span data-i18n="dim-u">时效紧迫性</span><b>8.5</b></div><div class="gb-track"><i class="gb-fill" style="--w:85%"></i></div></div>
+      </div>
+      <div class="gap-score"><div class="gs-num">7.8<i>/10</i></div><div class="gs-lbl" data-i18n="gs-lbl">综合评分</div></div>
+    </div>
+
+    <div class="gap-row reveal">
+      <div class="gap-rank">05</div>
+      <div class="gap-main">
+        <h4 data-i18n="g5t">ESG 合规与碳数据核算</h4>
+        <p data-i18n="g5d">EU ETS 已覆盖 100% 海运排放、CSDDD 强制处罚生效——碳从披露义务变为现金成本与市场准入证。AI 可自动归集单证流、按排放系数核算碳足迹并生成审计证据链。排不进前三并非不重要，而是数据就绪度（5.5）拖了后腿：Scope 3 层层索数，AI 算得再准也可能只是「精确的错误」。</p>
+        <div class="gap-evi"><span>EU ETS 100%</span><span>CSDDD</span><span data-i18n="g5e">Gartner · 溯源与决策治理</span></div>
+      </div>
+      <div class="gap-bars">
+        <div class="gap-bar"><div class="gb-top"><span data-i18n="dim-v">业务价值</span><b>8.5</b></div><div class="gb-track"><i class="gb-fill" style="--w:85%"></i></div></div>
+        <div class="gap-bar"><div class="gb-top"><span data-i18n="dim-f">落地可行性</span><b>6.5</b></div><div class="gb-track"><i class="gb-fill" style="--w:65%"></i></div></div>
+        <div class="gap-bar"><div class="gb-top"><span data-i18n="dim-d">数据就绪度</span><b>5.5</b></div><div class="gb-track"><i class="gb-fill" style="--w:55%"></i></div></div>
+        <div class="gap-bar"><div class="gb-top"><span data-i18n="dim-u">时效紧迫性</span><b>8.5</b></div><div class="gb-track"><i class="gb-fill" style="--w:85%"></i></div></div>
+      </div>
+      <div class="gap-score"><div class="gs-num">7.4<i>/10</i></div><div class="gs-lbl" data-i18n="gs-lbl">综合评分</div></div>
+    </div>
+
+  </div>
+  <p class="reveal" style="margin-top:18px;font-family:var(--font-mono);font-size:11.5px;color:var(--ink-mute);letter-spacing:.03em" data-i18n="gaps-note">候补未入选：供应链人才的 AI 副驾驶（6.9）——重要但不直接产生现金流，且决定前五项能跑多快。</p>
+</section>
+
+<footer>
+  <div class="foot-inner">
+    <p data-i18n="foot">AI 多模型供应链研究作品集 · 各报告内容由对应 AI 工具独立生成；今日雷达信息来自公开报道，以其原始出处为准</p>
+    <p class="mono">UPDATED 2026-08-13 · MORE REPORTS COMING</p>
+  </div>
+</footer>
+
+<!-- 内置雷达数据快照：保证单文件 / 离线 / 静态预览下也能渲染。radar-data.json 仅作为托管时的可选覆盖源 -->
+<script id="embeddedRadar" type="application/json">
+{
+  "updatedAt": "2026-08-13T15:00:00+08:00",
+  "columns": [
+    {
+      "cat": { "zh": "重点新闻", "en": "Key News" },
+      "color": "#e05656",
+      "items": [
+        {
+          "title": { "zh": "美国对多晶硅及衍生品加征 15% 关税", "en": "US slaps 15% tariff on polysilicon & derivatives" },
+          "desc": { "zh": "8 月 6 日总统公告：多晶硅最低进口价 $21/kg、晶锭晶圆 $100/kg，衍生品加征 15% 从价税，12 月 4 日生效；配套「回流美国」建厂激励，剑指半导体与光伏供应链。", "en": "Aug 6 presidential proclamation: a $21/kg minimum import price on polysilicon and $100/kg on ingots/wafers, plus a 15% ad valorem tariff on derivatives, effective Dec 4; paired with “reshore America” factory incentives, targeting the semiconductor and solar supply chains." },
+          "sources": [
+            { "label": "CGTN ↗", "url": "https://news.cgtn.com/news/2026-08-07/US-to-impose-15-tariff-on-polysilicon-imports-1PptIOcpbLW/p.html" },
+            { "label": "dpa ↗", "url": "https://new.mia.mk/al/story/us-announces-tariffs-on-material-used-in-solar-panels-and-chips1jN" }
+          ]
+        },
+        {
+          "title": { "zh": "红海回升但未正常化，运价高位震荡", "en": "Red Sea recovering, not normalized; rates stay high" },
+          "desc": { "zh": "Drewry WCI 8 月 6 日报 $4,297/40ft（+1%，止跌回升），7 月峰值 $4,639 为 2024 年 9 月以来最高；霍尔木兹仍基本关闭主流箱运，好望角继续承担亚欧主运力，航程 +10–14 天。", "en": "Drewry WCI on Aug 6 read $4,297/40ft (+1%, halting the decline); July’s $4,639 peak was the highest since Sep 2024. Hormuz remains largely closed to mainstream container shipping, the Cape of Good Hope still carries the Asia–Europe mainlane, adding 10–14 days to transit." },
+          "sources": [
+            { "label": "Drewry / SeaPrince ↗", "url": "https://seaprince.ae/blog/rising-pressure-on-red-sea-transit-5/red-sea-shipping-in-2026-what-the-suez-canal-recovery-really-means-for-your-cargo-30" },
+            { "label": "CargoLinked ↗", "url": "https://cargolinked.com/blog/global-freight-market-update-august-2026" }
+          ]
+        }
+      ]
+    },
+    {
+      "cat": { "zh": "研究瞭望", "en": "Research" },
+      "color": "#5b8cff",
+      "items": [
+        {
+          "title": { "zh": "Gartner 2026 供应链八大技术趋势", "en": "Gartner: 8 supply-chain tech trends for 2026" },
+          "desc": { "zh": "3 月报告 + 6 月简报：围绕「自主性与能动性 / 专业化与智能化 / 信任与治理」三大主题，Agentic AI、协作多智能体系统、决策治理等入选，AI 驱动的超互联被列为重塑供应链的主线。", "en": "March report + June brief: organized around three themes — Autonomy & Agency / Specialization & Intelligence / Trust & Governance — with Agentic AI, collaborative multi-agent systems, and decision governance selected; AI-driven hyperconnectivity is named the through-line reshaping supply chains." },
+          "sources": [
+            { "label": "罗戈网 ↗", "url": "https://logclub.com/articleInfo/ODUwNDA=" },
+            { "label": "The Agent Times ↗", "url": "https://theagenttimes.com/articles/gartner-names-eight-supply-chain-technology-trends-centered--5ae4c210" }
+          ]
+        },
+        {
+          "title": { "zh": "MHI 2026 年度行业报告：人才与 AI 并进", "en": "MHI 2026 Annual Report: talent meets AI" },
+          "desc": { "zh": "MODEX 发布：58% 供应链领袖将人才列为首要挑战（去年 50%）；48% 认为 AI 是重大 / 变革性颠覆（同比 +25pp）；要求 AI 实施技能的岗位发布量激增 245%，成为全球最紧缺技能。", "en": "Released at MODEX: 58% of supply-chain leaders name talent their top challenge (up from 50%); 48% see AI as a significant/transformative disruption (+25pp YoY); postings requiring AI implementation skills surged 245%, the world’s most in-demand skill." },
+          "sources": [
+            { "label": "MHI Blog ↗", "url": "https://mhiblog.org/the-ai%E2%80%91empowered-workforce" }
+          ]
+        }
+      ]
+    },
+    {
+      "cat": { "zh": "热门议题", "en": "Hot Topics" },
+      "color": "#f0a13a",
+      "items": [
+        {
+          "title": { "zh": "Agentic AI 落地卡在「集成」而非「模型」", "en": "Agentic AI stalls on integration, not models" },
+          "desc": { "zh": "Gartner 2026 调查：56% 的 CSCO 认为与遗留系统集成是规模化 AI 的首要障碍，仅 23% 组织有正式 AI 战略；行业同时警惕厂商把规则自动化包装成智能体的「agent washing」。", "en": "Gartner 2026 survey: 56% of CSCOs see legacy-system integration as the top barrier to scaling AI, only 23% of organizations have a formal AI strategy; the industry also warns against vendors “agent-washing” rule-based automation as agents." },
+          "sources": [
+            { "label": "Oraczen × Gartner ↗", "url": "https://www.oraczen.ai/research/insights/agentic-supply-chain-platform" }
+          ]
+        },
+        {
+          "title": { "zh": "泰国暂缓 298 亿美元「陆桥」计划", "en": "Thailand shelves $29.8B Land Bridge megaproject" },
+          "desc": { "zh": "泰国政府正式暂缓总投资近 1 万亿泰铢的陆桥项目，研究委员会指全球贸易环境变化加大收益风险，转向升级南部物流枢纽建设。", "en": "The Thai government formally shelved the ~¥1 trillion baht ($29.8B) Land Bridge project; its study committee cited rising return-risk from shifting global trade conditions, pivoting to upgrading southern logistics hubs." },
+          "sources": [
+            { "label": "宁波贸促会 × Thansettakij ↗", "url": "http://www.ccpitnb.org/art/2026/8/12/art_5590_638840.html" }
+          ]
+        }
+      ]
+    },
+    {
+      "cat": { "zh": "应用风向", "en": "Apps & Adoption" },
+      "color": "#35c2b0",
+      "items": [
+        {
+          "title": { "zh": "仓库自动化与 AI 编排平台加速渗透", "en": "Warehouse automation & AI orchestration accelerate" },
+          "desc": { "zh": "Gartner：93% 企业计划两年内投资信息物理自动化；82% 首次部署机器人后选择扩容。应用侧正从「单点助手」转向跨系统多智能体编排平台——也是本站点衍生应用 VeloCortex 所处的赛道。", "en": "Gartner: 93% of firms plan to invest in cyber-physical automation within two years; 82% expand after their first robot deployment. The application layer is shifting from “point assistants” to cross-system multi-agent orchestration platforms — the same track as this site’s spin-off app, VeloCortex." },
+          "sources": [
+            { "label": "Camcode × MHI ↗", "url": "https://www.camcode.com/blog/what-is-warehouse-automation/" },
+            { "label": "Oraczen ↗", "url": "https://www.oraczen.ai/research/insights/agentic-supply-chain-platform" }
+          ]
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<script>
+  /* ================= 主题切换 ================= */
+  const root = document.documentElement;
+  const savedTheme = localStorage.getItem('sc-theme');
+  if (savedTheme) root.dataset.theme = savedTheme;
+  else if (matchMedia('(prefers-color-scheme: dark)').matches) root.dataset.theme = 'dark';
+  const themeBtn = document.getElementById('themeBtn');
+  function syncThemeBtn() {
+    const toDark = root.dataset.theme !== 'dark';
+    themeBtn.setAttribute('aria-label', toDark ? '切换到暗色模式 / Switch to dark mode' : '切换到亮色模式 / Switch to light mode');
+  }
+  syncThemeBtn();
+  themeBtn.addEventListener('click', () => {
+    const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = next;
+    localStorage.setItem('sc-theme', next);
+    syncThemeBtn();
+  });
+
+  /* ================= 中英切换 ================= */
+  const I18N = {
+    'brand': 'Supply Chain × AI Index',
+    'nav-brief': 'Daily Radar', 'nav-reports': 'Reports', 'nav-app': 'Spin-off App', 'nav-gaps': 'AI Gaps',
+    'eyebrow': 'AI-Driven Global Supply Chain Research | Ongoing Series',
+    'h1': 'Global Supply Chain Intelligence,<br />Through <span class="thin">Multiple AI Models</span>',
+    'hero-sub': 'A continuously updated portfolio of AI multi-model supply-chain research: collecting and comparing independent work from different models and agents on the same brief, while tracking global supply-chain shifts in real time. The Daily Radar below surfaces cross-verified intelligence for <span class="js-radar-date">2026-08-13</span>, each item with its original source.',
+    'stat1': 'Independent Reports', 'stat2': 'Spin-off Application',
+    'stat3': 'Institutional data sources (WTO / Drewry / NY Fed…)', 'stat4': 'Current Window',
+    'brief-title': 'Today\'s Supply Chain Radar',
+    'brief-live': 'Cross-verified · Sources cited',
+    'brief-updated': 'Updated', 'brief-ok': 'Refreshed', 'refresh': 'Refresh',
+    'brief-err': 'Refresh failed: could not fetch the latest radar data. Check your connection and retry.',
+    'brief-retry': 'Retry',
+    'brief-date': 'Pulled 2026-08-13 · Rates & policies subject to official updates',
+    'cat-news': 'Key News', 'cat-research': 'Research', 'cat-topics': 'Hot Topics', 'cat-apps': 'Apps & Adoption',
+    'n1t': 'US slaps 15% tariff on polysilicon & derivatives',
+    'n1d': 'Presidential proclamation signed Aug 6: minimum import prices ($21/kg polysilicon, $100/kg ingots & wafers) plus a 15% ad valorem tariff on derivatives, effective Dec 4 — paired with "reshoring" incentives, targeting semiconductor & solar supply chains.',
+    'n2t': 'Red Sea recovering, not normalized; rates stay high',
+    'n2d': 'Drewry WCI at $4,297/40ft on Aug 6 (+1%, first rise in 4 weeks); July peak $4,639 was the highest since Sep 2024. Hormuz remains closed to mainstream box traffic; the Cape of Good Hope still carries Asia–Europe volume at +10–14 days.',
+    'r1t': 'Gartner: 8 supply-chain tech trends for 2026',
+    'r1d': 'March report + June briefing: three themes — autonomy & agency, specialization & intelligence, trust & governance. Agentic AI, collaborative multi-agent systems and decision governance make the list; AI-driven hyperconnectivity is the headline.',
+    'r2t': 'MHI 2026 Annual Report: talent meets AI',
+    'r2d': 'Released at MODEX: 58% of supply-chain leaders cite talent as the top challenge (50% last year); 48% call AI a significant/transformational disruptor (+25pp YoY); job postings requiring AI implementation skills surged 245%.',
+    't1t': 'Agentic AI stalls on integration, not models',
+    't1d': 'Gartner 2026 survey: 56% of CSCOs name legacy-system integration as the top barrier to scaling AI; only 23% of organizations have a formal AI strategy. The industry is also wary of "agent washing" — rule-based tools marketed as agents.',
+    't2t': 'Thailand shelves $29.8B Land Bridge megaproject',
+    't2d': 'The Thai government formally paused the ~1-trillion-baht Land Bridge, citing deteriorating returns amid shifts in global trade; focus pivots to upgrading southern logistics hubs instead.',
+    'a1t': 'Warehouse automation & AI orchestration accelerate',
+    'a1d': 'Gartner: 93% of companies plan cyber-physical automation investment within two years; 82% expand after their first robot deployment. Apps are shifting from point assistants to cross-system multi-agent orchestration — the lane VeloCortex below sits in.',
+    'reports-title': 'Research & Application | Horizontal Comparison',
+    'mh1': 'Project', 'mh2': 'Model · Toolchain', 'mh3': 'Format & Stack', 'mh4': 'Lens & Window', 'mh5': 'Signature Trait', 'mh6': 'Data Sources · Research Persona',
+    'm1c6': 'Five public feeds: GSCPI / WTO / SCFI / WCI / LPI<br /><b>Persona: the periodical editor</b> — steady cadence, stable structure',
+    'm2c6': 'stooq live quotes + 24 tier-classified citations (K1–K24)<br /><b>Persona: the investigative journalist</b> — verifies everything, cites sources',
+    'm3c6': '25+ institutions (WTO / UNCTAD / NY Fed / China Customs / WSTS…)<br /><b>Persona: the industry analyst</b> — balanced, comprehensive, ready to use',
+    'm4c6': 'WCI / SCSI metrics + live Google Search grounding<br /><b>Persona: the resident research assistant</b> — always on, context-aware',
+    'm5c6': 'IoT sensor telemetry + Gemini predictive inference<br /><b>Persona: the operations commander</b> — watches every box, prices risk first',
+    'cards-title': 'Four Insight Reports',
+    'm1c4': 'China / Global · Quarterly + half-year',
+    'm1c5': 'Journal-style decision support: every edition answers the same five questions — directly comparable across issues',
+    'm2c4': 'Global · Mid-2026',
+    'm2c5': 'Editorial-grade typesetting + live quotes; explicitly labels fallback snapshots when the feed is unreachable — never silently swaps data',
+    'm3c4': 'China ⇄ Global · H1 / Q1 / Q2',
+    'm3c5': 'Sticky control bar with 3-axis switching (lens / window / language); every KPI and chart updates instantly',
+    'm4c4': 'Global · 5 reporting windows',
+    'm4c5': 'Full-stack workbench: AI Q&A re-grounds to the selected window; API keys proxied server-side only',
+    'm5sub': 'maritime (spin-off app)',
+    'm5c4': 'Global shipping lanes · Real-time',
+    'm5c5': 'Research turned product: container track-and-trace command center with cold-chain IoT & demurrage prediction',
+    'c1t': 'A journal-style decision-support serial',
+    'c1d': 'The only entry organized like a periodical: every edition answers the same five questions (what changed / market / debates / outlook / actions), making quarterly and half-year windows directly comparable for strategy & procurement leaders.',
+    'c1l1': 'Seven-part narrative spine + five industry segments, China/Global dual-lens radar',
+    'c1l2': 'Four output formats: interactive Canvas, full report, one-pager, slides',
+    'c1l3': 'Five indicator feeds (GSCPI, WTO, SCFI, WCI, LPI); labelled trend-proxy views when data is missing',
+    'c1l4': 'Engineering hygiene: MIT + CC BY dual license, security scan scripts, animated README pipeline',
+    'c1tag': 'Bilingual', 'c1tag2': 'Cross-period',
+    'c2t': 'An editorial-grade single-file feature',
+    'c2d': 'The report as a crafted editorial product: a 752KB single file with zero runtime dependencies, ET Book serif typesetting + D3.js charts, an animated container-ship cover, and click-to-drill on every data point.',
+    'c2l1': 'Three-layer industry breakdown: physical $11.97T / planning $39.2B / automation ~$29B',
+    'c2l2': 'Live quotes via stooq; explicitly labels "verified snapshot" when the endpoint is unreachable',
+    'c2l3': '24 tier-classified sources (K1–K24); derived values flagged [derived]; no investment ratings',
+    'c2l4': 'Runtime EN/CN toggle with persisted language preference',
+    'c2tag': 'Live quotes', 'c2tag2': 'Evidence discipline',
+    'c3t': 'The most interactive of the four',
+    'c3d': 'Highest interaction density: a sticky control bar switches China ⇄ Global lens, H1/Q1/Q2 window and CN/EN language — every KPI, chart and paragraph updates instantly. Zero-dependency single page, open and go.',
+    'c3l1': '7 chapters + 7 sub-industry deep dives (animated tabs + bubble/bar matrix views)',
+    'c3l2': 'Key reads: China semiconductor equipment imports ¥2.38T (+48.6%), NEV exports +68.7%',
+    'c3l3': '25+ institutional sources: WTO, UNCTAD, NY Fed, Drewry, China Customs, WSTS…',
+    'c3l4': 'Seven live Chart.js charts: GSCPI, freight rates, trade, logistics prosperity index…',
+    'c3tag': '3-axis switching', 'c3tag2': 'Bilingual',
+    'c4t': 'A full-stack workbench with AI Q&A',
+    'c4d': 'The only full-stack app of the four: React 19 + Express with Gemini 2.5 Flash and Google Search Grounding. AI answers re-contextualize to the selected reporting window — more analysis workbench than static report.',
+    'c4l1': '5 reporting windows (2026 H1/Q1/Q2, 2025 H2/FY) with full metric re-sync on switch',
+    'c4l2': '7 industry verticals + WCI rates, SCSI stress index, Nearshoring 2.0 and more',
+    'c4l3': '4-second simulated ticker (pause + latency monitor); API keys proxied server-side only',
+    'c4l4': 'One-click research prompts: Red Sea transit, CSDDD audits, Sino-Mexico corridor',
+    'app-title': 'From Research to Product · Spin-off',
+    'app-h3': 'Global Maritime Container Track-and-Trace Command Center',
+    'app-p': 'The research, productized: the recurring pain points across the reports — visibility gaps, demurrage exposure, cold-chain failures — turned into a working maritime & intermodal command platform.',
+    'app-l1': 'Live fleet map: seven major carriers, status monitoring, multi-filter search (carrier / status / ID)',
+    'app-l2': 'Biopharma cold-chain IoT: 0.1°C temperature, humidity, shock, door-seal integrity & excursion alerts',
+    'app-l3': 'Gemini AI prediction: demurrage & detention exposure in USD before berthing, with speed/reroute advice',
+    'app-l4': 'Bulk manifest lookup (PO / Invoice / BOL / container IDs mixed), one-click xlsx/csv export for ERP',
+    'btn-dash': 'View Dashboard', 'btn-gh': 'View on GitHub', 'btn-app': 'Launch App',
+    'gaps-title': 'Where AI Fills In · Top 5 Workflow Gaps',
+    'gaps-intro': 'Synthesizing today\'s radar and the shared findings across all four reports, these five workflow gaps are where AI should step in first. Scoring: business value ×35% · feasibility ×25% · data readiness ×20% · urgency ×20%.',
+    'dim-v': 'Value', 'dim-f': 'Feasibility', 'dim-d': 'Data', 'dim-u': 'Urgency', 'gs-lbl': 'Composite',
+    'g1t': 'End-to-end visibility & demurrage prediction',
+    'g1d': 'Cape rerouting swings Asia–Europe ETAs by ±2 weeks while demurrage stays unquantifiable before berthing. AIS, port-queue and weather data are mature enough for AI to turn "wait and see" into "price it early, adjust speed" — a path already proven by VeloCortex on this site.',
+    'g1e': 'Radar · Red Sea',
+    'g2t': 'Tariff & trade-compliance automation',
+    'g2d': 'With Section 232 polysilicon duties effective Dec 4 and EU anti-circumvention probes multiplying, manual per-shipment checks of HTS codes, origin rules and minimum import prices no longer scale. AI can classify, re-cost and flag risky entries — the shorter the policy window, the more this gap is worth.',
+    'g2e': 'Radar · Key News',
+    'g3t': 'Cold-chain telemetry & SLA closed loop',
+    'g3d': 'Temperature excursions in biopharma and fresh cargo are still settled after the fact. 0.1°C IoT sensors are commoditized; what\'s missing is AI on the telemetry stream — triaged alerts, insurance-grade evidence, automatic rerouting. The clearest-scoped, lowest-barrier gap of the five.',
+    'g3e': 'Radar · Apps',
+    'g4t': 'Multi-agent exception-handling orchestration',
+    'g4d': 'A single delayed shipment can trigger a three-day cross-department investigation, while only 23% of firms have a formal AI strategy and 56% stall on legacy integration (Gartner). Handing "event → evidence → evaluate → execute" to collaborative agents compresses resolution to hours — highest value, real integration cost.',
+    'g4e': 'Radar · Hot Topics',
+    'g5t': 'ESG compliance & carbon accounting',
+    'g5d': 'EU ETS now covers 100% of maritime emissions and CSDDD penalties are in force — carbon has shifted from disclosure duty to cash cost and market-access ticket. AI can consolidate document flows, compute footprints against emission factors, and build audit-ready evidence chains. It misses the top three not for lack of importance but because of data readiness (5.5): Scope 3 means chasing suppliers tier by tier, and precise math on bad data is still a precise error.',
+    'g5e': 'Gartner · Provenance & Governance',
+    'gaps-note': 'Runner-up: the AI copilot for supply-chain talent (6.9) — important, but generates no direct cash flow; it determines how fast the top five can run.',
+    'foot': 'A multi-model supply chain research portfolio · Reports generated independently by their respective AI tools; radar items sourced from public reporting — refer to original citations'
+  };
+  const langZh = document.getElementById('langZh');
+  const langEn = document.getElementById('langEn');
+  function applyLang(lang) {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      if (lang === 'zh-CN' && el.dataset.zh == null) el.dataset.zh = el.innerHTML;
+      if (lang === 'en' && I18N[key] != null) el.innerHTML = I18N[key];
+      else if (lang === 'zh-CN' && el.dataset.zh != null) el.innerHTML = el.dataset.zh;
+    });
+    root.lang = lang;
+    currentLang = lang;
+    renderRadar(lang);
+    document.title = lang === 'en'
+      ? 'Global Supply Chain Intelligence Through Multiple AI Models | Research Index'
+      : 'AI 多模型视角下的全球供应链洞察研究 | Supply Chain AI Research Index';
+    langZh.classList.toggle('on', lang === 'zh-CN');
+    langEn.classList.toggle('on', lang === 'en');
+    localStorage.setItem('sc-lang', lang);
+  }
+  document.getElementById('langBtn').addEventListener('click', () => {
+    applyLang(root.lang === 'en' ? 'zh-CN' : 'en');
+  });
+
+  /* ================= 今日雷达 · 数据驱动 + 刷新 ================= */
+  // 内置快照作为主数据源，保证单文件 / 离线 / 静态预览下可用；radar-data.json 为托管时的可选覆盖
+  let radarData = null;
+  try { radarData = JSON.parse(document.getElementById('embeddedRadar').textContent); }
+  catch (e) { radarData = null; }
+  let currentLang = 'zh-CN';
+  let isRefreshing = false;
+  const refreshBtn = document.getElementById('refreshBtn');
+  const briefGrid = document.getElementById('briefGrid');
+  const briefError = document.getElementById('briefError');
+  const briefOk = document.getElementById('briefOk');
+  const buTime = document.getElementById('buTime');
+
+  function fmtTime(iso, lang) {
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) return '—';
+    const opt = lang === 'en'
+      ? { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }
+      : { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false };
+    return d.toLocaleString(lang === 'en' ? 'en-US' : 'zh-CN', opt);
+  }
+
+  function syncRadarDate() {
+    if (!radarData || !radarData.updatedAt) return;
+    const d = new Date(radarData.updatedAt);
+    if (isNaN(d.getTime())) return;
+    const ymd = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    document.querySelectorAll('.js-radar-date').forEach(el => { el.textContent = ymd; });
+  }
+
+  function renderRadar(lang) {
+    if (!radarData) return;
+    const lk = lang === 'en' ? 'en' : 'zh';
+    let html = '';
+    radarData.columns.forEach(col => {
+      const items = (col.items || []).map(it => {
+        const src = (it.sources || []).map(s =>
+          `<a href="${s.url}" target="_blank" rel="noopener">${s.label}</a>`).join('');
+        return `<div class="brief-item"><h4>${it.title[lk]}</h4><p>${it.desc[lk]}</p><div class="brief-src">${src}</div></div>`;
+      }).join('');
+      html += `<div class="brief-col" style="--cat:${col.color}"><div class="brief-cat">${col.cat[lk]}</div>${items}</div>`;
+    });
+    briefGrid.innerHTML = html;
+    buTime.textContent = fmtTime(radarData.updatedAt, lang);
+    syncRadarDate();
+  }
+
+  async function fetchRadar() {
+    const res = await fetch('radar-data.json?t=' + Date.now(), { cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    return res.json();
+  }
+
+  async function refreshRadar({ spin = true, ok = true } = {}) {
+    if (isRefreshing) return;
+    isRefreshing = true;
+    briefError.classList.remove('show');
+    if (spin) { refreshBtn.disabled = true; refreshBtn.classList.add('spinning'); }
+    try {
+      const data = await fetchRadar();            // 托管环境：尝试拉取外部 JSON 获取更新
+      if (data && Array.isArray(data.columns)) radarData = data;
+    } catch (e) {
+      // 外部 JSON 不可达（单文件预览 / 离线）→ 静默回退到内置快照，不视为失败
+      if (!radarData) briefError.classList.add('show');
+    } finally {
+      renderRadar(currentLang);                    // 无论覆盖成功与否，都用现有数据渲染
+      if (ok && radarData) {
+        briefOk.classList.add('show');
+        setTimeout(() => briefOk.classList.remove('show'), 1800);
+      }
+      isRefreshing = false;
+      refreshBtn.disabled = false;
+      refreshBtn.classList.remove('spinning');
+    }
+  }
+
+  refreshBtn.addEventListener('click', () => refreshRadar());
+  document.getElementById('briefRetry').addEventListener('click', () => refreshRadar());
+
+  applyLang(localStorage.getItem('sc-lang') || 'zh-CN');
+  refreshRadar({ spin: false, ok: false });
+
+  /* ================= 导航滚动态 ================= */
+  const nav = document.getElementById('nav');
+  addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 12), { passive: true });
+
+  /* ================= 入场 reveal ================= */
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* ================= 数字滚动 ================= */
+  const counters = document.querySelectorAll('[data-count]');
+  const cio = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target, target = +el.dataset.count, t0 = performance.now();
+      (function tick(t) {
+        const p = Math.min((t - t0) / 900, 1);
+        el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)));
+        if (p < 1) requestAnimationFrame(tick);
+      })(t0);
+      cio.unobserve(el);
+    });
+  }, { threshold: 0.6 });
+  counters.forEach(el => cio.observe(el));
+</script>
+</body>
+</html>
