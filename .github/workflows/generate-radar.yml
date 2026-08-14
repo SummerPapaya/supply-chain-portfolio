@@ -4,7 +4,7 @@ name: Generate Supply Chain Radar
 # on a schedule so the "今日供应链雷达" refresh button always serves fresh data.
 on:
   schedule:
-    - cron: "13 */6 * * *"      # every 6 hours (UTC), offset to avoid the :00 stampede
+    - cron: "13 */12 * * *"     # every 12 hours (UTC), offset to avoid the :00 stampede
   workflow_dispatch:            # allows a manual run from the Actions tab
 
 permissions:
