@@ -50,15 +50,21 @@ COLUMNS = [
     {"key": "research", "cat": {"zh": "研究瞭望", "en": "Research"},
      "color": "#5b8cff",
      "kw": ["report", "research", "gartner", "mhi", "study", "survey",
-            "analyst", "forecast", "trend", "whitepaper"]},
+            "analyst", "forecast", "trend", "whitepaper",
+            # 中文
+            "报告", "研究", "白皮书", "调研", "分析", "预测", "年报"]},
     {"key": "apps", "cat": {"zh": "应用风向", "en": "Apps & Adoption"},
      "color": "#35c2b0",
      "kw": ["automation", "robot", "warehouse", "software", "platform",
-            "deploy", "technology", "startup", "orchestration", "digital twin"]},
+            "deploy", "technology", "startup", "orchestration", "digital twin",
+            # 中文
+            "自动化", "机器人", "仓储", "软件", "平台", "数字化", "智能", "系统", "物联网"]},
     {"key": "hot", "cat": {"zh": "热门议题", "en": "Hot Topics"},
      "color": "#f0a13a",
      "kw": ["ai", "agent", "tariff", "policy", "regulation", "geopolit",
-            "trade war", "sanction", "emission", "esg", "carbon", "reshor"]},
+            "trade war", "sanction", "emission", "esg", "carbon", "reshor",
+            # 中文
+            "关税", "政策", "监管", "地缘", "贸易", "制裁", "碳", "环保", "合规", "回流"]},
     {"key": "news", "cat": {"zh": "重点新闻", "en": "Key News"},
      "color": "#e05656", "kw": []},
 ]
@@ -160,6 +166,100 @@ def categorize(title, summary):
 
 
 # --------------------------------------------------------------------------- #
+# Chinese web sources — most CN supply-chain media publish no RSS, so we do a
+# lightweight, stdlib-only HTML scrape of their listing pages. Each scraper
+# returns a list of {title, link, summary, published, source}.
+# Graceful: a dead source is skipped; never raises out of scrape_sources().
+# --------------------------------------------------------------------------- #
+CHINESE_SOURCES = [
+    ("雨果网", "https://www.cifnews.com/"),        # 跨境电商 / 关税 / 物流
+    ("罗戈网", "https://www.logclub.com/article"),  # 物流与供应链研究
+]
+
+_MIN_DT = datetime.min.replace(tzinfo=timezone.utc)
+
+
+def _scrape_cifnews(html):
+    """雨果网 homepage: article links carry data-fetch-title + data-fetch-type=article."""
+    out = []
+    pat = re.compile(
+        r'<a\b[^>]*\bhref="(/observer/[^"]+)"[^>]*'
+        r'data-fetch-type="article"[^>]*'
+        r'data-fetch-title="([^"]+)"', re.S)
+    for m in pat.finditer(html):
+        href, title = m.group(1), m.group(2).strip()
+        if not title:
+            continue
+        out.append({
+            "title": title,
+            "link": "https://www.cifnews.com" + href,
+            "summary": "",
+            "published": _MIN_DT,
+            "source": "雨果网",
+        })
+    return out
+
+
+def _scrape_logclub(html):
+    """罗戈网 article listing: links use /articleInfo/<id> with the title as anchor text."""
+    out = []
+    pat = re.compile(r'<a\b[^>]*href="(/articleInfo/[^"]+)"[^>]*>\s*([^<]+?)\s*</a>')
+    for m in pat.finditer(html):
+        href, title = m.group(1), m.group(2).strip()
+        if len(title) < 4:
+            continue
+        out.append({
+            "title": title,
+            "link": "https://www.logclub.com" + href,
+            "summary": "",
+            "published": _MIN_DT,
+            "source": "罗戈网",
+        })
+    return out
+
+
+_SCRAPERS = {
+    "https://www.cifnews.com/": _scrape_cifnews,
+    "https://www.logclub.com/article": _scrape_logclub,
+}
+
+
+def _fetch_meta_desc(url, timeout=12):
+    """Best-effort summary from the article page's meta description."""
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": UA})
+        with urllib.request.urlopen(req, timeout=timeout) as r:
+            html = r.read().decode("utf-8", "ignore")
+        m = re.search(r'<meta[^>]+name=["\']description["\'][^>]*content=["\']([^"\']+)["\']',
+                      html, re.I)
+        if not m:
+            m = re.search(r'<meta[^>]+property=["\']og:description["\'][^>]*content=["\']([^"\']+)["\']',
+                          html, re.I)
+        if m:
+            return _truncate(m.group(1), 200)
+    except Exception:
+        pass
+    return ""
+
+
+def scrape_sources():
+    items, seen = [], set()
+    for name, url in CHINESE_SOURCES:
+        try:
+            html = fetch(url).decode("utf-8", "ignore")
+            for it in _SCRAPERS[url](html):
+                if it["link"] in seen:
+                    continue
+                seen.add(it["link"])
+                it["cn"] = True
+                items.append(it)
+        except Exception as e:
+            print(f"[skip-cn] {name}: {e}", file=sys.stderr)
+    return items
+
+
+
+# --------------------------------------------------------------------------- #
 # Optional translation (OpenAI-compatible). No key -> pass-through (English in
 # both zh/en). Any failure falls back to pass-through.
 # --------------------------------------------------------------------------- #
@@ -216,14 +316,35 @@ def main():
         except Exception as e:
             print(f"[skip] {name}: {e}", file=sys.stderr)
 
-    # Sort each column by recency and cap.
+    # Merge Chinese web-source items (no RSS; scraped) into the same columns.
+    for it in scrape_sources():
+        cat = categorize(it["title"], it["summary"])
+        collected[cat].append(it)
+
+    # Sort each column by recency and cap, reserving at least one Chinese
+    # web-source slot per column so native CN news is always visible. Rotate
+    # the CN source across columns so both 雨果网 and 罗戈网 get representation.
+    CN_SLOTS = 1
+    cn_used = {}
     columns_out = []
     for col in COLUMNS:
         items = sorted(collected[col["key"]], key=lambda x: x["published"], reverse=True)
-        items = items[:ITEMS_PER_COLUMN]
+        cn_items = [i for i in items if i.get("cn")]
+        en_items = [i for i in items if not i.get("cn")]
+        cn_items.sort(key=lambda i: cn_used.get(i["source"], 0))
+        chosen_cn = cn_items[:CN_SLOTS]
+        for i in chosen_cn:
+            cn_used[i["source"]] = cn_used.get(i["source"], 0) + 1
+        items = (chosen_cn + en_items)[:ITEMS_PER_COLUMN]
         out_items = []
         for it in items:
             en_title = it["title"]
+            if not it["summary"]:
+                md = _fetch_meta_desc(it["link"])
+                # Drop author-bio style meta descriptions (common on 雨果网
+                # observer articles) so the card shows a clean title instead.
+                if md and not re.search(r"观察员|为跨境|服务商|实战经验|知识及经验", md):
+                    it["summary"] = md
             en_desc = it["summary"] or it["title"]
             zh_title = translate_zh(en_title)
             zh_desc = translate_zh(en_desc) if en_desc != en_title else zh_title

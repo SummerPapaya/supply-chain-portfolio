@@ -87,6 +87,8 @@ The "今日供应链雷达" (Today's Supply Chain Radar) section fetches English
 
 The refresh runs every 12 hours (UTC 00:13 / 12:13) via the scheduled workflow and can also be triggered manually. Prefer a dedicated key with a low balance cap; the secret name above is already referenced in `.github/workflows/generate-radar.yml`.
 
+The radar also pulls two **Chinese web sources** — **雨果网** (cross-border e-commerce / tariffs / logistics) and **罗戈网** (logistics & supply-chain research). They publish no public RSS, so the generator does a lightweight, stdlib-only HTML scrape; each column keeps at least one native-Chinese item, and every link points to the original article.
+
 ## 📄 License
 
 MIT License — see `LICENSE` for details. Report content is sourced from public reporting; refer to original citations for each data point.
