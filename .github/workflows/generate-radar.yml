@@ -1,11 +1,12 @@
 name: Generate Supply Chain Radar
 
-# Regenerates docs/radar-data.json (and the embedded fallback in docs/index.html)
-# on a schedule so the "今日供应链雷达" refresh button always serves fresh data.
+# Regenerates docs/radar-data.json (and the embedded fallback in docs/index.html).
+#
+# Scheduled auto-refresh is PAUSED (user request, 2026-08-15): the panel now shows a
+# curated, hand/AI-edited "snapshot" at cd4c235 quality. Re-enable the schedule below
+# only after the curation pipeline is rebuilt; for now run manually via workflow_dispatch.
 on:
-  schedule:
-    - cron: "13 */12 * * *"     # every 12 hours (UTC), offset to avoid the :00 stampede
-  workflow_dispatch:            # allows a manual run from the Actions tab
+  workflow_dispatch:            # manual run from the Actions tab only (no auto schedule)
 
 permissions:
   contents: write
