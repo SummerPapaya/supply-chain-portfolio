@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-15T03:16:23+08:00",
+  "updatedAt": "2026-08-15T04:13:56+08:00",
   "columns": [
     {
       "cat": {
@@ -22,7 +22,25 @@
               "label": "gCaptain ↗",
               "url": "https://gcaptain.com/two-tankers-attacked-as-uae-expands-hormuz-oil-shuttle/"
             }
-          ]
+          ],
+          "verified": false
+        },
+        {
+          "title": {
+            "zh": "The Revolving Door",
+            "en": "The Revolving Door"
+          },
+          "desc": {
+            "zh": "Why Food & Beverage Warehouses Can’t Keep Workers, or Costs Under Control Guest blog by Michael Sutherland, Business Development and Marketing Specialist at System Logistics Corp. (MHI member) Your shift starts at 6am. Two of your five line workers didn’t show…",
+            "en": "Why Food & Beverage Warehouses Can’t Keep Workers, or Costs Under Control Guest blog by Michael Sutherland, Business Development and Marketing Specialist at System Logistics Corp. (MHI member) Your shift starts at 6am. Two of your five line workers didn’t show…"
+          },
+          "sources": [
+            {
+              "label": "MHI ↗",
+              "url": "https://mhiblog.org/the-revolving-door/"
+            }
+          ],
+          "verified": false
         },
         {
           "title": {
@@ -30,31 +48,16 @@
             "en": "Customs crackdowns on Chinese ecommerce threaten airfreight demand"
           },
           "desc": {
-            "zh": "Tougher customs treatment of low-value airfreight shipments is threatening to reverse some of the ecommerce sector’s rapid growth, according to new analysis from Trade and Transport Group. The consultancy&#8217;s latest report estimates that cross-border ecomm…",
-            "en": "Tougher customs treatment of low-value airfreight shipments is threatening to reverse some of the ecommerce sector’s rapid growth, according to new analysis from Trade and Transport Group. The consultancy&#8217;s latest report estimates that cross-border ecomm…"
+            "zh": "Tougher customs treatment of low-value airfreight shipments is threatening to reverse some of the ecommerce sector’s rapid growth, according to new analysis from Trade and Transport Group. The consultancy’s latest report estimates that cross-border ecommerce a…",
+            "en": "Tougher customs treatment of low-value airfreight shipments is threatening to reverse some of the ecommerce sector’s rapid growth, according to new analysis from Trade and Transport Group. The consultancy’s latest report estimates that cross-border ecommerce a…"
           },
           "sources": [
             {
               "label": "The Loadstar ↗",
               "url": "https://theloadstar.com/customs-crackdowns-on-chinese-ecommerce-threaten-airfreight-demand/"
             }
-          ]
-        },
-        {
-          "title": {
-            "zh": "Consultancy.uk: The Big Four have all been caught passing off generative content as ‘thought leadership’",
-            "en": "Consultancy.uk: The Big Four have all been caught passing off generative content as ‘thought leadership’"
-          },
-          "desc": {
-            "zh": "Consultancy.uk reports: The consulting industry’s four biggest players have long used whitepapers and surveys as a means to drum up business – indicating expertise on key specialisms and topical issues their clients are responding to. But in their haste to pre…",
-            "en": "Consultancy.uk reports: The consulting industry’s four biggest players have long used whitepapers and surveys as a means to drum up business – indicating expertise on key specialisms and topical issues their clients are responding to. But in their haste to pre…"
-          },
-          "sources": [
-            {
-              "label": "The Loadstar ↗",
-              "url": "https://theloadstar.com/consultancy-uk-the-big-four-have-all-been-caught-passing-off-generative-content-as-thought-leadership/"
-            }
-          ]
+          ],
+          "verified": false
         }
       ]
     },
@@ -67,35 +70,20 @@
       "items": [
         {
           "title": {
-            "zh": "亚马逊智能体购物Alexa for Shopping与对话式体验",
-            "en": "亚马逊智能体购物Alexa for Shopping与对话式体验"
-          },
-          "desc": {
-            "zh": "亚马逊智能体购物Alexa for Shopping与对话式体验",
-            "en": "亚马逊智能体购物Alexa for Shopping与对话式体验"
-          },
-          "sources": [
-            {
-              "label": "雨果网 ↗",
-              "url": "https://www.cifnews.com/observer/xhykjfw"
-            }
-          ]
-        },
-        {
-          "title": {
             "zh": "Volvo Trucks: $60M Saved with OTA Updates [24% Fewer Stops]",
             "en": "Volvo Trucks: $60M Saved with OTA Updates [24% Fewer Stops]"
           },
           "desc": {
-            "zh": "Volvo Trucks is transforming fleet operations with groundbreaking over-the-air (OTA) software updates. Learn how this technology empowers drivers to initiate updates overnight or during breaks, eliminating downtime. Volvo&#8217;s Chief Digital Officer Nicole P…",
-            "en": "Volvo Trucks is transforming fleet operations with groundbreaking over-the-air (OTA) software updates. Learn how this technology empowers drivers to initiate updates overnight or during breaks, eliminating downtime. Volvo&#8217;s Chief Digital Officer Nicole P…"
+            "zh": "Volvo Trucks is transforming fleet operations with groundbreaking over-the-air (OTA) software updates. Learn how this technology empowers drivers to initiate updates overnight or during breaks, eliminating downtime. Volvo’s Chief Digital Officer Nicole Portell…",
+            "en": "Volvo Trucks is transforming fleet operations with groundbreaking over-the-air (OTA) software updates. Learn how this technology empowers drivers to initiate updates overnight or during breaks, eliminating downtime. Volvo’s Chief Digital Officer Nicole Portell…"
           },
           "sources": [
             {
               "label": "FreightWaves ↗",
               "url": "https://www.freightwaves.com/news/volvo-trucks-60m-saved-with-ota-updates-24-fewer-stops"
             }
-          ]
+          ],
+          "verified": false
         },
         {
           "title": {
@@ -111,7 +99,25 @@
               "label": "FreightWaves ↗",
               "url": "https://www.freightwaves.com/news/ex-williams-sonoma-exec-pleads-guilty-to-16m-warehouse-kickback-scheme"
             }
-          ]
+          ],
+          "verified": false
+        },
+        {
+          "title": {
+            "zh": "India restores cabotage waiver for foreign carriers in ‘policy stability’ push",
+            "en": "India restores cabotage waiver for foreign carriers in ‘policy stability’ push"
+          },
+          "desc": {
+            "zh": "Container transshipping over Indian ports has become more pronounced in recent months as carriers increasingly adjust service networks in response to security risks, disrupted Red Sea/Suez Canal routings, and vessel deployment changes.",
+            "en": "Container transshipping over Indian ports has become more pronounced in recent months as carriers increasingly adjust service networks in response to security risks, disrupted Red Sea/Suez Canal routings, and vessel deployment changes."
+          },
+          "sources": [
+            {
+              "label": "Journal of Commerce ↗",
+              "url": "https://joc.com/article/india-restores-cabotage-waiver-for-foreign-carriers-in-policy-stability-push-6269265"
+            }
+          ],
+          "verified": false
         }
       ]
     },
@@ -122,22 +128,6 @@
       },
       "color": "#f0a13a",
       "items": [
-        {
-          "title": {
-            "zh": "亚马逊AI广告优化工具如何选择？从能力、数据与控制权出发",
-            "en": "亚马逊AI广告优化工具如何选择？从能力、数据与控制权出发"
-          },
-          "desc": {
-            "zh": "亚马逊AI广告优化工具如何选择？从能力、数据与控制权出发",
-            "en": "亚马逊AI广告优化工具如何选择？从能力、数据与控制权出发"
-          },
-          "sources": [
-            {
-              "label": "雨果网 ↗",
-              "url": "https://www.cifnews.com/observer/xiaoukjsc"
-            }
-          ]
-        },
         {
           "title": {
             "zh": "Nearly $111M in data center freight stolen as thieves test ‘bump and run’ tactic",
@@ -152,7 +142,8 @@
               "label": "FreightWaves ↗",
               "url": "https://www.freightwaves.com/news/nearly-111m-in-data-center-freight-stolen-as-thieves-test-bump-and-run-tactic"
             }
-          ]
+          ],
+          "verified": false
         },
         {
           "title": {
@@ -168,7 +159,25 @@
               "label": "gCaptain ↗",
               "url": "https://gcaptain.com/iranian-attacks-push-hormuz-shipping-toward-tehran-controlled-route/"
             }
-          ]
+          ],
+          "verified": false
+        },
+        {
+          "title": {
+            "zh": "Freight Brokers: Your Trailer Insurance Has HUGE Gaps!",
+            "en": "Freight Brokers: Your Trailer Insurance Has HUGE Gaps!"
+          },
+          "desc": {
+            "zh": "Freight brokers often face hidden risks with their trailer insurance. Andy Kuchar, President of Centerline Insurance Company, reveals why many trailers are “criminally underinsured” and how common policies exclude crucial over-the-road coverage. Learn the red…",
+            "en": "Freight brokers often face hidden risks with their trailer insurance. Andy Kuchar, President of Centerline Insurance Company, reveals why many trailers are “criminally underinsured” and how common policies exclude crucial over-the-road coverage. Learn the red…"
+          },
+          "sources": [
+            {
+              "label": "FreightWaves ↗",
+              "url": "https://www.freightwaves.com/news/freight-brokers-your-trailer-insurance-has-huge-gaps"
+            }
+          ],
+          "verified": false
         }
       ]
     },
@@ -179,22 +188,6 @@
       },
       "color": "#e05656",
       "items": [
-        {
-          "title": {
-            "zh": "驭势科技与新加坡康福德高巴士达成合作",
-            "en": "驭势科技与新加坡康福德高巴士达成合作"
-          },
-          "desc": {
-            "zh": "罗戈网（www.logclub.com）-物流商业伙伴,驭势科技与新加坡康福德高巴士达成合作",
-            "en": "罗戈网（www.logclub.com）-物流商业伙伴,驭势科技与新加坡康福德高巴士达成合作"
-          },
-          "sources": [
-            {
-              "label": "罗戈网 ↗",
-              "url": "https://www.logclub.com/articleInfo/ODUzNTY="
-            }
-          ]
-        },
         {
           "title": {
             "zh": "Truck Driver Health: Why so many are dying young",
@@ -209,7 +202,8 @@
               "label": "FreightWaves ↗",
               "url": "https://www.freightwaves.com/news/truck-driver-health-why-so-many-are-dying-young"
             }
-          ]
+          ],
+          "verified": false
         },
         {
           "title": {
@@ -217,15 +211,33 @@
             "en": "Freight Market Rejection Index: Is the ‘Softness’ Misleading? | SONAR Update"
           },
           "desc": {
-            "zh": "The freight market is showing what appears to be softness, but a closer look at the Rejection Index reveals a different story. This week&#8217;s SONAR update breaks down why current market conditions are actually robust, not cooling off. Learn how intermodal s…",
-            "en": "The freight market is showing what appears to be softness, but a closer look at the Rejection Index reveals a different story. This week&#8217;s SONAR update breaks down why current market conditions are actually robust, not cooling off. Learn how intermodal s…"
+            "zh": "The freight market is showing what appears to be softness, but a closer look at the Rejection Index reveals a different story. This week’s SONAR update breaks down why current market conditions are actually robust, not cooling off. Learn how intermodal savings…",
+            "en": "The freight market is showing what appears to be softness, but a closer look at the Rejection Index reveals a different story. This week’s SONAR update breaks down why current market conditions are actually robust, not cooling off. Learn how intermodal savings…"
           },
           "sources": [
             {
               "label": "FreightWaves ↗",
               "url": "https://www.freightwaves.com/news/freight-market-rejection-index-is-the-softness-misleading-sonar-update"
             }
-          ]
+          ],
+          "verified": false
+        },
+        {
+          "title": {
+            "zh": "Two Slicks Appear in Gulf as Huge Oil Spill Off Oman Threatens Disaster",
+            "en": "Two Slicks Appear in Gulf as Huge Oil Spill Off Oman Threatens Disaster"
+          },
+          "desc": {
+            "zh": "Two slicks have appeared in Iranian waters, satellite imagery and video verified by Reuters show, as tit-for-tat attacks on oil tankers and other vessels by Iran and the United States spark concerns about environmental damage to the Gulf.",
+            "en": "Two slicks have appeared in Iranian waters, satellite imagery and video verified by Reuters show, as tit-for-tat attacks on oil tankers and other vessels by Iran and the United States spark concerns about environmental damage to the Gulf."
+          },
+          "sources": [
+            {
+              "label": "gCaptain ↗",
+              "url": "https://gcaptain.com/two-slicks-appear-in-gulf-as-huge-oil-spill-off-oman-threatens-disaster/"
+            }
+          ],
+          "verified": false
         }
       ]
     }

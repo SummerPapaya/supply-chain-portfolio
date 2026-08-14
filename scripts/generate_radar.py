@@ -3,27 +3,35 @@
 """
 Supply Chain Radar — scheduled data generator.
 
-Fetches a set of public supply-chain / shipping / logistics RSS feeds,
+Fetches a curated set of authoritative supply-chain / shipping / logistics
+RSS feeds, cross-verifies stories that appear in more than one source,
 structures the recent items into the schema consumed by docs/index.html
 (renderRadar), and writes:
 
-  - docs/radar-data.json            (the file the refresh button fetches)
+  - docs/radar-data.json            (the file the page fetches)
   - the embedded <script id="embeddedRadar"> fallback inside docs/index.html
 
-Design notes
-------------
-* Stdlib only (urllib + xml.etree) so it runs in GitHub Actions with no pip install.
-* Bilingual output: English feeds are passed through to both zh/en by default.
-  If DEEPSEEK_API_KEY (or OPENAI_API_KEY) is set, titles/descriptions are
-  translated to Chinese for the `zh` field via the OpenAI-compatible chat API.
+Quality principles (restored to match the hand-curated baseline)
+----------------------------------------------------------------
+* Source bar: ONLY authoritative, dated RSS feeds (trade press + research /
+  model-report blogs). Low-quality / undated HTML scrapers are intentionally
+  excluded — every feed below carries a real publication date.
+* Cross-verification: items from DIFFERENT sources about the same story are
+  merged into one card. When >= 2 independent sources corroborate a story,
+  the card is flagged `verified: true` and floats to the top of its column.
+* Recency gate: stories older than RECENCY_DAYS are dropped so the radar
+  always reflects current, accurate intelligence.
+* Bilingual output: English is the source of truth; if DEEPSEEK_API_KEY (or
+  OPENAI_API_KEY) is set, titles/descriptions are translated to Chinese.
 * Graceful: a dead feed is skipped; if NO feed returns data, the existing
-  docs/radar-data.json is left untouched (so we never publish an empty radar).
+  docs/radar-data.json is left untouched (never publish an empty radar).
 """
 
 import json
 import os
 import re
 import sys
+import html
 import urllib.request
 import urllib.error
 import xml.etree.ElementTree as ET
@@ -36,14 +44,17 @@ except Exception:
     _TZ = timezone(timedelta(hours=8))
 
 # --------------------------------------------------------------------------- #
-# Configurable feed list (edit freely). Short name is used as the source label.
+# Curated, authoritative feed list (edit freely). Short name = source label.
+# Every feed below serves real RSS WITH publication dates.
 # --------------------------------------------------------------------------- #
 FEEDS = [
-    ("Supply Chain Dive", "https://www.supplychaindive.com/feeds/news/"),
-    ("FreightWaves",      "https://www.freightwaves.com/news/feed"),
-    ("The Loadstar",      "https://theloadstar.com/feed/"),
-    ("gCaptain",          "https://gcaptain.com/feed/"),
-    ("Logistics Mgmt",    "https://www.logisticsmgmt.com/rss/news"),
+    ("Supply Chain Dive",   "https://www.supplychaindive.com/feeds/news/"),
+    ("FreightWaves",        "https://www.freightwaves.com/news/feed"),
+    ("The Loadstar",        "https://theloadstar.com/feed/"),
+    ("gCaptain",            "https://gcaptain.com/feed/"),
+    ("MHI",                 "https://mhiblog.org/feed/"),        # research / model-report blog
+    ("Journal of Commerce", "https://www.joc.com/rss.xml"),      # authoritative trade / shipping
+    ("Freightos",           "https://www.freightos.com/feed/"),  # freight-rate intelligence
 ]
 
 COLUMNS = [
@@ -70,7 +81,17 @@ COLUMNS = [
 ]
 
 ITEMS_PER_COLUMN = 3
+FEED_MAX_PER_COLUMN = 2    # diversity cap: no single feed monopolizes a column
+RECENCY_DAYS = 21          # drop stories older than this (accuracy / freshness gate)
 UA = "Mozilla/5.0 (SupplyChainRadarBot/1.0; +https://github.com/SummerPapaya/supply-chain-portfolio)"
+
+# Words too generic to count toward story-similarity matching.
+_STOP = set(
+    "the a an of to in on for and or with from by at as is are was were be "
+    "this that these those new how why what when where who its their our your "
+    "supply chain logistics global into over after amid says say report reports "
+    "could will would can may me than then now per via are not but has have had".split()
+)
 
 
 def fetch(url, timeout=15):
@@ -87,7 +108,7 @@ def _text(el):
 
 def _strip_html(s):
     s = re.sub(r"<[^>]+>", " ", s or "")
-    s = re.sub(r"&[a-zA-Z]+;", " ", s)
+    s = html.unescape(s)            # decode &amp; / &#38; / &nbsp; etc.
     s = re.sub(r"\s+", " ", s).strip()
     return s
 
@@ -166,97 +187,59 @@ def categorize(title, summary):
 
 
 # --------------------------------------------------------------------------- #
-# Chinese web sources — most CN supply-chain media publish no RSS, so we do a
-# lightweight, stdlib-only HTML scrape of their listing pages. Each scraper
-# returns a list of {title, link, summary, published, source}.
-# Graceful: a dead source is skipped; never raises out of scrape_sources().
+# Cross-verification: cluster items from DIFFERENT sources about the same story
 # --------------------------------------------------------------------------- #
-CHINESE_SOURCES = [
-    ("雨果网", "https://www.cifnews.com/"),        # 跨境电商 / 关税 / 物流
-    ("罗戈网", "https://www.logclub.com/article"),  # 物流与供应链研究
-]
-
-_MIN_DT = datetime.min.replace(tzinfo=timezone.utc)
+def _norm_tokens(s):
+    toks = re.findall(r"[a-z0-9][a-z0-9'\-]{3,}", (s or "").lower())
+    return {t for t in toks if t not in _STOP and not t.isdigit()}
 
 
-def _scrape_cifnews(html):
-    """雨果网 homepage: article links carry data-fetch-title + data-fetch-type=article."""
-    out = []
-    pat = re.compile(
-        r'<a\b[^>]*\bhref="(/observer/[^"]+)"[^>]*'
-        r'data-fetch-type="article"[^>]*'
-        r'data-fetch-title="([^"]+)"', re.S)
-    for m in pat.finditer(html):
-        href, title = m.group(1), m.group(2).strip()
-        if not title:
-            continue
-        out.append({
-            "title": title,
-            "link": "https://www.cifnews.com" + href,
-            "summary": "",
-            "published": _MIN_DT,
-            "source": "雨果网",
-        })
-    return out
+def _similar(a, b):
+    """High-precision SAME-STORY match (not just same-topic).
+
+    Requires >= 3 shared significant words AND Jaccard >= 0.5, so it only
+    fires when two outlets are clearly reporting the identical story (e.g.
+    syndicated wire copy or parallel reporting). This deliberately avoids
+    merging merely-related articles (same topic, different story), which would
+    create false "verified" badges and undermine accuracy. Genuine same-story
+    duplicates are rare in live diverse feeds, so `verified` is truthfully rare.
+    """
+    ta, tb = _norm_tokens(a), _norm_tokens(b)
+    if len(ta) < 3 or len(tb) < 3:
+        return False
+    inter = ta & tb
+    if len(inter) < 3:
+        return False
+    union = ta | tb
+    return (len(inter) / len(union)) >= 0.5
 
 
-def _scrape_logclub(html):
-    """罗戈网 article listing: links use /articleInfo/<id> with the title as anchor text."""
-    out = []
-    pat = re.compile(r'<a\b[^>]*href="(/articleInfo/[^"]+)"[^>]*>\s*([^<]+?)\s*</a>')
-    for m in pat.finditer(html):
-        href, title = m.group(1), m.group(2).strip()
-        if len(title) < 4:
-            continue
-        out.append({
-            "title": title,
-            "link": "https://www.logclub.com" + href,
-            "summary": "",
-            "published": _MIN_DT,
-            "source": "罗戈网",
-        })
-    return out
+def _cluster(items):
+    """Union-find: merge indices whose titles look like the same story (diff source)."""
+    n = len(items)
+    parent = list(range(n))
 
+    def find(x):
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
 
-_SCRAPERS = {
-    "https://www.cifnews.com/": _scrape_cifnews,
-    "https://www.logclub.com/article": _scrape_logclub,
-}
+    def union(a, b):
+        ra, rb = find(a), find(b)
+        if ra != rb:
+            parent[ra] = rb
 
-
-def _fetch_meta_desc(url, timeout=12):
-    """Best-effort summary from the article page's meta description."""
-    try:
-        req = urllib.request.Request(url, headers={"User-Agent": UA})
-        with urllib.request.urlopen(req, timeout=timeout) as r:
-            html = r.read().decode("utf-8", "ignore")
-        m = re.search(r'<meta[^>]+name=["\']description["\'][^>]*content=["\']([^"\']+)["\']',
-                      html, re.I)
-        if not m:
-            m = re.search(r'<meta[^>]+property=["\']og:description["\'][^>]*content=["\']([^"\']+)["\']',
-                          html, re.I)
-        if m:
-            return _truncate(m.group(1), 200)
-    except Exception:
-        pass
-    return ""
-
-
-def scrape_sources():
-    items, seen = [], set()
-    for name, url in CHINESE_SOURCES:
-        try:
-            html = fetch(url).decode("utf-8", "ignore")
-            for it in _SCRAPERS[url](html):
-                if it["link"] in seen:
-                    continue
-                seen.add(it["link"])
-                it["cn"] = True
-                items.append(it)
-        except Exception as e:
-            print(f"[skip-cn] {name}: {e}", file=sys.stderr)
-    return items
-
+    for i in range(n):
+        for j in range(i + 1, n):
+            if items[i]["source"] == items[j]["source"]:
+                continue
+            if _similar(items[i]["title"], items[j]["title"]):
+                union(i, j)
+    groups = {}
+    for i in range(n):
+        groups.setdefault(find(i), []).append(i)
+    return list(groups.values())
 
 
 # --------------------------------------------------------------------------- #
@@ -302,8 +285,26 @@ def translate_zh(text):
         return text
 
 
+def _fetch_meta_desc(url, timeout=12):
+    """Best-effort summary from the article page's meta description."""
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": UA})
+        with urllib.request.urlopen(req, timeout=timeout) as r:
+            html = r.read().decode("utf-8", "ignore")
+        m = re.search(r'<meta[^>]+name=["\']description["\'][^>]*content=["\']([^"\']+)["\']',
+                      html, re.I)
+        if not m:
+            m = re.search(r'<meta[^>]+property=["\']og:description["\'][^>]*content=["\']([^"\']+)["\']',
+                          html, re.I)
+        if m:
+            return _truncate(m.group(1), 200)
+    except Exception:
+        pass
+    return ""
+
+
 def main():
-    collected = {c["key"]: [] for c in COLUMNS}
+    raw_items = []
     for name, url in FEEDS:
         try:
             raw = fetch(url)
@@ -311,57 +312,84 @@ def main():
                 if not it["title"] or not it["link"]:
                     continue
                 it["source"] = name  # remember which feed this item came from
-                cat = categorize(it["title"], it["summary"])
-                collected[cat].append(it)
+                raw_items.append(it)
         except Exception as e:
             print(f"[skip] {name}: {e}", file=sys.stderr)
 
-    # Merge Chinese web-source items (no RSS; scraped) into the same columns.
-    for it in scrape_sources():
-        cat = categorize(it["title"], it["summary"])
-        collected[cat].append(it)
+    if not raw_items:
+        print("[warn] no feed data fetched; leaving docs/radar-data.json unchanged.",
+              file=sys.stderr)
+        return
 
-    # Sort each column by recency and cap, reserving at least one Chinese
-    # web-source slot per column so native CN news is always visible. Rotate
-    # the CN source across columns so both 雨果网 and 罗戈网 get representation.
-    CN_SLOTS = 1
-    cn_used = {}
+    # Recency gate (accuracy / freshness): drop anything older than RECENCY_DAYS.
+    now = datetime.now(timezone.utc)
+    fresh = [it for it in raw_items if (now - it["published"]).days <= RECENCY_DAYS]
+    raw_items = fresh  # if empty, the guard below bails out safely
+    if not raw_items:
+        print("[warn] every item filtered out by recency gate; "
+              "leaving docs/radar-data.json unchanged.", file=sys.stderr)
+        return
+
+    # Cross-verification: cluster same-story items across different sources.
+    collected = {c["key"]: [] for c in COLUMNS}
+    for grp in _cluster(raw_items):
+        members = [raw_items[i] for i in grp]
+        primary = max(members, key=lambda x: x["published"])
+        # Build a de-duplicated source list for this story.
+        src_seen, sources = {}, []
+        for m in members:
+            if m["link"] in src_seen:
+                continue
+            src_seen[m["link"]] = True
+            sources.append({"label": f"{m['source']} ↗", "url": m["link"]})
+        verified = len(sources) >= 2
+
+        en_title = primary["title"]
+        en_desc = primary["summary"]
+        if not en_desc:
+            md = _fetch_meta_desc(primary["link"])
+            if md:
+                en_desc = md
+        zh_title = translate_zh(en_title)
+        zh_desc = translate_zh(en_desc) if en_desc and en_desc != en_title else zh_title
+
+        cat = categorize(en_title, en_desc)
+        collected[cat].append({
+            "published": primary["published"],
+            "feed": primary["source"],   # used only for the diversity cap below
+            "title": {"zh": zh_title, "en": en_title},
+            "desc": {"zh": zh_desc, "en": en_desc or en_title},
+            "sources": sources,
+            "verified": verified,
+        })
+
     columns_out = []
     for col in COLUMNS:
-        items = sorted(collected[col["key"]], key=lambda x: x["published"], reverse=True)
-        cn_items = [i for i in items if i.get("cn")]
-        en_items = [i for i in items if not i.get("cn")]
-        cn_items.sort(key=lambda i: cn_used.get(i["source"], 0))
-        chosen_cn = cn_items[:CN_SLOTS]
-        for i in chosen_cn:
-            cn_used[i["source"]] = cn_used.get(i["source"], 0) + 1
-        items = (chosen_cn + en_items)[:ITEMS_PER_COLUMN]
-        out_items = []
+        # Verified (cross-source) stories float to the top, then by recency.
+        items = sorted(collected[col["key"]],
+                       key=lambda x: (x["verified"], x["published"]), reverse=True)
+        # Diversity cap: no single feed monopolizes the column.
+        feed_count, picked = {}, []
         for it in items:
-            en_title = it["title"]
-            if not it["summary"]:
-                md = _fetch_meta_desc(it["link"])
-                # Drop author-bio style meta descriptions (common on 雨果网
-                # observer articles) so the card shows a clean title instead.
-                if md and not re.search(r"观察员|为跨境|服务商|实战经验|知识及经验", md):
-                    it["summary"] = md
-            en_desc = it["summary"] or it["title"]
-            zh_title = translate_zh(en_title)
-            zh_desc = translate_zh(en_desc) if en_desc != en_title else zh_title
-            out_items.append({
-                "title": {"zh": zh_title, "en": en_title},
-                "desc": {"zh": zh_desc, "en": en_desc},
-                "sources": [{"label": f"{it.get('source', 'Source')} ↗", "url": it["link"]}],
-            })
+            f = it.get("feed")
+            if f and feed_count.get(f, 0) >= FEED_MAX_PER_COLUMN:
+                continue
+            picked.append(it)
+            feed_count[f] = feed_count.get(f, 0) + 1
+            if len(picked) >= ITEMS_PER_COLUMN:
+                break
+        items = picked
+        # `published` / `feed` are only used for sorting & diversity; strip before serializing.
+        clean = [{k: v for k, v in it.items() if k not in ("published", "feed")} for it in items]
         columns_out.append({
             "cat": col["cat"],
             "color": col["color"],
-            "items": out_items,
+            "items": clean,
         })
 
     total = sum(len(c["items"]) for c in columns_out)
     if total == 0:
-        print("[warn] no feed data fetched; leaving docs/radar-data.json unchanged.",
+        print("[warn] no items after filtering; leaving docs/radar-data.json unchanged.",
               file=sys.stderr)
         return
 
@@ -376,7 +404,8 @@ def main():
     radar_path = os.path.join(repo, "docs", "radar-data.json")
     with open(radar_path, "w", encoding="utf-8") as f:
         f.write(json_str + "\n")
-    print(f"[ok] wrote {radar_path} ({total} items)")
+    print(f"[ok] wrote {radar_path} ({total} items, "
+          f"{sum(1 for c in columns_out for i in c['items'] if i['verified'])} verified)")
 
     # Keep the offline fallback in index.html in sync.
     html_path = os.path.join(repo, "docs", "index.html")
