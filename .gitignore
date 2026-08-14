@@ -37,3 +37,4 @@ desktop.ini
 .cache/
 .dist/
 tmp/
+__pycache__/

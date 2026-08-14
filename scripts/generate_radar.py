@@ -210,6 +210,7 @@ def main():
             for it in parse_feed(raw):
                 if not it["title"] or not it["link"]:
                     continue
+                it["source"] = name  # remember which feed this item came from
                 cat = categorize(it["title"], it["summary"])
                 collected[cat].append(it)
         except Exception as e:
@@ -229,7 +230,7 @@ def main():
             out_items.append({
                 "title": {"zh": zh_title, "en": en_title},
                 "desc": {"zh": zh_desc, "en": en_desc},
-                "sources": [{"label": f"{name} ↗", "url": it["link"]}],
+                "sources": [{"label": f"{it.get('source', 'Source')} ↗", "url": it["link"]}],
             })
         columns_out.append({
             "cat": col["cat"],

@@ -257,7 +257,7 @@
     font-family: var(--font-mono); font-size: 12px; color: var(--ink-mute); letter-spacing: .04em;
   }
 
-  /* 雷达刷新控件 */
+  /* 雷达控件 */
   .brief-ctrl { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
   .brief-eyebrow {
     font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .18em;
@@ -265,45 +265,9 @@
   }
   .brief-updated { font-family: var(--font-mono); font-size: 11px; color: var(--ink-mute); white-space: nowrap; }
   .brief-updated b { color: var(--ink-soft); font-weight: 500; }
-  .brief-ok {
-    font-family: var(--font-mono); font-size: 11px; color: #2bb673;
-    opacity: 0; transform: translateY(2px); transition: opacity .3s, transform .3s; white-space: nowrap;
-  }
-  .brief-ok.show { opacity: 1; transform: translateY(0); }
-  .refresh-btn {
-    height: 34px; min-width: 34px; padding: 0 13px 0 11px; border-radius: 9px;
-    border: 1px solid var(--line); background: var(--toggle-bg); color: var(--ink-soft);
-    display: inline-flex; align-items: center; gap: 7px; cursor: pointer;
-    font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .04em; transition: all .25s;
-  }
-  .refresh-btn:hover:not(:disabled) { color: var(--ink); border-color: var(--ink-mute); transform: translateY(-1px); }
-  .refresh-btn:disabled { cursor: progress; opacity: .65; }
-  .refresh-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-  .refresh-btn svg { width: 15px; height: 15px; flex: none; }
-  .refresh-btn.spinning svg { animation: rb-spin .8s linear infinite; }
-  @keyframes rb-spin { to { transform: rotate(360deg); } }
-  .brief-error {
-    display: none; align-items: center; gap: 14px; flex-wrap: wrap;
-    margin-top: 18px; padding: 13px 16px; border-radius: 10px;
-    border: 1px solid color-mix(in srgb, #e05656 42%, transparent);
-    background: color-mix(in srgb, #e05656 8%, transparent);
-    font-size: 13px; color: var(--ink-soft);
-  }
-  .brief-error.show { display: flex; }
-  .brief-error .be-msg { flex: 1; min-width: 200px; line-height: 1.5; }
-  .brief-error .be-retry {
-    height: 32px; padding: 0 15px; border-radius: 8px; cursor: pointer;
-    border: 1px solid color-mix(in srgb, #e05656 55%, transparent); background: transparent;
-    color: #e05656; font-family: var(--font-mono); font-size: 12px; transition: background .2s;
-  }
-  .brief-error .be-retry:hover { background: color-mix(in srgb, #e05656 14%, transparent); }
+  .brief-auto { font-family: var(--font-mono); font-size: 11px; color: var(--ink-mute); white-space: nowrap; opacity: .85; }
   @media (max-width: 560px) {
-    .rb-label { display: none; }
-    .refresh-btn { padding: 0; }
     .brief-eyebrow { display: none; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .refresh-btn.spinning svg { animation-duration: 1.4s; }
   }
 
   /* ---------- 对比矩阵 ---------- */
@@ -554,14 +518,7 @@
     <div class="brief-ctrl">
       <span class="brief-eyebrow">Daily Briefing</span>
       <span class="brief-updated"><span data-i18n="brief-updated">上次更新</span> <b id="buTime">—</b></span>
-      <span class="brief-ok" id="briefOk">✓ <span data-i18n="brief-ok">已刷新</span></span>
-      <button class="refresh-btn" id="refreshBtn" type="button" aria-label="刷新供应链雷达">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M21 12a9 9 0 1 1-2.64-6.36"/>
-          <path d="M21 3v6h-6"/>
-        </svg>
-        <span class="rb-label" data-i18n="refresh">刷新</span>
-      </button>
+      <span class="brief-auto" data-i18n="brief-auto">定时自动拉取，无需手动刷新</span>
     </div>
   </div>
   <div class="brief-wrap reveal reveal-d1">
@@ -569,10 +526,6 @@
       <span class="live" data-i18n="brief-live">多源交叉验证 · 附原始出处</span>
     </div>
     <div class="brief-grid" id="briefGrid"><div class="brief-loading">加载雷达数据…</div></div>
-    <div class="brief-error" id="briefError" role="alert">
-      <span class="be-msg" data-i18n="brief-err">刷新失败：无法获取最新雷达数据，请检查网络后重试。</span>
-      <button class="be-retry" id="briefRetry" type="button" data-i18n="brief-retry">重试</button>
-    </div>
   </div>
 </section>
 
@@ -1190,9 +1143,7 @@
     'stat3': 'Institutional data sources (WTO / Drewry / NY Fed…)', 'stat4': 'Current Window',
     'brief-title': 'Today\'s Supply Chain Radar',
     'brief-live': 'Cross-verified · Sources cited',
-    'brief-updated': 'Updated', 'brief-ok': 'Refreshed', 'refresh': 'Refresh',
-    'brief-err': 'Refresh failed: could not fetch the latest radar data. Check your connection and retry.',
-    'brief-retry': 'Retry',
+    'brief-updated': 'Updated', 'brief-auto': 'Auto-pulled on schedule · no manual refresh',
     'brief-date': 'Pulled 2026-08-13 · Rates & policies subject to official updates',
     'cat-news': 'Key News', 'cat-research': 'Research', 'cat-topics': 'Hot Topics', 'cat-apps': 'Apps & Adoption',
     'n1t': 'US slaps 15% tariff on polysilicon & derivatives',
@@ -1307,17 +1258,13 @@
     applyLang(root.lang === 'en' ? 'zh-CN' : 'en');
   });
 
-  /* ================= 今日雷达 · 数据驱动 + 刷新 ================= */
-  // 内置快照作为主数据源，保证单文件 / 离线 / 静态预览下可用；radar-data.json 为托管时的可选覆盖
+  /* ================= 今日雷达 · 数据驱动（定时自动拉取，无手动刷新） ================= */
+  // 内置快照作为主数据源，保证单文件 / 离线 / 静态预览下可用；托管时静默尝试拉取 radar-data.json 覆盖（由定时任务定期生成）
   let radarData = null;
   try { radarData = JSON.parse(document.getElementById('embeddedRadar').textContent); }
   catch (e) { radarData = null; }
   let currentLang = 'zh-CN';
-  let isRefreshing = false;
-  const refreshBtn = document.getElementById('refreshBtn');
   const briefGrid = document.getElementById('briefGrid');
-  const briefError = document.getElementById('briefError');
-  const briefOk = document.getElementById('briefOk');
   const buTime = document.getElementById('buTime');
 
   function fmtTime(iso, lang) {
@@ -1354,40 +1301,22 @@
     syncRadarDate();
   }
 
-  async function fetchRadar() {
-    const res = await fetch('radar-data.json?t=' + Date.now(), { cache: 'no-store' });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    return res.json();
-  }
-
-  async function refreshRadar({ spin = true, ok = true } = {}) {
-    if (isRefreshing) return;
-    isRefreshing = true;
-    briefError.classList.remove('show');
-    if (spin) { refreshBtn.disabled = true; refreshBtn.classList.add('spinning'); }
+  // 托管环境下静默拉取最新 radar-data.json（由定时任务定期生成）；
+  // 拉取失败（离线 / 单文件预览）则保持内置快照，不提示、不报错、无手动刷新按钮。
+  async function loadRadar() {
     try {
-      const data = await fetchRadar();            // 托管环境：尝试拉取外部 JSON 获取更新
-      if (data && Array.isArray(data.columns)) radarData = data;
-    } catch (e) {
-      // 外部 JSON 不可达（单文件预览 / 离线）→ 静默回退到内置快照，不视为失败
-      if (!radarData) briefError.classList.add('show');
-    } finally {
-      renderRadar(currentLang);                    // 无论覆盖成功与否，都用现有数据渲染
-      if (ok && radarData) {
-        briefOk.classList.add('show');
-        setTimeout(() => briefOk.classList.remove('show'), 1800);
+      const res = await fetch('radar-data.json?t=' + Date.now(), { cache: 'no-store' });
+      if (!res.ok) return;
+      const data = await res.json();
+      if (data && Array.isArray(data.columns)) {
+        radarData = data;
+        renderRadar(currentLang);
       }
-      isRefreshing = false;
-      refreshBtn.disabled = false;
-      refreshBtn.classList.remove('spinning');
-    }
+    } catch (e) { /* 静默回退到内置快照 */ }
   }
-
-  refreshBtn.addEventListener('click', () => refreshRadar());
-  document.getElementById('briefRetry').addEventListener('click', () => refreshRadar());
 
   applyLang(localStorage.getItem('sc-lang') || 'zh-CN');
-  refreshRadar({ spin: false, ok: false });
+  loadRadar();
 
   /* ================= 导航滚动态 ================= */
   const nav = document.getElementById('nav');
