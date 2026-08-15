@@ -246,19 +246,46 @@
   .brief-item:first-of-type { border-top: none; padding-top: 0; }
   .brief-item h4 { font-size: 13.8px; font-weight: 600; line-height: 1.5; margin-bottom: 6px; color: var(--ink); }
   .brief-item p { font-size: 12.6px; color: var(--ink-soft); line-height: 1.65; margin-bottom: 8px; }
-  .brief-src { display: flex; flex-wrap: wrap; gap: 4px 10px; }
+  .brief-src { display: flex; flex-wrap: wrap; gap: 2px 6px; }
   .brief-src a {
     font-family: var(--font-mono); font-size: 10.5px; color: var(--accent);
     text-decoration: none; letter-spacing: .02em; border-bottom: 1px solid transparent; transition: border-color .2s;
   }
   .brief-src a:hover { border-bottom-color: var(--accent); }
-  .brief-verified {
-    display: inline-flex; align-items: center; gap: 4px; margin: 0 0 7px;
-    padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600;
-    color: #0a7d4b; background: rgba(16,185,129,.12);
-    border: 1px solid rgba(16,185,129,.35);
+
+  /* 关键字 tag - 灰色小字，用 · 连接，无底色无描边 */
+  .brief-tags {
+    margin: 0 0 7px; font-family: var(--font-mono);
+    font-size: 10.5px; letter-spacing: .04em; color: var(--ink-mute); line-height: 1.6;
   }
-  .brief-verified::before { content: "✓"; font-weight: 700; }
+  .brief-tag { color: var(--ink-mute); }
+  /* 折叠详情 - 无描边无底色的纯文字触发（来源链接移入折叠框内） */
+  .brief-detail { margin: 0 0 7px; }
+  .brief-detail summary {
+    list-style: none; cursor: pointer; user-select: none;
+    display: inline-flex; align-items: center; gap: 5px;
+    font-family: var(--font-mono); font-size: 11px; font-weight: 400; letter-spacing: .05em;
+    color: var(--accent);
+    padding: 2px 0; border: none; border-radius: 0; background: transparent;
+    transition: color .15s ease;
+  }
+  .brief-detail summary::-webkit-details-marker { display: none; }
+  .brief-detail summary::after { content: "▾"; transition: transform .2s; font-size: 9px; margin-left: 1px; }
+  .brief-detail[open] summary::after { transform: rotate(180deg); }
+  .brief-detail summary:hover,
+  .brief-detail summary:active { color: var(--accent-deep); }
+  /* 折叠面板内容区：描述+来源共享同一块暖色底板 */
+  .brief-detail-body {
+    margin-top: 7px; padding: 8px 10px; background: var(--paper-warm);
+    border-left: 2px solid var(--line-soft); border-radius: 0 8px 8px 0;
+  }
+  .brief-detail-body > p {
+    font-size: 11.6px; color: var(--ink-soft); line-height: 1.65;
+    margin: 0 0 8px;
+  }
+  .brief-detail-body > p:last-child { margin-bottom: 0; }
+  .brief-detail-body > .brief-src { margin-top: 8px; padding-top: 7px; border-top: 1px solid var(--line-soft); }
+  .brief-detail-body > .brief-src:first-child { margin-top: 0; padding-top: 0; border-top: none; }
   .brief-loading {
     grid-column: 1 / -1; padding: 40px 0; text-align: center;
     font-family: var(--font-mono); font-size: 12px; color: var(--ink-mute); letter-spacing: .04em;
@@ -382,8 +409,8 @@
   .app-left ul { list-style: none; margin-bottom: 26px; }
   .app-left ul li { color: var(--app-soft); font-size: 13.5px; padding-left: 18px; position: relative; margin-bottom: 8px; }
   .app-left ul li::before { content: ""; position: absolute; left: 2px; top: 9px; width: 6px; height: 1.5px; background: var(--teal); }
-  .app-left .btn-primary { background: var(--teal); color: #062a26; }
-  html[data-theme="dark"] .app-left .btn-primary { color: #05231f; }
+  .app-left .btn-primary { background: var(--teal); color: #fff; }
+  html[data-theme="dark"] .app-left .btn-primary { color: #fff; }
   .app-left .btn-primary:hover { filter: brightness(1.12); box-shadow: 0 6px 16px -6px rgba(45,212,176,.5); }
   .app-left .btn-ghost { border-color: var(--app-border); color: var(--app-soft); }
   .app-left .btn-ghost:hover { border-color: var(--app-ink); color: var(--app-ink); }
@@ -886,7 +913,7 @@
 <!-- 内置雷达数据快照：保证单文件 / 离线 / 静态预览下也能渲染。radar-data.json 仅作为托管时的可选覆盖源 -->
 <script id="embeddedRadar" type="application/json">
 {
-  "updatedAt": "2026-08-15T22:10:00+08:00",
+  "updatedAt": "2026-08-15T22:53:57.836412+08:00",
   "columns": [
     {
       "cat": {
@@ -922,7 +949,19 @@
               "url": "https://www.thedcn.com.au/news/world-container-index-13-august-2026"
             }
           ],
-          "verified": true
+          "verified": true,
+          "tags": {
+            "zh": [
+              "巴拿马运河",
+              "吃水 48.5ft",
+              "竞拍纪录"
+            ],
+            "en": [
+              "Panama Canal",
+              "48.5ft draft",
+              "record auction"
+            ]
+          }
         },
         {
           "title": {
@@ -947,7 +986,19 @@
               "url": "https://www.chwang.com/article/208273593336"
             }
           ],
-          "verified": true
+          "verified": true,
+          "tags": {
+            "zh": [
+              "无人机关税",
+              "9/3 生效",
+              "国家安全"
+            ],
+            "en": [
+              "Drone tariff",
+              "effective Sep 3",
+              "security"
+            ]
+          }
         },
         {
           "title": {
@@ -976,7 +1027,19 @@
               "url": "https://www.eadaily.info/en/ampnews/2026/07/26/german-battery-manufacturer-varta-ag-declared-bankruptcy"
             }
           ],
-          "verified": true
+          "verified": true,
+          "tags": {
+            "zh": [
+              "VARTA",
+              "苹果 AirPods",
+              "欧洲电池"
+            ],
+            "en": [
+              "VARTA",
+              "Apple AirPods",
+              "EU battery"
+            ]
+          }
         }
       ]
     },
@@ -1010,28 +1073,97 @@
               "url": "https://www.163.com/dy/article/L3OBHNGI0519DDQ2.html"
             }
           ],
-          "verified": true
+          "verified": true,
+          "tags": {
+            "zh": [
+              "WCI 指数",
+              "跨太平洋",
+              "运价周报"
+            ],
+            "en": [
+              "WCI",
+              "Transpacific",
+              "weekly rates"
+            ]
+          }
         },
         {
           "title": {
-            "zh": "Xeneta：自 2 月底中东战事以来，远东—美西/美东/北欧长期合约运价 +41%/+40%/+41%",
-            "en": "Xeneta: long-term FE→USWC/USEC/N. Europe contract rates +41%/+40%/+41% since end-Feb"
+            "zh": "华强北 AI 硬件出口爆发：1-7月销售额 +55%，AI 产品占商圈比重 41%→61%",
+            "en": "Huaqiangbei AI hardware exports surge: Jan-Jul sales +55%, AI share of the district 41%→61%"
           },
           "desc": {
-            "zh": "Xeneta 首席分析师 Peter Sand 指出，近半年中东战事溢出已蔓延至长期合约市场：自 2 月底以来，远东—美西长期合约 +41%（$2,028→$2,854/FEU）、远东—美东 +40%（$3,091→$4,321）、远东—北欧 +41%（$1,913→$2,690）、远东—地中海 +17%（$2,250→$2,629）、北欧—美东 +53%。同期即期市场：远东—美西 +271%、美东 +287%、北欧 +121%、地中海 +76%。承运人在两个市场均掌握话语权，建议进口商避免签订一年期长协，而采用季度合约并嵌入调整机制。",
-            "en": "Xeneta chief analyst Peter Sand says the ~half-year Middle East shock has spread into long-term contracts: since end-Feb, FE→USWC long-term +41% ($2,028→$2,854/FEU), FE→USEC +40% ($3,091→$4,321), FE→N. Europe +41% ($1,913→$2,690), FE→Med +17% ($2,250→$2,629), N.Europe→USEC +53%. Same-period spot: FE→USWC +271%, USEC +287%, N. Europe +121%, Med +76%. Carriers now hold the upper hand in both markets — importers should avoid 1-year deals and use quarterly contracts with adjustment clauses."
+            "zh": "华强北街道：日均 8,000 名外籍客商采购；AI 产品占商圈内电子产品比重由 2025 年 41% 大幅跃升至 61%；1-7 月 AI 产品全品类销售额同比增长 55% 以上（AI 眼镜销量 +100%、无人机/机器人 +60–70%）。深圳海关：上半年高新技术产品进出口 1.7 万亿元（全国第一），AI 相关产品进出口额突破万亿、增速超 50%。欧盟 7/14 豁免可穿戴设备可拆卸电池强制要求，进一步降低成本。「一公里产业链」100+ 元器件 1 天配齐、1 周出样，AI 产品出口覆盖全球 190+ 国家和地区。",
+            "en": "Huaqiangbei Subdistrict: ~8,000 foreign buyers daily; AI products' share of district electronics jumped from 41% (2025) to 61% (Jul 2026); Jan-Jul AI product sales up 55%+ YoY (AI glasses +100%, drones/robots +60-70%). Shenzhen Customs: H1 high-tech product import/export reached CNY 1.7T (national #1), with AI-related products exceeding CNY 1T and growing >50%. The EU's Jul 14 exemption on detachable-battery requirements for wearables further cut costs. The 'one-kilometer supply chain' can source 100+ components in a day and produce samples in a week; AI products now ship to 190+ countries and territories."
           },
           "sources": [
             {
-              "label": "Hellenic Shipping / Xeneta (8/12) ↗",
-              "url": "https://www.hellenicshippingnews.com/xeneta-weekly-ocean-container-shipping-market-update-8"
+              "label": "凤凰网 / 央视网 (8/14) ↗",
+              "url": "https://news.ifeng.com/c/8vaQhvpEgi8"
             },
             {
-              "label": "IndexBox / Xeneta (8/6) ↗",
-              "url": "https://www.indexbox.io/blog/ocean-container-spot-rates-diverge-us-west-coast-up-14-asia-europe-down-5"
+              "label": "今日头条 / 深圳新闻广播 (8/7) ↗",
+              "url": "https://www.toutiao.com/article/7671176658660983346/"
+            },
+            {
+              "label": "网易 (8/15) ↗",
+              "url": "https://c.m.163.com/news/a/L3L7FCLO0514R9KQ.html"
+            },
+            {
+              "label": "山西日报 / 新华社 (8/13-14) ↗",
+              "url": "https://www.sxrb.com/content/202608/14/c226989.html"
             }
           ],
-          "verified": true
+          "verified": true,
+          "tags": {
+            "zh": [
+              "华强北",
+              "AI 硬件出口",
+              "一公里产业链"
+            ],
+            "en": [
+              "Huaqiangbei",
+              "AI exports",
+              "1-km supply chain"
+            ]
+          }
+        },
+        {
+          "title": {
+            "zh": "国家邮政局：1-7月寄递量 +4.2%、日均 5.5 亿件，快递业从「末端配送」向「前端供应链」延伸",
+            "en": "State Post Bureau: Jan-Jul delivery volume +4.2%, daily ~550M parcels; express sector extends from last-mile to upstream supply chain"
+          },
+          "desc": {
+            "zh": "国家邮政局 8/15：1-7 月邮政行业寄递业务量累计完成 1,274.4 亿件（+4.2%），业务收入（不含储蓄银行直接营业收入）累计完成 10,799.1 亿元（+6.1%），双增长。快递业加速从「末端配送」向「前端供应链」延伸，以数智物流创新赋能特色产业。沈阳案例：快递企业与汽车零部件厂驻场合作，配送时效从「按天计」提升至「按小时计」，高峰时段整车直发。国家邮政局发展研究中心王岳含：日均业务量约 5.5 亿件，通过定制化、精细化服务满足多元消费需求。",
+            "en": "State Post Bureau Aug 15: Jan-Jul postal delivery volume reached 127.44B parcels (+4.2%), revenue (excl. postal savings bank direct ops) CNY 1,079.91B (+6.1%) — double-digit growth on both counts. The express sector is accelerating its shift from last-mile delivery toward upstream supply chain services, using digital-smart logistics to empower specialized industries. In Shenyang, courier firms run on-site partnerships with auto-parts makers, upgrading delivery from 'by the day' to 'by the hour' with full-truck direct dispatch at peak. Wang Yuehan (State Post Bureau Development Research Center): daily volume ~550M parcels, with customized, refined services meeting diverse consumer demand."
+          },
+          "sources": [
+            {
+              "label": "央视网 / 国家邮政局 (8/15) ↗",
+              "url": "https://news.cctv.cn/2026/08/15/ARTIUXKZHLblS9pY9b397YG6260815.shtml"
+            },
+            {
+              "label": "微博 / 国家邮政局 (8/15) ↗",
+              "url": "https://weibo.com/5477333519/5332293159485708"
+            },
+            {
+              "label": "央视网繁体 (8/15) ↗",
+              "url": "https://big5.cctv.com/gate/big5/news.cctv.cn/2026/08/15/ARTIUXKZHLblS9pY9b397YG6260815.shtml"
+            }
+          ],
+          "verified": true,
+          "tags": {
+            "zh": [
+              "国家邮政局",
+              "寄递量 +4.2%",
+              "前端供应链"
+            ],
+            "en": [
+              "Post bureau",
+              "+4.2% volume",
+              "upstream supply chain"
+            ]
+          }
         }
       ]
     },
@@ -1065,7 +1197,19 @@
               "url": "https://www.5684.com/news/article/24950.html"
             }
           ],
-          "verified": true
+          "verified": true,
+          "tags": {
+            "zh": [
+              "霍尔木兹",
+              "通航量 1/10",
+              "地缘风险"
+            ],
+            "en": [
+              "Hormuz",
+              "10% transits",
+              "geopolitics"
+            ]
+          }
         },
         {
           "title": {
@@ -1094,7 +1238,19 @@
               "url": "http://www.chwang.cn/daily"
             }
           ],
-          "verified": true
+          "verified": true,
+          "tags": {
+            "zh": [
+              "班轮附加费",
+              "ONE 8/15",
+              "MSC 8/19"
+            ],
+            "en": [
+              "Carrier surcharges",
+              "ONE Aug 15",
+              "MSC Aug 19"
+            ]
+          }
         },
         {
           "title": {
@@ -1123,7 +1279,19 @@
               "url": "https://www.chwang.com/article/208273593336"
             }
           ],
-          "verified": true
+          "verified": true,
+          "tags": {
+            "zh": [
+              "新能源重卡",
+              "销量 +78.6%",
+              "绿色物流"
+            ],
+            "en": [
+              "NEV trucks",
+              "+78.6% sales",
+              "green logistics"
+            ]
+          }
         }
       ]
     },
@@ -1157,7 +1325,19 @@
               "url": "https://www.cet.com.cn/wzsy/kjzx/10502519.shtml"
             }
           ],
-          "verified": true
+          "verified": true,
+          "tags": {
+            "zh": [
+              "供应链 AI",
+              "具身机器人",
+              "Kinaxis/IDC"
+            ],
+            "en": [
+              "Supply-chain AI",
+              "embodied robots",
+              "Kinaxis/IDC"
+            ]
+          }
         },
         {
           "title": {
@@ -1186,7 +1366,19 @@
               "url": "https://bernama.com/tv/news.php?id=2590039"
             }
           ],
-          "verified": true
+          "verified": true,
+          "tags": {
+            "zh": [
+              "MG Ship",
+              "多式联运",
+              "ETA 99%"
+            ],
+            "en": [
+              "MG Ship",
+              "multimodal",
+              "99% ETA"
+            ]
+          }
         }
       ]
     }
@@ -1374,11 +1566,17 @@
         const src = (it.sources || []).map(s =>
           `<a href="${s.url}" target="_blank" rel="noopener">${s.label}</a>`).join(' · ');
         const desc = it.desc[lk];
-        const descHtml = (desc && desc !== it.title[lk]) ? `<p>${desc}</p>` : '';
-        const badge = it.verified
-          ? `<span class="brief-verified" title="Cross-verified by multiple independent sources">${lk === 'en' ? 'Verified' : '已验证'}</span>`
+        const tags = ((it.tags && it.tags[lk]) || []).map(t => `<span class="brief-tag">${t}</span>`).join(' · ');
+        const tagsHtml = tags ? `<div class="brief-tags">${tags}</div>` : '';
+        const moreLabel = lk === 'en' ? 'Details' : '详情';
+        const descPara = (desc && desc !== it.title[lk]) ? `<p>${desc}</p>` : '';
+        const srcHtml = (it.sources && it.sources.length) ? `<div class="brief-src">${src}</div>` : '';
+        const bodyHtml = (descPara || srcHtml) ? `<div class="brief-detail-body">${descPara}${srcHtml}</div>` : '';
+        const hasDetail = bodyHtml;
+        const descHtml = hasDetail
+          ? `<details class="brief-detail"><summary>${moreLabel}</summary>${bodyHtml}</details>`
           : '';
-        return `<div class="brief-item">${badge}<h4>${it.title[lk]}</h4>${descHtml}<div class="brief-src">${src}</div></div>`;
+        return `<div class="brief-item"><h4>${it.title[lk]}</h4>${tagsHtml}${descHtml}</div>`;
       }).join('');
       html += `<div class="brief-col" style="--cat:${col.color}"><div class="brief-cat">${col.cat[lk]}</div>${items}</div>`;
     });
