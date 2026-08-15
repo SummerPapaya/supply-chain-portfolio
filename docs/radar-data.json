@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-15T04:32:12.507233+08:00",
+  "updatedAt": "2026-08-15T22:10:00+08:00",
   "columns": [
     {
       "cat": {
@@ -10,42 +10,83 @@
       "items": [
         {
           "title": {
-            "zh": "美国对多晶硅及衍生品加征 15% 关税",
-            "en": "US slaps 15% tariff on polysilicon & derivatives"
+            "zh": "巴拿马运河临时竞拍价创纪录；8.15 起吃水降至 48.5 英尺",
+            "en": "Panama Canal auction slots hit records; max draft cut to 48.5 ft from Aug 15"
           },
           "desc": {
-            "zh": "8 月 6 日总统公告：多晶硅最低进口价 $21/kg、晶锭晶圆 $100/kg，衍生品加征 15% 从价税，12 月 4 日生效；配套「回流美国」建厂激励，剑指半导体与光伏供应链。",
-            "en": "Aug 6 presidential proclamation: a $21/kg minimum import price on polysilicon and $100/kg on ingots/wafers, plus a 15% ad valorem tariff on derivatives, effective Dec 4; paired with “reshore America” factory incentives, targeting the semiconductor and solar supply chains."
+            "zh": "8 月 11 日前后一艘集装箱船在巴拿马运河临时竞拍中以约 400 万美元成交；8 月常规船闸日均竞拍均价升至约 110 万美元，是去年同期的 16 倍以上。8 月 15 日起运河吃水深度进一步降至 48.5 英尺，马士基、赫伯罗特、ONE 等已陆续加征运河与旺季附加费。需求端受中东地缘风险与霍尔木兹通航不稳推升，近三成运河货运现需通过竞拍争抢通行名额。",
+            "en": "Around Aug 11 a containership paid a record ~$4M in a Panama Canal auction slot; August's daily average auction price for conventional locks has climbed to ~$1.1M, over 16x the year-ago level. Effective Aug 15, the canal's max draft drops further to 48.5 ft, with Maersk, Hapag-Lloyd and ONE adding canal and peak surcharges. Geopolitical risk in the Middle East and unstable Hormuz transits are pushing operators to pay up for certainty — nearly 30% of canal cargo now moves via auctioned slots."
           },
           "sources": [
             {
-              "label": "CGTN ↗",
-              "url": "https://news.cgtn.com/news/2026-08-07/US-to-impose-15-tariff-on-polysilicon-imports-1PptIOcpbLW/p.html"
+              "label": "今日头条 (8/15) ↗",
+              "url": "https://www.toutiao.com/article/7674074633200501300/"
             },
             {
-              "label": "dpa ↗",
-              "url": "https://new.mia.mk/al/story/us-announces-tariffs-on-material-used-in-solar-panels-and-chips1jN"
+              "label": "出海网政策盘点 (8月) ↗",
+              "url": "https://www.chwang.com/article/208273593336"
+            },
+            {
+              "label": "Flexport GLU (8/13) ↗",
+              "url": "https://www.flexport.com/global-logistics-update/august-13-2026-GLU-Newsletter"
+            },
+            {
+              "label": "The DCN / Drewry (8/13) ↗",
+              "url": "https://www.thedcn.com.au/news/world-container-index-13-august-2026"
             }
           ],
           "verified": true
         },
         {
           "title": {
-            "zh": "红海回升但未正常化，运价高位震荡",
-            "en": "Red Sea recovering, not normalized; rates stay high"
+            "zh": "美国对进口无人机及零部件开征 10%–100% 关税，9 月 3 日生效",
+            "en": "US imposes 10–100% tariff on imported drones and components, effective Sept 3"
           },
           "desc": {
-            "zh": "Drewry WCI 8 月 6 日报 $4,297/40ft（+1%，止跌回升），7 月峰值 $4,639 为 2024 年 9 月以来最高；霍尔木兹仍基本关闭主流箱运，好望角继续承担亚欧主运力，航程 +10–14 天。",
-            "en": "Drewry WCI on Aug 6 read $4,297/40ft (+1%, halting the decline); July’s $4,639 peak was the highest since Sep 2024. Hormuz remains largely closed to mainstream container shipping, the Cape of Good Hope still carries the Asia–Europe mainlane, adding 10–14 days to transit."
+            "zh": "8 月 13 日特朗普签署公告，以国家安全为由对进口无人机及零部件开征 10%–100% 从价关税：>25kg 且具备热成像等高度敏感的整机、停靠站及关键组件税率 100%；较小且非特定功能整机及组件 25%；来自欧盟、日本、韩国、瑞士、列支敦士登及中国台湾地区上限 15%；英国上限 10%（须证明关键部件源自美及上述地区）。整体关税自签署 21 天后即 2026 年 9 月 3 日生效，非高度敏感组件延至 180 天后实施，公告同时授权美商务部长建立无人机制造回流激励程序。",
+            "en": "On Aug 13, President Trump signed a proclamation citing national security to impose 10–100% ad valorem tariffs on imported drones and components: highly sensitive units (>25 kg with thermal imaging etc.) and stations/key parts at 100%; smaller non-sensitive units and parts at 25%; imports from the EU, Japan, South Korea, Switzerland, Liechtenstein and Taiwan capped at 15%; UK at 10% (subject to proof of US-aligned origin). Duties take effect Sept 3 (21 days after signing); non-sensitive components are phased in 180 days later. The order also authorizes a Commerce-led reshoring incentive program."
           },
           "sources": [
             {
-              "label": "Drewry / SeaPrince ↗",
-              "url": "https://seaprince.ae/blog/rising-pressure-on-red-sea-transit-5/red-sea-shipping-in-2026-what-the-suez-canal-recovery-really-means-for-your-cargo-30"
+              "label": "出海网早报 (8/15) ↗",
+              "url": "http://www.chwang.cn/daily"
             },
             {
-              "label": "CargoLinked ↗",
-              "url": "https://cargolinked.com/blog/global-freight-market-update-august-2026"
+              "label": "网易「关税重定义全球化」(8/15) ↗",
+              "url": "https://www.163.com/dy/article/L474HTR5054605GN.html"
+            },
+            {
+              "label": "出海网政策大盘点 (8月) ↗",
+              "url": "https://www.chwang.com/article/208273593336"
+            }
+          ],
+          "verified": true
+        },
+        {
+          "title": {
+            "zh": "德国电池巨头 VARTA 破产：苹果 AirPods 电池订单转向中国，欧洲电池制造业结构性困境凸显",
+            "en": "German battery giant VARTA files insolvency; Apple shifts AirPods cells to China"
+          },
+          "desc": {
+            "zh": "7 月底拥有 139 年历史的 VARTA 因失去苹果订单进入自主管理破产程序：苹果 2026 年 5 月决定 AirPods CoinPower 电池转向中国供应商（亿纬锂能/欣旺达报价 $1.5–$2/颗，对 VARTA 的 $4–$5），现有合同 10 月到期不续。保时捷与大股东 Michael Tojner 拒绝追加注资；诺德林根约 350 人的工厂 2026 年秋关闭。欧洲电池企业普遍存在客户高度集中、产能偏小、面对亚洲供应链价格劣势的结构性问题——Britishvolt、Northvolt 等接连倒下。",
+            "en": "139-year-old VARTA entered self-administered insolvency at end-July after losing Apple: Apple decided in May 2026 to shift AirPods CoinPower cell sourcing to Chinese suppliers (EVE Energy/Sunwoda at $1.5–2/unit vs. VARTA's $4–5), with the existing contract ending Oct 2026 non-renewed. Porsche and major shareholder Michael Tojner refused further capital; the ~350-employee Nördlingen plant will close in autumn 2026. The case exposes structural European battery-industry weaknesses — concentrated customers, sub-scale capacity, price disadvantage vs. Asian supply chains — following Britishvolt, Northvolt and others."
+          },
+          "sources": [
+            {
+              "label": "网易 / 环球时报 (8/11) ↗",
+              "url": "https://dy.163.com/article/L41H8D5P0514R9OJ.html"
+            },
+            {
+              "label": "今日头条 (7/30) ↗",
+              "url": "https://www.toutiao.com/article/7668241107515359771/"
+            },
+            {
+              "label": "搜狐 (近期) ↗",
+              "url": "https://www.sohu.com/a/1062848074_121794680"
+            },
+            {
+              "label": "EADaily (7/26) ↗",
+              "url": "https://www.eadaily.info/en/ampnews/2026/07/26/german-battery-manufacturer-varta-ag-declared-bankruptcy"
             }
           ],
           "verified": true
@@ -61,41 +102,49 @@
       "items": [
         {
           "title": {
-            "zh": "Gartner 2026 供应链八大技术趋势",
-            "en": "Gartner: 8 supply-chain tech trends for 2026"
+            "zh": "Drewry WCI 升至 $4,339/FEU（+1%），跨太平洋航线领涨",
+            "en": "Drewry WCI rises to $4,339/FEU (+1%), led by Transpacific"
           },
           "desc": {
-            "zh": "3 月报告 + 6 月简报：围绕「自主性与能动性 / 专业化与智能化 / 信任与治理」三大主题，Agentic AI、协作多智能体系统、决策治理等入选，AI 驱动的超互联被列为重塑供应链的主线。",
-            "en": "March report + June brief: organized around three themes — Autonomy & Agency / Specialization & Intelligence / Trust & Governance — with Agentic AI, collaborative multi-agent systems, and decision governance selected; AI-driven hyperconnectivity is named the through-line reshaping supply chains."
+            "zh": "德鲁里 8 月 13 日数据显示 WCI 周环比上涨 1% 至 $4,339/40ft，跨太平洋航线拉动：上海—纽约 +10% 至 $8,706/FEU、上海—洛杉矶 +6% 至 $6,244/FEU；运力端本周取消 10 个航次、下周计划再取消 7 个。亚欧航线则小幅回落：上海—热那亚 −8% 至 $5,080、上海—鹿特丹 −5% 至 $4,425。承运人维持运力管理，预期下周运价趋稳。报告同时提示：9 月巴拿马运河水位预计再降，部分承运人已公布 9 月生效的巴拿马附加费，将进一步约束美东/墨湾舱位。",
+            "en": "Drewry's Aug 13 WCI rose 1% w/w to $4,339/40 ft, led by Transpacific: Shanghai–New York +10% to $8,706/FEU, Shanghai–LA +6% to $6,244/FEU; carriers blanked 10 sailings this week and plan 7 more next week. Asia–Europe softened: Shanghai–Genoa −8% to $5,080, Shanghai–Rotterdam −5% to $4,425. Capacity stays managed and rates are expected steady next week. The report also flags Panama Canal water levels set to drop again in September, with carriers announcing Sept-effective canal surcharges that will further constrain USEC/Gulf space."
           },
           "sources": [
             {
-              "label": "罗戈网 ↗",
-              "url": "https://logclub.com/articleInfo/ODUwNDA="
+              "label": "The DCN / Drewry (8/13) ↗",
+              "url": "https://www.thedcn.com.au/news/world-container-index-13-august-2026"
             },
             {
-              "label": "The Agent Times ↗",
-              "url": "https://theagenttimes.com/articles/gartner-names-eight-supply-chain-technology-trends-centered--5ae4c210"
+              "label": "KVN Logistics (8/7) ↗",
+              "url": "https://kvnlogistics.vn/logistics-market-update-august-2026/"
+            },
+            {
+              "label": "第一财经 / C.H. Robinson (8/7) ↗",
+              "url": "https://www.163.com/dy/article/L3OBHNGI0519DDQ2.html"
             }
           ],
           "verified": true
         },
         {
           "title": {
-            "zh": "MHI 2026 年度行业报告：人才与 AI 并进",
-            "en": "MHI 2026 Annual Report: talent meets AI"
+            "zh": "Xeneta：自 2 月底中东战事以来，远东—美西/美东/北欧长期合约运价 +41%/+40%/+41%",
+            "en": "Xeneta: long-term FE→USWC/USEC/N. Europe contract rates +41%/+40%/+41% since end-Feb"
           },
           "desc": {
-            "zh": "MODEX 发布：58% 供应链领袖将人才列为首要挑战（去年 50%）；48% 认为 AI 是重大 / 变革性颠覆（同比 +25pp）；要求 AI 实施技能的岗位发布量激增 245%，成为全球最紧缺技能。",
-            "en": "Released at MODEX: 58% of supply-chain leaders name talent their top challenge (up from 50%); 48% see AI as a significant/transformative disruption (+25pp YoY); postings requiring AI implementation skills surged 245%, the world’s most in-demand skill."
+            "zh": "Xeneta 首席分析师 Peter Sand 指出，近半年中东战事溢出已蔓延至长期合约市场：自 2 月底以来，远东—美西长期合约 +41%（$2,028→$2,854/FEU）、远东—美东 +40%（$3,091→$4,321）、远东—北欧 +41%（$1,913→$2,690）、远东—地中海 +17%（$2,250→$2,629）、北欧—美东 +53%。同期即期市场：远东—美西 +271%、美东 +287%、北欧 +121%、地中海 +76%。承运人在两个市场均掌握话语权，建议进口商避免签订一年期长协，而采用季度合约并嵌入调整机制。",
+            "en": "Xeneta chief analyst Peter Sand says the ~half-year Middle East shock has spread into long-term contracts: since end-Feb, FE→USWC long-term +41% ($2,028→$2,854/FEU), FE→USEC +40% ($3,091→$4,321), FE→N. Europe +41% ($1,913→$2,690), FE→Med +17% ($2,250→$2,629), N.Europe→USEC +53%. Same-period spot: FE→USWC +271%, USEC +287%, N. Europe +121%, Med +76%. Carriers now hold the upper hand in both markets — importers should avoid 1-year deals and use quarterly contracts with adjustment clauses."
           },
           "sources": [
             {
-              "label": "MHI Blog ↗",
-              "url": "https://mhiblog.org/the-ai%E2%80%91empowered-workforce"
+              "label": "Hellenic Shipping / Xeneta (8/12) ↗",
+              "url": "https://www.hellenicshippingnews.com/xeneta-weekly-ocean-container-shipping-market-update-8"
+            },
+            {
+              "label": "IndexBox / Xeneta (8/6) ↗",
+              "url": "https://www.indexbox.io/blog/ocean-container-spot-rates-diverge-us-west-coast-up-14-asia-europe-down-5"
             }
           ],
-          "verified": false
+          "verified": true
         }
       ]
     },
@@ -108,37 +157,86 @@
       "items": [
         {
           "title": {
-            "zh": "Agentic AI 落地卡在「集成」而非「模型」",
-            "en": "Agentic AI stalls on integration, not models"
+            "zh": "霍尔木兹海峡日均通行降至战前约十分之一，结构性冲击蔓延",
+            "en": "Hormuz daily transits fall to ~10% of pre-war; shock now structural"
           },
           "desc": {
-            "zh": "Gartner 2026 调查：56% 的 CSCO 认为与遗留系统集成是规模化 AI 的首要障碍，仅 23% 组织有正式 AI 战略；行业同时警惕厂商把规则自动化包装成智能体的「agent washing」。",
-            "en": "Gartner 2026 survey: 56% of CSCOs see legacy-system integration as the top barrier to scaling AI, only 23% of organizations have a formal AI strategy; the industry also warns against vendors “agent-washing” rule-based automation as agents."
+            "zh": "Xeneta 数据显示霍尔木兹海峡日集装箱船通行量自 7 月中旬以来稳定在十几艘左右，约为战前水平的十分之一；日通行区间 0–2 艘。马士基对通过霍尔木兹海峡的船舶加收 $1,000/箱附加费；达飞 EFS $75–$165/TEU 自 8/1 生效；ONE EFS $38–$100/TEU 自今日（8/15）生效。8 月 12 日美、伊、阿曼三方据报正推进 60 天临时通航方案（分道通行、免收通行费），但航道管辖权与细则仍存分歧，尚无约束性文件落地。",
+            "en": "Xeneta reports Hormuz container-ship daily transits have been stuck in the teens since mid-July — roughly 10% of pre-war levels — with daily counts of 0–2 vessels. Maersk is charging $1,000/box for Hormuz transits; CMA CGG EFS $75–$165/TEU from Aug 1; ONE EFS $38–$100/TEU effective today (Aug 15). A US–Iran–Oman 60-day interim transit scheme (lane separation, no transit fee) was reported Aug 12, but disputes over corridor control and rules remain unresolved."
           },
           "sources": [
             {
-              "label": "Oraczen × Gartner ↗",
-              "url": "https://www.oraczen.ai/research/insights/agentic-supply-chain-platform"
+              "label": "IndexBox / Xeneta (8/6) ↗",
+              "url": "https://www.indexbox.io/blog/ocean-container-spot-rates-diverge-us-west-coast-up-14-asia-europe-down-5"
+            },
+            {
+              "label": "班轮公司附加费汇总 ↗",
+              "url": "https://gu.qq.com/resources/shy/news/detail-v2/index.html?t=1#/index?_tentrees_trans=0&id=SN2026072416423794b77cb6"
+            },
+            {
+              "label": "5684 亚欧线 (8月) ↗",
+              "url": "https://www.5684.com/news/article/24950.html"
             }
           ],
-          "verified": false
+          "verified": true
         },
         {
           "title": {
-            "zh": "泰国暂缓 298 亿美元「陆桥」计划",
-            "en": "Thailand shelves $29.8B Land Bridge megaproject"
+            "zh": "8 月班轮公司密集加征附加费：ONE EFS 今日起、MSC PCS 8/19 生效",
+            "en": "Carriers stack August surcharges: ONE EFS today; MSC PCS Aug 19"
           },
           "desc": {
-            "zh": "泰国政府正式暂缓总投资近 1 万亿泰铢的陆桥项目，研究委员会指全球贸易环境变化加大收益风险，转向升级南部物流枢纽建设。",
-            "en": "The Thai government formally shelved the ~¥1 trillion baht ($29.8B) Land Bridge project; its study committee cited rising return-risk from shifting global trade conditions, pivoting to upgrading southern logistics hubs."
+            "zh": "多家头部班轮公司 8 月密集调整附加费：ONE 紧急燃油附加费（EFS）自 2026 年 8 月 15 日起对所有远洋干线及区域内支线征 $38–$100/TEU；达飞 EFS 自 8 月 1 日起征 $75–$165/TEU；MSC 自 8 月 19 日起对东南亚、中国、韩国、日本起运至美国东海岸、墨湾的货物征巴拿马运河附加费（PCS）$100/TEU；马士基对通过霍尔木兹海峡的船舶征 $1,000/箱。叠加 MSC 8/15 起生效的远东—欧洲新 FAK 费率（北欧 $5,100/$7,800，西地中海 $4,900/$6,700），全包成本压力继续向货主传导。",
+            "en": "Major liners stacked August surcharges: ONE EFS at $38–$100/TEU effective today (Aug 15) on all deep-sea and intra-regional trades; CMA CGG EFS $75–$165/TEU from Aug 1; MSC Panama Canal Surcharge $100/TEU from Aug 19 for cargo from SE Asia, China, Korea and Japan to the US East Coast and Gulf; Maersk at $1,000/box for Hormuz transits. Combined with MSC's new Far East→Europe FAK rates effective Aug 15 (N. Europe $5,100/$7,800, W. Med $4,900/$6,700), all-in cost pressure continues to pass through to cargo owners."
           },
           "sources": [
             {
-              "label": "宁波贸促会 × Thansettakij ↗",
-              "url": "http://www.ccpitnb.org/art/2026/8/12/art_5590_638840.html"
+              "label": "班轮公司附加费汇总 ↗",
+              "url": "https://gu.qq.com/resources/shy/news/detail-v2/index.html?t=1#/index?_tentrees_trans=0&id=SN2026072416423794b77cb6"
+            },
+            {
+              "label": "5684 亚欧线 (8月) ↗",
+              "url": "https://www.5684.com/news/article/24950.html"
+            },
+            {
+              "label": "MSC Far East–Europe FAK (8/15) ↗",
+              "url": "https://seasnews.net/msc-announces-new-far-east-europe-freight-rates"
+            },
+            {
+              "label": "出海网早报 (8/15) ↗",
+              "url": "http://www.chwang.cn/daily"
             }
           ],
-          "verified": false
+          "verified": true
+        },
+        {
+          "title": {
+            "zh": "新能源重卡加速渗透：H1 销量 +78.6%，厦门港渗透率 >30%，从港口短倒迈向干线",
+            "en": "China NEV heavy-trucks surge: H1 sales +78.6%, Xiamen port >30%, expanding to trunk lanes"
+          },
+          "desc": {
+            "zh": "央广网 8/7：上半年新能源重卡累计销量约 14 万辆，同比 +78.6%；厦门港港区内部短驳渗透率突破 30%，头部港运车队电动化率超 50%。8/15 起新能源重卡启用独立 HS 编码 87042390，出口退税率从 9% 上调至 13%。场景从港口/矿区封闭区域向干线延伸——部分车型已运营 1000+ 公里长途干线；河北辛集星耀物流 700 余台新能源车 + 整合社会运力 2000 余台，年减碳 46.8 万吨，构建「路港车网储电」零碳走廊。",
+            "en": "CNR Aug 7: H1 NEV heavy-truck sales ~140k units, +78.6% YoY; Xiamen port intra-terminal short-haul NEV penetration >30%, leading fleet electrification >50%. From Aug 15, NEV heavy trucks gain a dedicated HS code 87042390, with export tax rebate raised from 9% to 13%. Use cases are expanding from closed port/mine sites into trunk lanes — some models have run >1,000 km trunk routes; Hebei Xinji's Xingyao Logistics runs 700+ NEV trucks + 2,000+ integrated social capacity, cutting 468k tons of CO2/year via a road-port-vehicle-network-storage-power zero-carbon corridor."
+          },
+          "sources": [
+            {
+              "label": "央广网 (8/7) ↗",
+              "url": "https://www.toutiao.com/article/7671087110429983267/"
+            },
+            {
+              "label": "今日头条 / 台海网 (8/4) ↗",
+              "url": "https://www.toutiao.com/article/7669973482210198067/"
+            },
+            {
+              "label": "网易 / 货运新视界 (8/6) ↗",
+              "url": "https://dy.163.com/article/L3JTHHQ10556NW8U.html"
+            },
+            {
+              "label": "出海网政策盘点 (HS 87042390) ↗",
+              "url": "https://www.chwang.com/article/208273593336"
+            }
+          ],
+          "verified": true
         }
       ]
     },
@@ -151,21 +249,54 @@
       "items": [
         {
           "title": {
-            "zh": "仓库自动化与 AI 编排平台加速渗透",
-            "en": "Warehouse automation & AI orchestration accelerate"
+            "zh": "供应链 AI 进入执行层：科捷联合方案落地、Kinaxis/IDC 称 41% 预期规模化自主运营",
+            "en": "Supply-chain AI moves into execution: Kejie live; Kinaxis/IDC flag 41% autonomous target"
           },
           "desc": {
-            "zh": "Gartner：93% 企业计划两年内投资信息物理自动化；82% 首次部署机器人后选择扩容。应用侧正从「单点助手」转向跨系统多智能体编排平台——也是本站点衍生应用 VeloCortex 所处的赛道。",
-            "en": "Gartner: 93% of firms plan to invest in cyber-physical automation within two years; 82% expand after their first robot deployment. The application layer is shifting from “point assistants” to cross-system multi-agent orchestration platforms — the same track as this site’s spin-off app, VeloCortex."
+            "zh": "8 月 5 日神州控股科捷 CTO 张虎坡透露：AI 已进入供应链执行层，可在采购、调拨、订单调度、包材选择上给出可直接指导操作的具体决策；科捷 AI 智能体 + 具身智能机器人协同方案已在仓库运行 3 个月，单仓完成单量占比 10%，一家大客户包材年节省达整体成本约 27%（百万级）。8 月 12 日 Kinaxis 赞助的 IDC 研究显示：41% 受访者预期 1–2 年内实现规模化自主运营，但仅 12% 已将治理机制融入日常，52% 将信任列为首要障碍。同日京东工业与永钢集团签署战略合作，共建钢铁采购供应链数智化。",
+            "en": "On Aug 5, Digital China Kejie CTO Zhang Hupo said supply-chain AI has moved into execution — issuing directly actionable recommendations for procurement, allocation, order dispatch and packaging; Kejie's AI-agent + embodied-robot warehouse solution has run for 3 months and handles 10% of one DC's volume, saving one large customer ~27% (millions CNY) in annual packaging cost. On Aug 12, an IDC study sponsored by Kinaxis found 41% of supply-chain leaders expect scaled autonomous operations within 1–2 years — but only 12% have governance baked in, and 52% cite trust as the top barrier. Same day JD Industrial signed a strategic partnership with Yongsteel Group on procurement digitalization."
           },
           "sources": [
             {
-              "label": "Camcode × MHI ↗",
-              "url": "https://www.camcode.com/blog/what-is-warehouse-automation/"
+              "label": "今日头条 / 中经TMT (8/8) ↗",
+              "url": "https://www.toutiao.com/article/7671438535668367872/"
             },
             {
-              "label": "Oraczen ↗",
-              "url": "https://www.oraczen.ai/research/insights/agentic-supply-chain-platform"
+              "label": "Kinaxis / IDC (8/12) ↗",
+              "url": "https://new.qq.com/rain/a/20260812A074WL00"
+            },
+            {
+              "label": "京东工业 × 永钢 (8/12) ↗",
+              "url": "https://www.cet.com.cn/wzsy/kjzx/10502519.shtml"
+            }
+          ],
+          "verified": true
+        },
+        {
+          "title": {
+            "zh": "MG Ship 推出 AI 多式联运追踪平台：覆盖 220 国、ETA 99%，打通在途库存融资",
+            "en": "MG Ship launches AI multimodal tracking: 220+ countries, 99% ETA, in-transit financing"
+          },
+          "desc": {
+            "zh": "新加坡物流科技公司 MG Ship 8/3 全球发布、8/10 正式登陆欧洲的 AI 多式联运追踪平台，将海/空/陆/包裹数据整合到统一控制塔，覆盖 220+ 国家、1,000+ 承运商与海关系统；ETA 准确率 99%，并基于运输与海关数据为企业提供在途库存融资。CEO 张淑明：65%+ 货运跟踪在货代/3PL 仍依赖人工——是行业最大效率缺口。公司同时推出 EEAP 企业早期体验计划，提供 60 天免费试用。",
+            "en": "Singapore logistics-tech MG Ship on Aug 3 globally launched (Aug 10 European rollout) its AI multimodal tracking platform, unifying sea/air/land/parcel data in a single control tower across 220+ countries and 1,000+ carrier and customs integrations; ETA accuracy 99%, with in-transit inventory financing built on consolidated shipment and customs data. CEO Suki Cheung: 65%+ of cargo-tracking activity at forwarders/3PLs is still manual — the industry's biggest efficiency gap. A 60-day Enterprise Early Access Program (EEAP) free trial is open through August–September 2026."
+          },
+          "sources": [
+            {
+              "label": "Bernama / Globe Newswire (8/3) ↗",
+              "url": "https://www.bernama.com/en/press/news.php?id=2589530"
+            },
+            {
+              "label": "Journal of Professional Transportation (8/10) ↗",
+              "url": "https://www.journalofprofessionaltransportation.com/agp-article/933047233-mg-ship-launches-ai-logistics-platform-in-europe"
+            },
+            {
+              "label": "香港财经时报 HKBT (8/5) ↗",
+              "url": "https://www.businesstimes.com.hk/articles/333644/mg-ship-%e6%8e%a8%e5%87%ba%e4%ba%ba%e5%b7%a5%e6%99%ba%e8%83%bd%e5%b9%b3%e5%8f%b0%ef%bc%8c%e5%8d%94%e5%8a%a9%e9%9b%b6%e5%94%ae%e5%95%86%e5%8f%8a%e8%a3%bd%e9%80%a0%e5%95%86%e5%8f%96%e5%be%97%e5%af%a6"
+            },
+            {
+              "label": "Bernama (8/4) ↗",
+              "url": "https://bernama.com/tv/news.php?id=2590039"
             }
           ],
           "verified": true
