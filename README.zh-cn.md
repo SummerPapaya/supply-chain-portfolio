@@ -22,12 +22,12 @@
 
 四份报告，四种 AI 思维，一个命题。每份报告都是一个自包含、可渲染的 HTML 仪表盘，可在新标签页中打开。
 
-| 报告 | 模型 · 工具链 | 研究人格 | 标志性特征 |
+| 报告 | 模型 · 工具链 | 角色定位 | 标志性特征 |
 | --- | --- | --- | --- |
-| **Cursor × Grok** | Cursor Agent + Canvas | 期刊编辑 | 杂志式的决策支持——每期固定 5 个问题，各期之间可直接横向比较。 |
-| **Kimi Agent** | Kimi Agent | 调查记者 | 实时行情报价 + 24 条分级引用；数据源中断时，明确标注兜底快照。 |
-| **WorkBuddy** | WorkBuddy Agent | 行业分析师 | 粘性的三轴控制条（视角 / 窗口 / 语言）；每个 KPI 与图表即时更新。 |
-| **Gemini** | Gemini 2.5 Flash + Search Grounding | 常驻研究助手 | 全栈工作台，内置 AI 问答可重新锚定到所选报告窗口；密钥始终留在服务端。 |
+| **Cursor × Grok** | Grok 4.5 High Fast · Cursor Agent + Canvas | 档案主编 | 杂志式的决策支持——每期固定 5 个问题，各期之间可直接横向比较。 |
+| **Kimi Agent** | Kimi K3 Deep Research · Kimi Agent | 深度特稿主笔 | 实时行情报价 + 24 条分级引用；数据源中断时，明确标注兜底快照。 |
+| **WorkBuddy** | Deepseek-V4-Pro · WorkBuddy Agent | 研究终端 | 粘性的三轴控制条（视角 / 窗口 / 语言）；每个 KPI 与图表即时更新。 |
+| **Gemini** | Gemini 3.6 Flash · Search Grounding | 战略情报官 | 全栈工作台，内置 AI 问答可重新锚定到所选报告窗口；密钥始终留在服务端。 |
 
 ## 🚢 VeloCortex Maritime — 衍生应用
 

@@ -22,12 +22,12 @@ Alongside the reports, the site includes a **weekly supply-chain radar** (cross-
 
 Four reports, four AI minds, one brief. Each report is a self-contained, renderable HTML dashboard you can open in a new tab.
 
-| Report | Model · Toolchain | Research Persona | Signature Trait |
+| Report | Model · Toolchain | Role | Signature Trait |
 | --- | --- | --- | --- |
-| **Cursor × Grok** | Cursor Agent + Canvas | The Periodical Editor | Journal-style decision support — same 5 questions every edition, directly comparable across issues. |
-| **Kimi Agent** | Kimi Agent | The Investigative Journalist | Live market quotes + 24 tier-classified citations; explicitly labels fallback snapshots when feeds are down. |
-| **WorkBuddy** | WorkBuddy Agent | The Industry Analyst | Sticky 3-axis control bar (lens / window / language); every KPI and chart updates instantly. |
-| **Gemini** | Gemini 2.5 Flash + Search Grounding | The Resident Research Assistant | Full-stack workbench with AI Q&A that re-grounds to the selected reporting window; keys stay server-side. |
+| **Cursor × Grok** | Grok 4.5 High Fast · Cursor Agent + Canvas | The Archivist-Editor | Journal-style decision support — same 5 questions every edition, directly comparable across issues. |
+| **Kimi Agent** | Kimi K3 Deep Research · Kimi Agent | The Feature Writer | Live market quotes + 24 tier-classified citations; explicitly labels fallback snapshots when feeds are down. |
+| **WorkBuddy** | Deepseek-V4-Pro · WorkBuddy Agent | The Research Console | Sticky 3-axis control bar (lens / window / language); every KPI and chart updates instantly. |
+| **Gemini** | Gemini 3.6 Flash · Search Grounding | The Strategic Intelligence Officer | Full-stack workbench with AI Q&A that re-grounds to the selected reporting window; keys stay server-side. |
 
 ## 🚢 VeloCortex Maritime — Spin-off App
 
