@@ -10,11 +10,11 @@ A continuously updated portfolio of AI multi-model supply-chain research: collec
 
 This repository hosts a portfolio website that places four AI-generated supply-chain research reports side by side — each produced by a different model or agent working independently on the **same research brief**. The goal is to see how different AI minds approach the same question: what they emphasize, what they miss, and where they agree.
 
-Alongside the reports, the site includes a **daily supply-chain radar** (cross-verified news, research, and trends) and a spin-off application — [VeloCortex Maritime](#velocortex-maritime) — that turns the research findings into a runnable container-tracking command center.
+Alongside the reports, the site includes a **weekly supply-chain radar** (cross-verified news, research, and trends) and a spin-off application — [VeloCortex Maritime](#velocortex-maritime) — that turns the research findings into a runnable container-tracking command center.
 
 ## ✨ Features
 
-- 📡 **Live Radar** — Daily, cross-verified intelligence on shipping rates, tariffs, and supply-chain events — every item links to its original source.
+- 📡 **Live Radar** — Weekly, cross-verified intelligence on shipping rates, tariffs, and supply-chain events — every item links to its original source.
 - 🔀 **Multi-Model Comparison** — Same brief, four independent AI tools. A horizontal comparison matrix highlights each model's lens, data sources, and signature trait.
 - 🔓 **Fully Open** — All five source repos are on GitHub. Every claim traces to a primary source — no fabrication, no silent data swaps.
 
@@ -58,7 +58,7 @@ Each report's dashboard lives under `reports/` and opens in a new tab from the p
 ```
 site/
 ├── index.html              # Portfolio homepage (hero, radar, comparison, cards)
-├── radar-data.json         # Daily radar data (embedded snapshot + override source)
+├── radar-data.json         # Weekly radar data (embedded snapshot + override source)
 ├── reports/
 │   ├── cursorgrok/         # Cursor × Grok — static HTML dashboard
 │   ├── kimiagent/          # Kimi Agent — single-file HTML + D3.js
