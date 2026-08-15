@@ -107,6 +107,14 @@
   }
   .glow-bg { position: fixed; inset: 0; z-index: -3; pointer-events: none; background: var(--glow); }
 
+  /* ---------- 鼠标磁吸背景（粒子网络） ---------- */
+  .mouse-bg {
+    position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    opacity: 0; transition: opacity .6s ease;
+  }
+  body.fx-ready .mouse-bg { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) { .mouse-bg { display: none; } }
+
   /* ---------- 导航 ---------- */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 50;
@@ -312,13 +320,14 @@
   }
   .matrix { width: 100%; border-collapse: collapse; font-size: 13.5px; table-layout: fixed; }
   .matrix-scroll { overflow-x: auto; }
-  .matrix th:nth-child(1), .matrix td:nth-child(1) { width: 13%; }
-  .matrix th:nth-child(2), .matrix td:nth-child(2) { width: 13%; }
-  .matrix th:nth-child(3), .matrix td:nth-child(3) { width: 13%; }
+  .matrix th:nth-child(1), .matrix td:nth-child(1) { width: 15%; }
+  .matrix th:nth-child(2), .matrix td:nth-child(2) { width: 12%; }
+  .matrix th:nth-child(3), .matrix td:nth-child(3) { width: 16%; }
   .matrix th:nth-child(4), .matrix td:nth-child(4) { width: 11%; }
-  .matrix th:nth-child(5), .matrix td:nth-child(5) { width: 18%; }
-  .matrix th:nth-child(6), .matrix td:nth-child(6) { width: 17%; }
-  .matrix th:nth-child(7), .matrix td:nth-child(7) { width: 15%; }
+  .matrix th:nth-child(5), .matrix td:nth-child(5) { width: 16%; }
+  .matrix th:nth-child(6), .matrix td:nth-child(6) { width: 16%; }
+  .matrix th:nth-child(7), .matrix td:nth-child(7) { width: 14%; }
+  /* col2 header: allow wrap in English to avoid overlap with col3 */
   .matrix th {
     text-align: left; font-family: var(--font-mono); font-weight: 500; font-size: 11.5px;
     letter-spacing: .1em; text-transform: uppercase; color: var(--ink-mute);
@@ -326,15 +335,17 @@
     word-break: break-word;
   }
   .matrix td { padding: 16px 20px; border-bottom: 1px solid var(--line-soft); vertical-align: top; color: var(--ink-soft); }
+  .matrix td .model { font-weight: 600; color: var(--ink); }
+  .matrix td .stack { display: block; color: var(--ink-mute); font-size: 12px; margin-top: 3px; }
   .matrix tr:last-child td { border-bottom: none; }
   .matrix tbody tr { transition: background .2s; }
   .matrix tbody tr:hover { background: var(--matrix-hover); }
-  .matrix .m-name { font-weight: 600; color: var(--ink); }
-  .matrix .m-name small { display: block; font-weight: 400; color: var(--ink-mute); font-size: 12px; margin-top: 2px; }
+  .matrix .m-name { font-weight: 600; color: var(--ink); white-space: normal; word-break: break-word; }
+  .matrix .m-name small { display: block; font-weight: 400; color: var(--ink-mute); font-size: 12px; margin-top: 2px; white-space: normal; }
   .tag {
     display: inline-block; font-size: 11.5px; font-family: var(--font-mono);
     padding: 2px 9px; border-radius: 99px; border: 1px solid var(--line);
-    color: var(--ink-soft); background: var(--paper); margin: 1px 3px 1px 0; white-space: nowrap;
+    color: var(--ink-soft); background: var(--paper); margin: 1px 3px 1px 0; white-space: normal; word-break: break-word;
     transition: background .4s, border-color .4s, color .4s;
   }
   .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 7px; vertical-align: 1px; }
@@ -510,6 +521,7 @@
 <body>
 <div class="glow-bg"></div>
 <div class="grid-bg"></div>
+<canvas class="mouse-bg" id="mouseBg"></canvas>
 
 <nav id="nav">
   <a class="brand" href="#top">
@@ -588,40 +600,40 @@
         <tbody>
           <tr>
             <td class="m-name"><span class="dot" style="background:#1a4fd6"></span>Cursor × Grok<small>industrial-research</small></td>
-            <td>Cursor Agent + Canvas</td>
-            <td><span class="tag">交互 Canvas (TSX)</span><span class="tag">HTML</span><span class="tag">Slides</span></td>
+            <td data-i18n="m1c2"><span class="model">Grok 4.5 High Fast</span><span class="stack">Cursor Agent + Canvas</span></td>
+            <td data-i18n="m1c3"><span class="tag">交互 Canvas (TSX)</span><span class="tag">HTML</span><span class="tag">Slides</span></td>
             <td data-i18n="m1c4">中国 / 全球 · 季度 + 半年度</td>
             <td data-i18n="m1c5">期刊化「决策支持」：每期固定回答同样的五个问题，期与期可直接对比</td>
             <td data-i18n="m1c6">GSCPI / WTO / SCFI / WCI / LPI 五路公开指标</td><td data-i18n="m1c7"><b>档案主编</b>——固定栏目、按期归档、期期可比</td>
           </tr>
           <tr>
             <td class="m-name"><span class="dot" style="background:#7a3fd0"></span>Kimi Agent<small>research-kimiagent</small></td>
-            <td>Kimi Agent</td>
-            <td><span class="tag">单文件 752KB</span><span class="tag">Vanilla JS + D3.js</span><span class="tag">零依赖</span></td>
+            <td data-i18n="m2c2"><span class="model">Kimi K3 Deep Research</span><span class="stack">Kimi Agent</span></td>
+            <td data-i18n="m2c3"><span class="tag">单文件 752KB</span><span class="tag">Vanilla JS + D3.js</span><span class="tag">零依赖</span></td>
             <td data-i18n="m2c4">全球 · 2026 年中</td>
             <td data-i18n="m2c5">编辑部级排版 + 实时行情接入，数据源不可达时明示降级快照，绝不静默替换</td>
             <td data-i18n="m2c6">stooq 实时行情 + 24 条分级溯源引用（K1–K24）</td><td data-i18n="m2c7"><b>深度特稿主笔</b>——把产业讲成有观点的长文，每个判断都有出处</td>
           </tr>
           <tr>
             <td class="m-name"><span class="dot" style="background:#c25e1a"></span>WorkBuddy<small>research-workbuddy</small></td>
-            <td>WorkBuddy Agent</td>
-            <td><span class="tag">单页 HTML</span><span class="tag">Chart.js</span><span class="tag">零构建</span></td>
+            <td data-i18n="m3c2"><span class="model">Deepseek-V4-Pro</span><span class="stack">WorkBuddy Agent</span></td>
+            <td data-i18n="m3c3"><span class="tag">单页 HTML</span><span class="tag">Chart.js</span><span class="tag">零构建</span></td>
             <td data-i18n="m3c4">中国 ⇄ 全球 · H1 / Q1 / Q2</td>
             <td data-i18n="m3c5">吸顶控制条三维切换（视角 / 窗口 / 语言），全部 KPI 与图表瞬时联动</td>
             <td data-i18n="m3c6">25+ 机构数据（WTO / UNCTAD / NY Fed / 海关总署 / WSTS…）</td><td data-i18n="m3c7"><b>研究终端</b>——三维联动、随切随查、即取即用</td>
           </tr>
           <tr>
             <td class="m-name"><span class="dot" style="background:#1a8fc2"></span>Gemini<small>industry-research</small></td>
-            <td>Gemini 2.5 Flash + Search Grounding</td>
-            <td><span class="tag">React 19 + Express</span><span class="tag">Recharts</span><span class="tag">AI 问答 API</span></td>
+            <td data-i18n="m4c2"><span class="model">Gemini 3.6 Flash</span><span class="stack">Search Grounding</span></td>
+            <td data-i18n="m4c3"><span class="tag">React 19 + Express</span><span class="tag">Recharts</span><span class="tag">AI 问答 API</span></td>
             <td data-i18n="m4c4">全球 · 5 个报告窗口</td>
             <td data-i18n="m4c5">全栈研究工作台：AI 问答随所选报告期切换语境，密钥服务端代理不落地</td>
             <td data-i18n="m4c6">WCI / SCSI 等指标 + Google Search 实时检索增强</td><td data-i18n="m4c7"><b>战略情报官</b>——实时盯盘、联网核验、为决策层出简报</td>
           </tr>
           <tr>
             <td class="m-name"><span class="dot" style="background:#0e7a6d"></span>VeloCortex<small data-i18n="m5sub">maritime（衍生应用）</small></td>
-            <td>Gemini AI + IoT 遥测</td>
-            <td><span class="tag">React 19 + Express</span><span class="tag">SheetJS 导出</span><span class="tag">i18n</span></td>
+            <td data-i18n="m5c2"><span class="model">Gemini 3.6 Flash</span><span class="stack">Gemini AI + IoT 遥测</span></td>
+            <td data-i18n="m5c3"><span class="tag">React 19 + Express</span><span class="tag">SheetJS 导出</span><span class="tag">i18n</span></td>
             <td data-i18n="m5c4">全球海运走廊 · 实时</td>
             <td data-i18n="m5c5">从研究到产品：集装箱追踪指挥中心，含冷链监控与滞箱费风险预测</td>
             <td data-i18n="m5c6">IoT 传感器遥测 + Gemini 预测推理</td><td data-i18n="m5c7"><b>运营指挥官</b>——盯船盯箱、先算风险</td>
@@ -1476,6 +1488,17 @@
     'a1d': 'Gartner: 93% of companies plan cyber-physical automation investment within two years; 82% expand after their first robot deployment. Apps are shifting from point assistants to cross-system multi-agent orchestration — the lane VeloCortex below sits in.',
     'reports-title': 'Research & Application · Horizontal Comparison',
     'mh1': 'Project', 'mh2': 'Model · Toolchain', 'mh3': 'Format & Stack', 'mh4': 'Lens & Window', 'mh5': 'Signature Trait',     'mh6': 'Data Sources', 'mh7': 'Role',
+    'm1c2': '<span class="model">Grok 4.5 High Fast</span><span class="stack">Cursor Agent + Canvas</span>',
+    'm2c2': '<span class="model">Kimi K3 Deep Research</span><span class="stack">Kimi Agent</span>',
+    'm3c2': '<span class="model">Deepseek-V4-Pro</span><span class="stack">WorkBuddy Agent</span>',
+    'm4c2': '<span class="model">Gemini 3.6 Flash</span><span class="stack">Search Grounding</span>',
+    'm5c2': '<span class="model">Gemini 3.6 Flash</span><span class="stack">Gemini AI + IoT Telemetry</span>',
+    // col3: Format & Stack
+    'm1c3': '<span class="tag">Interactive Canvas (TSX)</span><span class="tag">HTML</span><span class="tag">Slides</span>',
+    'm2c3': '<span class="tag">Single-file 752KB</span><span class="tag">Vanilla JS + D3.js</span><span class="tag">Zero deps</span>',
+    'm3c3': '<span class="tag">Single-page HTML</span><span class="tag">Chart.js</span><span class="tag">Zero build</span>',
+    'm4c3': '<span class="tag">React 19 + Express</span><span class="tag">Recharts</span><span class="tag">AI Q&A API</span>',
+    'm5c3': '<span class="tag">React 19 + Express</span><span class="tag">SheetJS Export</span><span class="tag">i18n</span>',
     'm1c6': 'Five public feeds: GSCPI / WTO / SCFI / WCI / LPI',
     'm1c7': '<b>The archivist-editor</b> — fixed sections, filed by period, comparable across editions',
     'm2c6': 'stooq live quotes + 24 tier-classified citations (K1–K24)',
@@ -1675,6 +1698,124 @@
     });
   }, { threshold: 0.6 });
   counters.forEach(el => cio.observe(el));
+
+  /* ================= 鼠标磁吸背景（粒子网络） ================= */
+  (function () {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const canvas = document.getElementById('mouseBg');
+    const ctx = canvas.getContext('2d');
+    let W = 0, H = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let nodes = [];
+    const mouse = { x: -9999, y: -9999, active: false };
+    const LINK = 150;        // 节点间连线阈值
+    const PULL = 250;        // 鼠标吸附半径
+    const PULL_K = 0.003;    // 吸附强度（更弱、更慢）
+    const PUSH_K = 0.0005;   // 脱离半径后缓慢向反方向浮动
+    const MAX_MOUSE_LINES = 14; // 鼠标连线数量上限（避免过密影响阅读）
+
+    function palette() {
+      const dark = document.documentElement.dataset.theme === 'dark';
+      return {
+        line: dark ? '91,140,255' : '26,79,214',
+        node: dark ? '123,163,255' : '26,79,214',
+        nodeA: dark ? 0.4 : 0.26,      // 节点可见度（更淡）
+        linkA: dark ? 0.2 : 0.14,      // 节点间连线可见度（更淡）
+        mouseA: dark ? 0.32 : 0.24     // 鼠标连线可见度（更淡）
+      };
+    }
+    let pal = palette();
+
+    function resize() {
+      W = window.innerWidth; H = window.innerHeight;
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const target = Math.round(Math.min(170, (W * H) / 14000));
+      nodes = [];
+      for (let i = 0; i < target; i++) {
+        const x = Math.random() * W, y = Math.random() * H;
+        nodes.push({ x, y, vx: (Math.random() - .5) * .45, vy: (Math.random() - .5) * .45 });
+      }
+    }
+
+    function step() {
+      ctx.clearRect(0, 0, W, H);
+      // 更新节点：自由漂移 + 鼠标吸附（无归位，默认自由浮动）
+      for (const n of nodes) {
+        n.x += n.vx; n.y += n.vy;
+        if (mouse.active) {
+          const dx = mouse.x - n.x, dy = mouse.y - n.y;
+          const d = Math.hypot(dx, dy) || 0.5;
+          if (d < PULL) {
+            const f = (1 - d / PULL) * PULL_K;
+            n.x += dx * f; n.y += dy * f;            // 缓慢吸附
+            if (d < 55) {                            // 近距轻推，避免密集堆叠成一点
+              const r = (1 - d / 55) * 0.006;
+              n.x -= dx * r; n.y -= dy * r;
+            }
+          } else {
+            n.x -= dx * PUSH_K; n.y -= dy * PUSH_K;  // 脱离半径：缓慢向反方向浮动
+          }
+        }
+        // 自由浮动：环绕边界（无归位弹簧）
+        if (n.x < -20) n.x += W + 40;
+        if (n.x > W + 20) n.x -= W + 40;
+        if (n.y < -20) n.y += H + 40;
+        if (n.y > H + 20) n.y -= H + 40;
+      }
+      // 节点间连线
+      for (let i = 0; i < nodes.length; i++) {
+        const a = nodes[i];
+        for (let j = i + 1; j < nodes.length; j++) {
+          const b = nodes[j];
+          const d = Math.hypot(a.x - b.x, a.y - b.y);
+          if (d < LINK) {
+            const al = (1 - d / LINK) * pal.linkA;
+            ctx.strokeStyle = `rgba(${pal.line},${al})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+          }
+        }
+      }
+      // 鼠标到节点的吸附连线（限数量，避免过密影响阅读）
+      if (mouse.active) {
+        const near = nodes
+          .map(n => ({ n, d: Math.hypot(n.x - mouse.x, n.y - mouse.y) }))
+          .filter(o => o.d < PULL)
+          .sort((p, q) => p.d - q.d)
+          .slice(0, MAX_MOUSE_LINES);
+        for (const o of near) {
+          const al = (1 - o.d / PULL) * pal.mouseA;
+          ctx.strokeStyle = `rgba(${pal.line},${al})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(o.n.x, o.n.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
+        }
+      }
+      // 节点小圆点
+      for (const n of nodes) {
+        ctx.fillStyle = `rgba(${pal.node},${pal.nodeA})`;
+        ctx.beginPath(); ctx.arc(n.x, n.y, 1.5, 0, Math.PI * 2); ctx.fill();
+      }
+      if (mouse.active) {
+        ctx.fillStyle = `rgba(${pal.node},${pal.mouseA})`;
+        ctx.beginPath(); ctx.arc(mouse.x, mouse.y, 3, 0, Math.PI * 2); ctx.fill();
+      }
+      requestAnimationFrame(step);
+    }
+
+    window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; mouse.active = true; });
+    window.addEventListener('mouseleave', () => { mouse.active = false; });
+    window.addEventListener('touchmove', e => { const t = e.touches[0]; if (t) { mouse.x = t.clientX; mouse.y = t.clientY; mouse.active = true; } }, { passive: true });
+    window.addEventListener('touchend', () => { mouse.active = false; });
+    window.addEventListener('resize', resize);
+    // 主题切换时刷新配色
+    const obs = new MutationObserver(() => { pal = palette(); });
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+    resize();
+    document.body.classList.add('fx-ready');
+    requestAnimationFrame(step);
+  })();
 </script>
 </body>
 </html>
