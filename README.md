@@ -76,19 +76,6 @@ site/
 - **Gemini / VeloCortex apps** — React 19 + Vite, built to static assets
 - **Data sources** — GSCPI, Drewry WCI, SCFI, WTO, NY Fed, UNCTAD, China Customs, and more (25+ institutions)
 
-## 🌐 Optional: Enable Chinese Translation for the Radar
-
-The "今日供应链雷达" (Today's Supply Chain Radar) section fetches English RSS feeds by default and copies the English text into the Chinese (`zh`) field. To have the GitHub Action auto-translate titles and summaries into Chinese on every refresh, add an encrypted repository secret. The secret value lives only in GitHub and is never written to this repo, the code, or the deployed site.
-
-1. Create a **dedicated** API key at [DeepSeek](https://platform.deepseek.com) (a small prepaid balance acts as a de-facto spend cap).
-2. Repo → **Settings → Secrets and variables → Actions → New repository secret**.
-3. **Name:** `DEEPSEEK_API_KEY` &nbsp; **Value:** *your key* (never commit the real value here).
-4. (Optional) **Actions → Generate Supply Chain Radar → Run workflow** to apply immediately.
-
-The refresh runs every 12 hours (UTC 00:13 / 12:13) via the scheduled workflow and can also be triggered manually. Prefer a dedicated key with a low balance cap; the secret name above is already referenced in `.github/workflows/generate-radar.yml`.
-
-The radar also pulls two **Chinese web sources** — **雨果网** (cross-border e-commerce / tariffs / logistics) and **罗戈网** (logistics & supply-chain research). They publish no public RSS, so the generator does a lightweight, stdlib-only HTML scrape; each column keeps at least one native-Chinese item, and every link points to the original article.
-
 ## 📄 License
 
 MIT License — see `LICENSE` for details. Report content is sourced from public reporting; refer to original citations for each data point.

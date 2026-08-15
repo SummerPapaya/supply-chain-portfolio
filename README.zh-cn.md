@@ -76,19 +76,6 @@ site/
 - **Gemini / VeloCortex 应用** — React 19 + Vite，构建为静态资源
 - **数据来源** — GSCPI、Drewry WCI、SCFI、WTO、纽约联储、UNCTAD、中国海关等（25+ 机构）
 
-## 🌐 可选：为雷达启用中文翻译
-
-「今日供应链雷达」板块默认抓取英文 RSS，并将英文原文填入中文（`zh`）字段。若希望 GitHub Action 在每次刷新时自动将标题与摘要译为中文，可添加一个加密的仓库密钥。密钥值仅存于 GitHub，绝不会写入本仓库、代码或部署后的页面。
-
-1. 在 [DeepSeek](https://platform.deepseek.com) 创建一个**专用** API 密钥（建议仅充值小额余额，作为事实上的花费上限）。
-2. 仓库 → **Settings → Secrets and variables → Actions → New repository secret**。
-3. **名称：** `DEEPSEEK_API_KEY` &nbsp; **值：** *你的密钥*（切勿将真实值提交到仓库）。
-4. （可选）**Actions → Generate Supply Chain Radar → Run workflow** 立即生效。
-
-刷新由定时工作流每 12 小时（UTC 00:13 / 12:13）执行，也可手动触发。建议为仓库使用专用密钥并设置低额度上限；上述密钥名已在 `.github/workflows/generate-radar.yml` 中引用。
-
-板块还会抓取两个中文网页源——**雨果网**（跨境电商/关税/物流）与**罗戈网**（物流与供应链研究）——它们不提供公开 RSS，生成器用标准库做轻量 HTML 抓取，每栏至少保留一条中文原生新闻，链接均指向原文出处。
-
 ## 📄 许可证
 
 MIT 许可证——详见 `LICENSE`。报告内容源自公开报道；每个数据点的原始引用请参见对应出处。
