@@ -310,19 +310,26 @@
     background: var(--card); overflow: hidden; box-shadow: var(--shadow-card);
     margin-bottom: 40px;
   }
-  .matrix { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 760px; }
+  .matrix { width: 100%; border-collapse: collapse; font-size: 13.5px; table-layout: fixed; }
   .matrix-scroll { overflow-x: auto; }
+  .matrix th:nth-child(1), .matrix td:nth-child(1) { width: 13%; }
+  .matrix th:nth-child(2), .matrix td:nth-child(2) { width: 13%; }
+  .matrix th:nth-child(3), .matrix td:nth-child(3) { width: 13%; }
+  .matrix th:nth-child(4), .matrix td:nth-child(4) { width: 11%; }
+  .matrix th:nth-child(5), .matrix td:nth-child(5) { width: 18%; }
+  .matrix th:nth-child(6), .matrix td:nth-child(6) { width: 17%; }
+  .matrix th:nth-child(7), .matrix td:nth-child(7) { width: 15%; }
   .matrix th {
     text-align: left; font-family: var(--font-mono); font-weight: 500; font-size: 11.5px;
     letter-spacing: .1em; text-transform: uppercase; color: var(--ink-mute);
     padding: 16px 20px; background: var(--paper-warm); border-bottom: 1px solid var(--line);
-    white-space: nowrap;
+    word-break: break-word;
   }
   .matrix td { padding: 16px 20px; border-bottom: 1px solid var(--line-soft); vertical-align: top; color: var(--ink-soft); }
   .matrix tr:last-child td { border-bottom: none; }
   .matrix tbody tr { transition: background .2s; }
   .matrix tbody tr:hover { background: var(--matrix-hover); }
-  .matrix .m-name { font-weight: 600; white-space: nowrap; color: var(--ink); }
+  .matrix .m-name { font-weight: 600; color: var(--ink); }
   .matrix .m-name small { display: block; font-weight: 400; color: var(--ink-mute); font-size: 12px; margin-top: 2px; }
   .tag {
     display: inline-block; font-size: 11.5px; font-family: var(--font-mono);
@@ -575,7 +582,7 @@
       <table class="matrix">
         <thead>
           <tr>
-            <th data-i18n="mh1">研究 / 应用</th><th data-i18n="mh2">模型 · 工具链</th><th data-i18n="mh3">形态与技术栈</th><th data-i18n="mh4">视角与窗口</th><th data-i18n="mh5">最鲜明的特点</th><th data-i18n="mh6">数据来源 · 研究人格</th>
+            <th data-i18n="mh1">研究 / 应用</th><th data-i18n="mh2">模型 · 工具链</th><th data-i18n="mh3">形态与技术栈</th><th data-i18n="mh4">视角与窗口</th><th data-i18n="mh5">最鲜明的特点</th><th data-i18n="mh6">数据来源</th><th data-i18n="mh7">角色定位</th>
           </tr>
         </thead>
         <tbody>
@@ -585,7 +592,7 @@
             <td><span class="tag">交互 Canvas (TSX)</span><span class="tag">HTML</span><span class="tag">Slides</span></td>
             <td data-i18n="m1c4">中国 / 全球 · 季度 + 半年度</td>
             <td data-i18n="m1c5">期刊化「决策支持」：每期固定回答同样的五个问题，期与期可直接对比</td>
-            <td data-i18n="m1c6">GSCPI / WTO / SCFI / WCI / LPI 五路公开指标<br /><b>研究人格：期刊主笔</b>——按期供稿、结构稳定</td>
+            <td data-i18n="m1c6">GSCPI / WTO / SCFI / WCI / LPI 五路公开指标</td><td data-i18n="m1c7"><b>档案主编</b>——固定栏目、按期归档、期期可比</td>
           </tr>
           <tr>
             <td class="m-name"><span class="dot" style="background:#7a3fd0"></span>Kimi Agent<small>research-kimiagent</small></td>
@@ -593,7 +600,7 @@
             <td><span class="tag">单文件 752KB</span><span class="tag">Vanilla JS + D3.js</span><span class="tag">零依赖</span></td>
             <td data-i18n="m2c4">全球 · 2026 年中</td>
             <td data-i18n="m2c5">编辑部级排版 + 实时行情接入，数据源不可达时明示降级快照，绝不静默替换</td>
-            <td data-i18n="m2c6">stooq 实时行情 + 24 条分级溯源引用（K1–K24）<br /><b>研究人格：调查记者</b>——逐条核查、注明出处</td>
+            <td data-i18n="m2c6">stooq 实时行情 + 24 条分级溯源引用（K1–K24）</td><td data-i18n="m2c7"><b>深度特稿主笔</b>——把产业讲成有观点的长文，每个判断都有出处</td>
           </tr>
           <tr>
             <td class="m-name"><span class="dot" style="background:#c25e1a"></span>WorkBuddy<small>research-workbuddy</small></td>
@@ -601,7 +608,7 @@
             <td><span class="tag">单页 HTML</span><span class="tag">Chart.js</span><span class="tag">零构建</span></td>
             <td data-i18n="m3c4">中国 ⇄ 全球 · H1 / Q1 / Q2</td>
             <td data-i18n="m3c5">吸顶控制条三维切换（视角 / 窗口 / 语言），全部 KPI 与图表瞬时联动</td>
-            <td data-i18n="m3c6">25+ 机构数据（WTO / UNCTAD / NY Fed / 海关总署 / WSTS…）<br /><b>研究人格：行业分析师</b>——全面均衡、即查即用</td>
+            <td data-i18n="m3c6">25+ 机构数据（WTO / UNCTAD / NY Fed / 海关总署 / WSTS…）</td><td data-i18n="m3c7"><b>研究终端</b>——三维联动、随切随查、即取即用</td>
           </tr>
           <tr>
             <td class="m-name"><span class="dot" style="background:#1a8fc2"></span>Gemini<small>industry-research</small></td>
@@ -609,7 +616,7 @@
             <td><span class="tag">React 19 + Express</span><span class="tag">Recharts</span><span class="tag">AI 问答 API</span></td>
             <td data-i18n="m4c4">全球 · 5 个报告窗口</td>
             <td data-i18n="m4c5">全栈研究工作台：AI 问答随所选报告期切换语境，密钥服务端代理不落地</td>
-            <td data-i18n="m4c6">WCI / SCSI 等指标 + Google Search 实时检索增强<br /><b>研究人格：驻场研究助理</b>——随问随答、语境在线</td>
+            <td data-i18n="m4c6">WCI / SCSI 等指标 + Google Search 实时检索增强</td><td data-i18n="m4c7"><b>战略情报官</b>——实时盯盘、联网核验、为决策层出简报</td>
           </tr>
           <tr>
             <td class="m-name"><span class="dot" style="background:#0e7a6d"></span>VeloCortex<small data-i18n="m5sub">maritime（衍生应用）</small></td>
@@ -617,7 +624,7 @@
             <td><span class="tag">React 19 + Express</span><span class="tag">SheetJS 导出</span><span class="tag">i18n</span></td>
             <td data-i18n="m5c4">全球海运走廊 · 实时</td>
             <td data-i18n="m5c5">从研究到产品：集装箱追踪指挥中心，含冷链监控与滞箱费风险预测</td>
-            <td data-i18n="m5c6">IoT 传感器遥测 + Gemini 预测推理<br /><b>研究人格：运营指挥官</b>——盯船盯箱、先算风险</td>
+            <td data-i18n="m5c6">IoT 传感器遥测 + Gemini 预测推理</td><td data-i18n="m5c7"><b>运营指挥官</b>——盯船盯箱、先算风险</td>
           </tr>
         </tbody>
       </table>
@@ -801,14 +808,14 @@
   </div>
 </section>
 
-<!-- ============ AI 补位：工作流缺口 Top 5 ============ -->
+<!-- ============ AI 补位：工作流缺口 Top 7 ============ -->
 <section id="gaps">
   <div class="sec-head reveal">
-    <h2 class="sec-title" data-i18n="gaps-title">AI 补位 · 工作流缺口 Top 5</h2>
+    <h2 class="sec-title" data-i18n="gaps-title">AI 补位 · 工作流缺口 Top 7</h2>
     <span class="sec-note">IMPLEMENTATION · SCORED &amp; RANKED</span>
   </div>
   <p class="reveal reveal-d1" style="max-width:720px;font-size:14px;color:var(--ink-soft);margin:-14px 0 24px" data-i18n="gaps-intro">
-    综合本周雷达的热点议题与四份报告的共同发现，以下五个工作流缺口最值得用 AI 优先补位。
+    综合本周雷达的热点议题与四份报告的共同发现，以下七个工作流缺口最值得用 AI 优先补位。
     评分维度与权重：业务价值 35% · 落地可行性 25% · 数据就绪度 20% · 时效紧迫性 20%。
   </p>
   <div class="gap-legend reveal reveal-d1">
@@ -867,8 +874,25 @@
       <div class="gap-score"><div class="gs-num">8.0<i>/10</i></div><div class="gs-lbl" data-i18n="gs-lbl">综合评分</div></div>
     </div>
 
+    <!-- 04 · 需求预测（多模型集成） -->
     <div class="gap-row reveal">
       <div class="gap-rank">04</div>
+      <div class="gap-main">
+        <h4 data-i18n="g6t">需求预测（多模型集成）</h4>
+        <p data-i18n="g6d">促销、天气、宏观与地缘政治扰动叠加，单一模型预测偏差在牛鞭效应下被成倍放大。把 Prophet、梯度提升与 LLM 情景生成做成集成，再用一致性投票压低尾部误差——这正是本站「多模型视角」主线最直接的落地，也是 ROI 最高、最普适的供应链 AI 用例。</p>
+        <div class="gap-evi"><span>牛鞭效应</span><span data-i18n="g6e">雷达 · 热门议题</span><span>多模型集成</span></div>
+      </div>
+      <div class="gap-bars">
+        <div class="gap-bar"><div class="gb-top"><span data-i18n="dim-v">业务价值</span><b>9.0</b></div><div class="gb-track"><i class="gb-fill" style="--w:90%"></i></div></div>
+        <div class="gap-bar"><div class="gb-top"><span data-i18n="dim-f">落地可行性</span><b>7.5</b></div><div class="gb-track"><i class="gb-fill" style="--w:75%"></i></div></div>
+        <div class="gap-bar"><div class="gb-top"><span data-i18n="dim-d">数据就绪度</span><b>7.0</b></div><div class="gb-track"><i class="gb-fill" style="--w:70%"></i></div></div>
+        <div class="gap-bar"><div class="gb-top"><span data-i18n="dim-u">时效紧迫性</span><b>7.0</b></div><div class="gb-track"><i class="gb-fill" style="--w:70%"></i></div></div>
+      </div>
+      <div class="gap-score"><div class="gs-num">7.8<i>/10</i></div><div class="gs-lbl" data-i18n="gs-lbl">综合评分</div></div>
+    </div>
+
+    <div class="gap-row reveal">
+      <div class="gap-rank">05</div>
       <div class="gap-main">
         <h4 data-i18n="g4t">多智能体异常处置编排</h4>
         <p data-i18n="g4d">一票延误的跨部门调查动辄三天，而 Gartner 数据显示仅 23% 企业有正式 AI 战略、56% 卡在遗留系统集成。把「事件 → 取证 → 评估 → 执行」交给协作智能体，可将处置压缩到小时级——价值最高，但集成成本也最真实。</p>
@@ -884,7 +908,7 @@
     </div>
 
     <div class="gap-row reveal">
-      <div class="gap-rank">05</div>
+      <div class="gap-rank">06</div>
       <div class="gap-main">
         <h4 data-i18n="g5t">ESG 合规与碳数据核算</h4>
         <p data-i18n="g5d">EU ETS 已覆盖 100% 海运排放、CSDDD 强制处罚生效——碳从披露义务变为现金成本与市场准入证。AI 可自动归集单证流、按排放系数核算碳足迹并生成审计证据链。排不进前三并非不重要，而是数据就绪度（5.5）拖了后腿：Scope 3 层层索数，AI 算得再准也可能只是「精确的错误」。</p>
@@ -899,8 +923,25 @@
       <div class="gap-score"><div class="gs-num">7.4<i>/10</i></div><div class="gs-lbl" data-i18n="gs-lbl">综合评分</div></div>
     </div>
 
+    <!-- 07 · 库存优化（多级 / 防呆） -->
+    <div class="gap-row reveal">
+      <div class="gap-rank">07</div>
+      <div class="gap-main">
+        <h4 data-i18n="g7t">库存优化（多级 / 防呆）</h4>
+        <p data-i18n="g7d">营运资金大量沉淀在安全库存里，而 SKU 级缺货与呆滞并存。AI 可做多级库存优化 + 动态安全库存，并把「该补没补 / 该停没停」的防呆规则前置到补货建议里。难点在 ERP 主数据质量，但收益直接体现在现金流与货架可得率。</p>
+        <div class="gap-evi"><span>营运资金</span><span data-i18n="g7e">雷达 · 应用风向</span><span>ERP 主数据</span></div>
+      </div>
+      <div class="gap-bars">
+        <div class="gap-bar"><div class="gb-top"><span data-i18n="dim-v">业务价值</span><b>8.5</b></div><div class="gb-track"><i class="gb-fill" style="--w:85%"></i></div></div>
+        <div class="gap-bar"><div class="gb-top"><span data-i18n="dim-f">落地可行性</span><b>7.0</b></div><div class="gb-track"><i class="gb-fill" style="--w:70%"></i></div></div>
+        <div class="gap-bar"><div class="gb-top"><span data-i18n="dim-d">数据就绪度</span><b>6.5</b></div><div class="gb-track"><i class="gb-fill" style="--w:65%"></i></div></div>
+        <div class="gap-bar"><div class="gb-top"><span data-i18n="dim-u">时效紧迫性</span><b>7.0</b></div><div class="gb-track"><i class="gb-fill" style="--w:70%"></i></div></div>
+      </div>
+      <div class="gap-score"><div class="gs-num">7.4<i>/10</i></div><div class="gs-lbl" data-i18n="gs-lbl">综合评分</div></div>
+    </div>
+
   </div>
-  <p class="reveal" style="margin-top:18px;font-family:var(--font-mono);font-size:11.5px;color:var(--ink-mute);letter-spacing:.03em" data-i18n="gaps-note">候补未入选：供应链人才的 AI 副驾驶（6.9）——重要但不直接产生现金流，且决定前五项能跑多快。</p>
+  <p class="reveal" style="margin-top:18px;font-family:var(--font-mono);font-size:11.5px;color:var(--ink-mute);letter-spacing:.03em" data-i18n="gaps-note">候补未入选：数字孪生（供应链网络，7.3）——价值高但可行性与数据就绪度偏低，属长期转型；供应链人才的 AI 副驾驶（6.9）——重要但不直接产生现金流，且决定前七项能跑多快。</p>
 </section>
 
 <footer>
@@ -1434,12 +1475,17 @@
     'a1t': 'Warehouse automation & AI orchestration accelerate',
     'a1d': 'Gartner: 93% of companies plan cyber-physical automation investment within two years; 82% expand after their first robot deployment. Apps are shifting from point assistants to cross-system multi-agent orchestration — the lane VeloCortex below sits in.',
     'reports-title': 'Research & Application · Horizontal Comparison',
-    'mh1': 'Project', 'mh2': 'Model · Toolchain', 'mh3': 'Format & Stack', 'mh4': 'Lens & Window', 'mh5': 'Signature Trait', 'mh6': 'Data Sources · Research Persona',
-    'm1c6': 'Five public feeds: GSCPI / WTO / SCFI / WCI / LPI<br /><b>Persona: the periodical editor</b> — steady cadence, stable structure',
-    'm2c6': 'stooq live quotes + 24 tier-classified citations (K1–K24)<br /><b>Persona: the investigative journalist</b> — verifies everything, cites sources',
-    'm3c6': '25+ institutions (WTO / UNCTAD / NY Fed / China Customs / WSTS…)<br /><b>Persona: the industry analyst</b> — balanced, comprehensive, ready to use',
-    'm4c6': 'WCI / SCSI metrics + live Google Search grounding<br /><b>Persona: the resident research assistant</b> — always on, context-aware',
-    'm5c6': 'IoT sensor telemetry + Gemini predictive inference<br /><b>Persona: the operations commander</b> — watches every box, prices risk first',
+    'mh1': 'Project', 'mh2': 'Model · Toolchain', 'mh3': 'Format & Stack', 'mh4': 'Lens & Window', 'mh5': 'Signature Trait',     'mh6': 'Data Sources', 'mh7': 'Role',
+    'm1c6': 'Five public feeds: GSCPI / WTO / SCFI / WCI / LPI',
+    'm1c7': '<b>The archivist-editor</b> — fixed sections, filed by period, comparable across editions',
+    'm2c6': 'stooq live quotes + 24 tier-classified citations (K1–K24)',
+    'm2c7': '<b>The feature writer</b> — turns the industry into an argued long-read, every claim sourced',
+    'm3c6': '25+ institutions (WTO / UNCTAD / NY Fed / China Customs / WSTS…)',
+    'm3c7': '<b>The research console</b> — three-axis control, query on demand, ready to use',
+    'm4c6': 'WCI / SCSI metrics + live Google Search grounding',
+    'm4c7': '<b>The strategic intelligence officer</b> — live telemetry, grounded retrieval, briefs the C-suite',
+    'm5c6': 'IoT sensor telemetry + Gemini predictive inference',
+    'm5c7': '<b>The operations commander</b> — watches every box, prices risk first',
     'cards-title': 'Four Insight Reports',
     'm1c4': 'China / Global · Quarterly + half-year',
     'm1c5': 'Journal-style decision support: every edition answers the same five questions — directly comparable across issues',
@@ -1487,8 +1533,8 @@
     'app-l3': 'Gemini AI prediction: demurrage & detention exposure in USD before berthing, with speed/reroute advice',
     'app-l4': 'Bulk manifest lookup (PO / Invoice / BOL / container IDs mixed), one-click xlsx/csv export for ERP',
     'btn-dash': 'View Dashboard', 'btn-gh': 'View on GitHub', 'btn-app': 'Launch App',
-    'gaps-title': 'Where AI Fills In · Top 5 Workflow Gaps',
-    'gaps-intro': 'Synthesizing this week\'s radar and the shared findings across all four reports, these five workflow gaps are where AI should step in first. Scoring: business value ×35% · feasibility ×25% · data readiness ×20% · urgency ×20%.',
+    'gaps-title': 'Where AI Fills In · Top 7 Workflow Gaps',
+    'gaps-intro': 'Synthesizing this week\'s radar and the shared findings across all four reports, these seven workflow gaps are where AI should step in first. Scoring: business value ×35% · feasibility ×25% · data readiness ×20% · urgency ×20%.',
     'dim-v': 'Value', 'dim-f': 'Feasibility', 'dim-d': 'Data', 'dim-u': 'Urgency', 'gs-lbl': 'Composite',
     'g1t': 'End-to-end visibility & demurrage prediction',
     'g1d': 'Cape rerouting swings Asia–Europe ETAs by ±2 weeks while demurrage stays unquantifiable before berthing. AIS, port-queue and weather data are mature enough for AI to turn "wait and see" into "price it early, adjust speed" — a path already proven by VeloCortex on this site.',
@@ -1505,7 +1551,9 @@
     'g5t': 'ESG compliance & carbon accounting',
     'g5d': 'EU ETS now covers 100% of maritime emissions and CSDDD penalties are in force — carbon has shifted from disclosure duty to cash cost and market-access ticket. AI can consolidate document flows, compute footprints against emission factors, and build audit-ready evidence chains. It misses the top three not for lack of importance but because of data readiness (5.5): Scope 3 means chasing suppliers tier by tier, and precise math on bad data is still a precise error.',
     'g5e': 'Gartner · Provenance & Governance',
-    'gaps-note': 'Runner-up: the AI copilot for supply-chain talent (6.9) — important, but generates no direct cash flow; it determines how fast the top five can run.',
+    'g6t': 'Demand Forecasting (Model Ensemble)', 'g6d': 'Promotions, weather, macro and geopolitical shocks stack up, and a single model\u2019s error is amplified by the bullwhip effect. Ensembling Prophet, gradient boosting and LLM scenario generation — then using consensus voting to shrink tail error — is the most direct landing of this site\u2019s multi-model thesis, and the highest-ROI, most universal supply-chain AI use case.', 'g6e': 'Radar · Hot Topic',
+    'g7t': 'Inventory Optimization (Multi-echelon / Foolproofing)', 'g7d': 'Working capital sits idle in safety stock while SKU-level stockouts and dead stock coexist. AI can run multi-echelon optimization with dynamic safety stock, and push foolproof rules (\u201cshould-have-replenished / should-have-stopped\u201d) into the replenishment suggestion. The hard part is ERP master-data quality; the payoff shows directly in cash flow and on-shelf availability.', 'g7e': 'Radar · App Trend',
+    'gaps-note': 'Runner-up: digital twin (supply network, 7.3) — high value but low feasibility and data readiness, a long-term transformation; the AI copilot for supply-chain talent (6.9) — important, but generates no direct cash flow; it determines how fast the top seven can run.',
     'foot': 'A multi-model supply chain research portfolio · Reports generated independently by their respective AI tools; radar items sourced from public reporting — refer to original citations'
   };
   const langZh = document.getElementById('langZh');
