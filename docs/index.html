@@ -24,7 +24,7 @@
     --card: #ffffff;
     --grid-line: rgba(16,20,24,.035);
     --glow: none;
-    --nav-bg: rgba(247,246,242,.82);
+    --nav-bg: rgba(247,246,242,.9);
     --matrix-hover: #fafbfe;
     --shadow-card: 0 1px 2px rgba(16,20,24,.04), 0 12px 40px -24px rgba(16,20,24,.12);
     --shadow-card-hover: 0 2px 4px rgba(16,20,24,.05), 0 24px 48px -20px rgba(16,20,24,.18);
@@ -57,7 +57,7 @@
     --grid-line: rgba(233,237,242,.05);
     --glow: radial-gradient(ellipse 55% 38% at 50% -6%, rgba(91,140,255,.13), transparent 70%),
             radial-gradient(ellipse 30% 22% at 82% 4%, rgba(45,212,191,.07), transparent 70%);
-    --nav-bg: rgba(10,13,17,.78);
+    --nav-bg: rgba(10,13,17,.86);
     --matrix-hover: #161c24;
     --shadow-card: 0 1px 2px rgba(0,0,0,.3), 0 12px 40px -24px rgba(0,0,0,.6);
     --shadow-card-hover: 0 2px 4px rgba(0,0,0,.4), 0 24px 48px -20px rgba(0,0,0,.7);
@@ -113,9 +113,9 @@
     display: flex; align-items: center; justify-content: space-between;
     padding: 0 clamp(20px, 5vw, 64px); height: 64px;
     background: var(--nav-bg);
-    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
     border-bottom: 1px solid transparent;
-    transition: border-color .3s ease, background .4s ease;
+    box-shadow: 0 1px 0 rgba(16,20,24,.03), 0 10px 30px -22px rgba(16,20,24,.35);
+    transition: border-color .3s ease, background .4s ease, box-shadow .3s ease;
   }
   nav.scrolled { border-bottom-color: var(--line-soft); }
   .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
