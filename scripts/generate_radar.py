@@ -285,6 +285,25 @@ def translate_zh(text):
         return text
 
 
+def _load_existing_zh():
+    """Best-effort: reuse previous zh translations so a no-key rerun does not
+    wipe Chinese back to English pass-through."""
+    here = os.path.dirname(os.path.abspath(__file__))
+    path = os.path.join(os.path.dirname(here), "docs", "radar-data.json")
+    try:
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
+    except Exception:
+        return {}
+    out = {}
+    for c in data.get("columns", []):
+        for it in c.get("items", []):
+            t, d = it.get("title", {}), it.get("desc", {})
+            if t.get("en"):
+                out[t["en"]] = {"zh": t.get("zh"), "desc_zh": d.get("zh")}
+    return out
+
+
 def _fetch_meta_desc(url, timeout=12):
     """Best-effort summary from the article page's meta description."""
     try:
@@ -304,6 +323,8 @@ def _fetch_meta_desc(url, timeout=12):
 
 
 def main():
+    existing_zh = _load_existing_zh()
+    cfg = _translate_client()
     raw_items = []
     for name, url in FEEDS:
         try:
@@ -352,6 +373,12 @@ def main():
                 en_desc = md
         zh_title = translate_zh(en_title)
         zh_desc = translate_zh(en_desc) if en_desc and en_desc != en_title else zh_title
+        if cfg is None and en_title in existing_zh:
+            # No translation key available: keep the previously curated Chinese
+            # instead of falling back to English pass-through.
+            prev = existing_zh[en_title]
+            zh_title = prev["zh"] or zh_title
+            zh_desc = prev["desc_zh"] or zh_desc
 
         cat = categorize(en_title, en_desc)
         collected[cat].append({

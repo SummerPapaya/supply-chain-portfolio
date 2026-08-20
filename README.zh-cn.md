@@ -26,7 +26,7 @@
 | --- | --- | --- | --- |
 | **Cursor × Grok** | Grok 4.5 High Fast · Cursor Agent + Canvas | 档案主编 | 杂志式的决策支持——每期固定 5 个问题，各期之间可直接横向比较。 |
 | **Kimi Agent** | Kimi K3 Deep Research · Kimi Agent | 深度特稿主笔 | 实时行情报价 + 24 条分级引用；数据源中断时，明确标注兜底快照。 |
-| **WorkBuddy** | Deepseek-V4-Pro · WorkBuddy Agent | 研究终端 | 粘性的三轴控制条（视角 / 窗口 / 语言）；每个 KPI 与图表即时更新。 |
+| **WorkBuddy** | Deepseek-V4-Pro · WorkBuddy Agent | 研究中控师 | 粘性的三轴控制条（视角 / 窗口 / 语言）；每个 KPI 与图表即时更新。 |
 | **Gemini** | Gemini 3.6 Flash · Search Grounding | 战略情报官 | 全栈工作台，内置 AI 问答可重新锚定到所选报告窗口；密钥始终留在服务端。 |
 
 ## 🚢 VeloCortex Maritime — 衍生应用

@@ -26,7 +26,7 @@ Four reports, four AI minds, one brief. Each report is a self-contained, rendera
 | --- | --- | --- | --- |
 | **Cursor × Grok** | Grok 4.5 High Fast · Cursor Agent + Canvas | The Archivist-Editor | Journal-style decision support — same 5 questions every edition, directly comparable across issues. |
 | **Kimi Agent** | Kimi K3 Deep Research · Kimi Agent | The Feature Writer | Live market quotes + 24 tier-classified citations; explicitly labels fallback snapshots when feeds are down. |
-| **WorkBuddy** | Deepseek-V4-Pro · WorkBuddy Agent | The Research Console | Sticky 3-axis control bar (lens / window / language); every KPI and chart updates instantly. |
+| **WorkBuddy** | Deepseek-V4-Pro · WorkBuddy Agent | The Research Controller | Sticky 3-axis control bar (lens / window / language); every KPI and chart updates instantly. |
 | **Gemini** | Gemini 3.6 Flash · Search Grounding | The Strategic Intelligence Officer | Full-stack workbench with AI Q&A that re-grounds to the selected reporting window; keys stay server-side. |
 
 ## 🚢 VeloCortex Maritime — Spin-off App

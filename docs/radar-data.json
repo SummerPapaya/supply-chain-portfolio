@@ -1,134 +1,6 @@
 {
-  "updatedAt": "2026-08-15T22:53:57.836412+08:00",
+  "updatedAt": "2026-08-20T23:30:44+08:00",
   "columns": [
-    {
-      "cat": {
-        "zh": "重点新闻",
-        "en": "Key News"
-      },
-      "color": "#e05656",
-      "items": [
-        {
-          "title": {
-            "zh": "巴拿马运河临时竞拍价创纪录；8.15 起吃水降至 48.5 英尺",
-            "en": "Panama Canal auction slots hit records; max draft cut to 48.5 ft from Aug 15"
-          },
-          "desc": {
-            "zh": "8 月 11 日前后一艘集装箱船在巴拿马运河临时竞拍中以约 400 万美元成交；8 月常规船闸日均竞拍均价升至约 110 万美元，是去年同期的 16 倍以上。8 月 15 日起运河吃水深度进一步降至 48.5 英尺，马士基、赫伯罗特、ONE 等已陆续加征运河与旺季附加费。需求端受中东地缘风险与霍尔木兹通航不稳推升，近三成运河货运现需通过竞拍争抢通行名额。",
-            "en": "Around Aug 11 a containership paid a record ~$4M in a Panama Canal auction slot; August's daily average auction price for conventional locks has climbed to ~$1.1M, over 16x the year-ago level. Effective Aug 15, the canal's max draft drops further to 48.5 ft, with Maersk, Hapag-Lloyd and ONE adding canal and peak surcharges. Geopolitical risk in the Middle East and unstable Hormuz transits are pushing operators to pay up for certainty — nearly 30% of canal cargo now moves via auctioned slots."
-          },
-          "sources": [
-            {
-              "label": "今日头条 (8/15) ↗",
-              "url": "https://www.toutiao.com/article/7674074633200501300/"
-            },
-            {
-              "label": "出海网政策盘点 (8月) ↗",
-              "url": "https://www.chwang.com/article/208273593336"
-            },
-            {
-              "label": "Flexport GLU (8/13) ↗",
-              "url": "https://www.flexport.com/global-logistics-update/august-13-2026-GLU-Newsletter"
-            },
-            {
-              "label": "The DCN / Drewry (8/13) ↗",
-              "url": "https://www.thedcn.com.au/news/world-container-index-13-august-2026"
-            }
-          ],
-          "verified": true,
-          "tags": {
-            "zh": [
-              "巴拿马运河",
-              "吃水 48.5ft",
-              "竞拍纪录"
-            ],
-            "en": [
-              "Panama Canal",
-              "48.5ft draft",
-              "record auction"
-            ]
-          }
-        },
-        {
-          "title": {
-            "zh": "美国对进口无人机及零部件开征 10%–100% 关税，9 月 3 日生效",
-            "en": "US imposes 10–100% tariff on imported drones and components, effective Sept 3"
-          },
-          "desc": {
-            "zh": "8 月 13 日特朗普签署公告，以国家安全为由对进口无人机及零部件开征 10%–100% 从价关税：>25kg 且具备热成像等高度敏感的整机、停靠站及关键组件税率 100%；较小且非特定功能整机及组件 25%；来自欧盟、日本、韩国、瑞士、列支敦士登及中国台湾地区上限 15%；英国上限 10%（须证明关键部件源自美及上述地区）。整体关税自签署 21 天后即 2026 年 9 月 3 日生效，非高度敏感组件延至 180 天后实施，公告同时授权美商务部长建立无人机制造回流激励程序。",
-            "en": "On Aug 13, President Trump signed a proclamation citing national security to impose 10–100% ad valorem tariffs on imported drones and components: highly sensitive units (>25 kg with thermal imaging etc.) and stations/key parts at 100%; smaller non-sensitive units and parts at 25%; imports from the EU, Japan, South Korea, Switzerland, Liechtenstein and Taiwan capped at 15%; UK at 10% (subject to proof of US-aligned origin). Duties take effect Sept 3 (21 days after signing); non-sensitive components are phased in 180 days later. The order also authorizes a Commerce-led reshoring incentive program."
-          },
-          "sources": [
-            {
-              "label": "出海网早报 (8/15) ↗",
-              "url": "http://www.chwang.cn/daily"
-            },
-            {
-              "label": "网易「关税重定义全球化」(8/15) ↗",
-              "url": "https://www.163.com/dy/article/L474HTR5054605GN.html"
-            },
-            {
-              "label": "出海网政策大盘点 (8月) ↗",
-              "url": "https://www.chwang.com/article/208273593336"
-            }
-          ],
-          "verified": true,
-          "tags": {
-            "zh": [
-              "无人机关税",
-              "9/3 生效",
-              "国家安全"
-            ],
-            "en": [
-              "Drone tariff",
-              "effective Sep 3",
-              "security"
-            ]
-          }
-        },
-        {
-          "title": {
-            "zh": "德国电池巨头 VARTA 破产：苹果 AirPods 电池订单转向中国，欧洲电池制造业结构性困境凸显",
-            "en": "German battery giant VARTA files insolvency; Apple shifts AirPods cells to China"
-          },
-          "desc": {
-            "zh": "7 月底拥有 139 年历史的 VARTA 因失去苹果订单进入自主管理破产程序：苹果 2026 年 5 月决定 AirPods CoinPower 电池转向中国供应商（亿纬锂能/欣旺达报价 $1.5–$2/颗，对 VARTA 的 $4–$5），现有合同 10 月到期不续。保时捷与大股东 Michael Tojner 拒绝追加注资；诺德林根约 350 人的工厂 2026 年秋关闭。欧洲电池企业普遍存在客户高度集中、产能偏小、面对亚洲供应链价格劣势的结构性问题——Britishvolt、Northvolt 等接连倒下。",
-            "en": "139-year-old VARTA entered self-administered insolvency at end-July after losing Apple: Apple decided in May 2026 to shift AirPods CoinPower cell sourcing to Chinese suppliers (EVE Energy/Sunwoda at $1.5–2/unit vs. VARTA's $4–5), with the existing contract ending Oct 2026 non-renewed. Porsche and major shareholder Michael Tojner refused further capital; the ~350-employee Nördlingen plant will close in autumn 2026. The case exposes structural European battery-industry weaknesses — concentrated customers, sub-scale capacity, price disadvantage vs. Asian supply chains — following Britishvolt, Northvolt and others."
-          },
-          "sources": [
-            {
-              "label": "网易 / 环球时报 (8/11) ↗",
-              "url": "https://dy.163.com/article/L41H8D5P0514R9OJ.html"
-            },
-            {
-              "label": "今日头条 (7/30) ↗",
-              "url": "https://www.toutiao.com/article/7668241107515359771/"
-            },
-            {
-              "label": "搜狐 (近期) ↗",
-              "url": "https://www.sohu.com/a/1062848074_121794680"
-            },
-            {
-              "label": "EADaily (7/26) ↗",
-              "url": "https://www.eadaily.info/en/ampnews/2026/07/26/german-battery-manufacturer-varta-ag-declared-bankruptcy"
-            }
-          ],
-          "verified": true,
-          "tags": {
-            "zh": [
-              "VARTA",
-              "苹果 AirPods",
-              "欧洲电池"
-            ],
-            "en": [
-              "VARTA",
-              "Apple AirPods",
-              "EU battery"
-            ]
-          }
-        }
-      ]
-    },
     {
       "cat": {
         "zh": "研究瞭望",
@@ -138,246 +10,54 @@
       "items": [
         {
           "title": {
-            "zh": "Drewry WCI 升至 $4,339/FEU（+1%），跨太平洋航线领涨",
-            "en": "Drewry WCI rises to $4,339/FEU (+1%), led by Transpacific"
+            "zh": "加什么？资深仓储运营商的押注方向",
+            "en": "What to Add: Where Experienced Warehouse Operators are Placing their Bets"
           },
           "desc": {
-            "zh": "德鲁里 8 月 13 日数据显示 WCI 周环比上涨 1% 至 $4,339/40ft，跨太平洋航线拉动：上海—纽约 +10% 至 $8,706/FEU、上海—洛杉矶 +6% 至 $6,244/FEU；运力端本周取消 10 个航次、下周计划再取消 7 个。亚欧航线则小幅回落：上海—热那亚 −8% 至 $5,080、上海—鹿特丹 −5% 至 $4,425。承运人维持运力管理，预期下周运价趋稳。报告同时提示：9 月巴拿马运河水位预计再降，部分承运人已公布 9 月生效的巴拿马附加费，将进一步约束美东/墨湾舱位。",
-            "en": "Drewry's Aug 13 WCI rose 1% w/w to $4,339/40 ft, led by Transpacific: Shanghai–New York +10% to $8,706/FEU, Shanghai–LA +6% to $6,244/FEU; carriers blanked 10 sailings this week and plan 7 more next week. Asia–Europe softened: Shanghai–Genoa −8% to $5,080, Shanghai–Rotterdam −5% to $4,425. Capacity stays managed and rates are expected steady next week. The report also flags Panama Canal water levels set to drop again in September, with carriers announcing Sept-effective canal surcharges that will further constrain USEC/Gulf space."
+            "zh": "拥有近百年合计经验的一线仓储老兵分享正在试点的方向：叉车驾驶辅助、以整条流程为单位的集成规划（替代单点优化）与低成本数字孪生模拟；到 2028 年，人力将更多转向“异常处理经理”角色。",
+            "en": "Warehouse veterans with nearly a century of combined experience share what they are actively piloting: forklift driver assist, integrated flow-level planning over point solutions, and low-cost digital twins — with humans shifting toward “exception manager” roles by 2028."
           },
           "sources": [
             {
-              "label": "The DCN / Drewry (8/13) ↗",
-              "url": "https://www.thedcn.com.au/news/world-container-index-13-august-2026"
-            },
-            {
-              "label": "KVN Logistics (8/7) ↗",
-              "url": "https://kvnlogistics.vn/logistics-market-update-august-2026/"
-            },
-            {
-              "label": "第一财经 / C.H. Robinson (8/7) ↗",
-              "url": "https://www.163.com/dy/article/L3OBHNGI0519DDQ2.html"
+              "label": "MHI ↗",
+              "url": "https://mhiblog.org/what-to-add-where-experienced-warehouse-operators-are-placing-their-bets/"
             }
           ],
-          "verified": true,
-          "tags": {
-            "zh": [
-              "WCI 指数",
-              "跨太平洋",
-              "运价周报"
-            ],
-            "en": [
-              "WCI",
-              "Transpacific",
-              "weekly rates"
-            ]
-          }
+          "verified": false
         },
         {
           "title": {
-            "zh": "华强北 AI 硬件出口爆发：1-7月销售额 +55%，AI 产品占商圈比重 41%→61%",
-            "en": "Huaqiangbei AI hardware exports surge: Jan-Jul sales +55%, AI share of the district 41%→61%"
+            "zh": "供应链断裂时，货运科技如何应答：2021—2023 加速之年",
+            "en": "When the Supply Chain Broke, Freight Tech Answered: The 2021 to 2023 Acceleration Years"
           },
           "desc": {
-            "zh": "华强北街道：日均 8,000 名外籍客商采购；AI 产品占商圈内电子产品比重由 2025 年 41% 大幅跃升至 61%；1-7 月 AI 产品全品类销售额同比增长 55% 以上（AI 眼镜销量 +100%、无人机/机器人 +60–70%）。深圳海关：上半年高新技术产品进出口 1.7 万亿元（全国第一），AI 相关产品进出口额突破万亿、增速超 50%。欧盟 7/14 豁免可穿戴设备可拆卸电池强制要求，进一步降低成本。「一公里产业链」100+ 元器件 1 天配齐、1 周出样，AI 产品出口覆盖全球 190+ 国家和地区。",
-            "en": "Huaqiangbei Subdistrict: ~8,000 foreign buyers daily; AI products' share of district electronics jumped from 41% (2025) to 61% (Jul 2026); Jan-Jul AI product sales up 55%+ YoY (AI glasses +100%, drones/robots +60-70%). Shenzhen Customs: H1 high-tech product import/export reached CNY 1.7T (national #1), with AI-related products exceeding CNY 1T and growing >50%. The EU's Jul 14 exemption on detachable-battery requirements for wearables further cut costs. The 'one-kilometer supply chain' can source 100+ components in a day and produce samples in a week; AI products now ship to 190+ countries and territories."
+            "zh": "疫情危机用 18 个月完成了十年销售话术没能做到的事：货运撮合、实时可视化和自动化从“可选”变成“基础设施”。回顾这一品类如何永久重置了行业对货运科技的期待。",
+            "en": "The pandemic crisis did in 18 months what a decade of sales pitches could not: digital freight matching, real-time visibility and automation moved from optional to essential infrastructure. A retrospective on how the category permanently reset industry expectations."
           },
           "sources": [
             {
-              "label": "凤凰网 / 央视网 (8/14) ↗",
-              "url": "https://news.ifeng.com/c/8vaQhvpEgi8"
-            },
-            {
-              "label": "今日头条 / 深圳新闻广播 (8/7) ↗",
-              "url": "https://www.toutiao.com/article/7671176658660983346/"
-            },
-            {
-              "label": "网易 (8/15) ↗",
-              "url": "https://c.m.163.com/news/a/L3L7FCLO0514R9KQ.html"
-            },
-            {
-              "label": "山西日报 / 新华社 (8/13-14) ↗",
-              "url": "https://www.sxrb.com/content/202608/14/c226989.html"
+              "label": "FreightWaves ↗",
+              "url": "https://www.freightwaves.com/news/when-the-supply-chain-broke-freight-tech-answered-the-2021-to-2023-acceleration-years"
             }
           ],
-          "verified": true,
-          "tags": {
-            "zh": [
-              "华强北",
-              "AI 硬件出口",
-              "一公里产业链"
-            ],
-            "en": [
-              "Huaqiangbei",
-              "AI exports",
-              "1-km supply chain"
-            ]
-          }
+          "verified": false
         },
         {
           "title": {
-            "zh": "国家邮政局：1-7月寄递量 +4.2%、日均 5.5 亿件，快递业从「末端配送」向「前端供应链」延伸",
-            "en": "State Post Bureau: Jan-Jul delivery volume +4.2%, daily ~550M parcels; express sector extends from last-mile to upstream supply chain"
+            "zh": "仓库效率的未来：将 AI 应用于 WMS 实施",
+            "en": "The Future of Warehouse Efficiency: Applying AI to WMS Implementations"
           },
           "desc": {
-            "zh": "国家邮政局 8/15：1-7 月邮政行业寄递业务量累计完成 1,274.4 亿件（+4.2%），业务收入（不含储蓄银行直接营业收入）累计完成 10,799.1 亿元（+6.1%），双增长。快递业加速从「末端配送」向「前端供应链」延伸，以数智物流创新赋能特色产业。沈阳案例：快递企业与汽车零部件厂驻场合作，配送时效从「按天计」提升至「按小时计」，高峰时段整车直发。国家邮政局发展研究中心王岳含：日均业务量约 5.5 亿件，通过定制化、精细化服务满足多元消费需求。",
-            "en": "State Post Bureau Aug 15: Jan-Jul postal delivery volume reached 127.44B parcels (+4.2%), revenue (excl. postal savings bank direct ops) CNY 1,079.91B (+6.1%) — double-digit growth on both counts. The express sector is accelerating its shift from last-mile delivery toward upstream supply chain services, using digital-smart logistics to empower specialized industries. In Shenyang, courier firms run on-site partnerships with auto-parts makers, upgrading delivery from 'by the day' to 'by the hour' with full-truck direct dispatch at peak. Wang Yuehan (State Post Bureau Development Research Center): daily volume ~550M parcels, with customized, refined services meeting diverse consumer demand."
+            "zh": "将 AI 嵌入 WMS 实施方法论（配置标准、集成规则、测试脚本）可缩短交付周期、降低技术债。关键模式是把 AI 当作“副驾驶”，在治理框架内由人验证其产出。",
+            "en": "AI embedded in WMS implementation methodology — configuration standards, integration rules, testing scripts — shortens delivery cycles and reduces technical debt. The winning pattern: AI as a copilot within governance frameworks, with humans validating outputs."
           },
           "sources": [
             {
-              "label": "央视网 / 国家邮政局 (8/15) ↗",
-              "url": "https://news.cctv.cn/2026/08/15/ARTIUXKZHLblS9pY9b397YG6260815.shtml"
-            },
-            {
-              "label": "微博 / 国家邮政局 (8/15) ↗",
-              "url": "https://weibo.com/5477333519/5332293159485708"
-            },
-            {
-              "label": "央视网繁体 (8/15) ↗",
-              "url": "https://big5.cctv.com/gate/big5/news.cctv.cn/2026/08/15/ARTIUXKZHLblS9pY9b397YG6260815.shtml"
+              "label": "MHI ↗",
+              "url": "https://mhiblog.org/the-future-of-the-warehouse-efficiency-applying-ai-to-wms-implementations/"
             }
           ],
-          "verified": true,
-          "tags": {
-            "zh": [
-              "国家邮政局",
-              "寄递量 +4.2%",
-              "前端供应链"
-            ],
-            "en": [
-              "Post bureau",
-              "+4.2% volume",
-              "upstream supply chain"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "cat": {
-        "zh": "热门议题",
-        "en": "Hot Topics"
-      },
-      "color": "#f0a13a",
-      "items": [
-        {
-          "title": {
-            "zh": "霍尔木兹海峡日均通行降至战前约十分之一，结构性冲击蔓延",
-            "en": "Hormuz daily transits fall to ~10% of pre-war; shock now structural"
-          },
-          "desc": {
-            "zh": "Xeneta 数据显示霍尔木兹海峡日集装箱船通行量自 7 月中旬以来稳定在十几艘左右，约为战前水平的十分之一；日通行区间 0–2 艘。马士基对通过霍尔木兹海峡的船舶加收 $1,000/箱附加费；达飞 EFS $75–$165/TEU 自 8/1 生效；ONE EFS $38–$100/TEU 自今日（8/15）生效。8 月 12 日美、伊、阿曼三方据报正推进 60 天临时通航方案（分道通行、免收通行费），但航道管辖权与细则仍存分歧，尚无约束性文件落地。",
-            "en": "Xeneta reports Hormuz container-ship daily transits have been stuck in the teens since mid-July — roughly 10% of pre-war levels — with daily counts of 0–2 vessels. Maersk is charging $1,000/box for Hormuz transits; CMA CGG EFS $75–$165/TEU from Aug 1; ONE EFS $38–$100/TEU effective today (Aug 15). A US–Iran–Oman 60-day interim transit scheme (lane separation, no transit fee) was reported Aug 12, but disputes over corridor control and rules remain unresolved."
-          },
-          "sources": [
-            {
-              "label": "IndexBox / Xeneta (8/6) ↗",
-              "url": "https://www.indexbox.io/blog/ocean-container-spot-rates-diverge-us-west-coast-up-14-asia-europe-down-5"
-            },
-            {
-              "label": "班轮公司附加费汇总 ↗",
-              "url": "https://gu.qq.com/resources/shy/news/detail-v2/index.html?t=1#/index?_tentrees_trans=0&id=SN2026072416423794b77cb6"
-            },
-            {
-              "label": "5684 亚欧线 (8月) ↗",
-              "url": "https://www.5684.com/news/article/24950.html"
-            }
-          ],
-          "verified": true,
-          "tags": {
-            "zh": [
-              "霍尔木兹",
-              "通航量 1/10",
-              "地缘风险"
-            ],
-            "en": [
-              "Hormuz",
-              "10% transits",
-              "geopolitics"
-            ]
-          }
-        },
-        {
-          "title": {
-            "zh": "8 月班轮公司密集加征附加费：ONE EFS 今日起、MSC PCS 8/19 生效",
-            "en": "Carriers stack August surcharges: ONE EFS today; MSC PCS Aug 19"
-          },
-          "desc": {
-            "zh": "多家头部班轮公司 8 月密集调整附加费：ONE 紧急燃油附加费（EFS）自 2026 年 8 月 15 日起对所有远洋干线及区域内支线征 $38–$100/TEU；达飞 EFS 自 8 月 1 日起征 $75–$165/TEU；MSC 自 8 月 19 日起对东南亚、中国、韩国、日本起运至美国东海岸、墨湾的货物征巴拿马运河附加费（PCS）$100/TEU；马士基对通过霍尔木兹海峡的船舶征 $1,000/箱。叠加 MSC 8/15 起生效的远东—欧洲新 FAK 费率（北欧 $5,100/$7,800，西地中海 $4,900/$6,700），全包成本压力继续向货主传导。",
-            "en": "Major liners stacked August surcharges: ONE EFS at $38–$100/TEU effective today (Aug 15) on all deep-sea and intra-regional trades; CMA CGG EFS $75–$165/TEU from Aug 1; MSC Panama Canal Surcharge $100/TEU from Aug 19 for cargo from SE Asia, China, Korea and Japan to the US East Coast and Gulf; Maersk at $1,000/box for Hormuz transits. Combined with MSC's new Far East→Europe FAK rates effective Aug 15 (N. Europe $5,100/$7,800, W. Med $4,900/$6,700), all-in cost pressure continues to pass through to cargo owners."
-          },
-          "sources": [
-            {
-              "label": "班轮公司附加费汇总 ↗",
-              "url": "https://gu.qq.com/resources/shy/news/detail-v2/index.html?t=1#/index?_tentrees_trans=0&id=SN2026072416423794b77cb6"
-            },
-            {
-              "label": "5684 亚欧线 (8月) ↗",
-              "url": "https://www.5684.com/news/article/24950.html"
-            },
-            {
-              "label": "MSC Far East–Europe FAK (8/15) ↗",
-              "url": "https://seasnews.net/msc-announces-new-far-east-europe-freight-rates"
-            },
-            {
-              "label": "出海网早报 (8/15) ↗",
-              "url": "http://www.chwang.cn/daily"
-            }
-          ],
-          "verified": true,
-          "tags": {
-            "zh": [
-              "班轮附加费",
-              "ONE 8/15",
-              "MSC 8/19"
-            ],
-            "en": [
-              "Carrier surcharges",
-              "ONE Aug 15",
-              "MSC Aug 19"
-            ]
-          }
-        },
-        {
-          "title": {
-            "zh": "新能源重卡加速渗透：H1 销量 +78.6%，厦门港渗透率 >30%，从港口短倒迈向干线",
-            "en": "China NEV heavy-trucks surge: H1 sales +78.6%, Xiamen port >30%, expanding to trunk lanes"
-          },
-          "desc": {
-            "zh": "央广网 8/7：上半年新能源重卡累计销量约 14 万辆，同比 +78.6%；厦门港港区内部短驳渗透率突破 30%，头部港运车队电动化率超 50%。8/15 起新能源重卡启用独立 HS 编码 87042390，出口退税率从 9% 上调至 13%。场景从港口/矿区封闭区域向干线延伸——部分车型已运营 1000+ 公里长途干线；河北辛集星耀物流 700 余台新能源车 + 整合社会运力 2000 余台，年减碳 46.8 万吨，构建「路港车网储电」零碳走廊。",
-            "en": "CNR Aug 7: H1 NEV heavy-truck sales ~140k units, +78.6% YoY; Xiamen port intra-terminal short-haul NEV penetration >30%, leading fleet electrification >50%. From Aug 15, NEV heavy trucks gain a dedicated HS code 87042390, with export tax rebate raised from 9% to 13%. Use cases are expanding from closed port/mine sites into trunk lanes — some models have run >1,000 km trunk routes; Hebei Xinji's Xingyao Logistics runs 700+ NEV trucks + 2,000+ integrated social capacity, cutting 468k tons of CO2/year via a road-port-vehicle-network-storage-power zero-carbon corridor."
-          },
-          "sources": [
-            {
-              "label": "央广网 (8/7) ↗",
-              "url": "https://www.toutiao.com/article/7671087110429983267/"
-            },
-            {
-              "label": "今日头条 / 台海网 (8/4) ↗",
-              "url": "https://www.toutiao.com/article/7669973482210198067/"
-            },
-            {
-              "label": "网易 / 货运新视界 (8/6) ↗",
-              "url": "https://dy.163.com/article/L3JTHHQ10556NW8U.html"
-            },
-            {
-              "label": "出海网政策盘点 (HS 87042390) ↗",
-              "url": "https://www.chwang.com/article/208273593336"
-            }
-          ],
-          "verified": true,
-          "tags": {
-            "zh": [
-              "新能源重卡",
-              "销量 +78.6%",
-              "绿色物流"
-            ],
-            "en": [
-              "NEV trucks",
-              "+78.6% sales",
-              "green logistics"
-            ]
-          }
+          "verified": false
         }
       ]
     },
@@ -390,81 +70,226 @@
       "items": [
         {
           "title": {
-            "zh": "供应链 AI 进入执行层：科捷联合方案落地、Kinaxis/IDC 称 41% 预期规模化自主运营",
-            "en": "Supply-chain AI moves into execution: Kejie live; Kinaxis/IDC flag 41% autonomous target"
+            "zh": "亚马逊与仓储科技公司 AutoStore 达成全球供应协议",
+            "en": "Amazon, fulfillment tech company AutoStore ink global supply deal"
           },
           "desc": {
-            "zh": "8 月 5 日神州控股科捷 CTO 张虎坡透露：AI 已进入供应链执行层，可在采购、调拨、订单调度、包材选择上给出可直接指导操作的具体决策；科捷 AI 智能体 + 具身智能机器人协同方案已在仓库运行 3 个月，单仓完成单量占比 10%，一家大客户包材年节省达整体成本约 27%（百万级）。8 月 12 日 Kinaxis 赞助的 IDC 研究显示：41% 受访者预期 1–2 年内实现规模化自主运营，但仅 12% 已将治理机制融入日常，52% 将信任列为首要障碍。同日京东工业与永钢集团签署战略合作，共建钢铁采购供应链数智化。",
-            "en": "On Aug 5, Digital China Kejie CTO Zhang Hupo said supply-chain AI has moved into execution — issuing directly actionable recommendations for procurement, allocation, order dispatch and packaging; Kejie's AI-agent + embodied-robot warehouse solution has run for 3 months and handles 10% of one DC's volume, saving one large customer ~27% (millions CNY) in annual packaging cost. On Aug 12, an IDC study sponsored by Kinaxis found 41% of supply-chain leaders expect scaled autonomous operations within 1–2 years — but only 12% have governance baked in, and 52% cite trust as the top barrier. Same day JD Industrial signed a strategic partnership with Yongsteel Group on procurement digitalization."
+            "zh": "这份不含采购承诺的协议，为电商巨头的履约自动化布局再添一块拼图。",
+            "en": "The agreement — which carries no purchase commitments — adds to the e-commerce giant's push to automate fulfillment."
           },
           "sources": [
             {
-              "label": "今日头条 / 中经TMT (8/8) ↗",
-              "url": "https://www.toutiao.com/article/7671438535668367872/"
-            },
-            {
-              "label": "Kinaxis / IDC (8/12) ↗",
-              "url": "https://new.qq.com/rain/a/20260812A074WL00"
-            },
-            {
-              "label": "京东工业 × 永钢 (8/12) ↗",
-              "url": "https://www.cet.com.cn/wzsy/kjzx/10502519.shtml"
+              "label": "Supply Chain Dive ↗",
+              "url": "https://www.supplychaindive.com/news/amazon-fulfillment-tech-company-autostore-ink-global-supply-deal/827978/"
             }
           ],
-          "verified": true,
-          "tags": {
-            "zh": [
-              "供应链 AI",
-              "具身机器人",
-              "Kinaxis/IDC"
-            ],
-            "en": [
-              "Supply-chain AI",
-              "embodied robots",
-              "Kinaxis/IDC"
-            ]
-          }
+          "verified": false
         },
         {
           "title": {
-            "zh": "MG Ship 推出 AI 多式联运追踪平台：覆盖 220 国、ETA 99%，打通在途库存融资",
-            "en": "MG Ship launches AI multimodal tracking: 220+ countries, 99% ETA, in-transit financing"
+            "zh": "亚马逊今年将无人机配送覆盖范围扩大六倍",
+            "en": "Amazon to expand drone delivery reach sixfold this year"
           },
           "desc": {
-            "zh": "新加坡物流科技公司 MG Ship 8/3 全球发布、8/10 正式登陆欧洲的 AI 多式联运追踪平台，将海/空/陆/包裹数据整合到统一控制塔，覆盖 220+ 国家、1,000+ 承运商与海关系统；ETA 准确率 99%，并基于运输与海关数据为企业提供在途库存融资。CEO 张淑明：65%+ 货运跟踪在货代/3PL 仍依赖人工——是行业最大效率缺口。公司同时推出 EEAP 企业早期体验计划，提供 60 天免费试用。",
-            "en": "Singapore logistics-tech MG Ship on Aug 3 globally launched (Aug 10 European rollout) its AI multimodal tracking platform, unifying sea/air/land/parcel data in a single control tower across 220+ countries and 1,000+ carrier and customs integrations; ETA accuracy 99%, with in-transit inventory financing built on consolidated shipment and customs data. CEO Suki Cheung: 65%+ of cargo-tracking activity at forwarders/3PLs is still manual — the industry's biggest efficiency gap. A 60-day Enterprise Early Access Program (EEAP) free trial is open through August–September 2026."
+            "zh": "Prime Air 无人机配送将很快落地亚特兰大、芝加哥、克利夫兰都市圈，今年配送覆盖范围将扩大六倍。",
+            "en": "Prime Air will soon launch in metro Atlanta, Chicago and Cleveland — a sixfold expansion of drone delivery reach this year."
           },
           "sources": [
             {
-              "label": "Bernama / Globe Newswire (8/3) ↗",
-              "url": "https://www.bernama.com/en/press/news.php?id=2589530"
-            },
-            {
-              "label": "Journal of Professional Transportation (8/10) ↗",
-              "url": "https://www.journalofprofessionaltransportation.com/agp-article/933047233-mg-ship-launches-ai-logistics-platform-in-europe"
-            },
-            {
-              "label": "香港财经时报 HKBT (8/5) ↗",
-              "url": "https://www.businesstimes.com.hk/articles/333644/mg-ship-%e6%8e%a8%e5%87%ba%e4%ba%ba%e5%b7%a5%e6%99%ba%e8%83%bd%e5%b9%b3%e5%8f%b0%ef%bc%8c%e5%8d%94%e5%8a%a9%e9%9b%b6%e5%94%ae%e5%95%86%e5%8f%8a%e8%a3%bd%e9%80%a0%e5%95%86%e5%8f%96%e5%be%97%e5%af%a6"
-            },
-            {
-              "label": "Bernama (8/4) ↗",
-              "url": "https://bernama.com/tv/news.php?id=2590039"
+              "label": "Supply Chain Dive ↗",
+              "url": "https://www.supplychaindive.com/news/amazon-to-expand-drone-delivery-reach-sixfold-this-year/828253/"
             }
           ],
-          "verified": true,
-          "tags": {
-            "zh": [
-              "MG Ship",
-              "多式联运",
-              "ETA 99%"
-            ],
-            "en": [
-              "MG Ship",
-              "multimodal",
-              "99% ETA"
-            ]
-          }
+          "verified": false
+        },
+        {
+          "title": {
+            "zh": "重塑履约网络：面向 2026 年及更远的未来",
+            "en": "Reshaping Fulfillment Networks — for 2026 and Beyond"
+          },
+          "desc": {
+            "zh": "五位物流专家解读履约网络重塑方向：微履约与全渠道、节点再分布、实时库存准确性与逆向物流；自动化与数据分析正从“锦上添花”变成“必备能力”。",
+            "en": "Five logistics experts map the shifts reshaping fulfillment networks — micro-fulfillment and omnichannel, node redistribution, real-time inventory accuracy and reverse logistics — with automation and data analytics moving from additions to necessities."
+          },
+          "sources": [
+            {
+              "label": "MHI ↗",
+              "url": "https://mhiblog.org/reshaping-fulfillment-networks-for-2026-and-beyond/"
+            }
+          ],
+          "verified": false
+        }
+      ]
+    },
+    {
+      "cat": {
+        "zh": "热门议题",
+        "en": "Hot Topics"
+      },
+      "color": "#f0a13a",
+      "items": [
+        {
+          "title": {
+            "zh": "亚丁湾一艘油轮遭武装人员劫持，被驶向索马里",
+            "en": "Sanctioned shadow-fleet tanker hijacked in Gulf of Aden, diverted toward Somalia"
+          },
+          "desc": {
+            "zh": "英国海上贸易行动办公室（UKMTO）证实，一艘在也门穆卡拉以东约136海里处西行的油轮被6名武装人员登船控制，并被驶向索马里方向；这是近期第二起类似事件，当局正在调查。",
+            "en": "UKMTO confirmed six armed men boarded a westbound tanker about 136 nm east of Mukalla, Yemen, took control and set course toward Somalia — the second such incident. Authorities are investigating."
+          },
+          "sources": [
+            {
+              "label": "gCaptain ↗",
+              "url": "https://gcaptain.com/sanctioned-shadow-fleet-tanker-hijacked-in-gulf-of-aden-and-diverted-toward-somalia/"
+            },
+            {
+              "label": "央视新闻 ↗",
+              "url": "https://news.cctv.com/2026/08/20/ARTII8tAeNi0tHWxTDfOdDoX260820.shtml"
+            },
+            {
+              "label": "新华社 ↗",
+              "url": "https://news.qq.com/rain/a/20260820A0EFPZ00"
+            }
+          ],
+          "verified": true
+        },
+        {
+          "title": {
+            "zh": "三艘中国关联油轮在霍尔木兹海峡掉头",
+            "en": "Three Chinese tankers U-turn in Hormuz as risks remain high"
+          },
+          "desc": {
+            "zh": "三艘中国关联超大型油轮（Sea V、Hestia、Erecter）在霍尔木兹海峡附近相继掉头，袭击风险持续高企；海峡可见通行量降至冰点，布伦特原油一度站上 91 美元。",
+            "en": "Three China-linked VLCCs (Sea V, Hestia, Erecter) reversed course in or near the Strait of Hormuz as attack risks stay elevated; visible traffic has slowed to a trickle and Brent moved above $91."
+          },
+          "sources": [
+            {
+              "label": "gCaptain ↗",
+              "url": "https://gcaptain.com/three-chinese-tankers-u-turn-in-hormuz-as-risks-remain-high/"
+            },
+            {
+              "label": "Supply Chain Brain ↗",
+              "url": "https://www.supplychainbrain.com/articles/44695-three-chinese-tankers-u-turn-in-hormuz-as-risks-remain-high"
+            }
+          ],
+          "verified": true
+        },
+        {
+          "title": {
+            "zh": "赫伯罗特收购以星遭多方抵制，巴西启动全面反垄断审查",
+            "en": "Growing pushback against more liner consolidation a threat to Hapag-Zim deal"
+          },
+          "desc": {
+            "zh": "货代行业声援巴西监管机构与以色列立法者的质疑；巴西已就三条重叠航线对赫伯罗特收购以星（Zim）启动全面反垄断审查。这是班轮业进一步整合遭遇的最新阻力。",
+            "en": "Forwarders have backed objections from Brazilian authorities and Israeli legislators over Hapag-Lloyd's takeover of Zim; Brazil has opened a full antitrust review over overlapping service routes. Fresh pushback against further liner consolidation."
+          },
+          "sources": [
+            {
+              "label": "The Loadstar ↗",
+              "url": "https://theloadstar.com/growing-pushback-against-more-liner-consolidation-a-threat-to-hapag-zim-deal/"
+            },
+            {
+              "label": "搜狐 ↗",
+              "url": "https://www.sohu.com/a/1065198316_121885030"
+            },
+            {
+              "label": "航运界（同花顺）↗",
+              "url": "https://news.10jqka.com.cn/20260820/c679119251.shtml"
+            }
+          ],
+          "verified": true
+        }
+      ]
+    },
+    {
+      "cat": {
+        "zh": "重点新闻",
+        "en": "Key News"
+      },
+      "color": "#e05656",
+      "items": [
+        {
+          "title": {
+            "zh": "长和对巴拿马启动国际仲裁，索赔逾15亿美元",
+            "en": "CK Hutchison seeks $1.5 billion from Panama in arbitration"
+          },
+          "desc": {
+            "zh": "长和已就巴尔博亚港、克里斯托瓦尔港码头被接管一事，对巴拿马启动投资条约仲裁，索赔逾15亿美元；公司称逾6个月磋商中对方从未提出赔偿方案。",
+            "en": "CK Hutchison launched investment-treaty arbitration against Panama seeking over $1.5 billion over the loss of the Balboa and Cristóbal terminals; it says six months of consultations produced no compensation offer."
+          },
+          "sources": [
+            {
+              "label": "gCaptain ↗",
+              "url": "https://gcaptain.com/ck-hutchison-seeks-1-5-billion-for-loss-of-panama-assets/"
+            },
+            {
+              "label": "中新社 ↗",
+              "url": "https://www.chinanews.com/cj/2026/08-20/10680819.shtml"
+            },
+            {
+              "label": "ECNS ↗",
+              "url": "https://www.ecns.cn/cns-wire/2026-08-20/detail-ihfimvaz1911476.shtml"
+            }
+          ],
+          "verified": true
+        },
+        {
+          "title": {
+            "zh": "特朗普将加拿大商品50%关税推迟三天",
+            "en": "Trump delays 50% tariffs on Canada imports for 3 days"
+          },
+          "desc": {
+            "zh": "依据《关税法》第338条、覆盖约200亿美元加拿大商品的50%关税原定8月19日生效，经最后一刻谈判推迟至8月22日；加拿大总理卡尼确认已取得“实质性进展”，但最终文件仍待敲定。",
+            "en": "The 50% Section 338 tariffs on about $20B of Canadian goods — set to hit Aug 19 — were postponed three days to Aug 22 after last-minute talks; Carney confirmed “substantial progress” while final documents remain pending."
+          },
+          "sources": [
+            {
+              "label": "Supply Chain Dive ↗",
+              "url": "https://www.supplychaindive.com/news/trump-delays-50-tariffs-on-canada-imports-for-3-days/828213/"
+            },
+            {
+              "label": "CBS News ↗",
+              "url": "https://www.cbsnews.com/newyork/news/trump-pauses-tariffs-canada/"
+            },
+            {
+              "label": "新华社（今日头条）↗",
+              "url": "https://www.toutiao.com/article/7675617434523238946/"
+            },
+            {
+              "label": "环球时报（腾讯新闻）↗",
+              "url": "https://news.qq.com/rain/a/20260820A038WS00"
+            }
+          ],
+          "verified": true
+        },
+        {
+          "title": {
+            "zh": "俄乌黑海粮食出口近乎停滞",
+            "en": "Russia and Ukraine's Black Sea grain exports grind to a virtual halt"
+          },
+          "desc": {
+            "zh": "俄乌互袭港口与货船，黑海—亚速海区域粮食出口能力损失超97%；全球小麦价格同比上涨约30%，进口商正忙于寻找替代货源。",
+            "en": "Attacks on ports and vessels have knocked out more than 97% of Russia and Ukraine's Azov–Black Sea grain export capacity; wheat prices are up ~30% year on year as importers scramble for alternatives."
+          },
+          "sources": [
+            {
+              "label": "gCaptain ↗",
+              "url": "https://gcaptain.com/russia-and-ukraines-black-sea-grain-exports-grind-to-a-virtual-halt/"
+            },
+            {
+              "label": "Arab News ↗",
+              "url": "https://www.arabnews.com/node/2655265"
+            },
+            {
+              "label": "新华社（网易）↗",
+              "url": "https://www.163.com/dy/article/L4PMFEBI05346RC6.html"
+            },
+            {
+              "label": "财联社 ↗",
+              "url": "https://www.cls.cn/detail/2459583"
+            }
+          ],
+          "verified": true
         }
       ]
     }
