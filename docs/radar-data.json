@@ -1,6 +1,187 @@
 {
-  "updatedAt": "2026-08-20T23:30:44+08:00",
+  "updatedAt": "2026-08-21T01:46:00+08:00",
   "columns": [
+    {
+      "cat": {
+        "zh": "重点新闻",
+        "en": "Key News"
+      },
+      "color": "#e05656",
+      "items": [
+        {
+          "title": {
+            "zh": "特朗普对伊朗发动“经济战”，威胁制裁任何贸易伙伴",
+            "en": "Trump threatens economic isolation for Iran and its trading partners"
+          },
+          "desc": {
+            "zh": "在军事打击与海上封锁未能迫使伊朗屈服后，特朗普宣布对伊朗实施“前所未有的经济战与孤立”，威胁制裁任何向伊朗提供“生命线”的金融机构、企业与政府；阿联酋已暂停与伊朗的全部贸易与金融往来。",
+            "en": "After military strikes and a maritime blockade failed to force Tehran to capitulate, Trump announced “economic warfare and isolation on an unprecedented scale,” threatening sanctions on any bank, business or government providing a “lifeline” to Iran; the UAE has suspended all trade and financial dealings with Tehran."
+          },
+          "sources": [
+            {
+              "label": "Al Jazeera ↗",
+              "url": "https://www.aljazeera.com/news/2026/8/20/tremendous-costs-can-trump-stop-other-countries-from-trading-with-iran"
+            },
+            {
+              "label": "新华社（人民网）↗",
+              "url": "https://world.people.com.cn/n1/2026/0820/c1002-40782980.html"
+            },
+            {
+              "label": "中新网 ↗",
+              "url": "https://www.toutiao.com/article/7676030046825464371/"
+            }
+          ],
+          "verified": true
+        },
+        {
+          "title": {
+            "zh": "长和对巴拿马启动国际仲裁，索赔逾15亿美元",
+            "en": "CK Hutchison seeks $1.5 billion from Panama in arbitration"
+          },
+          "desc": {
+            "zh": "长和已就巴尔博亚港、克里斯托瓦尔港码头被接管一事，对巴拿马启动投资条约仲裁，索赔逾15亿美元；公司称逾6个月磋商中对方从未提出赔偿方案。",
+            "en": "CK Hutchison launched investment-treaty arbitration against Panama seeking over $1.5 billion over the loss of the Balboa and Cristóbal terminals; it says six months of consultations produced no compensation offer."
+          },
+          "sources": [
+            {
+              "label": "Reuters ↗",
+              "url": "https://finance.yahoo.com/economy/policy/articles/ck-hutchison-seeks-1-5-004802795.html"
+            },
+            {
+              "label": "中新社 ↗",
+              "url": "https://www.chinanews.com/cj/2026/08-20/10680819.shtml"
+            },
+            {
+              "label": "ECNS ↗",
+              "url": "https://www.ecns.cn/cns-wire/2026-08-20/detail-ihfimvaz1911476.shtml"
+            }
+          ],
+          "verified": true
+        },
+        {
+          "title": {
+            "zh": "跨太平洋集装箱运价连续上涨，船公司削减运力",
+            "en": "Transpacific container rates surge as carriers cut capacity"
+          },
+          "desc": {
+            "zh": "德鲁里世界集装箱指数（WCI）连续第二周上涨，上海—纽约、上海—洛杉矶现货运价周涨约 9%；船公司以空班、削减 8 月运力（美东环比 -9%）托底运价，9 月起还将加收巴拿马运河附加费。",
+            "en": "Drewry's World Container Index rose for a second straight week, with Shanghai–New York and Shanghai–Los Angeles spot rates up ~9% on the week; carriers are propping up rates with blank sailings and an ~9% month-on-month cut in August US East Coast capacity, with Panama Canal surcharges due from September."
+          },
+          "sources": [
+            {
+              "label": "Drewry WCI ↗",
+              "url": "https://www.hellenicshippingnews.com/drewry-world-container-index-2"
+            },
+            {
+              "label": "雪球（德鲁里）↗",
+              "url": "https://xueqiu.com/2562702674/405939156"
+            }
+          ],
+          "verified": true
+        },
+        {
+          "title": {
+            "zh": "巴拿马运河通行费创纪录，催生 LPG 船对船转运",
+            "en": "Soaring Panama Canal fees drive a nascent LPG shuttle trade"
+          },
+          "desc": {
+            "zh": "巴拿马运河拥堵与创纪录通行费（大型船闸单次插队费一度达 460 万美元）正倒逼雪佛龙等出口商用“小船过河 + 船对船转运”的方式，把美国 LPG 运往亚洲，绕开天价过河成本。",
+            "en": "Congestion and record transit fees — a single Neopanamax priority slot hit $4.6 million — are pushing exporters including Chevron toward “small vessel through the canal + ship-to-ship transfer” to move US LPG to Asia, sidestepping punitive canal costs."
+          },
+          "sources": [
+            {
+              "label": "Bloomberg Law ↗",
+              "url": "https://news.bloomberglaw.com/environment-and-energy/soaring-panama-canal-fees-drive-a-nascent-lpg-shuttle-trade"
+            },
+            {
+              "label": "网易（晨枫老苑）↗",
+              "url": "https://www.163.com/dy/article/L4PJGMHA0556974J.html"
+            }
+          ],
+          "verified": true
+        }
+      ]
+    },
+    {
+      "cat": {
+        "zh": "热门议题",
+        "en": "Hot Topics"
+      },
+      "color": "#f0a13a",
+      "items": [
+        {
+          "title": {
+            "zh": "亚丁湾一艘油轮遭武装人员劫持，被驶向索马里",
+            "en": "Sanctioned shadow-fleet tanker hijacked in Gulf of Aden, diverted toward Somalia"
+          },
+          "desc": {
+            "zh": "英国海上贸易行动办公室（UKMTO）证实，一艘在也门穆卡拉以东约136海里处西行的油轮被6名武装人员登船控制，并被驶向索马里方向；这是近期第二起类似事件，当局正在调查。",
+            "en": "UKMTO confirmed six armed men boarded a westbound tanker about 136 nm east of Mukalla, Yemen, took control and set course toward Somalia — the second such incident. Authorities are investigating."
+          },
+          "sources": [
+            {
+              "label": "gCaptain ↗",
+              "url": "https://gcaptain.com/sanctioned-shadow-fleet-tanker-hijacked-in-gulf-of-aden-and-diverted-toward-somalia/"
+            },
+            {
+              "label": "央视新闻 ↗",
+              "url": "https://news.cctv.com/2026/08/20/ARTII8tAeNi0tHWxTDfOdDoX260820.shtml"
+            },
+            {
+              "label": "新华社 ↗",
+              "url": "https://news.qq.com/rain/a/20260820A0EFPZ00"
+            }
+          ],
+          "verified": true
+        },
+        {
+          "title": {
+            "zh": "三艘中国关联油轮在霍尔木兹海峡掉头",
+            "en": "Three Chinese tankers U-turn in Hormuz as risks remain high"
+          },
+          "desc": {
+            "zh": "三艘中国关联超大型油轮（Sea V、Hestia、Erecter）在霍尔木兹海峡附近相继掉头，袭击风险持续高企；海峡可见通行量降至冰点，布伦特原油一度站上 91 美元。",
+            "en": "Three China-linked VLCCs (Sea V, Hestia, Erecter) reversed course in or near the Strait of Hormuz as attack risks stay elevated; visible traffic has slowed to a trickle and Brent moved above $91."
+          },
+          "sources": [
+            {
+              "label": "gCaptain ↗",
+              "url": "https://gcaptain.com/three-chinese-tankers-u-turn-in-hormuz-as-risks-remain-high/"
+            },
+            {
+              "label": "Supply Chain Brain ↗",
+              "url": "https://www.supplychainbrain.com/articles/44695-three-chinese-tankers-u-turn-in-hormuz-as-risks-remain-high"
+            }
+          ],
+          "verified": true
+        },
+        {
+          "title": {
+            "zh": "赫伯罗特收购以星遭多方抵制，巴西启动全面反垄断审查",
+            "en": "Growing pushback against more liner consolidation a threat to Hapag-Zim deal"
+          },
+          "desc": {
+            "zh": "货代行业声援巴西监管机构与以色列立法者的质疑；巴西已就三条重叠航线对赫伯罗特收购以星（Zim）启动全面反垄断审查。这是班轮业进一步整合遭遇的最新阻力。",
+            "en": "Forwarders have backed objections from Brazilian authorities and Israeli legislators over Hapag-Lloyd's takeover of Zim; Brazil has opened a full antitrust review over overlapping service routes. Fresh pushback against further liner consolidation."
+          },
+          "sources": [
+            {
+              "label": "The Loadstar ↗",
+              "url": "https://theloadstar.com/growing-pushback-against-more-liner-consolidation-a-threat-to-hapag-zim-deal/"
+            },
+            {
+              "label": "搜狐 ↗",
+              "url": "https://www.sohu.com/a/1065198316_121885030"
+            },
+            {
+              "label": "航运界（同花顺）↗",
+              "url": "https://news.10jqka.com.cn/20260820/c679119251.shtml"
+            }
+          ],
+          "verified": true
+        }
+      ]
+    },
     {
       "cat": {
         "zh": "研究瞭望",
@@ -87,6 +268,27 @@
         },
         {
           "title": {
+            "zh": "菜鸟在 APEC 对话会力推 AI 关务与机器人仓储",
+            "en": "Cainiao touts AI customs clearance and robot warehouses at APEC forum"
+          },
+          "desc": {
+            "zh": "菜鸟 CEO 万霖在大连 APEC 海关与商界对话会上表示，其 AI 关务系统可将单票清关时长压缩 80%，未来将在多个 APEC 经济体投资建设机器人仓储；今年已在欧洲新开 7 座海外仓。",
+            "en": "At the APEC customs–business dialogue in Dalian, Cainiao CEO Wan Lin said its AI customs system cuts per-shipment clearance time by 80% and that it will build robot warehouses across multiple APEC economies; it has opened seven new overseas warehouses in Europe this year."
+          },
+          "sources": [
+            {
+              "label": "腾讯新闻（罗戈网）↗",
+              "url": "https://news.qq.com/rain/a/20260820A0CV1100"
+            },
+            {
+              "label": "东方财富 ↗",
+              "url": "https://guba.eastmoney.com/news,cfhpl,1762134758.html"
+            }
+          ],
+          "verified": false
+        },
+        {
+          "title": {
             "zh": "亚马逊今年将无人机配送覆盖范围扩大六倍",
             "en": "Amazon to expand drone delivery reach sixfold this year"
           },
@@ -101,195 +303,6 @@
             }
           ],
           "verified": false
-        },
-        {
-          "title": {
-            "zh": "重塑履约网络：面向 2026 年及更远的未来",
-            "en": "Reshaping Fulfillment Networks — for 2026 and Beyond"
-          },
-          "desc": {
-            "zh": "五位物流专家解读履约网络重塑方向：微履约与全渠道、节点再分布、实时库存准确性与逆向物流；自动化与数据分析正从“锦上添花”变成“必备能力”。",
-            "en": "Five logistics experts map the shifts reshaping fulfillment networks — micro-fulfillment and omnichannel, node redistribution, real-time inventory accuracy and reverse logistics — with automation and data analytics moving from additions to necessities."
-          },
-          "sources": [
-            {
-              "label": "MHI ↗",
-              "url": "https://mhiblog.org/reshaping-fulfillment-networks-for-2026-and-beyond/"
-            }
-          ],
-          "verified": false
-        }
-      ]
-    },
-    {
-      "cat": {
-        "zh": "热门议题",
-        "en": "Hot Topics"
-      },
-      "color": "#f0a13a",
-      "items": [
-        {
-          "title": {
-            "zh": "亚丁湾一艘油轮遭武装人员劫持，被驶向索马里",
-            "en": "Sanctioned shadow-fleet tanker hijacked in Gulf of Aden, diverted toward Somalia"
-          },
-          "desc": {
-            "zh": "英国海上贸易行动办公室（UKMTO）证实，一艘在也门穆卡拉以东约136海里处西行的油轮被6名武装人员登船控制，并被驶向索马里方向；这是近期第二起类似事件，当局正在调查。",
-            "en": "UKMTO confirmed six armed men boarded a westbound tanker about 136 nm east of Mukalla, Yemen, took control and set course toward Somalia — the second such incident. Authorities are investigating."
-          },
-          "sources": [
-            {
-              "label": "gCaptain ↗",
-              "url": "https://gcaptain.com/sanctioned-shadow-fleet-tanker-hijacked-in-gulf-of-aden-and-diverted-toward-somalia/"
-            },
-            {
-              "label": "央视新闻 ↗",
-              "url": "https://news.cctv.com/2026/08/20/ARTII8tAeNi0tHWxTDfOdDoX260820.shtml"
-            },
-            {
-              "label": "新华社 ↗",
-              "url": "https://news.qq.com/rain/a/20260820A0EFPZ00"
-            }
-          ],
-          "verified": true
-        },
-        {
-          "title": {
-            "zh": "三艘中国关联油轮在霍尔木兹海峡掉头",
-            "en": "Three Chinese tankers U-turn in Hormuz as risks remain high"
-          },
-          "desc": {
-            "zh": "三艘中国关联超大型油轮（Sea V、Hestia、Erecter）在霍尔木兹海峡附近相继掉头，袭击风险持续高企；海峡可见通行量降至冰点，布伦特原油一度站上 91 美元。",
-            "en": "Three China-linked VLCCs (Sea V, Hestia, Erecter) reversed course in or near the Strait of Hormuz as attack risks stay elevated; visible traffic has slowed to a trickle and Brent moved above $91."
-          },
-          "sources": [
-            {
-              "label": "gCaptain ↗",
-              "url": "https://gcaptain.com/three-chinese-tankers-u-turn-in-hormuz-as-risks-remain-high/"
-            },
-            {
-              "label": "Supply Chain Brain ↗",
-              "url": "https://www.supplychainbrain.com/articles/44695-three-chinese-tankers-u-turn-in-hormuz-as-risks-remain-high"
-            }
-          ],
-          "verified": true
-        },
-        {
-          "title": {
-            "zh": "赫伯罗特收购以星遭多方抵制，巴西启动全面反垄断审查",
-            "en": "Growing pushback against more liner consolidation a threat to Hapag-Zim deal"
-          },
-          "desc": {
-            "zh": "货代行业声援巴西监管机构与以色列立法者的质疑；巴西已就三条重叠航线对赫伯罗特收购以星（Zim）启动全面反垄断审查。这是班轮业进一步整合遭遇的最新阻力。",
-            "en": "Forwarders have backed objections from Brazilian authorities and Israeli legislators over Hapag-Lloyd's takeover of Zim; Brazil has opened a full antitrust review over overlapping service routes. Fresh pushback against further liner consolidation."
-          },
-          "sources": [
-            {
-              "label": "The Loadstar ↗",
-              "url": "https://theloadstar.com/growing-pushback-against-more-liner-consolidation-a-threat-to-hapag-zim-deal/"
-            },
-            {
-              "label": "搜狐 ↗",
-              "url": "https://www.sohu.com/a/1065198316_121885030"
-            },
-            {
-              "label": "航运界（同花顺）↗",
-              "url": "https://news.10jqka.com.cn/20260820/c679119251.shtml"
-            }
-          ],
-          "verified": true
-        }
-      ]
-    },
-    {
-      "cat": {
-        "zh": "重点新闻",
-        "en": "Key News"
-      },
-      "color": "#e05656",
-      "items": [
-        {
-          "title": {
-            "zh": "长和对巴拿马启动国际仲裁，索赔逾15亿美元",
-            "en": "CK Hutchison seeks $1.5 billion from Panama in arbitration"
-          },
-          "desc": {
-            "zh": "长和已就巴尔博亚港、克里斯托瓦尔港码头被接管一事，对巴拿马启动投资条约仲裁，索赔逾15亿美元；公司称逾6个月磋商中对方从未提出赔偿方案。",
-            "en": "CK Hutchison launched investment-treaty arbitration against Panama seeking over $1.5 billion over the loss of the Balboa and Cristóbal terminals; it says six months of consultations produced no compensation offer."
-          },
-          "sources": [
-            {
-              "label": "gCaptain ↗",
-              "url": "https://gcaptain.com/ck-hutchison-seeks-1-5-billion-for-loss-of-panama-assets/"
-            },
-            {
-              "label": "中新社 ↗",
-              "url": "https://www.chinanews.com/cj/2026/08-20/10680819.shtml"
-            },
-            {
-              "label": "ECNS ↗",
-              "url": "https://www.ecns.cn/cns-wire/2026-08-20/detail-ihfimvaz1911476.shtml"
-            }
-          ],
-          "verified": true
-        },
-        {
-          "title": {
-            "zh": "特朗普将加拿大商品50%关税推迟三天",
-            "en": "Trump delays 50% tariffs on Canada imports for 3 days"
-          },
-          "desc": {
-            "zh": "依据《关税法》第338条、覆盖约200亿美元加拿大商品的50%关税原定8月19日生效，经最后一刻谈判推迟至8月22日；加拿大总理卡尼确认已取得“实质性进展”，但最终文件仍待敲定。",
-            "en": "The 50% Section 338 tariffs on about $20B of Canadian goods — set to hit Aug 19 — were postponed three days to Aug 22 after last-minute talks; Carney confirmed “substantial progress” while final documents remain pending."
-          },
-          "sources": [
-            {
-              "label": "Supply Chain Dive ↗",
-              "url": "https://www.supplychaindive.com/news/trump-delays-50-tariffs-on-canada-imports-for-3-days/828213/"
-            },
-            {
-              "label": "CBS News ↗",
-              "url": "https://www.cbsnews.com/newyork/news/trump-pauses-tariffs-canada/"
-            },
-            {
-              "label": "新华社（今日头条）↗",
-              "url": "https://www.toutiao.com/article/7675617434523238946/"
-            },
-            {
-              "label": "环球时报（腾讯新闻）↗",
-              "url": "https://news.qq.com/rain/a/20260820A038WS00"
-            }
-          ],
-          "verified": true
-        },
-        {
-          "title": {
-            "zh": "俄乌黑海粮食出口近乎停滞",
-            "en": "Russia and Ukraine's Black Sea grain exports grind to a virtual halt"
-          },
-          "desc": {
-            "zh": "俄乌互袭港口与货船，黑海—亚速海区域粮食出口能力损失超97%；全球小麦价格同比上涨约30%，进口商正忙于寻找替代货源。",
-            "en": "Attacks on ports and vessels have knocked out more than 97% of Russia and Ukraine's Azov–Black Sea grain export capacity; wheat prices are up ~30% year on year as importers scramble for alternatives."
-          },
-          "sources": [
-            {
-              "label": "gCaptain ↗",
-              "url": "https://gcaptain.com/russia-and-ukraines-black-sea-grain-exports-grind-to-a-virtual-halt/"
-            },
-            {
-              "label": "Arab News ↗",
-              "url": "https://www.arabnews.com/node/2655265"
-            },
-            {
-              "label": "新华社（网易）↗",
-              "url": "https://www.163.com/dy/article/L4PMFEBI05346RC6.html"
-            },
-            {
-              "label": "财联社 ↗",
-              "url": "https://www.cls.cn/detail/2459583"
-            }
-          ],
-          "verified": true
         }
       ]
     }
