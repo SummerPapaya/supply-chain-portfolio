@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-21T01:46:00+08:00",
+  "updatedAt": "2026-08-29T02:10:00+08:00",
   "columns": [
     {
       "cat": {
@@ -10,92 +10,100 @@
       "items": [
         {
           "title": {
-            "zh": "特朗普对伊朗发动“经济战”，威胁制裁任何贸易伙伴",
-            "en": "Trump threatens economic isolation for Iran and its trading partners"
+            "zh": "美军宣布清除霍尔木兹海峡水雷，但通行量仍远低于常态",
+            "en": "US declares Hormuz cleared of mines — but traffic stays far below normal"
           },
           "desc": {
-            "zh": "在军事打击与海上封锁未能迫使伊朗屈服后，特朗普宣布对伊朗实施“前所未有的经济战与孤立”，威胁制裁任何向伊朗提供“生命线”的金融机构、企业与政府；阿联酋已暂停与伊朗的全部贸易与金融往来。",
-            "en": "After military strikes and a maritime blockade failed to force Tehran to capitulate, Trump announced “economic warfare and isolation on an unprecedented scale,” threatening sanctions on any bank, business or government providing a “lifeline” to Iran; the UAE has suspended all trade and financial dealings with Tehran."
+            "zh": "美军中央司令部司令库珀上将表示，美军已清除霍尔木兹海峡国际公认航道（TSS）内由伊朗布设的水雷，过去数月协助近 1500 艘商船通行、运送约 7.5 亿桶原油；自 7 月中旬恢复海上封锁以来伊朗原油出口为零，已迫使 75 艘试图突破封锁的船只掉头。但路透引述 Kpler 数据显示，周四仅 5 艘船通过海峡（前一日 17 艘、10 日均值 15 艘），仅为冲突前日均 2000 万桶以上水平的零头。",
+            "en": "CENTCOM commander Adm. Brad Cooper said US forces have cleared Iranian-laid mines from the strait's internationally recognized Traffic Separation Scheme, having escorted nearly 1,500 commercial vessels carrying some 750m barrels of crude; Iran has exported zero oil since the naval blockade resumed in mid-July, with 75 vessels turned back. But Reuters/Kpler data showed just five vessels transiting on Thursday, versus 17 a day earlier and a 10-day average of 15 — a fraction of the 20m+ barrels a day that moved pre-conflict."
           },
           "sources": [
             {
-              "label": "Al Jazeera ↗",
-              "url": "https://www.aljazeera.com/news/2026/8/20/tremendous-costs-can-trump-stop-other-countries-from-trading-with-iran"
+              "label": "gCaptain（CENTCOM）↗",
+              "url": "https://gcaptain.com/us-commander-declares-hormuz-shipping-lanes-are-mine-free/"
             },
             {
-              "label": "新华社（人民网）↗",
-              "url": "https://world.people.com.cn/n1/2026/0820/c1002-40782980.html"
+              "label": "央视新闻 ↗",
+              "url": "https://www.toutiao.com/article/7678903704979882511/"
             },
             {
-              "label": "中新网 ↗",
-              "url": "https://www.toutiao.com/article/7676030046825464371/"
+              "label": "Arab News（路透/Kpler）↗",
+              "url": "https://www.arabnews.pk/node/2656094/middle-east"
             }
           ],
           "verified": true
         },
         {
           "title": {
-            "zh": "长和对巴拿马启动国际仲裁，索赔逾15亿美元",
-            "en": "CK Hutchison seeks $1.5 billion from Panama in arbitration"
+            "zh": "巴拿马运河日均通行量将降至32艘，插队费创530万美元纪录",
+            "en": "Panama Canal to cut daily transits to 32 as priority fee hits record $5.3m"
           },
           "desc": {
-            "zh": "长和已就巴尔博亚港、克里斯托瓦尔港码头被接管一事，对巴拿马启动投资条约仲裁，索赔逾15亿美元；公司称逾6个月磋商中对方从未提出赔偿方案。",
-            "en": "CK Hutchison launched investment-treaty arbitration against Panama seeking over $1.5 billion over the loss of the Balboa and Cristóbal terminals; it says six months of consultations produced no compensation offer."
+            "zh": "巴拿马运河管理局宣布，每日通行船舶将从 36 艘减至 34 艘（9 月 3 日起），再降至 32 艘（9 月 15 日起），降幅约 11%，同时继续收紧吃水限制。5—8 月运河集水区降雨量较常年偏少 34%、入库水量偏少 44%；巴拿马已于 8 月 25 日因厄尔尼诺宣布全国紧急状态，NOAA 预计该现象或持续至 2027 年 5 月。一艘超大型气体运输船（VLGC）以 530 万美元拍得优先通行权创历史新高，未预订船舶平均等待约 11 天；达飞已推迟征收 150 美元/TEU 的低水位附加费。",
+            "en": "The Panama Canal Authority will cut daily transits from 36 to 34 from Sept 3 and to 32 from Sept 15 — an ~11% capacity reduction — alongside tighter draft limits. Watershed rainfall was 34% below average over May–August and inflows 44% below, prompting Panama to declare a national emergency on Aug 25 as a \"very strong\" El Niño that NOAA sees persisting to May 2027. A VLGC paid a record $5.3m for priority passage, with unbooked ships waiting ~11 days; CMA CGM has postponed its $150/TEU low-water surcharge."
           },
           "sources": [
             {
-              "label": "Reuters ↗",
-              "url": "https://finance.yahoo.com/economy/policy/articles/ck-hutchison-seeks-1-5-004802795.html"
+              "label": "The Loadstar ↗",
+              "url": "https://theloadstar.com/capacity-squeeze-looms-as-panama-canal-restrictions-tighten/"
             },
             {
-              "label": "中新社 ↗",
-              "url": "https://www.chinanews.com/cj/2026/08-20/10680819.shtml"
+              "label": "经济日报 ↗",
+              "url": "https://so.html5.qq.com/page/real/search_news?docid=70000021_5646a8a295330752"
             },
             {
-              "label": "ECNS ↗",
-              "url": "https://www.ecns.cn/cns-wire/2026-08-20/detail-ihfimvaz1911476.shtml"
+              "label": "PHAATA（运河公告解读）↗",
+              "url": "https://v2.phaata.com/en/logistics-market/panama-canal-to-cut-daily-transits-to-32-from-september-four-carriers-yet-to-adjust-published-surcharges-62384.html"
             }
           ],
           "verified": true
         },
         {
           "title": {
-            "zh": "跨太平洋集装箱运价连续上涨，船公司削减运力",
-            "en": "Transpacific container rates surge as carriers cut capacity"
+            "zh": "美加贸易战升级：50%关税已生效，加方9月8日等额反制",
+            "en": "US–Canada trade war escalates: 50% tariffs live, retaliation due Sept 8"
           },
           "desc": {
-            "zh": "德鲁里世界集装箱指数（WCI）连续第二周上涨，上海—纽约、上海—洛杉矶现货运价周涨约 9%；船公司以空班、削减 8 月运力（美东环比 -9%）托底运价，9 月起还将加收巴拿马运河附加费。",
-            "en": "Drewry's World Container Index rose for a second straight week, with Shanghai–New York and Shanghai–Los Angeles spot rates up ~9% on the week; carriers are propping up rates with blank sailings and an ~9% month-on-month cut in August US East Coast capacity, with Panama Canal surcharges due from September."
+            "zh": "美国自 8 月 22 日起对约 200 亿美元加拿大商品加征 50% 关税，依据是 1930 年《关税法》第 338 条——这一斯穆特-霍利时期的授权此前从未用于加征关税，无需调查且无期限。特朗普随后宣布自 2027 年 1 月 1 日起对加拿大汽车、零部件和钢铁再加征 50%。加拿大将于 9 月 8 日对钢铁、乳制品、家电、农机、纸浆纸张和电子产品实施等额反制；总理卡尼表示，除非美方拿出正确态度，否则不会重返谈判。分析警告深度整合的汽车走廊受冲击最大。",
+            "en": "A 50% US tariff on roughly $20bn of Canadian goods took effect Aug 22 under Section 338 of the 1930 Tariff Act — a Smoot-Hawley-era authority never before used to raise tariffs, requiring no investigation and carrying no time limit. Trump has since flagged a further 50% on Canadian cars, parts and steel from Jan 1, 2027. Canada's dollar-for-dollar counter-tariffs on steel, dairy, appliances, ag equipment, pulp/paper and electronics start Sept 8; PM Carney says Ottawa won't return to talks until Washington comes back \"with the right attitude.\" Analysts warn the deeply integrated auto corridor is most exposed."
           },
           "sources": [
             {
-              "label": "Drewry WCI ↗",
-              "url": "https://www.hellenicshippingnews.com/drewry-world-container-index-2"
+              "label": "Supply Chain Dive ↗",
+              "url": "https://www.supplychaindive.com/news/us-canada-trade-war-poses-sourcing-risks-for-agriculture-consumer-goods/828967/"
             },
             {
-              "label": "雪球（德鲁里）↗",
-              "url": "https://xueqiu.com/2562702674/405939156"
+              "label": "央视新闻 ↗",
+              "url": "https://www.toutiao.com/article/7678126296609587748/"
+            },
+            {
+              "label": "CGTN ↗",
+              "url": "https://news.cgtn.com/news/2026-08-26/Canada-hits-back-as-US-tariffs-test-trade-ties-1PVrhkvsNxK/share_amp.html"
             }
           ],
           "verified": true
         },
         {
           "title": {
-            "zh": "巴拿马运河通行费创纪录，催生 LPG 船对船转运",
-            "en": "Soaring Panama Canal fees drive a nascent LPG shuttle trade"
+            "zh": "波士顿科学遭网络攻击，全球订单与发货系统中断",
+            "en": "Boston Scientific cyberattack knocks out global order and shipping systems"
           },
           "desc": {
-            "zh": "巴拿马运河拥堵与创纪录通行费（大型船闸单次插队费一度达 460 万美元）正倒逼雪佛龙等出口商用“小船过河 + 船对船转运”的方式，把美国 LPG 运往亚洲，绕开天价过河成本。",
-            "en": "Congestion and record transit fees — a single Neopanamax priority slot hit $4.6 million — are pushing exporters including Chevron toward “small vessel through the canal + ship-to-ship transfer” to move US LPG to Asia, sidestepping punitive canal costs."
+            "zh": "这家医疗器械巨头 8 月 25 日检测到入侵并于次日以 8-K 文件披露：用于处理客户订单和发货的系统在全球范围中断，恢复将分阶段进行且尚无时间表。Piper Sandler 预计最多需三周恢复，Evercore ISI 估算可能拖累第三季度营收 600—700 个基点。这是 2026 年医疗器械行业第三起重大网络事件（前有 Stryker、雅培），Stryker 3 月的攻击曾导致手术延期。",
+            "en": "The medtech giant detected an intrusion on Aug 25 and disclosed it in an SEC 8-K the next day: systems used to process and ship customer orders are down globally, with a phased recovery and no committed timeline. Piper Sandler sees up to three weeks to restore; Evercore ISI flags a potential 600–700bp drag on Q3 revenue. It is the third major medtech cyber incident of 2026 after Stryker and Abbott — Stryker's March attack delayed surgeries."
           },
           "sources": [
             {
-              "label": "Bloomberg Law ↗",
-              "url": "https://news.bloomberglaw.com/environment-and-energy/soaring-panama-canal-fees-drive-a-nascent-lpg-shuttle-trade"
+              "label": "Supply Chain Dive ↗",
+              "url": "https://www.supplychaindive.com/news/boston-scientifics-ordering-shipping-disrupted-in-cyberattack/828933/"
             },
             {
-              "label": "网易（晨枫老苑）↗",
-              "url": "https://www.163.com/dy/article/L4PJGMHA0556974J.html"
+              "label": "Cybernews ↗",
+              "url": "https://cybernews.com/news/boston-scientific-confirms-cyber-incident-knocked-systems-offline-disrupting-operations"
+            },
+            {
+              "label": "ITPro ↗",
+              "url": "https://www.itpro.com/security/cyber-attacks/everything-we-know-about-the-boston-scientific-cyber-attack-so-far"
             }
           ],
           "verified": true
@@ -111,71 +119,63 @@
       "items": [
         {
           "title": {
-            "zh": "亚丁湾一艘油轮遭武装人员劫持，被驶向索马里",
-            "en": "Sanctioned shadow-fleet tanker hijacked in Gulf of Aden, diverted toward Somalia"
+            "zh": "海湾油轮日租金逼近65万美元，霍尔木兹风险溢价高企",
+            "en": "Gulf tanker earnings near $650,000 a day as Hormuz risk premium bites"
           },
           "desc": {
-            "zh": "英国海上贸易行动办公室（UKMTO）证实，一艘在也门穆卡拉以东约136海里处西行的油轮被6名武装人员登船控制，并被驶向索马里方向；这是近期第二起类似事件，当局正在调查。",
-            "en": "UKMTO confirmed six armed men boarded a westbound tanker about 136 nm east of Mukalla, Yemen, took control and set course toward Somalia — the second such incident. Authorities are investigating."
+            "zh": "波罗的海交易所数据显示，沙特至中国航线的油轮日租金周四创下约 64.7 万美元的纪录，为一年前的十倍以上。成因包括：韩国 Sinokor 集团在战前大举收购超大型油轮并以高价出租、胡塞武装袭击沙特油轮迫使部分出口绕行非洲（增加约 30 天航程），以及船舶在霍尔木兹海峡外进行船对船转运占用运力。道达尔能源 CEO 称，目前将原油运过霍尔木兹的成本约 2000 万美元且仍在上升。",
+            "en": "Baltic Exchange data shows tankers hauling Saudi crude to China earned a record ~$647,000 a day on Thursday, more than ten times the rate a year earlier. Drivers include Sinokor Group's pre-war supertanker buying spree and high-priced charters, Houthi attacks on Saudi tankers forcing some exports around Africa (adding ~30 days), and ship-to-ship transfers outside Hormuz absorbing vessel supply. TotalEnergies' CEO puts the cost of moving barrels through Hormuz at ~$20m and rising."
           },
           "sources": [
             {
-              "label": "gCaptain ↗",
-              "url": "https://gcaptain.com/sanctioned-shadow-fleet-tanker-hijacked-in-gulf-of-aden-and-diverted-toward-somalia/"
+              "label": "gCaptain（Bloomberg）↗",
+              "url": "https://gcaptain.com/gulf-oil-tankers-near-650000-a-day-as-iran-war-disrupts-flows/"
+            }
+          ],
+          "verified": false
+        },
+        {
+          "title": {
+            "zh": "伊朗战争外交转向重开霍尔木兹，海湾国家加码管道与港口",
+            "en": "Iran-war diplomacy pivots to reopening Hormuz as Gulf states retool infrastructure"
+          },
+          "desc": {
+            "zh": "调解方已将重心转向重开海峡：在卡塔尔特使施压要求尊重航行自由后，德黑兰同意列出恢复正常通行的条件清单。与此同时，冲突正在重绘全球贸易版图，海湾国家被迫改写投资剧本，把资本投入从能源管道到港口的基础设施，以抵御战事外溢冲击。",
+            "en": "Mediators have shifted focus to reopening the strait: after a Qatari emissary pressed Tehran to respect freedom of navigation, Iran agreed to draw up a list of conditions for restoring normal traffic. Separately, as the conflict redraws the global trade map, Gulf nations are retooling their investment playbook — plowing capital into infrastructure from energy pipelines to ports to weather the fallout."
+          },
+          "sources": [
+            {
+              "label": "gCaptain（路透）↗",
+              "url": "https://gcaptain.com/iran-war-diplomacy-turns-toward-reopening-hormuz/"
             },
             {
-              "label": "央视新闻 ↗",
-              "url": "https://news.cctv.com/2026/08/20/ARTII8tAeNi0tHWxTDfOdDoX260820.shtml"
-            },
-            {
-              "label": "新华社 ↗",
-              "url": "https://news.qq.com/rain/a/20260820A0EFPZ00"
+              "label": "gCaptain（路透）↗",
+              "url": "https://gcaptain.com/pipelines-and-ports-iran-war-spurs-gulf-infrastructure-investment/"
             }
           ],
           "verified": true
         },
         {
           "title": {
-            "zh": "三艘中国关联油轮在霍尔木兹海峡掉头",
-            "en": "Three Chinese tankers U-turn in Hormuz as risks remain high"
+            "zh": "首例！美国调查货代Apex涉英伟达芯片走私，德迅股价大跌",
+            "en": "First-of-its-kind: US probes forwarder Apex over alleged Nvidia chip smuggling"
           },
           "desc": {
-            "zh": "三艘中国关联超大型油轮（Sea V、Hestia、Erecter）在霍尔木兹海峡附近相继掉头，袭击风险持续高企；海峡可见通行量降至冰点，布伦特原油一度站上 91 美元。",
-            "en": "Three China-linked VLCCs (Sea V, Hestia, Erecter) reversed course in or near the Strait of Hormuz as attack risks stay elevated; visible traffic has slowed to a trickle and Brent moved above $91."
-          },
-          "sources": [
-            {
-              "label": "gCaptain ↗",
-              "url": "https://gcaptain.com/three-chinese-tankers-u-turn-in-hormuz-as-risks-remain-high/"
-            },
-            {
-              "label": "Supply Chain Brain ↗",
-              "url": "https://www.supplychainbrain.com/articles/44695-three-chinese-tankers-u-turn-in-hormuz-as-risks-remain-high"
-            }
-          ],
-          "verified": true
-        },
-        {
-          "title": {
-            "zh": "赫伯罗特收购以星遭多方抵制，巴西启动全面反垄断审查",
-            "en": "Growing pushback against more liner consolidation a threat to Hapag-Zim deal"
-          },
-          "desc": {
-            "zh": "货代行业声援巴西监管机构与以色列立法者的质疑；巴西已就三条重叠航线对赫伯罗特收购以星（Zim）启动全面反垄断审查。这是班轮业进一步整合遭遇的最新阻力。",
-            "en": "Forwarders have backed objections from Brazilian authorities and Israeli legislators over Hapag-Lloyd's takeover of Zim; Brazil has opened a full antitrust review over overlapping service routes. Fresh pushback against further liner consolidation."
+            "zh": "美国商务部工业与安全局（BIS）正调查新加坡货代 Apex Logistics（瑞士德迅集团全资子公司）是否在 2024 年违规运输搭载英伟达芯片的超微服务器，涉 47 批货物；据称两名前员工使用了将受控硬件申报为豁免的错误编码，路线为台湾→美国→东南亚→香港→内地。若查实，这将是美国首次对参与非法半导体贸易的运输企业采取执法行动。德迅股价 8 月 27 日欧洲盘中一度下跌 4.2%，为三个多月来最大跌幅。",
+            "en": "The Commerce Department's Bureau of Industry and Security is examining whether Singapore-based Apex Logistics — a wholly owned unit of Swiss group Kuehne+Nagel — illegally shipped Super Micro servers containing Nvidia chips in 2024, across 47 consignments. Two former employees allegedly applied a false shipping code designating the controlled hardware as exempt, on a Taiwan→US→Southeast Asia→Hong Kong→mainland China routing. If proven, it would be the first US enforcement action against a transportation company for participating in the illegal semiconductor trade. Kuehne+Nagel shares fell as much as 4.2% in European trading on Aug 27."
           },
           "sources": [
             {
               "label": "The Loadstar ↗",
-              "url": "https://theloadstar.com/growing-pushback-against-more-liner-consolidation-a-threat-to-hapag-zim-deal/"
+              "url": "https://theloadstar.com/us-probes-apex-over-suspected-role-in-ai-chip-smuggling-to-china/"
             },
             {
-              "label": "搜狐 ↗",
-              "url": "https://www.sohu.com/a/1065198316_121885030"
+              "label": "Quartz（彭博）↗",
+              "url": "https://qz.com/apex-logistics-kuehne-nagel-nvidia-chip-smuggling-china-082726"
             },
             {
-              "label": "航运界（同花顺）↗",
-              "url": "https://news.10jqka.com.cn/20260820/c679119251.shtml"
+              "label": "无线新闻（TVB）↗",
+              "url": "https://news.tvb.com/tc/1191818-%E6%93%9A%E5%A0%B1%E7%BE%8E%E5%9C%8B%E8%AA%BF%E6%9F%A5%E6%96%B0%E5%8A%A0%E5%9D%A1%E7%89%A9%E6%B5%81%E5%85%AC%E5%8F%B8%E6%B6%89%E5%B0%87%E8%BC%9D%E9%81%94%E6%99%B6%E7%89%87%E7%B6%93%E9%A6%99%E6%B8%AF%E5%81%B7%E9%81%8B%E5%88%B0%E4%B8%AD%E5%9C%8B%E5%85%A7%E5%9C%B0"
             }
           ],
           "verified": true
@@ -191,51 +191,51 @@
       "items": [
         {
           "title": {
-            "zh": "加什么？资深仓储运营商的押注方向",
-            "en": "What to Add: Where Experienced Warehouse Operators are Placing their Bets"
+            "zh": "多数物流企业仍无法让 AI 产生回报，少数赢家“把目标做小”",
+            "en": "Most in logistics still can't make AI pay — the few that can think smaller"
           },
           "desc": {
-            "zh": "拥有近百年合计经验的一线仓储老兵分享正在试点的方向：叉车驾驶辅助、以整条流程为单位的集成规划（替代单点优化）与低成本数字孪生模拟；到 2028 年，人力将更多转向“异常处理经理”角色。",
-            "en": "Warehouse veterans with nearly a century of combined experience share what they are actively piloting: forklift driver assist, integrated flow-level planning over point solutions, and low-cost digital twins — with humans shifting toward “exception manager” roles by 2028."
+            "zh": "BCG 本月发布的报告显示，97% 的物流高管将 AI 列为战略优先，但只有 13% 真正看到回报。本周一批落地案例揭示了差距所在：赢家并不追逐宏大愿景，而是把 AI 用在枯燥、具体、可衡量的环节上。",
+            "en": "A Boston Consulting Group report published this month found that while 97% of logistics leaders call AI a strategic priority, only 13% see real returns. This week's crop of deployments suggests why: the winners aren't chasing grand visions — they're automating the boring, specific, measurable work."
           },
           "sources": [
             {
-              "label": "MHI ↗",
-              "url": "https://mhiblog.org/what-to-add-where-experienced-warehouse-operators-are-placing-their-bets/"
+              "label": "The Loadstar ↗",
+              "url": "https://theloadstar.com/most-in-logistics-still-cant-make-ai-pay-the-few-that-can-think-smaller/"
             }
           ],
           "verified": false
         },
         {
           "title": {
-            "zh": "供应链断裂时，货运科技如何应答：2021—2023 加速之年",
-            "en": "When the Supply Chain Broke, Freight Tech Answered: The 2021 to 2023 Acceleration Years"
+            "zh": "先现代化，再谈更换：软件如何延长既有自动化的寿命",
+            "en": "Modernize Before You Replace: how software extends the life of existing automation"
           },
           "desc": {
-            "zh": "疫情危机用 18 个月完成了十年销售话术没能做到的事：货运撮合、实时可视化和自动化从“可选”变成“基础设施”。回顾这一品类如何永久重置了行业对货运科技的期待。",
-            "en": "The pandemic crisis did in 18 months what a decade of sales pitches could not: digital freight matching, real-time visibility and automation moved from optional to essential infrastructure. A retrospective on how the category permanently reset industry expectations."
+            "zh": "许多配送中心在性能下滑时第一反应是“拆掉重买”，但输送机、分拣机、ASRS 等硬件往往在控制软件过时之后仍具备物理能力。文章主张先用现代仓库执行系统（WES）做实时编排——动态排定订单优先级、在人力与设备间动态平衡负载、提前化解瓶颈——把既有资产压榨出更多产能，再决定是否投入大额资本更换。",
+            "en": "When performance slips, the reflex is rip-and-replace — but conveyors, sorters and ASRS often remain physically capable long after their control software goes stale. The piece argues for first modernizing with a Warehouse Execution System (WES) that prioritizes orders intelligently, balances work dynamically across labour and equipment, and alleviates bottlenecks before they bite — unlocking hidden capacity before committing major capital to replacement."
           },
           "sources": [
             {
-              "label": "FreightWaves ↗",
-              "url": "https://www.freightwaves.com/news/when-the-supply-chain-broke-freight-tech-answered-the-2021-to-2023-acceleration-years"
+              "label": "MHI（SAVOYE）↗",
+              "url": "https://mhiblog.org/modernize-before-you-replace/"
             }
           ],
           "verified": false
         },
         {
           "title": {
-            "zh": "仓库效率的未来：将 AI 应用于 WMS 实施",
-            "en": "The Future of Warehouse Efficiency: Applying AI to WMS Implementations"
+            "zh": "自动化集成的新纪律：把风险转化为系统韧性",
+            "en": "The New Discipline of Automation Integration: turning risk into system resilience"
           },
           "desc": {
-            "zh": "将 AI 嵌入 WMS 实施方法论（配置标准、集成规则、测试脚本）可缩短交付周期、降低技术债。关键模式是把 AI 当作“副驾驶”，在治理框架内由人验证其产出。",
-            "en": "AI embedded in WMS implementation methodology — configuration standards, integration rules, testing scripts — shortens delivery cycles and reduces technical debt. The winning pattern: AI as a copilot within governance frameworks, with humans validating outputs."
+            "zh": "自动化的命题已从“要不要做”变成“怎么做才不制造新瓶颈”。文章指出，AS/RS、AMR、输送线若各自为战，会造成信息断层、流程瓶颈、产能损失与人工回潮；真正的竞争力来自把人、流程与技术对齐为一个整体，且集成必须在设施规划与系统设计阶段就介入，而非实施之后补救。",
+            "en": "The automation question has moved from whether to how to do it without creating new bottlenecks. Deployed in isolation, AS/RS, AMRs and conveyors produce information gaps, process bottlenecks, lost throughput and more manual work. Durable advantage comes from aligning people, processes and technology as one system — with integration built in at facility planning and system design, not retrofitted after implementation."
           },
           "sources": [
             {
-              "label": "MHI ↗",
-              "url": "https://mhiblog.org/the-future-of-the-warehouse-efficiency-applying-ai-to-wms-implementations/"
+              "label": "MHI（Daifuku）↗",
+              "url": "https://mhiblog.org/the-new-discipline-of-automation-integration-turning-risk-into-system-resilience/"
             }
           ],
           "verified": false
@@ -251,55 +251,51 @@
       "items": [
         {
           "title": {
-            "zh": "亚马逊与仓储科技公司 AutoStore 达成全球供应协议",
-            "en": "Amazon, fulfillment tech company AutoStore ink global supply deal"
+            "zh": "沃尔玛投13亿美元在佐治亚州建自动化履约中心",
+            "en": "Walmart to build $1.3B automated fulfillment center in Georgia"
           },
           "desc": {
-            "zh": "这份不含采购承诺的协议，为电商巨头的履约自动化布局再添一块拼图。",
-            "en": "The agreement — which carries no purchase commitments — adds to the e-commerce giant's push to automate fulfillment."
+            "zh": "这座 150 万平方英尺的下一代自动化履约中心落地佐治亚州 Carnesville，投资 13 亿美元、创造 1000 个岗位，计划 2026 年底动工。沃尔玛在佐治亚州已有 209 家门店及山姆会员店、11 个供应链设施；公司同步推进对 42 个区域配送中心中的 23 个进行自动化改造，2025 年其电商履约中心已有超过一半货量经由自动化系统处理。",
+            "en": "A 1.5-million-square-foot next-generation automated fulfillment center is coming to Carnesville, Georgia — a $1.3bn investment creating 1,000 jobs, with construction due to start in late 2026. Walmart already runs 209 stores and Sam's Clubs plus 11 supply chain facilities in the state, and is retrofitting 23 of its 42 regional distribution centers with automation; more than half of its e-commerce fulfillment volume already moved through automated systems as of 2025."
           },
           "sources": [
             {
               "label": "Supply Chain Dive ↗",
-              "url": "https://www.supplychaindive.com/news/amazon-fulfillment-tech-company-autostore-ink-global-supply-deal/827978/"
+              "url": "https://www.supplychaindive.com/news/walmart-to-build-13b-fulfillment-center-in-georgia/828955/"
             }
           ],
           "verified": false
         },
         {
           "title": {
-            "zh": "菜鸟在 APEC 对话会力推 AI 关务与机器人仓储",
-            "en": "Cainiao touts AI customs clearance and robot warehouses at APEC forum"
+            "zh": "联想加码区域制造，应对芯片短缺与关税风险",
+            "en": "Lenovo ramps up regional manufacturing amid chip shortage and tariff risk"
           },
           "desc": {
-            "zh": "菜鸟 CEO 万霖在大连 APEC 海关与商界对话会上表示，其 AI 关务系统可将单票清关时长压缩 80%，未来将在多个 APEC 经济体投资建设机器人仓储；今年已在欧洲新开 7 座海外仓。",
-            "en": "At the APEC customs–business dialogue in Dalian, Cainiao CEO Wan Lin said its AI customs system cuts per-shipment clearance time by 80% and that it will build robot warehouses across multiple APEC economies; it has opened seven new overseas warehouses in Europe this year."
+            "zh": "联想全球供应链副总裁 Benjamin Massie 表示，公司“全球本地化”布局包括将北卡 Whitsett 工厂产能翻倍（89 万平方英尺）以支撑服务器需求，以及在沙特利雅得园区投产（受伊朗战争影响从夏季推迟到秋季全面启用）；区域节点让联想能在地缘规则和关税变化时灵活切换产能。但 AI 数据中心需求推高存储等半导体交期，部分服务器零部件交期接近一年，公司服务器业务订单积压“非常大”，AI 服务器管线上一季度环比增长 157% 至 540 亿美元。",
+            "en": "Lenovo VP of global supply chain Benjamin Massie says its \"global local\" footprint includes doubling capacity at its 890,000-sq-ft Whitsett, North Carolina plant to support server demand and starting production at its Riyadh campus (full opening pushed from summer to autumn by the Iran war) — regional nodes that let the company pivot as trade rules shift. But AI data-center demand has stretched lead times, with some server components nearing a year, leaving a \"very large\" backlog; its AI server pipeline grew 157% quarter-on-quarter to $54bn."
           },
           "sources": [
             {
-              "label": "腾讯新闻（罗戈网）↗",
-              "url": "https://news.qq.com/rain/a/20260820A0CV1100"
-            },
-            {
-              "label": "东方财富 ↗",
-              "url": "https://guba.eastmoney.com/news,cfhpl,1762134758.html"
+              "label": "Supply Chain Dive ↗",
+              "url": "https://www.supplychaindive.com/news/lenovo-ramps-up-regional-manufacturing-amid-chip-shortage-tariff-risks/828773/"
             }
           ],
           "verified": false
         },
         {
           "title": {
-            "zh": "亚马逊今年将无人机配送覆盖范围扩大六倍",
-            "en": "Amazon to expand drone delivery reach sixfold this year"
+            "zh": "Bot Auto 承诺远程协助员一律在美本土，抢答监管质询",
+            "en": "Bot Auto commits to keeping remote assistance operators on US soil"
           },
           "desc": {
-            "zh": "Prime Air 无人机配送将很快落地亚特兰大、芝加哥、克利夫兰都市圈，今年配送覆盖范围将扩大六倍。",
-            "en": "Prime Air will soon launch in metro Atlanta, Chicago and Cleveland — a sixfold expansion of drone delivery reach this year."
+            "zh": "休斯顿 L4 自动驾驶卡车公司 Bot Auto 宣布，其远程协助员将全部驻在美国本土。这些人员不参与驾驶，只负责与执法和急救人员沟通、确认车辆状态并在事故中执行有限操作（如开启危险灯、按警官要求熄火）。此举发生在参议院 2 月听证会披露 Waymo 有部分远程支持人员在海外之后——参议员 Markey 的调查发现，七家受访企业中仅 Waymo 使用海外远程协助员。NHTSA 亦于 7 月致函自动驾驶开发商，强调无法与急救人员安全交互的自动驾驶车辆构成公共危险。",
+            "en": "Houston Level 4 autonomous trucking firm Bot Auto says its remote assistants will be based exclusively in the US. They do not drive; they confirm vehicle status, talk to first responders and law enforcement, and take limited actions such as activating hazard lights or shutting the vehicle down at an officer's direction. The pledge follows a February Senate hearing where Waymo disclosed some support staff sit overseas — Sen. Markey's probe found Waymo was the only one of seven developers using offshore remote operators. NHTSA had also warned in July that an AV unable to interact safely with first responders is a public danger."
           },
           "sources": [
             {
-              "label": "Supply Chain Dive ↗",
-              "url": "https://www.supplychaindive.com/news/amazon-to-expand-drone-delivery-reach-sixfold-this-year/828253/"
+              "label": "FreightWaves ↗",
+              "url": "https://www.freightwaves.com/news/bot-auto-remote-assistance-operators"
             }
           ],
           "verified": false
