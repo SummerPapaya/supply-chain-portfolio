@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <rect width="32" height="32" rx="6" fill="#07080c"/>
+  <path d="M16 4.5 27 11v10L16 27.5 5 21V11L16 4.5Z" stroke="#3dcea8" stroke-width="1.4"/>
+  <text x="16" y="20.5" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#3dcea8">σ</text>
+</svg>

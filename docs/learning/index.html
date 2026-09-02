@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light" data-page-node-id="3BB7shwfYNMY1QZE369rlT">
+<head data-page-node-id="KD82mM4enK892CmhSDjU5Z">
+<meta charset="UTF-8" data-page-node-id="UcidLc3iYdMBVzGXp81wHn" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="Ro8Zj6SCxHGzYuVFOzfLiP" />
+<title>持续学习 | Supply Chain AI Research Index</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" data-page-node-id="zkXCxPsvsCntj5hSTPDEjf" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin data-page-node-id="LSDrJ2TleuC69VvvhenunE" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+SC:wght@600;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" data-page-node-id="jHLvETEZHeZWWTo16TeVqt" />
+<link rel="stylesheet" href="learning.css" data-page-node-id="lMovf0cxnyvgy958BVINtS" />
+</head>
+<body data-page-node-id="palvGX9ka70OZkekedn4iU">
+<div class="glow-bg" data-page-node-id="qp4DC4JE0DZ2qdCJBw4JqL"></div>
+<div class="grid-bg" data-page-node-id="kC0S69smCwrbcv6fdC7Jmw"></div>
+  <canvas class="mouse-bg" id="mouseBg" data-page-node-id="3aAp0uHNoWj8BiXJCGnEb3"></canvas>
+<div class="cursor-ring" id="curRing" data-page-node-id="EtYcvOSVMu74gmHq6wSpam"><span class="cursor-sweep" data-page-node-id="O2LNNl3EwyfUUntRsFCbje"></span></div>
+<div class="cursor-dot" id="curDot" data-page-node-id="ClAHAO9dJCGdGLGLfVWFsh"></div>
+
+<nav id="nav" data-page-node-id="ZfIkyU3MvwvQn1lXmDsDoP">
+  <a class="brand" href="https://supply-chain-lab.summercommences.com/#top" data-page-node-id="YmD735C1Vj9KMfXs6r3OlG">
+    <span class="brand-mark" data-page-node-id="7z12rdh8ECTEWqaXlEfu5x"><span data-page-node-id="7HFxiKgWSfeXGOlfapCToA">SC</span></span>
+    <span class="brand-name" data-page-node-id="dVZ7Xdh0y5hTlNr3hOXcl4"><span data-i18n="brand" data-page-node-id="uVXR171zeQbmLnNKB8PyYx">供应链 × AI 研究索引</span> <em data-page-node-id="UpBeEYXvj0aF1I3DJiUQE4">/ Research Index</em></span>
+  </a>
+  <div class="nav-right" data-page-node-id="RjVdo4i7oVD042p3mrDVup">
+    <div class="nav-links" data-page-node-id="3IdgOckLAEB5Kg3yMmcUa8">
+      <a href="https://supply-chain-lab.summercommences.com/#briefing" data-i18n="nav-brief" data-page-node-id="unvRbzO7xMD0s34uQcDWDU">本周雷达</a>
+      <a href="https://supply-chain-lab.summercommences.com/#reports" data-i18n="nav-reports" data-page-node-id="AH95PWSZzUKXMdVDDOF2fb">报告对比</a>
+      <a href="https://supply-chain-lab.summercommences.com/#app" data-i18n="nav-app" data-page-node-id="z597GDdMElTtoaS1qOY3cx">衍生应用</a>
+      <a href="https://supply-chain-lab.summercommences.com/#gaps" data-i18n="nav-gaps" data-page-node-id="VCzHxSNjfEurjTHPGsux2o">AI 补位</a>
+      <a href="index.html" data-i18n="nav-learn" data-page-node-id="LMCG6waNamRPDYqS1VWneF">持续学习</a>
+      <a href="https://github.com/SummerPapaya/supply-chain-portfolio" target="_blank" rel="noopener" data-page-node-id="g2DPW5I6xMyQZR4OWmsgAt">GitHub ↗</a>
+    </div>
+    <div class="ctrl-group" data-page-node-id="PbYAWq5GE1qhbHvVuLfGAn">
+      <button class="lang-btn" id="langBtn" aria-label="Switch language" data-page-node-id="FzaEyGsKWhDa06EBIhhutk">
+        <span id="langZh" class="on" data-page-node-id="r22pCLZz0Qf92bIINBnkol">中</span><span id="langEn" data-page-node-id="tHCanN0GMdlFqA6jWQfmDm">EN</span>
+      </button>
+      <button class="theme-btn" id="themeBtn" aria-label="Toggle dark mode" data-page-node-id="7D9JdAgP7LeGqp9aqfIHp7">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" data-page-node-id="Lxc7zMPghTHC98csvYq2DT"><circle cx="12" cy="12" r="4.5" data-page-node-id="CaaRxJd91jHNl0PFrj485W"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8" data-page-node-id="ukWK5I51nDoE1M0YSFSiUr"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="lqA5UuvVe0P8v4NReRjZ9j"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z" data-page-node-id="29aHCyMC77Hr2QG120kfDQ"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<section id="learning" data-page-node-id="iGCFxAQ409rKfji7Ao8XIS">
+  <div class="sec-head reveal" data-page-node-id="OOpXC8mR2GI08vMr3FF604">
+    <h2 class="sec-title" data-i18n="learn-title" data-page-node-id="mXbGBBaxg2P97utY3i4V3N">持续学习</h2>
+    <span class="sec-note" data-page-node-id="GdSOB13S0u52pUH8LsaiUX">KNOWLEDGE GRAPHS · LEARNING</span>
+  </div>
+  <div class="sub-head reveal" data-page-node-id="TN4PodCMfHv1GQF4pKVeHb">
+    <h3 class="sub-title" data-i18n="learn-sub" data-page-node-id="u9mtCrHBtOeCDhTKhe6gmE">交互式学习图谱</h3>
+    <span class="sec-note" data-page-node-id="w6mlnOcRdBsF3b5mWuOn4b">KNOWLEDGE GRAPHS</span>
+  </div>
+
+  <div class="cards" data-page-node-id="SnwKiSGqaG23vcUWVEyEai">
+
+    <article class="card reveal" style="--card-accent:#0e8f7e" data-page-node-id="Q7XY0sIoOWz1irQH0M5VGl">
+      <div class="card-top" data-page-node-id="JQetI7sOR2YKQuWF4iJaVj"><span class="card-tool" data-page-node-id="SPAOG9Y9V75dkYF8gDTApt">CSCP</span><span class="card-idx" data-page-node-id="mEKsFD0YpqJtCFCVl7B4P2">01</span></div>
+      <h3 data-i18n="lc1t" data-page-node-id="usX1IorxXx2INzfkhQfaHX">CSCP 认证知识图谱</h3>
+      <div class="card-en" data-page-node-id="LrLeaBDZakkTT4AuiDWaek">scm-knowledge-graph</div>
+      <p data-i18n="lc1d" data-page-node-id="M57YnD3rQaKa2kHAsXbqte">中英双语、可交互的供应链管理知识图谱，以现行 CSCP 八大模块（需求与预测、全球网络、寻源采购、运营库存、物流、关系、风险、优化与可持续）为骨架，并横切公式、KPI 与实际应用场景。点开任一概念即可顺藤摸到上下游与考试要点。</p>
+      <ul data-page-node-id="aMM2yi1zrQ7GTaFbSC25B7">
+        <li data-i18n="lc1l1" data-page-node-id="UOK0R69BD5wsyHEKnfu4lT">现行 CSCP 八大模块为骨架，节点按模块 / 公式 / KPI / 框架分色</li>
+        <li data-i18n="lc1l2" data-page-node-id="fkenjrECCXp4NebUbGc8cb">模块芯片一键隔离某一专题集群，图谱不再拥挤</li>
+        <li data-i18n="lc1l3" data-page-node-id="LAWdIChmCC0hy9DbmUaDqt">路径视图：八章学习路线，或工作中的应用场景</li>
+        <li data-i18n="lc1l4" data-page-node-id="OwiYeR8DS9ASgxx4c82abE">⌘K 中英搜索、卡片双语并显、移动端默认路径视图</li>
+      </ul>
+      <div class="tags" data-page-node-id="j8dB0VE2LGTzJ1WIW5ro14"><span class="tag" data-i18n="lc1tag_a" data-page-node-id="EEDkaXZOhNGf7WkbCR56wM">知识图谱</span><span class="tag" data-i18n="lc1tag_b" data-page-node-id="lCHtVHCSj8U2seP6xrBDH1">八大模块</span><span class="tag" data-i18n="lc1tag_c" data-page-node-id="Cx9PDD3w9EdZTTxry0FnQ7">中英对照</span><span class="tag" data-i18n="lc1tag_d" data-page-node-id="1Esw84xiNiS1eWDncYuiKR">公式·KPI·面试</span></div>
+      <div class="card-actions" data-page-node-id="SYKnmY7bxFrWDQkNIqWYNV">
+        <a class="btn btn-primary" href="cscp/index.html" target="_blank" rel="noopener" data-page-node-id="c5ymaDybXbFoYmjczq2xV9"><span data-i18n="btn-kg" data-page-node-id="pY9ZOgeKjG3Nm6eTQquL4g">查看知识图谱</span> <span class="arr" data-page-node-id="hOykLanxJE0XcQsQBVXVT3">↗</span></a>
+        <a class="btn btn-ghost" href="https://github.com/SummerPapaya/scm-knowledge-graph" target="_blank" rel="noopener" data-page-node-id="8Dt7E6swiQnbHTUFlWiqTk"><span data-i18n="btn-gh" data-page-node-id="AQB8lOuGV80Iu9lVALIrqB">在 GitHub 查看</span> <span class="arr" data-page-node-id="SSTF9nSoUXZMKVlobyOhVr">↗</span></a>
+      </div>
+    </article>
+
+    <article class="card reveal reveal-d1" style="--card-accent:#c9a227" data-page-node-id="rlvJDnQRzD0ke3rGAIxP0J">
+      <div class="card-top" data-page-node-id="vGjVq5c6DdBkmUWm1A5UwE"><span class="card-tool" data-page-node-id="ckiNwjqKnZqpVy06hRkP34">SIX SIGMA</span><span class="card-idx" data-page-node-id="SFJmlCk9ZUhMiGmgnAQoC7">02</span></div>
+      <h3 data-i18n="lc2t" data-page-node-id="ONELvme7LixFx3DK33fPB1">SIGMA ATLAS · 六西格玛知识图谱</h3>
+      <div class="card-en" data-page-node-id="HKeyu2l0zy5omNisEoWwEY">sixsigma-knowledge-graph</div>
+      <p data-i18n="lc2d" data-page-node-id="yyH4c2ZnKCFaEAZxbQ3c7O">中英双语、可交互的六西格玛学习站（SIGMA ATLAS），同一套知识数据驱动图谱、脑图、归纳与闪卡四视图。以 Belt 为透镜（White→Yellow→Green→Black→Master Black）控制可见深度，供应链作为可叠加的工作域；内容覆盖 DMAIC、精益交汇、Black Belt 的 DOE / 进阶统计 / 辅导闸门与 Master Black 的部署组合。</p>
+      <ul data-page-node-id="baDh5IUzma12fWsSVdlKFB">
+        <li data-i18n="lc2l1" data-page-node-id="cKwncHTUYAqaiJvFLtUL4y">图谱 / 脑图 / 归纳 / 闪卡 四视图，数据同源</li>
+        <li data-i18n="lc2l2" data-page-node-id="I7mWRbHkSeCy1JQIjWHBRZ">Belt 透镜：White→Master Black 控制可见深度；供应链作为工作域叠加</li>
+        <li data-i18n="lc2l3" data-page-node-id="4kg1dpSmsWgmPiC70NgPEZ">常用工具互链：SPC、FMEA、DOE、价值流图、假设检验、8D、IQC/AQL</li>
+        <li data-i18n="lc2l4" data-page-node-id="0bCQENLqKcggprF8nDQQAR">`/` 聚焦搜索、`F` 翻闪卡、←/→ 切卡；进度存 localStorage</li>
+      </ul>
+      <div class="tags" data-page-node-id="G0V9BqyXm09GmUrqWnG4LQ"><span class="tag" data-i18n="lc2tag_a" data-page-node-id="DS7i09w1qtj8ostgs87qsL">知识图谱</span><span class="tag" data-i18n="lc2tag_b" data-page-node-id="CByLiDNbk7hP6myWgWT83p">四视图</span><span class="tag" data-i18n="lc2tag_c" data-page-node-id="qZGbHLbFXo8V7JO3nuLOAU">DMAIC·精益</span><span class="tag" data-i18n="lc2tag_d" data-page-node-id="dsUDsAPiIRcDMQzD9AZAS0">中英对照</span></div>
+      <div class="card-actions" data-page-node-id="gDesdyYkA0hx22d1Lgtx6K">
+        <a class="btn btn-primary" href="six-sigma/index.html" target="_blank" rel="noopener" data-page-node-id="Fn3WQIM5QLMWML3XX7DtLN"><span data-i18n="btn-kg" data-page-node-id="glHwAOEGB6FUrbZFJiUmKS">查看知识图谱</span> <span class="arr" data-page-node-id="fhIDFhCULjpO63H6t1ITrs">↗</span></a>
+        <a class="btn btn-ghost" href="https://github.com/SummerPapaya/sixsigma-knowledge-graph" target="_blank" rel="noopener" data-page-node-id="ENJQTP00dJCZPiecsEZB7O"><span data-i18n="btn-gh" data-page-node-id="3g3S4oBnSBa1kQgnWHAMif">在 GitHub 查看</span> <span class="arr" data-page-node-id="JAfGWL46yEtnkSXws8jfoN">↗</span></a>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<footer data-page-node-id="bsG5FnDBJGJXzxULHqFFfM">
+  <div class="foot-inner" data-page-node-id="fuaqFH0rMCqmyH5HIPHCes">
+    <p data-i18n="foot" data-page-node-id="4NXYCrrHIusHidlnRMUXbP">AI 多模型供应链研究作品集 · 各报告内容由对应 AI 工具独立生成；本周雷达信息来自公开报道，以其原始出处为准</p>
+    <p class="mono" data-page-node-id="gRx9H8mnEtEa0ZXIzzkNWY">UPDATED 2026-08-13 · MORE COMING</p>
+  </div>
+</footer>
+
+<script>
+  /* 主题切换 */
+  const root = document.documentElement;
+  const savedTheme = localStorage.getItem('sc-theme');
+  if (savedTheme) root.dataset.theme = savedTheme;
+  else if (matchMedia('(prefers-color-scheme: dark)').matches) root.dataset.theme = 'dark';
+  const themeBtn = document.getElementById('themeBtn');
+  function syncThemeBtn() {
+    const toDark = root.dataset.theme !== 'dark';
+    themeBtn.setAttribute('aria-label', toDark ? '切换到暗色模式 / Switch to dark mode' : '切换到亮色模式 / Switch to light mode');
+  }
+  syncThemeBtn();
+  themeBtn.addEventListener('click', () => {
+    const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = next;
+    localStorage.setItem('sc-theme', next);
+    syncThemeBtn();
+  });
+
+  /* 中英切换 */
+  const I18N = {
+    'brand': 'Supply Chain × AI Index',
+    'nav-brief': 'Weekly Radar', 'nav-reports': 'Reports', 'nav-app': 'Spin-off App', 'nav-gaps': 'AI Gaps', 'nav-learn': 'Continuous Learning',
+    'foot': 'A multi-model supply chain research portfolio · Reports generated independently by their respective AI tools; radar items sourced from public reporting — refer to original citations',
+    'learn-title': 'Continuous Learning',
+    'learn-sub': 'Interactive Learning Graphs',
+    'lc1t': 'CSCP Certification Knowledge Graph',
+    'lc1d': 'A bilingual, interactive supply-chain knowledge graph built on the current eight CSCP modules — demand & forecasting, global networks, sourcing, internal operations & inventory, logistics, relationship management, risk, and optimization & sustainability — cross-cut with formulas, KPIs and real-world application scenarios. Open any concept to trace its upstream, downstream and exam points.',
+    'lc1l1': 'Built on the eight current CSCP modules; nodes colored by module / formula / KPI / framework',
+    'lc1l2': 'Module chips isolate one topic cluster to declutter the graph',
+    'lc1l3': 'Path view: eight-chapter study route, or on-the-job application scenarios',
+    'lc1l4': '⌘K bilingual search, dual-language cards, mobile defaults to path view',
+    'lc1tag_a': 'Knowledge Graph', 'lc1tag_b': '8 Modules', 'lc1tag_c': 'Bilingual', 'lc1tag_d': 'Formulas · KPIs · Interviews',
+    'lc2t': 'SIGMA ATLAS · Six Sigma Knowledge Graph',
+    'lc2d': 'A bilingual, interactive Six Sigma learning site (SIGMA ATLAS) where one knowledge base drives four views — graph, mind map, briefing and flashcards. Belts act as a lens (White → Yellow → Green → Black → Master Black) controlling visible depth, with supply chain as an overlayable work domain; content spans DMAIC, the Lean crossover, Black Belt DOE / advanced stats / coaching gates and Master Black Belt deployment.',
+    'lc2l1': 'Four views — graph, mind map, briefing, flashcards — from one data source',
+    'lc2l2': 'Belt lens: White → Master Black controls depth; supply chain as an overlayable domain',
+    'lc2l3': 'Interlinked tools: SPC, FMEA, DOE, VSM, hypothesis testing, 8D, IQC/AQL',
+    'lc2l4': '`/` focus search, `F` flip cards, ←/→ navigate; progress saved in localStorage',
+    'lc2tag_a': 'Knowledge Graph', 'lc2tag_b': '4 Views', 'lc2tag_c': 'DMAIC · Lean', 'lc2tag2': 'Bilingual',
+    'btn-kg': 'View Knowledge Graph', 'btn-gh': 'View on GitHub'
+  };
+  const langZh = document.getElementById('langZh');
+  const langEn = document.getElementById('langEn');
+  function applyLang(lang) {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      if (lang === 'zh-CN' && el.dataset.zh == null) el.dataset.zh = el.innerHTML;
+      if (lang === 'en' && I18N[key] != null) el.innerHTML = I18N[key];
+      else if (lang === 'zh-CN' && el.dataset.zh != null) el.innerHTML = el.dataset.zh;
+    });
+    root.lang = lang;
+    document.title = lang === 'en'
+      ? 'Continuous Learning | Research Index'
+      : '持续学习 | Supply Chain AI Research Index';
+    langZh.classList.toggle('on', lang === 'zh-CN');
+    langEn.classList.toggle('on', lang === 'en');
+    localStorage.setItem('sc-lang', lang);
+  }
+  document.getElementById('langBtn').addEventListener('click', () => {
+    applyLang(root.lang === 'en' ? 'zh-CN' : 'en');
+  });
+  applyLang(localStorage.getItem('sc-lang') || 'zh-CN');
+
+  /* 导航滚动态 */
+  const nav = document.getElementById('nav');
+  addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 12), { passive: true });
+
+  /* 入场 reveal */
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* 鼠标磁吸背景（粒子网络） */
+  (function () {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const canvas = document.getElementById('mouseBg');
+    const ctx = canvas.getContext('2d');
+    let W = 0, H = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let nodes = [];
+    const mouse = { x: -9999, y: -9999, active: false };
+    const LINK = 150, PULL = 250, PULL_K = 0.0022, PUSH_K = 0.0005, MAX_MOUSE_LINES = 10;
+    function palette() {
+      const dark = document.documentElement.dataset.theme === 'dark';
+      return {
+        line: dark ? '91,140,255' : '26,79,214',
+        node: dark ? '123,163,255' : '26,79,214',
+        nodeA: dark ? 0.4 : 0.26, linkA: dark ? 0.2 : 0.14, mouseA: dark ? 0.3 : 0.2
+      };
+    }
+    let pal = palette();
+    function resize() {
+      W = window.innerWidth; H = window.innerHeight;
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const target = Math.round(Math.min(170, (W * H) / 14000));
+      nodes = [];
+      for (let i = 0; i < target; i++) nodes.push({ x: Math.random()*W, y: Math.random()*H, vx: (Math.random()-.5)*.45, vy: (Math.random()-.5)*.45 });
+    }
+    function step() {
+      ctx.clearRect(0, 0, W, H);
+      for (const n of nodes) {
+        n.x += n.vx; n.y += n.vy;
+        if (mouse.active) {
+          const dx = mouse.x - n.x, dy = mouse.y - n.y, d = Math.hypot(dx, dy) || 0.5;
+          if (d < PULL) { const f = (1 - d/PULL)*PULL_K; n.x += dx*f; n.y += dy*f; if (d < 80) { const r = (1 - d/80)*0.006; n.x -= dx*r; n.y -= dy*r; } }
+          else { n.x -= dx*PUSH_K; n.y -= dy*PUSH_K; }
+        }
+        if (n.x < -20) n.x += W + 40; if (n.x > W + 20) n.x -= W + 40;
+        if (n.y < -20) n.y += H + 40; if (n.y > H + 20) n.y -= H + 40;
+      }
+      for (let i = 0; i < nodes.length; i++) {
+        const a = nodes[i];
+        for (let j = i+1; j < nodes.length; j++) {
+          const b = nodes[j], d = Math.hypot(a.x-b.x, a.y-b.y);
+          if (d < LINK) { const al = (1-d/LINK)*pal.linkA; ctx.strokeStyle = `rgba(${pal.line},${al})`; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke(); }
+        }
+      }
+      if (mouse.active) {
+        const near = nodes.map(n => ({ n, d: Math.hypot(n.x-mouse.x, n.y-mouse.y) })).filter(o => o.d < PULL).sort((p,q)=>p.d-q.d).slice(0, MAX_MOUSE_LINES);
+        for (const o of near) { const al = (1-o.d/PULL)*pal.mouseA; ctx.strokeStyle = `rgba(${pal.line},${al})`; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(o.n.x,o.n.y); ctx.lineTo(mouse.x,mouse.y); ctx.stroke(); }
+      }
+      for (const n of nodes) { ctx.fillStyle = `rgba(${pal.node},${pal.nodeA})`; ctx.beginPath(); ctx.arc(n.x,n.y,1.5,0,Math.PI*2); ctx.fill(); }
+      if (mouse.active) { ctx.fillStyle = `rgba(${pal.node},${pal.mouseA})`; ctx.beginPath(); ctx.arc(mouse.x,mouse.y,3,0,Math.PI*2); ctx.fill(); }
+      requestAnimationFrame(step);
+    }
+    window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; mouse.active = true; });
+    window.addEventListener('mouseleave', () => { mouse.active = false; });
+    window.addEventListener('touchmove', e => { const t = e.touches[0]; if (t) { mouse.x = t.clientX; mouse.y = t.clientY; mouse.active = true; } }, { passive: true });
+    window.addEventListener('touchend', () => { mouse.active = false; });
+    window.addEventListener('resize', resize);
+    const obs = new MutationObserver(() => { pal = palette(); });
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    resize(); document.body.classList.add('fx-ready'); requestAnimationFrame(step);
+  })();
+
+  /* 自定义光标：指挥中枢准星 */
+  (function () {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+    const dot = document.getElementById('curDot');
+    const ring = document.getElementById('curRing');
+    if (!dot || !ring) return;
+    let mx = innerWidth/2, my = innerHeight/2, rx = mx, ry = my;
+    document.body.classList.add('cur-active');
+    addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; dot.style.transform = `translate(${mx}px, ${my}px) translate(-50%, -50%)`; }, { passive: true });
+    addEventListener('mouseleave', () => document.body.classList.remove('cur-active'));
+    addEventListener('mouseenter', () => document.body.classList.add('cur-active'));
+    addEventListener('mousedown', () => document.body.classList.add('cur-click'));
+    addEventListener('mouseup', () => document.body.classList.remove('cur-click'));
+    const HOVER_SEL = 'a, button, [role="button"], summary, .tag, [data-cursor], th, input, select, textarea';
+    addEventListener('mouseover', e => { if (e.target.closest(HOVER_SEL)) document.body.classList.add('cur-hover'); });
+    addEventListener('mouseout', e => { if (e.target.closest(HOVER_SEL) && !(e.relatedTarget && e.relatedTarget.closest(HOVER_SEL))) document.body.classList.remove('cur-hover'); });
+    (function loop() { rx += (mx-rx)*0.18; ry += (my-ry)*0.18; ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`; requestAnimationFrame(loop); })();
+  })();
+</script>
+</body>
+</html>
