@@ -476,6 +476,83 @@
   .btn .arr { transition: transform .25s; }
   .btn:hover .arr { transform: translate(2px,-2px); }
 
+  /* ---------- 报告卡片窗帘预览 ---------- */
+  #reports .card { padding: 0; }
+  #reports .card-stage {
+    position: relative;
+    overflow: hidden;
+    flex: 1 1 auto;
+  }
+  #reports .card-front { padding: 30px 30px 26px; transition: opacity .32s ease; }
+  #reports .card-actions { margin-top: 0; padding: 0 30px 26px; }
+  #reports .card-curtain {
+    position: absolute; inset: 0; z-index: 2;
+    overflow: hidden;
+    transform: translateY(-101%);
+    transition: transform .65s cubic-bezier(.22,1,.36,1);
+    background: transparent;
+    padding: 0 0 28px;  /* 窗口顶部贴卡片顶、底部与按钮行留空隙 */
+  }
+  #reports .card:hover .card-front,
+  #reports .card:focus-within .card-front {
+    opacity: 0;
+    transition: opacity .32s ease .16s;
+  }
+  #reports .card:hover .card-curtain,
+  #reports .card:focus-within .card-curtain { transform: translateY(0); }
+  #reports .curtain-win {
+    height: 100%;
+    display: flex; flex-direction: column;
+    border-radius: 12px; overflow: hidden;
+    background: #fff;
+    border: 1px solid var(--line);
+    box-shadow: 0 14px 34px -18px rgba(16,20,24,.35);
+  }
+  #reports .curtain-bar {
+    flex: 0 0 auto;
+    position: relative;
+    height: 30px; display: flex; align-items: center; gap: 7px;
+    padding: 0 12px;
+    background: #ececea;
+    border-bottom: 1px solid rgba(16,20,24,.08);
+  }
+  #reports .curtain-bar .tl {
+    width: 11px; height: 11px; border-radius: 50%;
+    display: inline-block;
+  }
+  #reports .tl-r { background: #ff5f57; }
+  #reports .tl-y { background: #febc2e; }
+  #reports .tl-g { background: #28c840; }
+  #reports .curtain-title {
+    position: absolute; left: 50%; transform: translateX(-50%);
+    font-family: var(--font-mono); font-size: 10.5px;
+    color: var(--ink-mute); letter-spacing: .04em;
+    white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis;
+    max-width: 70%; padding: 0 4px;
+  }
+  #reports .curtain-shot { flex: 1 1 auto; position: relative; min-height: 0; }
+  #reports .curtain-shot img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: top center;
+    display: block;
+  }
+  html[data-theme="dark"] #reports .curtain-shot .shot-light { display: none; }
+  html[data-theme="light"] #reports .curtain-shot .shot-dark { display: none; }
+  html[data-theme="dark"] #reports .curtain-win {
+    background: #12171e;
+    border-color: #232c36;
+    box-shadow: 0 14px 34px -18px rgba(0,0,0,.65);
+  }
+  html[data-theme="dark"] #reports .curtain-bar {
+    background: #262c35;
+    border-bottom-color: rgba(233,237,242,.08);
+  }
+  @media (hover: none) {
+    #reports .card-curtain { display: none; }
+  }
+
   /* ---------- 衍生应用（主题统一） ---------- */
   .app-card {
     --card-accent: var(--teal);
@@ -720,6 +797,8 @@
   <div class="cards" data-page-node-id="w3IXcNzOvTYipegIvWRMZ2">
 
     <article class="card reveal" style="--card-accent:#1a4fd6" data-page-node-id="784AZgEvat7nhZaHedfuCF">
+      <div class="card-stage" data-page-node-id="StageCursor01">
+      <div class="card-front" data-page-node-id="FrontCursor01">
       <div class="card-top" data-page-node-id="7TrmGvVZg8oI8O3TNDKCCA"><span class="card-tool" data-page-node-id="qpdqO06pABTy1tB1WL8dtm">CURSOR</span><span class="card-idx" data-page-node-id="8uuI1kzp7YyPMFMFqjmeF2">01</span></div>
       <h3 data-i18n="c1t" data-page-node-id="DPIVTVgeIQQobDhhB6XOU9">期刊化的决策支持研究</h3>
       <div class="card-en" data-page-node-id="FGk34j6VdepAMNmsylpBSB">supply-chain-industrial-research-cursorgrok</div>
@@ -731,6 +810,17 @@
         <li data-i18n="c1l4" data-page-node-id="SMgcExnp7C3mfWxoQoIcA4">工程细节到位：MIT + CC BY 双许可、安全扫描脚本、动画 README 流水线</li>
       </ul>
       <div class="tags" data-page-node-id="lMBjvAOnMhryTRUmc7mmIY"><span class="tag" data-page-node-id="AbA4N61x1k76d86HsNQyo9">Cursor Canvas</span><span class="tag" data-page-node-id="HuVqa16TfU9dJNolv0uCZR">TSX</span><span class="tag" data-i18n="c1tag" data-page-node-id="2FN7qk881No0JiblApHUmH">中英双语</span><span class="tag" data-i18n="c1tag2" data-page-node-id="mSncLrGhSMZRZ3FoOO8WXT">多期可比</span></div>
+      </div><!-- /card-front -->
+      <div class="card-curtain" aria-hidden="true" data-page-node-id="CurtainCursor01">
+        <div class="curtain-win" data-page-node-id="WinCursor01">
+          <div class="curtain-bar" data-page-node-id="BarCursor01"><i class="tl tl-r"></i><i class="tl tl-y"></i><i class="tl tl-g"></i><span class="curtain-title" data-page-node-id="TitleCursor01">supply-chain-industrial-research-cursorgrok</span></div>
+          <div class="curtain-shot" data-page-node-id="ShotCursor01">
+            <img class="shot-light" src="assets/cursorgrok-light.png" alt="" loading="lazy" data-page-node-id="ImgCursorL">
+            <img class="shot-dark" src="assets/cursorgrok-dark.png" alt="" loading="lazy" data-page-node-id="ImgCursorD">
+          </div>
+        </div>
+      </div>
+      </div><!-- /card-stage -->
       <div class="card-actions" data-page-node-id="mcMwLGFvbeEXY3gbIDuHDy">
         <a class="btn btn-primary" href="reports/cursorgrok/index.html" target="_blank" rel="noopener" data-page-node-id="TAX6mFJ89jMCjuA3XLCnJP"><span data-i18n="btn-dash" data-page-node-id="FvWbY32DqMsUgfhLYqMUfv">查看 Dashboard</span> <span class="arr" data-page-node-id="YZoOsXTQ4bPPllNVVCSYpa">↗</span></a>
         <a class="btn btn-ghost" href="https://github.com/SummerPapaya/supply-chain-industrial-research-cursorgrok" target="_blank" rel="noopener" data-page-node-id="UlBo2CirONCECg1AnHCp4z"><span data-i18n="btn-gh" data-page-node-id="5tUFQOshRc9n0Yzgqm6BrL">在 GitHub 查看</span> <span class="arr" data-page-node-id="zG4tnMIF6xgglhALbieYAf">↗</span></a>
@@ -738,6 +828,8 @@
     </article>
 
     <article class="card reveal reveal-d1" style="--card-accent:#7a3fd0" data-page-node-id="t2vPrQte7UXgsFuykRJGrv">
+      <div class="card-stage" data-page-node-id="StageKimi01">
+      <div class="card-front" data-page-node-id="FrontKimi01">
       <div class="card-top" data-page-node-id="HJVAIejNjPBWNfVG7XvRB8"><span class="card-tool" data-page-node-id="LaNCGPbCpiJORG1MzmKGnT">KIMI AGENT</span><span class="card-idx" data-page-node-id="RDRQXbmhWROLDRyoDMst6O">02</span></div>
       <h3 data-i18n="c2t" data-page-node-id="9lKW8Ncc73D0gZejjbNGpD">编辑部级的单文件深度报道</h3>
       <div class="card-en" data-page-node-id="mVhEVbwhvXPC9MUxYz0kWk">supply-chain-research-kimiagent</div>
@@ -749,6 +841,17 @@
         <li data-i18n="c2l4" data-page-node-id="o5GiMrh6n0TXtYzCKrsB9S">中英双语运行时切换，语言偏好本地持久化</li>
       </ul>
       <div class="tags" data-page-node-id="1sHvNAY7ixE4AB1CHJiFAB"><span class="tag" data-page-node-id="GPOxCWpHyoXzcmRpeB4cu5">Vanilla JS</span><span class="tag" data-page-node-id="NjPlGjDRgx0YSBNINeDjSH">D3.js v7</span><span class="tag" data-i18n="c2tag" data-page-node-id="Ks6ivEgIq3gCfOStMRUFxo">实时行情</span><span class="tag" data-i18n="c2tag2" data-page-node-id="hMRqc8lsFsC9nZIp7YL2un">证据纪律</span></div>
+      </div><!-- /card-front -->
+      <div class="card-curtain" aria-hidden="true" data-page-node-id="CurtainKimi01">
+        <div class="curtain-win" data-page-node-id="WinKimi01">
+          <div class="curtain-bar" data-page-node-id="BarKimi01"><i class="tl tl-r"></i><i class="tl tl-y"></i><i class="tl tl-g"></i><span class="curtain-title" data-page-node-id="TitleKimi01">supply-chain-research-kimiagent</span></div>
+          <div class="curtain-shot" data-page-node-id="ShotKimi01">
+            <img class="shot-light" src="assets/kimiagent-light.png" alt="" loading="lazy" data-page-node-id="ImgKimiL">
+            <img class="shot-dark" src="assets/kimiagent-dark.png" alt="" loading="lazy" data-page-node-id="ImgKimiD">
+          </div>
+        </div>
+      </div>
+      </div><!-- /card-stage -->
       <div class="card-actions" data-page-node-id="8KdIKOSiXNezficZfABYUv">
         <a class="btn btn-primary" href="reports/kimiagent/index.html" target="_blank" rel="noopener" data-page-node-id="xP6Q3Yb30efgTUxypCbk4A"><span data-i18n="btn-dash" data-page-node-id="FNeWAGzDse8RIf3XjQ0U0Z">查看 Dashboard</span> <span class="arr" data-page-node-id="vENe9CpbNS011SenA5N7cP">↗</span></a>
         <a class="btn btn-ghost" href="https://github.com/SummerPapaya/supply-chain-research-kimiagent" target="_blank" rel="noopener" data-page-node-id="BV2mLkfurit8CWOgZhFQ0V"><span data-i18n="btn-gh" data-page-node-id="2feyO32KBNK0ZHyPo8dxEI">在 GitHub 查看</span> <span class="arr" data-page-node-id="JXYYXDkl7Fx58edMbmzUAk">↗</span></a>
@@ -756,6 +859,8 @@
     </article>
 
     <article class="card reveal" style="--card-accent:#c25e1a" data-page-node-id="L1TUjVX4dDPzVCIAmcRGQo">
+      <div class="card-stage" data-page-node-id="StageWorkbuddy01">
+      <div class="card-front" data-page-node-id="FrontWorkbuddy01">
       <div class="card-top" data-page-node-id="evXADnvfb0yBinKfznxOBL"><span class="card-tool" data-page-node-id="E2BiXrdLIFbifMiLXIx6uZ">WORKBUDDY</span><span class="card-idx" data-page-node-id="nYvvy6j5e17HKJeOYCltIB">03</span></div>
       <h3 data-i18n="c3t" data-page-node-id="WxjmNfcOjhwCxkEjtpOiSf">三维联动的交互报告</h3>
       <div class="card-en" data-page-node-id="QNeaEG6OeBL4UxH2kcBqKh">supply-chain-research-workbuddy</div>
@@ -767,6 +872,17 @@
         <li data-i18n="c3l4" data-page-node-id="vFSBUTZtKYR21PE7Pepjsz">Chart.js 七张实时图表：GSCPI、运价、外贸、物流景气指数等</li>
       </ul>
       <div class="tags" data-page-node-id="QbbHmUSdTvW0BnRMhtZjVy"><span class="tag" data-page-node-id="t7lHGR2swUmP0eDlu9BedL">HTML5 + ES6</span><span class="tag" data-page-node-id="20rIxPb111gbwy3To8OS5n">Chart.js 4</span><span class="tag" data-i18n="c3tag" data-page-node-id="5CRxJptbdN26b6lX9RGSDP">三维切换</span><span class="tag" data-i18n="c3tag2" data-page-node-id="l5TXpHP7xwOiP0kNEN5gbs">中英双语</span></div>
+      </div><!-- /card-front -->
+      <div class="card-curtain" aria-hidden="true" data-page-node-id="CurtainWorkbuddy01">
+        <div class="curtain-win" data-page-node-id="WinWorkbuddy01">
+          <div class="curtain-bar" data-page-node-id="BarWorkbuddy01"><i class="tl tl-r"></i><i class="tl tl-y"></i><i class="tl tl-g"></i><span class="curtain-title" data-page-node-id="TitleWorkbuddy01">supply-chain-research-workbuddy</span></div>
+          <div class="curtain-shot" data-page-node-id="ShotWorkbuddy01">
+            <img class="shot-light" src="assets/workbuddy-light.png" alt="" loading="lazy" data-page-node-id="ImgWorkbuddyL">
+            <img class="shot-dark" src="assets/workbuddy-dark.png" alt="" loading="lazy" data-page-node-id="ImgWorkbuddyD">
+          </div>
+        </div>
+      </div>
+      </div><!-- /card-stage -->
       <div class="card-actions" data-page-node-id="FSBBUVTM6dpJSAHy9YtFRV">
         <a class="btn btn-primary" href="reports/workbuddy/index.html" target="_blank" rel="noopener" data-page-node-id="BF2IDCaccMNR81ShkjHYYz"><span data-i18n="btn-dash" data-page-node-id="04ulymjtL4C2VNbwX5ApqC">查看 Dashboard</span> <span class="arr" data-page-node-id="k18Ce4kcj4KS7dJLz4K4ZE">↗</span></a>
         <a class="btn btn-ghost" href="https://github.com/SummerPapaya/supply-chain-research-workbuddy" target="_blank" rel="noopener" data-page-node-id="VzothgQdgphp2Nh62vWpu4"><span data-i18n="btn-gh" data-page-node-id="ZyRKwJiP2qKeExahAgDA0o">在 GitHub 查看</span> <span class="arr" data-page-node-id="Db6c49JVnpiEImkQdobabd">↗</span></a>
@@ -774,6 +890,8 @@
     </article>
 
     <article class="card reveal reveal-d1" style="--card-accent:#1a8fc2" data-page-node-id="mFdG9zxK5fruSbQizj8ba1">
+      <div class="card-stage" data-page-node-id="StageGemini01">
+      <div class="card-front" data-page-node-id="FrontGemini01">
       <div class="card-top" data-page-node-id="GtKI3PCnOKoL0NwkdM3ahA"><span class="card-tool" data-page-node-id="D90bbJPD9aMBYp98wklbMm">GEMINI</span><span class="card-idx" data-page-node-id="wW4kLLHkCAoE2kgS2RHFmu">04</span></div>
       <h3 data-i18n="c4t" data-page-node-id="roFKVt8UzGMCC8JcN8ZqSF">带 AI 问答的全栈研究工作台</h3>
       <div class="card-en" data-page-node-id="w6N1bX6AkhbB3956xEQTxa">supply-chain-industry-research-gemini</div>
@@ -785,6 +903,17 @@
         <li data-i18n="c4l4" data-page-node-id="DEHanRJEDPD8fbDRNXdL9h">预置一键研究提示词：红海通行、CSDDD 审计、中墨走廊</li>
       </ul>
       <div class="tags" data-page-node-id="GQ5b7LmrLyOVPeCv78aS4s"><span class="tag" data-page-node-id="GVBzCwaxvdWqH8nhPZMoqO">React 19</span><span class="tag" data-page-node-id="eFwsZH3hS6Rh8KDpEGBhH6">Vite + Tailwind</span><span class="tag" data-page-node-id="v7i3F8kmS0UMFUuUK8lSnm">Express</span><span class="tag" data-page-node-id="WCkWPAP6WlVpLsFcEh5t7a">Gemini API</span></div>
+      </div><!-- /card-front -->
+      <div class="card-curtain" aria-hidden="true" data-page-node-id="CurtainGemini01">
+        <div class="curtain-win" data-page-node-id="WinGemini01">
+          <div class="curtain-bar" data-page-node-id="BarGemini01"><i class="tl tl-r"></i><i class="tl tl-y"></i><i class="tl tl-g"></i><span class="curtain-title" data-page-node-id="TitleGemini01">supply-chain-industry-research-gemini</span></div>
+          <div class="curtain-shot" data-page-node-id="ShotGemini01">
+            <img class="shot-light" src="assets/gemini-light.png" alt="" loading="lazy" data-page-node-id="ImgGeminiL">
+            <img class="shot-dark" src="assets/gemini-dark.png" alt="" loading="lazy" data-page-node-id="ImgGeminiD">
+          </div>
+        </div>
+      </div>
+      </div><!-- /card-stage -->
       <div class="card-actions" data-page-node-id="bYSaUlA9zF47iAHTXkVAKz">
         <a class="btn btn-primary" href="reports/gemini/index.html" target="_blank" rel="noopener" data-page-node-id="sHccHIDGFzyVxGymPG21GR"><span data-i18n="btn-dash" data-page-node-id="IpJIDXRvHY337mBECQCWrc">查看 Dashboard</span> <span class="arr" data-page-node-id="LFs6SZXxuK6EEfm6ETID1V">↗</span></a>
         <a class="btn btn-ghost" href="https://github.com/SummerPapaya/supply-chain-industry-research-gemini" target="_blank" rel="noopener" data-page-node-id="tYKjhldTrZkoB2Qq0dfaQO"><span data-i18n="btn-gh" data-page-node-id="1Lh0tjgAsdZOKFbGtJhSPA">在 GitHub 查看</span> <span class="arr" data-page-node-id="xFqmfFy7CVvUi9k0n6L0dx">↗</span></a>
