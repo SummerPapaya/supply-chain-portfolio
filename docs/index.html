@@ -531,11 +531,15 @@
     overflow: hidden; text-overflow: ellipsis;
     max-width: 70%; padding: 0 4px;
   }
-  #reports .curtain-shot { flex: 1 1 auto; position: relative; min-height: 0; }
+  #reports .curtain-shot {
+    flex: 1 1 auto; position: relative; min-height: 0;
+    background: var(--card);
+    overflow: hidden;
+  }
   #reports .curtain-shot img {
     position: absolute; inset: 0;
     width: 100%; height: 100%;
-    object-fit: cover; object-position: top center;
+    object-fit: contain; object-position: top center;
     display: block;
   }
   html[data-theme="dark"] #reports .curtain-shot .shot-light { display: none; }
@@ -703,7 +707,7 @@
     下方「本周雷达」呈现 <span class="js-radar-date" data-page-node-id="7zt7tOnGKFg7hTvWbTEmHb">2026-08-13</span> 当周的多源交叉情报，每条均附原始出处。
   </p>
   <div class="hero-stats reveal reveal-d3" data-page-node-id="7IE7fqtq6P9NrgZ3aABJ65">
-    <div class="stat" data-page-node-id="YnJADmNGOMtsthV6Dg8Wwd"><div class="num" data-count="4" data-page-node-id="CGxlgz8IJif1ms5HJ4RUhb">0</div><div class="lbl" data-i18n="stat1" data-page-node-id="0gT8W1y4NwfWprXrZBrrMK">独立研究报告</div></div>
+    <div class="stat" data-page-node-id="YnJADmNGOMtsthV6Dg8Wwd"><div class="num" data-count="5" data-page-node-id="CGxlgz8IJif1ms5HJ4RUhb">0</div><div class="lbl" data-i18n="stat1" data-page-node-id="0gT8W1y4NwfWprXrZBrrMK">独立研究报告</div></div>
     <div class="stat" data-page-node-id="DzrO0FvUulX8iAOPazpEqm"><div class="num" data-count="1" data-page-node-id="8fsuHUJnuVDb07ZHizKFLF">0</div><div class="lbl" data-i18n="stat2" data-page-node-id="yEvEJ2ivcRueU7P1BAgjgk">衍生应用</div></div>
     <div class="stat" data-page-node-id="Z5Uec7IgY2VQostWDnkuA5"><div class="num" data-page-node-id="omrlUhBMIo7amZenuAuKH5"><i data-page-node-id="lwYMCd5ZwTfCiTdFqFKlwZ">25</i>+</div><div class="lbl" data-i18n="stat3" data-page-node-id="eDIEgPTBrjIzdegK0ktHZA">机构数据源（WTO / Drewry / NY Fed…）</div></div>
     <div class="stat" data-page-node-id="tuNHpaBFqX8nSmg9CKKp57"><div class="num" data-page-node-id="R4y3cxix4wMdquCbKXqgxm">2026<i data-page-node-id="dgXTWVQl9IdpgiNt2sLDoq">H1</i></div><div class="lbl" data-i18n="stat4" data-page-node-id="yFfBXe5Yl6951jhC9r2ogH">当前研究窗口</div></div>
@@ -776,13 +780,21 @@
             <td data-i18n="m4c5" data-page-node-id="eRRgbbbl1jXqcmcjFNbPQr">全栈研究工作台：AI 问答随所选报告期切换语境，密钥服务端代理不落地</td>
             <td data-i18n="m4c6" data-page-node-id="Zyk9OA4tDkW0KSVbRxfE39">WCI / SCSI 等指标 + Google Search 实时检索增强</td><td data-i18n="m4c7" data-page-node-id="RBDtWvVkixXCeollRvJdtL"><b style="color:#1a8fc2" data-page-node-id="H6SFKCle5sAzAaSeux5a8g">战略情报官</b>——实时盯盘、联网核验、为决策层出简报</td>
           </tr>
+          <tr data-page-node-id="fX6CodexRowNodeIdZ7q">
+            <td class="m-name" data-page-node-id="CodexMNameNode01"><span class="dot" style="background:#b23a7a" data-page-node-id="CodexDotNode01"></span>Codex<small data-page-node-id="CodexMNameSub01">Industrial Research</small></td>
+            <td data-i18n="m5c2" data-page-node-id="CodexM5c2Node01"><span class="model" data-page-node-id="CodexM5c2M01">GPT-6 Astra</span><span class="stack" data-page-node-id="CodexM5c2S01">OpenAI Codex</span></td>
+            <td data-i18n="m5c3" data-page-node-id="CodexM5c3Node01"><span class="tag" data-page-node-id="CodexM5c3T1N1">单页 HTML + report.css</span><span class="tag" data-page-node-id="CodexM5c3T2N1">原生 SVG 图表</span><span class="tag" data-page-node-id="CodexM5c3T3N1">CSV / 打印视图</span></td>
+            <td data-i18n="m5c4" data-page-node-id="CodexM5c4Node01">中国 vs 国际 · Q1 / Q2 / H1</td>
+            <td data-i18n="m5c5" data-page-node-id="CodexM5c5Node01">唯一把「时间口径」写进正文的报告：流量可加总而存量不可、半年比率不等于两季平均，缺失值一律留空而非补零</td>
+            <td data-i18n="m5c6" data-page-node-id="CodexM5c6Node01">38 条来源 · 98 条统计记录（IATA / WTO / NBS / MIIT / SEMI / ACEA…）</td><td data-i18n="m5c7" data-page-node-id="CodexM5c7Node01"><b style="color:#b23a7a" data-page-node-id="CodexM5c7BNode01">口径守门人</b>——先把时间窗口讲清楚，再上数据与结论</td>
+          </tr>
           <tr data-page-node-id="NAMPF4uidrbaiPDc3CBvoK">
-            <td class="m-name" data-page-node-id="uXGwQlocRQqQd3yVoKHHfM"><span class="dot" style="background:#0e7a6d" data-page-node-id="6mYJEPWuTmGwOUju63QOWC"></span>Gemini<small data-i18n="m5sub" data-page-node-id="tgxmr0ghlOMloSBoKGMZFD">VeloCortex Maritime（衍生应用）</small></td>
-            <td data-i18n="m5c2" data-page-node-id="oH8CeAhhCo6L23w7WimzKx"><span class="model" data-page-node-id="YNnPmRLBfINibBEjLX8Cd0">Gemini 3.6 Flash</span><span class="stack" data-page-node-id="UL4kfmPKc6AcRJY08NHlOs">Gemini AI + IoT 遥测</span></td>
-            <td data-i18n="m5c3" data-page-node-id="ZbhG9knGwhm6GIf1ryDBNb"><span class="tag" data-page-node-id="mB83jkJEPVA10RPxfih15y">React 19 + Express</span><span class="tag" data-page-node-id="xRS0ISMWBfv3saWXZKKFu7">SheetJS 导出</span><span class="tag" data-page-node-id="yuEoODyG5gQkoMvUGTQqMP">i18n</span></td>
-            <td data-i18n="m5c4" data-page-node-id="w9gOgQVasezDlJtIoMjpYW">全球海运走廊 · 实时</td>
-            <td data-i18n="m5c5" data-page-node-id="s7rW7ZoFF2Jqi9dKCEHdzc">从研究到产品：集装箱追踪指挥中心，含冷链监控与滞箱费风险预测</td>
-            <td data-i18n="m5c6" data-page-node-id="JbCBd9BqjB0SDPECTrM2g7">IoT 传感器遥测 + Gemini 预测推理</td><td data-i18n="m5c7" data-page-node-id="ODiODUt788gsMYLowa0mkb"><b style="color:#0e7a6d" data-page-node-id="0Jc4jGNmihF0Zyvg6d0SHE">运营指挥官</b>——盯船盯箱、先算风险</td>
+            <td class="m-name" data-page-node-id="uXGwQlocRQqQd3yVoKHHfM"><span class="dot" style="background:#0e7a6d" data-page-node-id="6mYJEPWuTmGwOUju63QOWC"></span>Gemini<small data-i18n="m6sub" data-page-node-id="tgxmr0ghlOMloSBoKGMZFD">VeloCortex Maritime（衍生应用）</small></td>
+            <td data-i18n="m6c2" data-page-node-id="oH8CeAhhCo6L23w7WimzKx"><span class="model" data-page-node-id="YNnPmRLBfINibBEjLX8Cd0">Gemini 3.6 Flash</span><span class="stack" data-page-node-id="UL4kfmPKc6AcRJY08NHlOs">Gemini AI + IoT 遥测</span></td>
+            <td data-i18n="m6c3" data-page-node-id="ZbhG9knGwhm6GIf1ryDBNb"><span class="tag" data-page-node-id="mB83jkJEPVA10RPxfih15y">React 19 + Express</span><span class="tag" data-page-node-id="xRS0ISMWBfv3saWXZKKFu7">SheetJS 导出</span><span class="tag" data-page-node-id="yuEoODyG5gQkoMvUGTQqMP">i18n</span></td>
+            <td data-i18n="m6c4" data-page-node-id="w9gOgQVasezDlJtIoMjpYW">全球海运走廊 · 实时</td>
+            <td data-i18n="m6c5" data-page-node-id="s7rW7ZoFF2Jqi9dKCEHdzc">从研究到产品：集装箱追踪指挥中心，含冷链监控与滞箱费风险预测</td>
+            <td data-i18n="m6c6" data-page-node-id="JbCBd9BqjB0SDPECTrM2g7">IoT 传感器遥测 + Gemini 预测推理</td><td data-i18n="m6c7" data-page-node-id="ODiODUt788gsMYLowa0mkb"><b style="color:#0e7a6d" data-page-node-id="0Jc4jGNmihF0Zyvg6d0SHE">运营指挥官</b>——盯船盯箱、先算风险</td>
           </tr>
         </tbody>
       </table>
@@ -790,8 +802,8 @@
   </div>
 
   <div class="sub-head reveal" data-page-node-id="KvQDzjeoDaQU0gkTvSEbR8">
-    <h3 class="sub-title" data-i18n="cards-title" data-page-node-id="jKHTHFCgngt0GxXBo6bT3F">四份洞察报告</h3>
-    <span class="sec-note" data-page-node-id="RlJBKdLVls51miFi7nxml8">THE FOUR REPORTS · 01 — 04</span>
+    <h3 class="sub-title" data-i18n="cards-title" data-page-node-id="jKHTHFCgngt0GxXBo6bT3F">五份洞察报告</h3>
+    <span class="sec-note" data-page-node-id="RlJBKdLVls51miFi7nxml8">THE FIVE REPORTS · 01 — 05</span>
   </div>
 
   <div class="cards" data-page-node-id="w3IXcNzOvTYipegIvWRMZ2">
@@ -895,7 +907,7 @@
       <div class="card-top" data-page-node-id="GtKI3PCnOKoL0NwkdM3ahA"><span class="card-tool" data-page-node-id="D90bbJPD9aMBYp98wklbMm">GEMINI</span><span class="card-idx" data-page-node-id="wW4kLLHkCAoE2kgS2RHFmu">04</span></div>
       <h3 data-i18n="c4t" data-page-node-id="roFKVt8UzGMCC8JcN8ZqSF">带 AI 问答的全栈研究工作台</h3>
       <div class="card-en" data-page-node-id="w6N1bX6AkhbB3956xEQTxa">supply-chain-industry-research-gemini</div>
-      <p data-i18n="c4d" data-page-node-id="PA7OopScl9yhBh8aYYuZmZ">四份报告中唯一的全栈应用：React 19 + Express，接入 Gemini 2.5 Flash 与 Google Search Grounding，AI 问答会随所选报告窗口自动切换语境，更像一个「分析工作台」而非静态报告。</p>
+      <p data-i18n="c4d" data-page-node-id="PA7OopScl9yhBh8aYYuZmZ">五份报告中唯一的全栈应用：React 19 + Express，接入 Gemini 2.5 Flash 与 Google Search Grounding，AI 问答会随所选报告窗口自动切换语境，更像一个「分析工作台」而非静态报告。</p>
       <ul data-page-node-id="h2fAbhOivEpQTHXuzF2Ncf">
         <li data-i18n="c4l1" data-page-node-id="hAIBD7QkTlU17vt44F0UCg">5 个报告窗口（2026 H1/Q1/Q2、2025 H2/FY）切换时全量指标重新同步</li>
         <li data-i18n="c4l2" data-page-node-id="TmY8TJrxa6cPCCnpGcsw5m">7 大行业垂直 + WCI 运价、SCSI 压力指数、近岸外包 2.0 等宏观主题</li>
@@ -917,6 +929,37 @@
       <div class="card-actions" data-page-node-id="bYSaUlA9zF47iAHTXkVAKz">
         <a class="btn btn-primary" href="reports/gemini/index.html" target="_blank" rel="noopener" data-page-node-id="sHccHIDGFzyVxGymPG21GR"><span data-i18n="btn-dash" data-page-node-id="IpJIDXRvHY337mBECQCWrc">查看 Dashboard</span> <span class="arr" data-page-node-id="LFs6SZXxuK6EEfm6ETID1V">↗</span></a>
         <a class="btn btn-ghost" href="https://github.com/SummerPapaya/supply-chain-industry-research-gemini" target="_blank" rel="noopener" data-page-node-id="tYKjhldTrZkoB2Qq0dfaQO"><span data-i18n="btn-gh" data-page-node-id="1Lh0tjgAsdZOKFbGtJhSPA">在 GitHub 查看</span> <span class="arr" data-page-node-id="xFqmfFy7CVvUi9k0n6L0dx">↗</span></a>
+      </div>
+    </article>
+
+    <article class="card reveal reveal-d2" style="--card-accent:#b23a7a" data-page-node-id="CodexCard05Node">
+      <div class="card-stage" data-page-node-id="StageCodex01Node">
+      <div class="card-front" data-page-node-id="FrontCodex01Node">
+      <div class="card-top" data-page-node-id="CodexTopNode"><span class="card-tool" data-page-node-id="CodexToolNode">CODEX</span><span class="card-idx" data-page-node-id="CodexIdxNode">05</span></div>
+      <h3 data-i18n="c5t" data-page-node-id="CodexTitleNode">把时间口径写在最前面的报告</h3>
+      <div class="card-en" data-page-node-id="CodexEnNode">supply-chain-research-codex</div>
+      <p data-i18n="c5d" data-page-node-id="CodexDescNode">唯一一份把「时间窗口语义」当作第一节的报告：流量可加总、存量不可相加、半年比率不等于两季平均、百分比差以百分点表示；缺数一律留空而非补零。由 GPT-6 Astra + OpenAI Codex 独立产出的双语离线单页。</p>
+      <ul data-page-node-id="CodexUlNode">
+        <li data-i18n="c5l1" data-page-node-id="CodexL1Node">3 × 2 × 3 组合切换：中国 / 国际市场 × H1 / Q1 / Q2 × 中 / 英 / 双语</li>
+        <li data-i18n="c5l2" data-page-node-id="CodexL2Node">八个产业按「需求传导 / 战略基础设施」两组阅读，叠加库存与资金、成本与利润、区域集中风险三层诊断</li>
+        <li data-i18n="c5l3" data-page-node-id="CodexL3Node">38 条来源、98 条统计记录；原始发布 / 权威转述 / 机构估算 / 企业案例分别标识；衍生值一律标 [derived]</li>
+        <li data-i18n="c5l4" data-page-node-id="CodexL4Node">原生 SVG 图表 + CSV 导出 + 打印视图，离线可跑，CC BY-NC 4.0</li>
+      </ul>
+      <div class="tags" data-page-node-id="CodexTagsNode"><span class="tag" data-page-node-id="CodexTg1Node">Codex</span><span class="tag" data-page-node-id="CodexTg2Node">SVG Charts</span><span class="tag" data-i18n="c5tag" data-page-node-id="CodexTg3Node">时间口径</span><span class="tag" data-i18n="c5tag2" data-page-node-id="CodexTg4Node">离线可跑</span></div>
+      </div><!-- /card-front -->
+      <div class="card-curtain" aria-hidden="true" data-page-node-id="CurtainCodex01Node">
+        <div class="curtain-win" data-page-node-id="WinCodex01Node">
+          <div class="curtain-bar" data-page-node-id="BarCodex01Node"><i class="tl tl-r"></i><i class="tl tl-y"></i><i class="tl tl-g"></i><span class="curtain-title" data-page-node-id="TitleCodex01Node">supply-chain-research-codex</span></div>
+          <div class="curtain-shot" data-page-node-id="ShotCodex01Node">
+            <img class="shot-light" src="assets/codex-light.png" alt="" loading="lazy" data-page-node-id="ImgCodexLNode">
+            <img class="shot-dark" src="assets/codex-dark.png" alt="" loading="lazy" data-page-node-id="ImgCodexDNode">
+          </div>
+        </div>
+      </div>
+      </div><!-- /card-stage -->
+      <div class="card-actions" data-page-node-id="CodexActionsNode">
+        <a class="btn btn-primary" href="reports/codex/index.html" target="_blank" rel="noopener" data-page-node-id="CodexBtnDashNode"><span data-i18n="btn-dash" data-page-node-id="CodexBtnDashTNode">查看 Dashboard</span> <span class="arr" data-page-node-id="CodexBtnDashANode">↗</span></a>
+        <a class="btn btn-ghost" href="https://github.com/SummerPapaya/supply-chain-research-codex" target="_blank" rel="noopener" data-page-node-id="CodexBtnGhNode"><span data-i18n="btn-gh" data-page-node-id="CodexBtnGhTNode">在 GitHub 查看</span> <span class="arr" data-page-node-id="CodexBtnGhANode">↗</span></a>
       </div>
     </article>
 
@@ -1025,7 +1068,7 @@
     <span class="sec-note" data-page-node-id="vEDGczQY7bz9b0IZtc7VPy">IMPLEMENTATION · SCORED &amp; RANKED</span>
   </div>
   <p class="reveal reveal-d1" style="max-width:720px;font-size:14px;color:var(--ink-soft);margin:-14px 0 24px" data-i18n="gaps-intro" data-page-node-id="hvstCYz2e4MP5JihdNjelL">
-    综合本周雷达的热点议题与四份报告的共同发现，以下七个工作流缺口最值得用 AI 优先补位。
+    综合本周雷达的热点议题与五份报告的共同发现，以下七个工作流缺口最值得用 AI 优先补位。
     评分维度与权重：业务价值 35% · 落地可行性 25% · 数据就绪度 20% · 时效紧迫性 20%。
   </p>
   <div class="gap-legend reveal reveal-d1" data-page-node-id="EG1JC15PxSovJi9AeSWTtn">
@@ -1577,13 +1620,13 @@
     'm2c2': '<span class="model">Kimi K3 Deep Research</span><span class="stack">Kimi Agent</span>',
     'm3c2': '<span class="model">Deepseek-V4-Pro</span><span class="stack">WorkBuddy Agent</span>',
     'm4c2': '<span class="model">Gemini 3.6 Flash</span><span class="stack">Search Grounding</span>',
-    'm5c2': '<span class="model">Gemini 3.6 Flash</span><span class="stack">Gemini AI + IoT Telemetry</span>',
+    'm6c2': '<span class="model">Gemini 3.6 Flash</span><span class="stack">Gemini AI + IoT Telemetry</span>',
     // col3: Format & Stack
     'm1c3': '<span class="tag">Interactive Canvas (TSX)</span><span class="tag">HTML</span><span class="tag">Slides</span>',
     'm2c3': '<span class="tag">Single-file 752KB</span><span class="tag">Vanilla JS + D3.js</span><span class="tag">Zero deps</span>',
     'm3c3': '<span class="tag">Single-page HTML</span><span class="tag">Chart.js</span><span class="tag">Zero build</span>',
     'm4c3': '<span class="tag">React 19 + Express</span><span class="tag">Recharts</span><span class="tag">AI Q&A API</span>',
-    'm5c3': '<span class="tag">React 19 + Express</span><span class="tag">SheetJS Export</span><span class="tag">i18n</span>',
+    'm6c3': '<span class="tag">React 19 + Express</span><span class="tag">SheetJS Export</span><span class="tag">i18n</span>',
     'm1c6': 'Five public feeds: GSCPI / WTO / SCFI / WCI / LPI',
     'm1c7': '<b style="color:#1a4fd6">The archivist-editor</b> — fixed sections, filed by period, comparable across editions',
     'm2c6': 'stooq live quotes + 24 tier-classified citations (K1–K24)',
@@ -1592,9 +1635,9 @@
     'm3c7': '<b style="color:#c25e1a">The research controller</b> — three-axis control, query on demand, ready to use',
     'm4c6': 'WCI / SCSI metrics + live Google Search grounding',
     'm4c7': '<b style="color:#1a8fc2">The strategic intelligence officer</b> — live telemetry, grounded retrieval, briefs the C-suite',
-    'm5c6': 'IoT sensor telemetry + Gemini predictive inference',
-    'm5c7': '<b style="color:#0e7a6d">The operations commander</b> — watches every box, prices risk first',
-    'cards-title': 'Four Insight Reports',
+    'm6c6': 'IoT sensor telemetry + Gemini predictive inference',
+    'm6c7': '<b style="color:#0e7a6d">The operations commander</b> — watches every box, prices risk first',
+    'cards-title': 'Five Insight Reports',
     'm1c4': 'China / Global · Quarterly + half-year',
     'm1c5': 'Journal-style decision support: every edition answers the same five questions — directly comparable across issues',
     'm2c4': 'Global · Mid-2026',
@@ -1603,9 +1646,9 @@
     'm3c5': 'Sticky control bar with 3-axis switching (lens / window / language); every KPI and chart updates instantly',
     'm4c4': 'Global · 5 reporting windows',
     'm4c5': 'Full-stack workbench: AI Q&A re-grounds to the selected window; API keys proxied server-side only',
-    'm5sub': 'VeloCortex Maritime (spin-off app)',
-    'm5c4': 'Global shipping lanes · Real-time',
-    'm5c5': 'Research turned product: container track-and-trace command center with cold-chain IoT & demurrage prediction',
+    'm6sub': 'VeloCortex Maritime (spin-off app)',
+    'm6c4': 'Global shipping lanes · Real-time',
+    'm6c5': 'Research turned product: container track-and-trace command center with cold-chain IoT & demurrage prediction',
     'c1t': 'A journal-style decision-support serial',
     'c1d': 'The only entry organized like a periodical: every edition answers the same five questions (what changed / market / debates / outlook / actions), making quarterly and half-year windows directly comparable for strategy & procurement leaders.',
     'c1l1': 'Seven-part narrative spine + five industry segments, China/Global dual-lens radar',
@@ -1628,11 +1671,25 @@
     'c3l4': 'Seven live Chart.js charts: GSCPI, freight rates, trade, logistics prosperity index…',
     'c3tag': '3-axis switching', 'c3tag2': 'Bilingual',
     'c4t': 'A full-stack workbench with AI Q&A',
-    'c4d': 'The only full-stack app of the four: React 19 + Express with Gemini 2.5 Flash and Google Search Grounding. AI answers re-contextualize to the selected reporting window — more analysis workbench than static report.',
+    'c4d': 'The only full-stack app of the five: React 19 + Express with Gemini 2.5 Flash and Google Search Grounding. AI answers re-contextualize to the selected reporting window — more analysis workbench than static report.',
     'c4l1': '5 reporting windows (2026 H1/Q1/Q2, 2025 H2/FY) with full metric re-sync on switch',
     'c4l2': '7 industry verticals + WCI rates, SCSI stress index, Nearshoring 2.0 and more',
     'c4l3': '4-second simulated ticker (pause + latency monitor); API keys proxied server-side only',
     'c4l4': 'One-click research prompts: Red Sea transit, CSDDD audits, Sino-Mexico corridor',
+    'c5t': 'A bilingual report that states its time window first',
+    'c5d': 'The only report that opens with temporal rules: flows aggregate but stocks do not, half-year ratios are not quarter averages, and a missing value is left blank rather than zero. A GPT-6 Astra + OpenAI Codex bilingual offline single page.',
+    'c5l1': '3 × 2 × 3 switching: China / International × H1 / Q1 / Q2 × Chinese / English / Bilingual',
+    'c5l2': 'Eight sectors read in two groups (demand transmission + strategic infrastructure), with three diagnostic layers — inventory & capital, cost & profit, regional concentration',
+    'c5l3': '38 sources and 98 records; primary releases, authoritative secondary, institutional estimates and company cases each tagged; derived values marked [derived]',
+    'c5l4': 'Hand-rolled SVG charts, CSV export, print view; works offline; CC BY-NC 4.0',
+    'c5tag': 'Temporal rigour', 'c5tag2': 'Offline',
+    // col2-7 (Codex, m5 row)
+    'm5c2': '<span class="model">GPT-6 Astra</span><span class="stack">OpenAI Codex</span>',
+    'm5c3': '<span class="tag">Single-page HTML + report.css</span><span class="tag">Hand-rolled SVG charts</span><span class="tag">CSV / Print view</span>',
+    'm5c4': 'China vs International · Q1 / Q2 / H1',
+    'm5c5': 'The only report that states its temporal rules up front — flows aggregate, stocks don\u2019t; half-year ratios aren\u2019t quarter averages; a missing value is left blank, never zero',
+    'm5c6': '38 sources · 98 records (IATA / WTO / NBS / MIIT / SEMI / ACEA…)',
+    'm5c7': '<b style="color:#b23a7a">The time-window guardian</b> — defines the period before it reports a number',
     'app-title': 'From Research to Product · Spin-off',
     'app-h3': 'Global Maritime Container Track-and-Trace Command Center',
     'app-p': 'The research, productized: the recurring pain points across the reports — visibility gaps, demurrage exposure, cold-chain failures — turned into a working maritime & intermodal command platform.',
@@ -1642,7 +1699,7 @@
     'app-l4': 'Bulk manifest lookup (PO / Invoice / BOL / container IDs mixed), one-click xlsx/csv export for ERP',
     'btn-dash': 'View Dashboard', 'btn-gh': 'View on GitHub', 'btn-app': 'Launch App',
     'gaps-title': 'Where AI Fills In · Top 7 Workflow Gaps',
-    'gaps-intro': 'Synthesizing this week\'s radar and the shared findings across all four reports, these seven workflow gaps are where AI should step in first. Scoring: business value ×35% · feasibility ×25% · data readiness ×20% · urgency ×20%.',
+    'gaps-intro': 'Synthesizing this week\'s radar and the shared findings across all five reports, these seven workflow gaps are where AI should step in first. Scoring: business value ×35% · feasibility ×25% · data readiness ×20% · urgency ×20%.',
     'dim-v': 'Value', 'dim-f': 'Feasibility', 'dim-d': 'Data', 'dim-u': 'Urgency', 'gs-lbl': 'Composite',
     'g1t': 'End-to-end visibility & demurrage prediction',
     'g1d': 'Cape rerouting swings Asia–Europe ETAs by ±2 weeks while demurrage stays unquantifiable before berthing. AIS, port-queue and weather data are mature enough for AI to turn "wait and see" into "price it early, adjust speed" — a path already proven by VeloCortex on this site.',
