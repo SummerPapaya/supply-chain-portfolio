@@ -1,0 +1,25 @@
+{
+  "width": 1200,
+  "fps": 30,
+  "duration": 5.0,
+  "colors": 256,
+  "dither": "none",
+  "clip_to_base_alpha": true,
+  "max_size_mb": 2.0,
+  "reveals": [
+    {
+      "id": "accent-route",
+      "axis": "x",
+      "start": 0.15,
+      "end": 1.05,
+      "exit": {"start": 4.15, "end": 4.95}
+    }
+  ],
+  "layers": [
+    {
+      "id": "proof-board",
+      "enter": {"start": 0.35, "end": 1.25, "from": [56, 0]},
+      "exit": {"start": 4.15, "end": 4.95, "to": [28, 0]}
+    }
+  ]
+}
