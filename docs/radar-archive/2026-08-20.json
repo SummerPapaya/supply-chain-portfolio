@@ -1,0 +1,297 @@
+{
+  "updatedAt": "2026-08-20T23:30:44+08:00",
+  "columns": [
+    {
+      "cat": {
+        "zh": "重点新闻",
+        "en": "Key News"
+      },
+      "color": "#e05656",
+      "items": [
+        {
+          "title": {
+            "zh": "长和对巴拿马启动国际仲裁，索赔逾15亿美元",
+            "en": "CK Hutchison seeks $1.5 billion from Panama in arbitration"
+          },
+          "desc": {
+            "zh": "长和已就巴尔博亚港、克里斯托瓦尔港码头被接管一事，对巴拿马启动投资条约仲裁，索赔逾15亿美元；公司称逾6个月磋商中对方从未提出赔偿方案。",
+            "en": "CK Hutchison launched investment-treaty arbitration against Panama seeking over $1.5 billion over the loss of the Balboa and Cristóbal terminals; it says six months of consultations produced no compensation offer."
+          },
+          "sources": [
+            {
+              "label": "gCaptain ↗",
+              "url": "https://gcaptain.com/ck-hutchison-seeks-1-5-billion-for-loss-of-panama-assets/"
+            },
+            {
+              "label": "中新社 ↗",
+              "url": "https://www.chinanews.com/cj/2026/08-20/10680819.shtml"
+            },
+            {
+              "label": "ECNS ↗",
+              "url": "https://www.ecns.cn/cns-wire/2026-08-20/detail-ihfimvaz1911476.shtml"
+            }
+          ],
+          "verified": true
+        },
+        {
+          "title": {
+            "zh": "特朗普将加拿大商品50%关税推迟三天",
+            "en": "Trump delays 50% tariffs on Canada imports for 3 days"
+          },
+          "desc": {
+            "zh": "依据《关税法》第338条、覆盖约200亿美元加拿大商品的50%关税原定8月19日生效，经最后一刻谈判推迟至8月22日；加拿大总理卡尼确认已取得“实质性进展”，但最终文件仍待敲定。",
+            "en": "The 50% Section 338 tariffs on about $20B of Canadian goods — set to hit Aug 19 — were postponed three days to Aug 22 after last-minute talks; Carney confirmed “substantial progress” while final documents remain pending."
+          },
+          "sources": [
+            {
+              "label": "Supply Chain Dive ↗",
+              "url": "https://www.supplychaindive.com/news/trump-delays-50-tariffs-on-canada-imports-for-3-days/828213/"
+            },
+            {
+              "label": "CBS News ↗",
+              "url": "https://www.cbsnews.com/newyork/news/trump-pauses-tariffs-canada/"
+            },
+            {
+              "label": "新华社（今日头条）↗",
+              "url": "https://www.toutiao.com/article/7675617434523238946/"
+            },
+            {
+              "label": "环球时报（腾讯新闻）↗",
+              "url": "https://news.qq.com/rain/a/20260820A038WS00"
+            }
+          ],
+          "verified": true
+        },
+        {
+          "title": {
+            "zh": "俄乌黑海粮食出口近乎停滞",
+            "en": "Russia and Ukraine's Black Sea grain exports grind to a virtual halt"
+          },
+          "desc": {
+            "zh": "俄乌互袭港口与货船，黑海—亚速海区域粮食出口能力损失超97%；全球小麦价格同比上涨约30%，进口商正忙于寻找替代货源。",
+            "en": "Attacks on ports and vessels have knocked out more than 97% of Russia and Ukraine's Azov–Black Sea grain export capacity; wheat prices are up ~30% year on year as importers scramble for alternatives."
+          },
+          "sources": [
+            {
+              "label": "gCaptain ↗",
+              "url": "https://gcaptain.com/russia-and-ukraines-black-sea-grain-exports-grind-to-a-virtual-halt/"
+            },
+            {
+              "label": "Arab News ↗",
+              "url": "https://www.arabnews.com/node/2655265"
+            },
+            {
+              "label": "新华社（网易）↗",
+              "url": "https://www.163.com/dy/article/L4PMFEBI05346RC6.html"
+            },
+            {
+              "label": "财联社 ↗",
+              "url": "https://www.cls.cn/detail/2459583"
+            }
+          ],
+          "verified": true
+        }
+      ]
+    },
+    {
+      "cat": {
+        "zh": "热门议题",
+        "en": "Hot Topics"
+      },
+      "color": "#f0a13a",
+      "items": [
+        {
+          "title": {
+            "zh": "亚丁湾一艘油轮遭武装人员劫持，被驶向索马里",
+            "en": "Sanctioned shadow-fleet tanker hijacked in Gulf of Aden, diverted toward Somalia"
+          },
+          "desc": {
+            "zh": "英国海上贸易行动办公室（UKMTO）证实，一艘在也门穆卡拉以东约136海里处西行的油轮被6名武装人员登船控制，并被驶向索马里方向；这是近期第二起类似事件，当局正在调查。",
+            "en": "UKMTO confirmed six armed men boarded a westbound tanker about 136 nm east of Mukalla, Yemen, took control and set course toward Somalia — the second such incident. Authorities are investigating."
+          },
+          "sources": [
+            {
+              "label": "gCaptain ↗",
+              "url": "https://gcaptain.com/sanctioned-shadow-fleet-tanker-hijacked-in-gulf-of-aden-and-diverted-toward-somalia/"
+            },
+            {
+              "label": "央视新闻 ↗",
+              "url": "https://news.cctv.com/2026/08/20/ARTII8tAeNi0tHWxTDfOdDoX260820.shtml"
+            },
+            {
+              "label": "新华社 ↗",
+              "url": "https://news.qq.com/rain/a/20260820A0EFPZ00"
+            }
+          ],
+          "verified": true
+        },
+        {
+          "title": {
+            "zh": "三艘中国关联油轮在霍尔木兹海峡掉头",
+            "en": "Three Chinese tankers U-turn in Hormuz as risks remain high"
+          },
+          "desc": {
+            "zh": "三艘中国关联超大型油轮（Sea V、Hestia、Erecter）在霍尔木兹海峡附近相继掉头，袭击风险持续高企；海峡可见通行量降至冰点，布伦特原油一度站上 91 美元。",
+            "en": "Three China-linked VLCCs (Sea V, Hestia, Erecter) reversed course in or near the Strait of Hormuz as attack risks stay elevated; visible traffic has slowed to a trickle and Brent moved above $91."
+          },
+          "sources": [
+            {
+              "label": "gCaptain ↗",
+              "url": "https://gcaptain.com/three-chinese-tankers-u-turn-in-hormuz-as-risks-remain-high/"
+            },
+            {
+              "label": "Supply Chain Brain ↗",
+              "url": "https://www.supplychainbrain.com/articles/44695-three-chinese-tankers-u-turn-in-hormuz-as-risks-remain-high"
+            }
+          ],
+          "verified": true
+        },
+        {
+          "title": {
+            "zh": "赫伯罗特收购以星遭多方抵制，巴西启动全面反垄断审查",
+            "en": "Growing pushback against more liner consolidation a threat to Hapag-Zim deal"
+          },
+          "desc": {
+            "zh": "货代行业声援巴西监管机构与以色列立法者的质疑；巴西已就三条重叠航线对赫伯罗特收购以星（Zim）启动全面反垄断审查。这是班轮业进一步整合遭遇的最新阻力。",
+            "en": "Forwarders have backed objections from Brazilian authorities and Israeli legislators over Hapag-Lloyd's takeover of Zim; Brazil has opened a full antitrust review over overlapping service routes. Fresh pushback against further liner consolidation."
+          },
+          "sources": [
+            {
+              "label": "The Loadstar ↗",
+              "url": "https://theloadstar.com/growing-pushback-against-more-liner-consolidation-a-threat-to-hapag-zim-deal/"
+            },
+            {
+              "label": "搜狐 ↗",
+              "url": "https://www.sohu.com/a/1065198316_121885030"
+            },
+            {
+              "label": "航运界（同花顺）↗",
+              "url": "https://news.10jqka.com.cn/20260820/c679119251.shtml"
+            }
+          ],
+          "verified": true
+        }
+      ]
+    },
+    {
+      "cat": {
+        "zh": "研究瞭望",
+        "en": "Research"
+      },
+      "color": "#5b8cff",
+      "items": [
+        {
+          "title": {
+            "zh": "加什么？资深仓储运营商的押注方向",
+            "en": "What to Add: Where Experienced Warehouse Operators are Placing their Bets"
+          },
+          "desc": {
+            "zh": "拥有近百年合计经验的一线仓储老兵分享正在试点的方向：叉车驾驶辅助、以整条流程为单位的集成规划（替代单点优化）与低成本数字孪生模拟；到 2028 年，人力将更多转向“异常处理经理”角色。",
+            "en": "Warehouse veterans with nearly a century of combined experience share what they are actively piloting: forklift driver assist, integrated flow-level planning over point solutions, and low-cost digital twins — with humans shifting toward “exception manager” roles by 2028."
+          },
+          "sources": [
+            {
+              "label": "MHI ↗",
+              "url": "https://mhiblog.org/what-to-add-where-experienced-warehouse-operators-are-placing-their-bets/"
+            }
+          ],
+          "verified": false
+        },
+        {
+          "title": {
+            "zh": "供应链断裂时，货运科技如何应答：2021—2023 加速之年",
+            "en": "When the Supply Chain Broke, Freight Tech Answered: The 2021 to 2023 Acceleration Years"
+          },
+          "desc": {
+            "zh": "疫情危机用 18 个月完成了十年销售话术没能做到的事：货运撮合、实时可视化和自动化从“可选”变成“基础设施”。回顾这一品类如何永久重置了行业对货运科技的期待。",
+            "en": "The pandemic crisis did in 18 months what a decade of sales pitches could not: digital freight matching, real-time visibility and automation moved from optional to essential infrastructure. A retrospective on how the category permanently reset industry expectations."
+          },
+          "sources": [
+            {
+              "label": "FreightWaves ↗",
+              "url": "https://www.freightwaves.com/news/when-the-supply-chain-broke-freight-tech-answered-the-2021-to-2023-acceleration-years"
+            }
+          ],
+          "verified": false
+        },
+        {
+          "title": {
+            "zh": "仓库效率的未来：将 AI 应用于 WMS 实施",
+            "en": "The Future of Warehouse Efficiency: Applying AI to WMS Implementations"
+          },
+          "desc": {
+            "zh": "将 AI 嵌入 WMS 实施方法论（配置标准、集成规则、测试脚本）可缩短交付周期、降低技术债。关键模式是把 AI 当作“副驾驶”，在治理框架内由人验证其产出。",
+            "en": "AI embedded in WMS implementation methodology — configuration standards, integration rules, testing scripts — shortens delivery cycles and reduces technical debt. The winning pattern: AI as a copilot within governance frameworks, with humans validating outputs."
+          },
+          "sources": [
+            {
+              "label": "MHI ↗",
+              "url": "https://mhiblog.org/the-future-of-the-warehouse-efficiency-applying-ai-to-wms-implementations/"
+            }
+          ],
+          "verified": false
+        }
+      ]
+    },
+    {
+      "cat": {
+        "zh": "应用风向",
+        "en": "Apps & Adoption"
+      },
+      "color": "#35c2b0",
+      "items": [
+        {
+          "title": {
+            "zh": "亚马逊与仓储科技公司 AutoStore 达成全球供应协议",
+            "en": "Amazon, fulfillment tech company AutoStore ink global supply deal"
+          },
+          "desc": {
+            "zh": "这份不含采购承诺的协议，为电商巨头的履约自动化布局再添一块拼图。",
+            "en": "The agreement — which carries no purchase commitments — adds to the e-commerce giant's push to automate fulfillment."
+          },
+          "sources": [
+            {
+              "label": "Supply Chain Dive ↗",
+              "url": "https://www.supplychaindive.com/news/amazon-fulfillment-tech-company-autostore-ink-global-supply-deal/827978/"
+            }
+          ],
+          "verified": false
+        },
+        {
+          "title": {
+            "zh": "亚马逊今年将无人机配送覆盖范围扩大六倍",
+            "en": "Amazon to expand drone delivery reach sixfold this year"
+          },
+          "desc": {
+            "zh": "Prime Air 无人机配送将很快落地亚特兰大、芝加哥、克利夫兰都市圈，今年配送覆盖范围将扩大六倍。",
+            "en": "Prime Air will soon launch in metro Atlanta, Chicago and Cleveland — a sixfold expansion of drone delivery reach this year."
+          },
+          "sources": [
+            {
+              "label": "Supply Chain Dive ↗",
+              "url": "https://www.supplychaindive.com/news/amazon-to-expand-drone-delivery-reach-sixfold-this-year/828253/"
+            }
+          ],
+          "verified": false
+        },
+        {
+          "title": {
+            "zh": "重塑履约网络：面向 2026 年及更远的未来",
+            "en": "Reshaping Fulfillment Networks — for 2026 and Beyond"
+          },
+          "desc": {
+            "zh": "五位物流专家解读履约网络重塑方向：微履约与全渠道、节点再分布、实时库存准确性与逆向物流；自动化与数据分析正从“锦上添花”变成“必备能力”。",
+            "en": "Five logistics experts map the shifts reshaping fulfillment networks — micro-fulfillment and omnichannel, node redistribution, real-time inventory accuracy and reverse logistics — with automation and data analytics moving from additions to necessities."
+          },
+          "sources": [
+            {
+              "label": "MHI ↗",
+              "url": "https://mhiblog.org/reshaping-fulfillment-networks-for-2026-and-beyond/"
+            }
+          ],
+          "verified": false
+        }
+      ]
+    }
+  ]
+}

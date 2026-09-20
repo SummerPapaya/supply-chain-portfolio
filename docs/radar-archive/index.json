@@ -1,0 +1,75 @@
+{
+  "count": 7,
+  "issues": [
+    {
+      "date": "2026-09-15",
+      "updatedAt": "2026-09-15T00:45:00+08:00",
+      "file": "2026-09-15.json",
+      "retro": false,
+      "items": 14,
+      "verified": 11,
+      "sources": 46,
+      "columns": 4
+    },
+    {
+      "date": "2026-09-05",
+      "updatedAt": "2026-09-05T22:20:00+08:00",
+      "file": "2026-09-05.json",
+      "retro": false,
+      "items": 14,
+      "verified": 9,
+      "sources": 34,
+      "columns": 4
+    },
+    {
+      "date": "2026-08-29",
+      "updatedAt": "2026-08-29T02:10:00+08:00",
+      "file": "2026-08-29.json",
+      "retro": false,
+      "items": 13,
+      "verified": 6,
+      "sources": 17,
+      "columns": 4
+    },
+    {
+      "date": "2026-08-21",
+      "updatedAt": "2026-08-21T01:46:00+08:00",
+      "file": "2026-08-21.json",
+      "retro": false,
+      "items": 13,
+      "verified": 7,
+      "sources": 22,
+      "columns": 4
+    },
+    {
+      "date": "2026-08-20",
+      "updatedAt": "2026-08-20T23:30:44+08:00",
+      "file": "2026-08-20.json",
+      "retro": true,
+      "items": 12,
+      "verified": 6,
+      "sources": 18,
+      "columns": 4
+    },
+    {
+      "date": "2026-08-15",
+      "updatedAt": "2026-08-15T22:53:57.836412+08:00",
+      "file": "2026-08-15.json",
+      "retro": true,
+      "items": 11,
+      "verified": 11,
+      "sources": 35,
+      "columns": 4
+    },
+    {
+      "date": "2026-08-13",
+      "updatedAt": "2026-08-13T15:00:00+08:00",
+      "file": "2026-08-13.json",
+      "retro": true,
+      "items": 7,
+      "verified": 0,
+      "sources": 11,
+      "columns": 4
+    }
+  ]
+}

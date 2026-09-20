@@ -378,6 +378,62 @@
     .brief-eyebrow { display: none; }
   }
 
+  /* ---------- 雷达 · 往期存档 ---------- */
+  .brief-arch { position: relative; }
+  .brief-arch[hidden], .brief-arch-menu[hidden], .brief-arch-bar[hidden] { display: none; }
+  .brief-arch-btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em;
+    color: var(--ink-soft); background: var(--card);
+    border: 1px solid var(--line); border-radius: 99px;
+    padding: 5px 12px; cursor: pointer;
+    transition: border-color .2s, color .2s, background .2s;
+  }
+  .brief-arch-btn:hover { border-color: var(--accent); color: var(--accent-deep); }
+  .brief-arch-btn[aria-expanded="true"] { border-color: var(--accent); color: var(--accent-deep); }
+  .brief-arch-caret { font-size: 8px; line-height: 1; transition: transform .2s; }
+  .brief-arch-btn[aria-expanded="true"] .brief-arch-caret { transform: rotate(180deg); }
+  .brief-arch-menu {
+    position: absolute; top: calc(100% + 8px); right: 0; z-index: 40;
+    min-width: 268px; max-height: 320px; overflow-y: auto;
+    padding: 6px; background: var(--card);
+    border: 1px solid var(--line); border-radius: 12px;
+    box-shadow: var(--shadow-card);
+  }
+  .brief-arch-item {
+    display: flex; align-items: baseline; justify-content: space-between; gap: 14px;
+    width: 100%; padding: 9px 11px; border: none; border-radius: 8px;
+    background: none; cursor: pointer; text-align: left;
+    transition: background .16s;
+  }
+  .brief-arch-item:hover { background: var(--matrix-hover); }
+  .brief-arch-item .d { font-family: var(--font-mono); font-size: 12px; color: var(--ink); letter-spacing: .02em; white-space: nowrap; flex: none; }
+  .brief-arch-item .m { font-family: var(--font-mono); font-size: 10px; color: var(--ink-mute); white-space: nowrap; }
+  .brief-arch-item.on { background: var(--matrix-hover); }
+  .brief-arch-item.on .d { color: var(--accent-deep); font-weight: 600; }
+  .brief-arch-bar {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    padding: 11px 24px; background: var(--paper-warm); border-bottom: 1px solid var(--line);
+    font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .06em; color: var(--ink-mute);
+  }
+  .brief-arch-note { display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .brief-arch-note::before {
+    content: ""; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--accent); flex: none;
+  }
+  .brief-arch-bar b { color: var(--accent-deep); font-weight: 600; margin: 0 5px; }
+  .brief-arch-back {
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em;
+    color: var(--accent-deep); background: none; border: none; padding: 0;
+    cursor: pointer; border-bottom: 1px solid currentColor; white-space: nowrap;
+  }
+  .brief-arch-back:hover { color: var(--ink); }
+  @media (max-width: 620px) {
+    .brief-arch { width: 100%; }
+    .brief-arch-btn { width: 100%; justify-content: space-between; }
+    .brief-arch-menu { left: 0; right: auto; width: 100%; }
+  }
+
   /* ---------- 对比矩阵 ---------- */
   .matrix-wrap {
     border: 1px solid var(--line); border-radius: 14px;
@@ -385,7 +441,35 @@
     margin-bottom: 40px;
   }
   .matrix { width: 100%; border-collapse: collapse; font-size: 13.5px; table-layout: fixed; }
-  .matrix-scroll { overflow-x: auto; }
+  .matrix-scroll {
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin; scrollbar-color: var(--line) transparent;
+  }
+  .matrix-scroll::-webkit-scrollbar { height: 8px; }
+  .matrix-scroll::-webkit-scrollbar-track { background: transparent; }
+  .matrix-scroll::-webkit-scrollbar-thumb { background: var(--line); border-radius: 99px; }
+  .matrix-scroll::-webkit-scrollbar-thumb:hover { background: var(--ink-mute); }
+  /* 窄屏：不再压缩 7 列，改为保持桌面级列宽并允许左右滑动 */
+  .matrix-hint { display: none; }
+  @media (max-width: 900px) {
+    .matrix { width: 1080px; min-width: 1080px; }
+    /* 首列吸附，横向滑动时始终知道在看哪一行 */
+    .matrix th:nth-child(1), .matrix td:nth-child(1) {
+      position: sticky; left: 0; z-index: 2;
+      background: var(--card);
+      box-shadow: 1px 0 0 var(--line-soft);
+    }
+    .matrix th:nth-child(1) { background: var(--paper-warm); z-index: 3; }
+    .matrix tbody tr:hover td:nth-child(1) { background: var(--matrix-hover); }
+    .matrix-hint {
+      display: flex; align-items: center; gap: 8px;
+      padding: 11px 20px; border-top: 1px solid var(--line-soft);
+      background: var(--paper-warm);
+      font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em;
+      color: var(--ink-mute);
+    }
+    .matrix-hint::before { content: "⇄"; font-size: 13px; letter-spacing: 0; }
+  }
   .matrix th:nth-child(1), .matrix td:nth-child(1) { width: 15%; }
   .matrix th:nth-child(2), .matrix td:nth-child(2) { width: 12%; }
   .matrix th:nth-child(3), .matrix td:nth-child(3) { width: 16%; }
@@ -574,6 +658,16 @@
   .app-left ul { list-style: none; margin-bottom: 26px; }
   .app-left ul li { color: var(--app-soft); font-size: 13.5px; padding-left: 18px; position: relative; margin-bottom: 8px; }
   .app-left ul li::before { content: ""; position: absolute; left: 2px; top: 9px; width: 6px; height: 1.5px; background: var(--teal); }
+  /* 成本阶梯：已接入（免费）/ 需授权（付费）
+     行用 display:contents 摊平，让两行共用同一套列宽——否则 auto 列各自计算，
+     第二列的正文起点会错开。 */
+  .app-cost { display: grid; grid-template-columns: auto 1fr; gap: 11px 12px; margin: 0 0 14px; }
+  .app-cost-row { display: contents; }
+  .app-cost-tag { align-self: start; justify-self: start; font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: .06em; padding: 3px 7px; border-radius: 5px; white-space: nowrap; color: var(--app-mute); border: 1px solid var(--app-border); }
+  .app-cost-row.is-free .app-cost-tag { color: var(--teal); border-color: var(--teal); }
+  .app-cost-txt { color: var(--app-soft); font-size: 12.5px; line-height: 1.6; padding-bottom: 11px; border-bottom: 1px solid var(--app-border); }
+  .app-cost-row:last-child .app-cost-txt { padding-bottom: 0; border-bottom: none; }
+  .app-cost-note { color: var(--app-mute); font-size: 12px; line-height: 1.6; margin: 0 0 24px; padding-left: 12px; border-left: 2px solid var(--app-border); }
   .app-left .btn-primary { background: var(--teal); color: #fff; }
   html[data-theme="dark"] .app-left .btn-primary { color: #fff; }
   .app-left .btn-primary:hover { filter: brightness(1.12); box-shadow: 0 6px 16px -6px rgba(45,212,176,.5); }
@@ -704,7 +798,7 @@
   <h1 class="reveal reveal-d1" data-i18n="h1" data-page-node-id="do3yPc5T7dyKln0VVB5ate">AI 多模型视角下的<br  data-page-node-id="3DGaGrhCwm4KDNNOGE9OoH"/>全球供应链<span class="thin" data-page-node-id="jRBF4UxaqBSoptgb9yL4Vo">洞察研究</span></h1>
   <p class="hero-sub reveal reveal-d2" data-i18n="hero-sub" data-page-node-id="5ip0xINNsRyzet0ByiaJHv">
     一个持续更新的 AI 多模型供应链研究作品集：以同一研究命题，收集并横向比较不同大模型与 Agent 的独立成果，实时追踪全球供应链变局。
-    下方「本周雷达」呈现 <span class="js-radar-date" data-page-node-id="7zt7tOnGKFg7hTvWbTEmHb">2026-08-13</span> 当周的多源交叉情报，每条均附原始出处。
+    下方「本周雷达」呈现 <span class="js-radar-date" data-page-node-id="7zt7tOnGKFg7hTvWbTEmHb">2026-09-15</span> 当周的多源交叉情报，每条均附原始出处。
   </p>
   <div class="hero-stats reveal reveal-d3" data-page-node-id="7IE7fqtq6P9NrgZ3aABJ65">
     <div class="stat" data-page-node-id="YnJADmNGOMtsthV6Dg8Wwd"><div class="num" data-count="5" data-page-node-id="CGxlgz8IJif1ms5HJ4RUhb">0</div><div class="lbl" data-i18n="stat1" data-page-node-id="0gT8W1y4NwfWprXrZBrrMK">独立研究报告</div></div>
@@ -722,11 +816,25 @@
       <span class="brief-eyebrow" data-page-node-id="QDPbZjmYR8wHAFd6omlD6O">Weekly Briefing</span>
       <span class="brief-updated" data-page-node-id="3Cd1lbtVVEZYD0djCQD1IJ"><span data-i18n="brief-updated" data-page-node-id="gJYtgoCjoISicuEhVkgbBi">上次更新</span> <b id="buTime" data-page-node-id="RBm9j98rDJng5vD3jLMc6w">—</b></span>
       <span class="brief-auto" data-i18n="brief-auto" data-page-node-id="lWLKYsfRM8FWMKnajxM3et">定时自动拉取，无需手动刷新</span>
+      <div class="brief-arch" id="archWrap" hidden data-page-node-id="ArchWrap0001">
+        <button class="brief-arch-btn" id="archBtn" type="button" aria-haspopup="listbox" aria-expanded="false" data-page-node-id="ArchBtn0001">
+          <span data-i18n="brief-arch" data-page-node-id="ArchBtnLabel1">往期存档</span>
+          <span class="brief-arch-caret" aria-hidden="true">▾</span>
+        </button>
+        <div class="brief-arch-menu" id="archMenu" role="listbox" aria-label="Radar archive" hidden data-page-node-id="ArchMenu0001"></div>
+      </div>
     </div>
   </div>
   <div class="brief-wrap reveal reveal-d1" data-page-node-id="3qyoDpFz5g6QH5HvfIhWGU">
     <div class="brief-bar" data-page-node-id="dryvC9ZYTD2i0L4XxTvpZR">
       <span class="live" data-i18n="brief-live" data-page-node-id="HKL0XBuZyKwSzymRmSf0iF">多源交叉验证 · 附原始出处</span>
+    </div>
+    <div class="brief-arch-bar" id="archBar" hidden data-page-node-id="ArchBar0001">
+      <span class="brief-arch-note">
+        <span data-i18n="brief-arch-viewing" data-page-node-id="ArchBarTxt01">正在查看往期存档</span>
+        <b id="archBarDate" data-page-node-id="ArchBarDate1">—</b>
+      </span>
+      <button class="brief-arch-back" id="archBack" type="button" data-i18n="brief-arch-back" data-page-node-id="ArchBack0001">返回最新一期</button>
     </div>
     <div class="brief-grid" id="briefGrid" data-page-node-id="xXMNmDPivBoaOlJUDqcyWG"><div class="brief-loading" data-page-node-id="V0YxsvBTFJRwoNke6ZgcHu">加载雷达数据…</div></div>
   </div>
@@ -799,6 +907,7 @@
         </tbody>
       </table>
     </div>
+    <div class="matrix-hint" data-i18n="matrix-hint" data-page-node-id="MXhint1Scroll2Wide3">左右滑动查看完整对比表</div>
   </div>
 
   <div class="sub-head reveal" data-page-node-id="KvQDzjeoDaQU0gkTvSEbR8">
@@ -977,13 +1086,26 @@
       <span class="card-tool" style="--card-accent:var(--teal)" data-page-node-id="ngqziD0chSA7W2pKYdOXkE">VELOCORTEX AI · MARITIME</span>
       <h3 data-i18n="app-h3" data-page-node-id="grdGUTR7TddESY0axlRAPu">全球海运集装箱追踪指挥中心</h3>
       <div class="card-en" data-page-node-id="suSGomMMZcTDJbCZ9ehRtN">velocortex-maritime</div>
-      <p data-i18n="app-p" data-page-node-id="5HcaL0Lthjiw1EgFom8vVS">研究结论的产品化落地：把报告中反复出现的「可视化缺口」「滞箱费风险」「冷链失控」等痛点，做成一个可运行的海运与多式联运指挥平台。</p>
+      <p data-i18n="app-p" data-page-node-id="5HcaL0Lthjiw1EgFom8vVS">研究结论的产品化落地：把报告中反复出现的「可视化缺口」「滞箱费风险」「冷链失控」等痛点，做成一个可运行的海运与多式联运指挥平台。其中「实时数据层」全部接真实外部数据；箱级数据是可复现的演示数据集，面板底部逐块标注来源，不冒充实时。</p>
       <ul data-page-node-id="HmNMoNM5proBIvUuC7aytx">
-        <li data-i18n="app-l1" data-page-node-id="9osoNppDlCoVjM79QOwb4O">全球船队地图：七大船司船舶实时状态监控与多条件筛选（船司 / 状态 / 单号）</li>
-        <li data-i18n="app-l2" data-page-node-id="BoxwlmhkthkJlKCMrSxiw7">生物医药冷链 IoT 遥测：0.1°C 精度温度、湿度、震动、门封完整性监控与偏移告警</li>
-        <li data-i18n="app-l3" data-page-node-id="fAfhLjU0hAO7yhpIIB9rhm">Gemini AI 预测：到港前测算滞箱 / 滞期费美元敞口，给出调速或换港建议</li>
+        <li data-i18n="app-l1" data-page-node-id="9osoNppDlCoVjM79QOwb4O">实时数据层：13 个枢纽港真实气象与海况（Open-Meteo）+ 28 个咽喉点官方过境量（IMF PortWatch）+ 波罗的海实测 AIS 船位，均免密钥、浏览器直连</li>
+        <li data-i18n="app-l2" data-page-node-id="BoxwlmhkthkJlKCMrSxiw7">箱级冷链与生物医药货演示数据集：温度、湿度、震动、门封完整性与偏移告警，含 AI 滞期费敞口测算</li>
+        <li data-i18n="app-l3" data-page-node-id="fAfhLjU0hAO7yhpIIB9rhm">全球船队地图与多条件筛选（船司 / 状态 / 单号），箱号前缀反查箱主与租赁公司</li>
         <li data-i18n="app-l4" data-page-node-id="UB4iUwoXa9iQ44FD4BIX5x">批量清单查询（PO / Invoice / BOL / 箱号混贴），一键导出 xlsx / csv 对接 ERP</li>
+        <li data-i18n="app-l5" data-page-node-id="AppL5Boundary01">数据边界与接入路径：全球商业船位需签授权 + 自建服务端代理（密钥留在服务端），箱级 EDI 需对接船司，指示性成本约 150–1,500 美元/月</li>
+        <li data-i18n="app-l6" data-page-node-id="AppL6Financial01">财务口径：滞期费敞口取 AI 估计值（提示词未提供价格基准，逐次漂移）或按状态映射的固定值（港口拥堵 18,500 / 冷链超限 34,200 美元）；28.45 万节省额与 6 个月趋势为演示固定值，并非由建议动作反算，真实落地需对接船司滞期费账单与保险理赔</li>
       </ul>
+      <div class="app-cost" data-page-node-id="AppCostLadder01">
+        <div class="app-cost-row is-free" data-page-node-id="AppCostRowFree01">
+          <span class="app-cost-tag" data-i18n="app-c1h" data-page-node-id="AppCostTagFree01">已接入 · 免费</span>
+          <span class="app-cost-txt" data-i18n="app-c1" data-page-node-id="AppCostTxtFree01">港口气象与海况 Open-Meteo · 咽喉点过境量 IMF PortWatch · 近岸船位 开放 AIS（波罗的海）—— 免密钥，纯静态托管即可运行</span>
+        </div>
+        <div class="app-cost-row is-paid" data-page-node-id="AppCostRowPaid01">
+          <span class="app-cost-tag" data-i18n="app-c2h" data-page-node-id="AppCostTagPaid01">需授权 · 付费</span>
+          <span class="app-cost-txt" data-i18n="app-c2" data-page-node-id="AppCostTxtPaid01">全球商业船位 · MarineTraffic 网页版 10–100 美元/月，但 AIS API 不在套餐内、需单独商务签约；HiFleet 免费版限 50 艘 / 3 个月轨迹，C 站点名 20 元/船/月起（需线下签约）· 箱级 EDI 与冷箱遥测 150–1,500 美元/月 · 滞期费与保险理赔对账需与船司、保险方单独签约</span>
+        </div>
+      </div>
+      <div class="app-cost-note" data-i18n="app-cnote" data-page-node-id="AppCostNote01">演示数据集换成真实箱级数据，瓶颈不在开发量而在合同与授权：船位层成本可控，箱级层是一次数量级跳变（0 → 每月数千美元）。</div>
       <div class="card-actions" data-page-node-id="BHrMOcKCEBuPqoBm4pEGkX">
         <a class="btn btn-primary" href="reports/velocortex/index.html" target="_blank" rel="noopener" data-page-node-id="LEVBM2F89fvjYrZs3Ck9y1"><span data-i18n="btn-app" data-page-node-id="fmJSQh4kltB8rRy6dLctbP">打开应用</span> <span class="arr" data-page-node-id="UmR2Ev4bShObWOF1KybNKO">↗</span></a>
         <a class="btn btn-ghost" href="https://github.com/SummerPapaya/velocortex-maritime" target="_blank" rel="noopener" data-page-node-id="fFGX3bgxICYWpndsB9ZG2y"><span data-i18n="btn-gh" data-page-node-id="Nmh3cWhGHwGDkQEgdAPSWC">在 GitHub 查看</span> <span class="arr" data-page-node-id="2h8I3C7FJeb30NcQtwhEjb">↗</span></a>
@@ -1055,7 +1177,7 @@
           <circle cx="346" cy="278" r="3.5" fill="#f0a13a" data-page-node-id="TXdy0ozuwxQEq6Q2fCHv9e"/><text class="viz-chip-text" x="356" y="281" data-page-node-id="s6iDyfzSe0qqoJfYx9BCrZ">Port Congestion</text>
           <circle cx="346" cy="294" r="3.5" fill="#e05656" data-page-node-id="pTpMPwCSyBswtODO4Q04Y3"/><text class="viz-chip-text" x="356" y="297" data-page-node-id="UUIKD4l1g7W1KPBR6a05Xx">Alert / Excursion</text>
         </g>
-        <text class="viz-chip-text" x="12" y="20" fill="#35c2b0" font-size="9.5" data-page-node-id="Utqd7dGWA81mEaO041F3DK">LIVE TELEMETRY · HEATMAP ACTIVE</text>
+        <text class="viz-chip-text" x="12" y="20" fill="#35c2b0" font-size="9.5" data-page-node-id="Utqd7dGWA81mEaO041F3DK">DEMO DATASET · HEATMAP VIEW</text>
       </svg>
     </div>
   </div>
@@ -1200,7 +1322,7 @@
 <footer data-page-node-id="OJs6J1vkHUE7jXE0zHNyxH">
   <div class="foot-inner" data-page-node-id="UjSAQqHy8Kshglk9QvhKgc">
     <p data-i18n="foot" data-page-node-id="hugE7AiveUfDgM0NjMWPpl">AI 多模型供应链研究作品集 · 各报告内容由对应 AI 工具独立生成；本周雷达信息来自公开报道，以其原始出处为准</p>
-    <p class="mono" data-page-node-id="pwTFRGqWd1FHmx7mmXgI4k">UPDATED 2026-08-13 · MORE REPORTS COMING</p>
+    <p class="mono" data-page-node-id="pwTFRGqWd1FHmx7mmXgI4k">UPDATED <span class="js-site-updated" data-page-node-id="SiteUpdatedDate01">2026-09-20</span> · MORE REPORTS COMING</p>
   </div>
 </footer>
 
@@ -1640,12 +1762,13 @@
     'nav-brief': 'Weekly Radar', 'nav-reports': 'Reports', 'nav-app': 'Spin-off App', 'nav-gaps': 'AI Gaps',
     'eyebrow': 'AI-Driven Global Supply Chain Research | Ongoing Series',
     'h1': 'Global Supply Chain Intelligence,<br />Through <span class="thin">Multiple AI Models</span>',
-    'hero-sub': 'A continuously updated portfolio of AI multi-model supply-chain research: collecting and comparing independent work from different models and agents on the same brief, while tracking global supply-chain shifts in real time. The Weekly Radar below surfaces cross-verified intelligence for <span class="js-radar-date">2026-08-13</span>, each item with its original source.',
+    'hero-sub': 'A continuously updated portfolio of AI multi-model supply-chain research: collecting and comparing independent work from different models and agents on the same brief, while tracking global supply-chain shifts in real time. The Weekly Radar below surfaces cross-verified intelligence for <span class="js-radar-date">2026-09-15</span>, each item with its original source.',
     'stat1': 'Independent Reports', 'stat2': 'Spin-off Application',
     'stat3': 'Institutional data sources (WTO / Drewry / NY Fed…)', 'stat4': 'Current Window',
     'brief-title': 'This Week\'s Supply Chain Radar',
     'brief-live': 'Cross-verified · Sources cited',
     'brief-updated': 'Updated', 'brief-auto': 'Auto-pulled on schedule · no manual refresh',
+    'brief-arch': 'Past issues', 'brief-arch-viewing': 'Viewing archived issue', 'brief-arch-back': 'Back to latest',
     'brief-date': 'Pulled 2026-08-15 · Rates & policies subject to official updates',
     'cat-news': 'Key News', 'cat-research': 'Research', 'cat-topics': 'Hot Topics', 'cat-apps': 'Apps & Adoption',
     'n1t': 'US slaps 15% tariff on polysilicon & derivatives',
@@ -1663,6 +1786,7 @@
     'a1t': 'Warehouse automation & AI orchestration accelerate',
     'a1d': 'Gartner: 93% of companies plan cyber-physical automation investment within two years; 82% expand after their first robot deployment. Apps are shifting from point assistants to cross-system multi-agent orchestration — the lane VeloCortex below sits in.',
     'reports-title': 'Research & Application · Horizontal Comparison',
+    'matrix-hint': 'Swipe sideways for the full comparison table',
     'mh1': 'AI Agent / Project', 'mh2': 'Model · Toolchain', 'mh3': 'Format & Stack', 'mh4': 'Lens & Window', 'mh5': 'Signature Trait',     'mh6': 'Data Sources', 'mh7': 'Role',
     'm1c2': '<span class="model">Grok 4.5 High Fast</span><span class="stack">Cursor Agent + Canvas</span>',
     'm2c2': '<span class="model">Kimi K3 Deep Research</span><span class="stack">Kimi Agent</span>',
@@ -1740,11 +1864,18 @@
     'm5c7': '<b style="color:#b23a7a">The time-window guardian</b> — defines the period before it reports a number',
     'app-title': 'From Research to Product · Spin-off',
     'app-h3': 'Global Maritime Container Track-and-Trace Command Center',
-    'app-p': 'The research, productized: the recurring pain points across the reports — visibility gaps, demurrage exposure, cold-chain failures — turned into a working maritime & intermodal command platform.',
-    'app-l1': 'Live fleet map: seven major carriers, status monitoring, multi-filter search (carrier / status / ID)',
-    'app-l2': 'Biopharma cold-chain IoT: 0.1°C temperature, humidity, shock, door-seal integrity & excursion alerts',
-    'app-l3': 'Gemini AI prediction: demurrage & detention exposure in USD before berthing, with speed/reroute advice',
+    'app-p': 'The research, productized: the recurring pain points across the reports — visibility gaps, demurrage exposure, cold-chain failures — turned into a working maritime & intermodal command platform. Its Live Data tab runs entirely on real external feeds; container-level records are a reproducible demo dataset, footered with its own source on every panel rather than passed off as live.',
+    'app-l1': 'Live data layer: real weather & sea state at 13 hub ports (Open-Meteo), official transit volumes for 28 chokepoints (IMF PortWatch), and measured AIS vessel positions in the Baltic — all key-less and browser-direct',
+    'app-l2': 'Container-level cold-chain & biopharma demo dataset: temperature, humidity, shock and door-seal integrity with excursion alerts, plus AI demurrage-exposure estimates',
+    'app-l3': 'Global fleet map with multi-filter search (carrier / status / ID); container prefixes resolve to owner and lessor',
     'app-l4': 'Bulk manifest lookup (PO / Invoice / BOL / container IDs mixed), one-click xlsx/csv export for ERP',
+    'app-l5': 'Data boundaries and integration path: commercial global positions need a licence plus your own server-side proxy (keys never reach the client), while container-level EDI needs carrier integrations — order of US$150–1,500/month, indicative',
+    'app-l6': 'How the money figures are derived: demurrage exposure is either an AI estimate (no price benchmark is supplied in the prompt, so it drifts between calls) or a status-mapped constant (US$18,500 port congestion / US$34,200 cold-chain excursion); the US$284.5k savings figure and the six-month trend are fixed demo values rather than back-calculations from the recommended actions — real figures require carrier demurrage invoices and insurance claims',
+    'app-c1h': 'Connected · free',
+    'app-c1': 'Port weather & sea state — Open-Meteo · chokepoint transit volumes — IMF PortWatch · nearshore vessel positions — open AIS (Baltic). No keys required, so a purely static host runs them.',
+    'app-c2h': 'Needs a licence · paid',
+    'app-c2': 'Commercial global vessel positions — MarineTraffic web plans run US$10–100/month, but the AIS API is not included and needs a separate commercial agreement; HiFleet’s free tier caps at 50 vessels / 3-month tracks, with C-station polling from ¥20 per vessel/month under an offline contract · container-level EDI and reefer telemetry — US$150–1,500/month · demurrage and insurance-claim reconciliation — separate agreements with carriers and insurers',
+    'app-cnote': 'Swapping the demo dataset for real container-level records is gated by contracts and licensing, not development effort: vessel positions stay affordable, but container-level data is an order-of-magnitude jump (0 → thousands of dollars a month).',
     'btn-dash': 'View Dashboard', 'btn-gh': 'View on GitHub', 'btn-app': 'Launch App',
     'gaps-title': 'Where AI Fills In · Top 7 Workflow Gaps',
     'gaps-intro': 'Synthesizing this week\'s radar and the shared findings across all five reports, these seven workflow gaps are where AI should step in first. Scoring: business value ×35% · feasibility ×25% · data readiness ×20% · urgency ×20%.',
@@ -1799,6 +1930,8 @@
     root.lang = lang;
     currentLang = lang;
     renderRadar(lang);
+    syncRadarDate();   // 语言切换会重写含日期的文案，需重算；renderRadar 无数据时会提前返回
+    if (typeof renderArchiveMenu === 'function') renderArchiveMenu();
     document.title = lang === 'en'
       ? 'Global Supply Chain Intelligence Through Multiple AI Models | Research Index'
       : 'AI 多模型视角下的全球供应链洞察研究 | Supply Chain AI Research Index';
@@ -1816,6 +1949,10 @@
   try { radarData = JSON.parse(document.getElementById('embeddedRadar').textContent); }
   catch (e) { radarData = null; }
   let currentLang = 'zh-CN';
+  let viewData = null;   // 非空表示正在查看往期存档；null = 最新一期
+  // 页脚 UPDATED 取「本站手改日期」与「雷达更新日期」中较新者——雷达每周自动刷新，
+  // 手改（改版式 / 加模块）时同步 bump 这个常量，页脚就不会再脱节。
+  const SITE_EDITED = '2026-09-20';
   const briefGrid = document.getElementById('briefGrid');
   const buTime = document.getElementById('buTime');
 
@@ -1828,19 +1965,24 @@
     return d.toLocaleString(lang === 'en' ? 'en-US' : 'zh-CN', opt);
   }
 
-  function syncRadarDate() {
-    if (!radarData || !radarData.updatedAt) return;
-    const d = new Date(radarData.updatedAt);
+  function syncRadarDate(dm) {
+    const src = dm || viewData || radarData;
+    if (!src || !src.updatedAt) return;
+    const d = new Date(src.updatedAt);
     if (isNaN(d.getTime())) return;
     const ymd = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
     document.querySelectorAll('.js-radar-date').forEach(el => { el.textContent = ymd; });
+    // 页脚：取较新者，避免网站改版后页脚反而比雷达日期旧
+    const siteEl = document.querySelector('.js-site-updated');
+    if (siteEl) siteEl.textContent = ymd > SITE_EDITED ? ymd : SITE_EDITED;
   }
 
   function renderRadar(lang) {
-    if (!radarData) return;
+    const dm = viewData || radarData;
+    if (!dm) return;
     const lk = lang === 'en' ? 'en' : 'zh';
     let html = '';
-    radarData.columns.forEach(col => {
+    dm.columns.forEach(col => {
       const items = (col.items || []).map(it => {
         const src = (it.sources || []).map(s =>
           `<a href="${s.url}" target="_blank" rel="noopener">${s.label}</a>`).join(' · ');
@@ -1860,8 +2002,8 @@
       html += `<div class="brief-col" style="--cat:${col.color}"><div class="brief-cat">${col.cat[lk]}</div>${items}</div>`;
     });
     briefGrid.innerHTML = html;
-    buTime.textContent = fmtTime(radarData.updatedAt, lang);
-    syncRadarDate();
+    buTime.textContent = fmtTime(dm.updatedAt, lang);
+    syncRadarDate(dm);
   }
 
   // 托管环境下静默拉取最新 radar-data.json（由定时任务定期生成）；
@@ -1878,8 +2020,110 @@
     } catch (e) { /* 静默回退到内置快照 */ }
   }
 
+  /* ================= 本周雷达 · 往期存档 ================= */
+  // 每周更新会覆盖 radar-data.json，往期快照另存于 radar-archive/<date>.json，
+  // 清单见 radar-archive/index.json（由 scripts/archive_radar.py 生成）。
+  // 离线 / 单文件预览下 fetch 失败，存档入口自动隐藏，不影响主视图。
+  const archWrap = document.getElementById('archWrap');
+  const archBtn = document.getElementById('archBtn');
+  const archMenu = document.getElementById('archMenu');
+  const archBar = document.getElementById('archBar');
+  const archBarDate = document.getElementById('archBarDate');
+  const archBack = document.getElementById('archBack');
+  let archiveIssues = [];   // 往期清单（已剔除当前最新一期）
+  let viewDate = null;      // 正在查看的期号
+
+  function liveDate() {
+    return radarData && radarData.updatedAt ? String(radarData.updatedAt).slice(0, 10) : '';
+  }
+
+  function archDateLabel(date) {
+    return date;   // ISO 日期，中英通用
+  }
+
+  function archMeta(it) {
+    const base = currentLang === 'en'
+      ? `${it.items} items · ${it.verified} verified`
+      : `${it.items} 条 · ${it.verified} 条交叉验证`;
+    // 现行标准（2026-08-21）之前的期次，标注"早期"以免读者误解其交叉验证口径
+    if (it.retro) return base + (currentLang === 'en' ? ' · legacy' : ' · 早期');
+    return base;
+  }
+
+  function renderArchiveMenu() {
+    if (!archiveIssues.length) return;
+    archMenu.innerHTML = archiveIssues.map(it =>
+      `<button class="brief-arch-item${viewDate === it.date ? ' on' : ''}" type="button"`
+      + ` role="option" aria-selected="${viewDate === it.date}" data-date="${it.date}">`
+      + `<span class="d">${archDateLabel(it.date)}</span><span class="m">${archMeta(it)}</span></button>`
+    ).join('');
+  }
+
+  function toggleArchMenu(force) {
+    const open = force == null ? archMenu.hidden : force;
+    archMenu.hidden = !open;
+    archBtn.setAttribute('aria-expanded', String(open));
+  }
+
+  function setArchBar(on, date) {
+    archBar.hidden = !on;
+    if (on) archBarDate.textContent = date;
+  }
+
+  function backToLatest() {
+    viewData = null; viewDate = null;
+    renderRadar(currentLang);
+    setArchBar(false);
+    renderArchiveMenu();
+  }
+
+  async function openArchive(date) {
+    if (!date || date === viewDate) return;
+    if (date === liveDate()) { backToLatest(); return; }
+    try {
+      const res = await fetch('radar-archive/' + date + '.json', { cache: 'no-store' });
+      if (!res.ok) return;
+      const data = await res.json();
+      if (!data || !Array.isArray(data.columns)) return;
+      viewData = data; viewDate = date;
+      renderRadar(currentLang);
+      setArchBar(true, date);
+      renderArchiveMenu();
+      document.getElementById('briefing').scrollIntoView({ block: 'start', behavior: 'smooth' });
+    } catch (e) { /* 拉取失败则维持当前视图 */ }
+  }
+
+  async function loadArchiveIndex() {
+    try {
+      const res = await fetch('radar-archive/index.json?t=' + Date.now(), { cache: 'no-store' });
+      if (!res.ok) return;
+      const data = await res.json();
+      const all = (data && data.issues) || [];
+      const live = liveDate();
+      archiveIssues = all.filter(it => it && it.date && it.date !== live);
+      if (!archiveIssues.length) return;
+      archWrap.hidden = false;
+      renderArchiveMenu();
+    } catch (e) { /* 离线 / 单文件：不显示存档入口 */ }
+  }
+
+  archBtn.addEventListener('click', e => { e.stopPropagation(); toggleArchMenu(); });
+  archMenu.addEventListener('click', e => {
+    const btn = e.target.closest('[data-date]');
+    if (!btn) return;
+    toggleArchMenu(false);
+    openArchive(btn.dataset.date);
+  });
+  archBack.addEventListener('click', backToLatest);
+  document.addEventListener('click', e => { if (!archWrap.contains(e.target)) toggleArchMenu(false); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') toggleArchMenu(false); });
+
+  // 首次 applyLang 之前先把中文原文快照进 dataset.zh。
+  // 否则：访客上次选了英文（localStorage 的 sc-lang = en）时，首次就以英文运行，
+  // 中文原文永远不会被记录，此后点「中文」因 dataset.zh 为 null 而切不回来。
+  document.querySelectorAll('[data-i18n]').forEach(el => { el.dataset.zh = el.innerHTML; });
   applyLang(localStorage.getItem('sc-lang') || 'zh-CN');
-  loadRadar();
+  loadRadar().then(loadArchiveIndex);
 
   /* ================= 导航滚动态 ================= */
   const nav = document.getElementById('nav');
