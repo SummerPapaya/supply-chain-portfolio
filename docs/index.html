@@ -242,7 +242,48 @@
     color: var(--ink-mute); transition: all .25s;
   }
   .lang-btn span.on { color: var(--accent); font-weight: 500; background: color-mix(in srgb, var(--accent) 10%, transparent); }
-  @media (max-width: 860px) { .nav-links { display: none; } }
+  /* 窄屏导航：汉堡按钮 + 下拉抽屉。此前窄屏直接 display:none 隐藏导航链接，
+     且没有任何替代入口，「持续学习」与 GitHub 完全点不到 —— 这里补上。 */
+  .nav-toggle {
+    display: none; width: 34px; height: 34px; border-radius: 9px;
+    border: 1px solid var(--line); background: var(--toggle-bg);
+    color: var(--ink-soft); cursor: pointer; place-items: center; transition: all .25s;
+  }
+  .nav-toggle:hover { color: var(--ink); border-color: var(--ink-mute); }
+  .nav-toggle svg { width: 17px; height: 17px; }
+  .nav-toggle .icon-close { display: none; }
+  html[data-nav="open"] .nav-toggle .icon-close { display: block; }
+  html[data-nav="open"] .nav-toggle .icon-menu { display: none; }
+
+  .nav-mobile {
+    display: none;
+    position: fixed; left: 0; right: 0; top: 64px; z-index: 49;
+    background: var(--nav-bg);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 22px 40px -28px rgba(16,20,24,.5);
+    padding: 6px clamp(20px, 5vw, 64px) 16px;
+    flex-direction: column;
+    max-height: calc(100vh - 64px); overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  html[data-nav="open"] .nav-mobile { display: flex; }
+  .nav-mobile a {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 14px 2px; color: var(--ink-soft); text-decoration: none;
+    font-size: 15px; font-weight: 500;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .nav-mobile a:last-child { border-bottom: 0; }
+  .nav-mobile a:hover, .nav-mobile a:active, .nav-mobile a:focus-visible { color: var(--accent); }
+  .nav-mobile a .arr { color: var(--ink-mute); font-family: var(--font-mono); font-size: 12px; }
+  html[data-nav="open"] body, html[data-nav="open"] { overflow: hidden; }
+  @media (min-width: 861px) { .nav-mobile { display: none !important; } }
+  @media (max-width: 860px) {
+    .nav-links { display: none; }
+    .nav-toggle { display: grid; }
+    .brand-name { font-size: 13.5px; }
+  }
 
   /* ---------- Hero 封面 ---------- */
   .hero {
@@ -788,9 +829,23 @@
         <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" data-page-node-id="J562epfY8dHK7i9UizzBaC"><circle cx="12" cy="12" r="4.5" data-page-node-id="1Whw4AD1VXtPACcNHIDMpq"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8" data-page-node-id="3GqJ4HjucPaIQzStZQivXr"/></svg>
         <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="v2F9gry2bECz6w0YUkstbH"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z" data-page-node-id="ainS1a7I8tgZ1TE0sD9Xuw"/></svg>
       </button>
+      <button class="nav-toggle" id="navToggle" aria-label="打开导航菜单 / Open navigation menu" aria-expanded="false" aria-controls="navMobile" data-page-node-id="navToggleBtn">
+        <svg class="icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" data-page-node-id="navIcoMenu"><path d="M3.5 6.5h17M3.5 12h17M3.5 17.5h17" data-page-node-id="navIcoMenuP"/></svg>
+        <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" data-page-node-id="navIcoClose"><path d="M6 6l12 12M18 6L6 18" data-page-node-id="navIcoCloseP"/></svg>
+      </button>
     </div>
   </div>
 </nav>
+
+<!-- 窄屏导航抽屉：与桌面端 .nav-links 同源同目标，保证窄屏也能到达「持续学习」和 GitHub -->
+<div class="nav-mobile" id="navMobile" data-page-node-id="navMobilePanel">
+  <a href="#briefing" data-page-node-id="navMBrief"><span data-i18n="nav-brief" data-page-node-id="navMBriefT">本周雷达</span><span class="arr" data-page-node-id="navMBriefA">→</span></a>
+  <a href="#reports" data-page-node-id="navMReports"><span data-i18n="nav-reports" data-page-node-id="navMReportsT">报告对比</span><span class="arr" data-page-node-id="navMReportsA">→</span></a>
+  <a href="#app" data-page-node-id="navMApp"><span data-i18n="nav-app" data-page-node-id="navMAppT">衍生应用</span><span class="arr" data-page-node-id="navMAppA">→</span></a>
+  <a href="#gaps" data-page-node-id="navMGaps"><span data-i18n="nav-gaps" data-page-node-id="navMGapsT">AI 补位</span><span class="arr" data-page-node-id="navMGapsA">→</span></a>
+  <a href="learning/index.html" data-page-node-id="navMLearn"><span data-i18n="nav-learn" data-page-node-id="navMLearnT">持续学习</span><span class="arr" data-page-node-id="navMLearnA">→</span></a>
+  <a href="https://github.com/SummerPapaya/supply-chain-portfolio" target="_blank" rel="noopener" data-page-node-id="navMGitHub"><span data-page-node-id="navMGitHubT">GitHub</span><span class="arr" data-page-node-id="navMGitHubA">↗</span></a>
+</div>
 
 <!-- ============ 封面 ============ -->
 <header class="hero" id="top" data-page-node-id="W18iH5970ezwJckUUlUQCJ">
@@ -1755,6 +1810,54 @@
     localStorage.setItem('sc-theme', next);
     syncThemeBtn();
   });
+
+  /* ================= 窄屏导航抽屉 =================
+     桌面端 .nav-links 在 ≤860px 被隐藏，此前没有替代入口。
+     这里给它一个可点开的抽屉：按钮切换、点链接后自动收起（否则锚点跳转
+     会被 overflow:hidden 挡住）、Esc 关闭、转回宽屏时自动复位。 */
+  (function initMobileNav() {
+    const toggle = document.getElementById('navToggle');
+    const panel = document.getElementById('navMobile');
+    if (!toggle || !panel) return;
+
+    function setOpen(open) {
+      if (open) root.dataset.nav = 'open';
+      else delete root.dataset.nav;
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      toggle.setAttribute('aria-label', open
+        ? '关闭导航菜单 / Close navigation menu'
+        : '打开导航菜单 / Open navigation menu');
+    }
+
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setOpen(root.dataset.nav !== 'open');
+    });
+
+    // 点任意链接后收起；去掉 overflow 锁再让浏览器完成锚点跳转
+    panel.addEventListener('click', (e) => {
+      if (e.target.closest('a')) setOpen(false);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && root.dataset.nav === 'open') {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+
+    // 点抽屉外部收起（按钮自身的 stopPropagation 保证不会立刻又被打开）
+    document.addEventListener('click', (e) => {
+      if (root.dataset.nav !== 'open') return;
+      if (!panel.contains(e.target)) setOpen(false);
+    });
+
+    const wide = matchMedia('(min-width: 861px)');
+    const onWide = (e) => { if (e.matches) setOpen(false); };
+    if (wide.addEventListener) wide.addEventListener('change', onWide);
+    else wide.addListener(onWide);
+    if (wide.matches) setOpen(false);
+  })();
 
   /* ================= 中英切换 ================= */
   const I18N = {
