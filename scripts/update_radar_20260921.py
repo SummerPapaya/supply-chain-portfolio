@@ -1,0 +1,260 @@
+# -*- coding: utf-8 -*-
+"""供应链雷达周更脚本（2026-09-21）
+
+标准：ee6be6d —— 权威来源 / 交叉验证 / 来源可溯 / 中英双语
+- 四栏固定顺序：重点新闻 → 热门议题 → 研究瞭望 → 应用风向
+- verified=True 仅用于 ≥2 家独立媒体佐证的条目
+- 同步两处：docs/radar-data.json 与 docs/index.html 内嵌 <script id="embeddedRadar">
+幂等：整份重建，重复执行结果一致。
+"""
+import json
+import re
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+DOCS = ROOT / "docs"
+JSON_PATH = DOCS / "radar-data.json"
+HTML_PATH = DOCS / "index.html"
+
+UPDATED_AT = "2026-09-21T08:30:00+08:00"
+
+COLORS = ["#e05656", "#f0a13a", "#5b8cff", "#35c2b0"]
+
+
+def S(label, url):
+    return {"label": label, "url": url}
+
+
+def IT(zh_t, en_t, zh_d, en_d, sources, verified):
+    return {
+        "title": {"zh": zh_t, "en": en_t},
+        "desc": {"zh": zh_d, "en": en_d},
+        "sources": sources,
+        "verified": verified,
+    }
+
+
+# ---------------- 重点新闻 / Key News ----------------
+KEY_NEWS = [
+    IT(
+        "VLCC 日租金首次突破 100 万美元，霍尔木兹日通行量跌至 4 艘",
+        "VLCC earnings break $1m a day for the first time as Hormuz transits fall to four ships",
+        "9 月 11—14 日，中东湾至亚洲的基准原油航线日租金首次跨过百万美元：波罗的海交易所 TD3C（中东湾—中国）9 月 11 日评估约 982,072 美元/天，约为一个月前的两倍；克拉克森证券同日把该航线估到 100 万美元以上，TradeWinds 9 月 14 日亦称湾内装货的 VLCC 可要到约 100 万美元/天。克拉克森研究数据显示，全球 VLCC 平均收益周环比上涨 68% 至 451,000 美元/天的历史新高，跨船型综合收益指数 ClarkSea 单周涨 24%、同比涨 91% 至 56,567 美元/天，为有记录以来最高。国内口径同步：克拉克森 VLCC-TCE 指数报 65.2 万美元/天、周环比 +42%，中东—中国航线 156.2 万美元/天（+17%），阿曼—韩国 84.6 万美元/天（+48%）。量的另一侧在塌：Kpler 追踪显示 9 月 14 日仅 4 艘商船通过霍尔木兹海峡，前一日为 10 艘，战前常态约 125 艘/天；8 月中东原油出口日均 1,180 万桶，较危机前半年低 36%。克拉克森估算，按 100 万美元/天计，约 130 个营运日即可抵得上一艘十年船龄 VLCC 的船价——支撑这轮行情的不是需求，而是船东对海峡风险的集体回避。",
+        "Between Sept 11 and 14 the benchmark Middle East Gulf-to-Asia crude route crossed seven figures a day for the first time. The Baltic Exchange assessed TD3C (MEG–China) at about $982,072/day on Sept 11, roughly double its level a month earlier; Clarksons Securities put the same trade above $1m/day, and TradeWinds reported on Sept 14 that VLCCs loading inside the Gulf could command around $1m a day. Clarksons Research data show global average VLCC earnings up 68% week-on-week to an all-time high of $451,000/day, with its cross-sector ClarkSea Index up 24% on the week and 91% year-on-year to $56,567/day — the highest on record. Chinese tracking agrees: the Clarksons VLCC-TCE index printed $652,000/day, +42% w/w, with MEG–China at $1.562m/day (+17%) and Oman–Korea at $846,000/day (+48%). Volume is collapsing on the other side: Kpler counted just four commercial vessels crossing Hormuz on Sept 14, against 10 the previous day and a pre-war norm of roughly 125 large vessels a day, while Middle East crude exports averaged 11.8m bpd in August, 36% below the six months before the crisis. Clarksons calculated that about 130 earning days at $1m/day would equal the value of an average 10-year-old VLCC — the rally is driven not by demand but by owners collectively refusing the strait.",
+        [
+            S("Clarksons Research / Hellenic Shipping News（历史新高与 ClarkSea 指数）", "https://www.hellenicshippingnews.com/?p=1147942"),
+            S("Ship Universe（Baltic TD3C 与 Kpler 通行量）", "https://www.shipuniverse.com/news/vlcc-rates-break-1-million-a-day-as-hormuz-traffic-collapses"),
+            S("新浪财经·交通运输行业周报（克拉克森 VLCC-TCE 分航线）", "https://stock.finance.sina.com.cn/stock/go.php/vReport_Show/kind/lastest/rptid/843232920131/index.phtml"),
+        ],
+        True,
+    ),
+    IT(
+        "马士基与赫伯罗特再让 4 条 Gemini 航线重返苏伊士，红海复航度回到危机前约 27%",
+        "Maersk and Hapag-Lloyd move four more Gemini services back to Suez as Red Sea normalisation reaches ~27%",
+        "9 月 14 日，马士基与赫伯罗特宣布双子星联盟再有 4 条航线从绕行好望角改为经苏伊士运河与红海：AE5（亚洲—北欧）、AE11 与 AE12（亚洲—地中海）、ME2（印度—欧洲），赫伯罗特侧对应 NE4、SE1、SE2、IEX；加上此前已改道的 AE15、AE19，联盟经苏伊士的航线达到 6 条。首航安排：Antonia Maersk 9 月 19 日自丹戎帕拉帕斯执行 AE11 西行，Marchen Maersk 9 月 21 日执行 AE5，Cornelia Maersk 9 月 24 日自科伦坡执行 ME2。马士基客户通告强调，任何调整「仍取决于红海地区的持续稳定与冲突不升级」，船员、船舶与货物安全为最高优先级。Sea-Intelligence 数据显示，亚洲—欧洲西行运力中已有约 18% 回到红海—苏伊士方向，返程比例更高达 38%，9 月整体看红海航线恢复到危机前正常状态的约 27%。值得对照的是，班轮公司在扩大苏伊士航线的同一时间窗口，胡塞武装刚拿下曼德海峡的佩里姆岛——复航推进与安全形势恶化正在同时发生。",
+        "On Sept 14 Maersk and Hapag-Lloyd announced that four more Gemini Cooperation services will move from the Cape of Good Hope to the Suez Canal and Red Sea: AE5 (Asia–North Europe), AE11 and AE12 (Asia–Mediterranean) and ME2 (India–Europe), marketed by Hapag-Lloyd as NE4, SE1, SE2 and IEX. Together with AE15 and AE19, already routed through the canal, six alliance services now use the Suez corridor. First sailings: Antonia Maersk opens westbound AE11 from Tanjung Pelepas on Sept 19, Marchen Maersk follows on AE5 from the same port on Sept 21, and Cornelia Maersk takes ME2 through from Colombo on Sept 24. Maersk’s customer advisory stressed that any alteration to Gemini services remains dependent on ongoing stability in the Red Sea and the absence of escalation, with the safety of crew, vessels and cargo the highest priority. Sea-Intelligence data show about 18% of headhaul westbound Asia–Europe capacity has returned to the Red Sea–Suez route, rising to 38% on backhaul legs, putting the Red Sea at roughly 27% of pre-crisis normality for September as a whole. The contrast is stark: carriers are widening Suez routings in the same window in which Houthi forces seized Perim Island at Bab el-Mandeb — network restoration and security deterioration are happening at once.",
+        [
+            S("WorldCargo News（马士基与赫伯罗特客户通告）", "https://www.worldcargonews.com/news/2026/09/maersk-hapag-lloyd-step-up-suez-routings"),
+            S("Container Management（首航船期与运河恢复度）", "https://container-mag.com/article/the-suez-return-goes-mainline-gemini-adds-four-services-and--5v4puik0"),
+            S("中国机电产品进出口商会（四条航线与 Sea-Intelligence 数据）", "https://www.cccme.org.cn/news/details.aspx?id=7395904F0198F9D29635ABA4B51664CA"),
+        ],
+        True,
+    ),
+    IT(
+        "一个市场两种行情：SCFI 七连涨至 3687.83 点、美东破 10579 美元，欧线同期跌 4.7%",
+        "One market, two stories: SCFI rises for a seventh week to 3,687.83 while Europe lanes fall 4.7%",
+        "上海航运交易所 9 月 18 日数据显示，SCFI 综合指数报 3687.83 点、较上期涨 0.7%，为连续第七周上涨（9 月 11 日报 3662.18 点、周涨 2.0%）。但拆到航线几乎是两条独立曲线：北美线继续走强，上海—美西涨 3.0% 至 7,560 美元/FEU，上海—美东涨 1.0% 至 10,579 美元/FEU，两地价差 3,019 美元；欧洲线则持续回落，上海—欧洲基本港跌 4.7% 至 2,425 美元/TEU，上海—地中海跌 5.3% 至 3,125 美元/TEU；波斯湾线跌 1.0% 至 6,246 美元/TEU。德路里口径一致：9 月 17 日 WCI 综合指数 4,500 美元/FEU、涨 1%，其中上海—洛杉矶涨 5% 至 7,712 美元、上海—纽约涨 7% 至 10,394 美元，而上海—鹿特丹跌 9% 至 3,626 美元、上海—热那亚跌 5% 至 4,016 美元。跨太平洋与亚欧的涨跌几乎相互抵消，才形成「综合指数看起来没怎么动」的表象。德路里与 Xeneta 均提示，黄金周前需求与班轮公司的运力管理仍在支撑美线（9 月远东—美东运力比 8 月高 6%—7%），而亚欧线因苏伊士航线服务恢复与需求偏弱继续承压。",
+        "Shanghai Shipping Exchange data for Sept 18 put the SCFI composite at 3,687.83 points, up 0.7% on the period — a seventh consecutive weekly gain (Sept 11: 3,662.18, +2.0% w/w). Broken down by lane, however, it looks like two separate markets. North America kept strengthening: Shanghai–US West Coast rose 3.0% to $7,560/FEU and Shanghai–US East Coast 1.0% to $10,579/FEU, a $3,019 spread between the two coasts. Europe kept sliding: Shanghai–North Europe base ports fell 4.7% to $2,425/TEU and Shanghai–Mediterranean 5.3% to $3,125/TEU, with the Persian Gulf lane down 1.0% to $6,246/TEU. Drewry reads the same way: its WCI composite was $4,500/FEU on Sept 17, up 1%, with Shanghai–Los Angeles +5% to $7,712 and Shanghai–New York +7% to $10,394, against Shanghai–Rotterdam -9% to $3,626 and Shanghai–Genoa -5% to $4,016. Transpacific gains and Asia–Europe declines almost cancel each other out, which is why the headline composite looks calm. Both Drewry and Xeneta point to pre-Golden Week demand plus carrier capacity management supporting the US trades (Far East–USEC capacity in September is 6–7% above August), while Asia–Europe remains under pressure from restored Suez services and softer demand.",
+        [
+            S("新浪财经·航运界（SCFI 9 月 18 日分航线数据）", "https://cj.sina.cn/article/norm_detail?url=https%3A%2F%2Ffinance.sina.com.cn%2Fmoney%2Ffuture%2Fwemedia%2F2026-09-19%2Fdoc-inisiwvz3067422.shtml"),
+            S("Spider Logistics（Drewry WCI 与 Xeneta 运力判断）", "https://www.spiderlogisticsinc.cn/blog/golden-week-blank-sailings-jump-56-percent-sep-16-2026"),
+            S("网易（SCFI/CCFI 与 MSI 对下半年运价中枢的判断）", "https://www.163.com/dy/article/L79QD26V0514C1PI.html"),
+        ],
+        True,
+    ),
+    IT(
+        "黄金周前空班一周暴增 56%：79 个航次取消，52% 却砍在最强的跨太平洋东行",
+        "Blank sailings jump 56% in a week before Golden Week: 79 voyages cut, 52% of them on the strongest lane",
+        "德路里 9 月 14 日数据显示，9 月 14 日至 10 月 18 日主要东西向航线 721 个计划航次中有 79 个将空班，取消率 11%；分航线看，跨太平洋东行占 52%，亚洲—北欧/地中海占 33%，跨大西洋占 15%。变化最快的是最近一周：第 38 至 41 周已公布的空班数从 39 个增至 70 个，一周增加近 56%。反常之处在于结构——通常节前停航是为了保住最弱航线的运价，而今年砍得最深的恰恰是最强的跨太平洋东行市场。与此同时运价并未同步大涨：德路里 WCI 9 月 10 日报 4,476 美元/FEU 连续第二周持平，跨太平洋与跨大西洋均涨 2%，亚洲—北欧/地中海跌 3%。德路里提示，随着假期临近，中国相关航线仍可能出现更多取消；Xeneta 首席分析师 Peter Sand 认为班轮公司正抓住美线窗口加运力，转折可能在未来两到三周出现。（本条原始出处为德路里单一报告，浙江贸促、航运信息网、Shipping Gazette 等均为转载，未见第二家独立机构核实，故未标记为已交叉验证。）",
+        "Drewry data released Sept 14 show that 79 of 721 scheduled sailings on the main east-west trades between Sept 14 and Oct 18 will be blanked, an 11% cancellation rate: 52% on transpacific eastbound, 33% on Asia–North Europe/Mediterranean and 15% transatlantic. The sharpest move is the most recent week — announced blank sailings for weeks 38 to 41 rose from 39 to 70, a jump of nearly 56% in seven days. What is unusual is the composition: carriers normally blank sailings before a holiday to defend rates on the weakest lane, whereas this year the deepest cuts fall on the strongest market, eastbound transpacific. Rates have not moved in step: Drewry’s WCI composite held at $4,476/FEU for a second consecutive week as of Sept 10, with transpacific and transatlantic both +2% and Asia–North Europe/Mediterranean -3%. Drewry warns further cancellations on China-related routes remain likely as the holiday approaches; Xeneta chief analyst Peter Sand argues carriers are seizing the US window to add capacity and that a turning point could come within two to three weeks. (This item traces to a single Drewry release, republished by Zhejiang CCPIT, CSI and Shipping Gazette, with no second independent body confirming it — so it is not marked as cross-verified.)",
+        [
+            S("浙江省贸促会（德路里空班数据整理）", "https://www.ccpitzj.gov.cn/col/col1229557691/art/2026/art_b741e22eda054dc689147a8115696dd7.html"),
+            S("航运信息网（停航率与航线分布）", "https://news.csi.com.cn/c9ed87b5-7b91-4efd-b1dd-d7f71ab7d57a.html"),
+            S("Shipping Gazette（Drewry blank sailings）", "https://shippingazette.com/news/9260900000212"),
+        ],
+        False,
+    ),
+]
+
+# ---------------- 热门议题 / Hot Topics ----------------
+HOT_TOPICS = [
+    IT(
+        "美国海关拟把「境外出口单证」纳入进口核查：64 个问题，12 月 1 日截止征求意见",
+        "CBP proposes pulling foreign export documents into US import checks: 64 questions, comments due Dec 1",
+        "9 月 2 日，美国海关与边境保护局（CBP）在《联邦公报》发布拟议规则预先通知（ANPRM）《加强供应链可见性的进口披露》（Heightened Import Disclosures for Supply Chain Visibility），案卷号 USCBP-2026-1058，涉及 19 CFR 第 141、142、143 与 163 部分，共提出 64 个问题，公众意见须在 12 月 1 日前提交。核心内容是考虑要求进口记录方（IOR）获取、留存并提交外国出口商在货物出口至美国前向其本国海关提交的文件，包括出口报关单（含申报价格、税则分类、数量）、商业发票、装箱单、原产地证书、出口许可证以及提单/空运单等运输单据；同时探讨识别进口各关键参与方、完善商业标识符、引入供应链追踪新技术。CBP 明确，这些文件将用于核对美国进口申报中的货值、税则分类与数量，以发现双重发票、低报货值、原产地虚假申报、强迫劳动违规与反倾销/反补贴税规避。依据是 2026 年 6 月 3 日签署的第 14411 号行政令《加强海关执法》。该通知尚未设定新的申报义务，具体规则条文将在后续拟议规则通知中提出；但同一票货物的境外出口申报与美国进口申报今后可能被纳入一套交叉核对程序，四川、东莞、德州等地商务主管部门已就此密集发布提示。",
+        "On Sept 2 US Customs and Border Protection published an Advance Notice of Proposed Rulemaking in the Federal Register titled “Heightened Import Disclosures for Supply Chain Visibility” (Docket USCBP-2026-1058, RIN 1685-AA47), covering 19 CFR Parts 141, 142, 143 and 163, posing 64 questions with comments due by Dec 1. The core proposal would require the Importer of Record to obtain, retain and submit the documents a foreign exporter files with its own customs authority before shipping to the US — export declarations (declared value, classification, quantity), the commercial invoice submitted to the foreign customs authority, packing lists, certificates of origin, export licences, and transport documents such as bills of lading or air waybills. CBP is also examining identification of key parties in the import process, improved business identifiers and innovative supply chain tracing technologies. CBP states the documents would be used to cross-check value, tariff classification and quantity against US import entries, surfacing double invoicing, undervaluation, false origin claims, forced-labour violations and evasion of antidumping/countervailing duties. The ANPRM implements Executive Order 14411, “Strengthening Customs Enforcement”, signed on June 3, 2026. It sets no new filing obligation yet — binding text will come in a later notice of proposed rulemaking — but the same shipment’s foreign export filing and US import filing could in future be pulled into a single cross-check, and commerce authorities in Sichuan, Dongguan and Dezhou have issued a steady stream of advisories on it.",
+        [
+            S("U.S. CBP（官方新闻稿）", "https://cbp.gov/newsroom/national-media-release/cbp-announces-advance-notice-proposed-rulemaking-enhance-supply"),
+            S("Federal Register 91 FR 169（ANPRM 原文）", "https://www.govinfo.gov/content/pkg/FR-2026-09-02/html/2026-17926.htm"),
+            S("四川省商务厅（文件清单与交叉比对解读）", "https://swt.sc.gov.cn/sccom/c25030606/2026/9/15/645f3e634dd944b5b36e7b6be3200272.shtml"),
+            S("东莞市人民政府（64 个问题与制度框架）", "https://www.dg.gov.cn/dgsmch/gkmlpt/content/4/4581/post_4581821.html"),
+        ],
+        True,
+    ),
+    IT(
+        "实体 AI 撞上出口管制：三星 RB-Y1 被列入 FCC 清单暂停对美出货，Exotec 警示供应链外溢",
+        "Physical AI meets export controls: Samsung’s RB-Y1 halted for the US on the FCC list, Exotec warns of spillover",
+        "7 月美国新规把三星旗下 Rainbow Robotics 的人形机器人 RB-Y1 列入 FCC Covered List，该公司随后暂停对美出货——这是实体 AI 第一次以「通信设备管制」的名义被卡住，而非传统的军民两用物项审查。9 月 9 日，法国仓储机器人企业 Exotec 公开警告，FCC 收紧外国机器人管制规则可能推动中国供应商转向欧洲市场，全球竞争格局面临重塑。对物流自动化的现实影响是采购侧：仓库机器人不再是纯商业品类，选型需要把合规清单、固件供应链与后续服务可持续性纳入评估，多品牌混装方案的切换成本随之上升。同一周制度侧的回应已经出现——9 月 17 日 Blue Yonder 推出 Robotics Hub，以厂商无关的统一层把多品牌机器人接入其 WMS，用标准化 API 把新厂商接入周期从「数月」压缩到「数周」，正是为降低单一供应商或单一合规路径被切断时的替换难度。",
+        "New US rules in July placed the RB-Y1 humanoid from Samsung’s Rainbow Robotics on the FCC Covered List, and the company subsequently halted US shipments — the first time physical AI has been blocked under communications-equipment controls rather than a conventional dual-use review. On Sept 9 French warehouse robotics firm Exotec warned publicly that tightening FCC rules on foreign robots could push Chinese suppliers toward the European market, reshaping global competition. The practical effect on logistics automation is on the buying side: warehouse robots are no longer a purely commercial category, and selection must now weigh compliance listings, firmware supply chains and the durability of after-sales support, raising the switching cost of mixed-vendor fleets. An institutional response appeared the same week — on Sept 17 Blue Yonder launched Robotics Hub, a vendor-agnostic layer connecting multi-vendor robots to its WMS with standardised APIs that cut new-vendor onboarding from months to weeks, explicitly reducing the difficulty of substitution if any single supplier or compliance path is cut off.",
+        [
+            S("CIVL（RB-Y1 被列入 FCC Covered List）", "https://civl.com/news/story/blue-yonder-launches-robotics-hub-to-link-multiple-robot-vendors-to-its-warehous-20759de5"),
+            S("智仓风向标 / 顶端新闻（Exotec 警示，9 月 9 日）", "https://www.topnews.cn/news/145EDFE240BC4A71"),
+        ],
+        True,
+    ),
+    IT(
+        "「有效运力」比名义运力更紧：超 400 万 TEU 卡在拥堵，德国港口罢工风险再压北欧",
+        "Effective capacity is tighter than nominal: 4m+ TEU stuck in congestion, German port strike risk adds to North Europe",
+        "新船持续交付，但可用舱位并没有同步增加。Linerlytica 9 月 8 日数据显示，全球仍有超过 400 万 TEU 运力被港口拥堵吸收，上海、宁波部分船舶等泊时间最长达 12 天，班期紊乱正向华南与东南亚港口传导；上海港平均等泊时间虽从第 35 周的 94 小时改善至第 36 周的 64 小时，仍处高位。租船市场比即期运价更紧：VHBS 的 New ConTex 指数 9 月 10 日升至 1,644 点，周涨 0.6%、月涨 2.2%、同比涨 6.0%；3,500 TEU 船 12 个月期租升至 45,255 美元/天（周涨 2.0%），2,700 TEU 至 40,986 美元/天，1,800 TEU 至 34,595 美元/天——1,800—3,500 TEU 是当前最强的船型区间，主因 2026 年底至 2027 年可用船位已偏少且租家偏好低油耗 ECO 船；相比之下 6,500 TEU 船 12 个月租金约 71,422 美元/天、周环比仅涨 0.1%，说明这是中型船的结构性短缺而非全面紧张。德路里同时提示，德国港口潜在罢工可能加剧北欧港口拥堵并造成船期延误，与黄金周前的亚洲港口拥堵形成两端夹击。",
+        "New ships keep arriving, but usable space is not rising with them. Linerlytica data for Sept 8 show more than 4m TEU of capacity still absorbed by port congestion, with berth waits of up to 12 days at Shanghai and Ningbo and schedule disruption spreading to South China and Southeast Asian ports; Shanghai’s average berth wait improved from 94 hours in week 35 to 64 hours in week 36, still elevated. The charter market is tighter than spot rates: VHBS’s New ConTex index rose to 1,644 points on Sept 10, up 0.6% w/w, 2.2% m/m and 6.0% y/y, with 12-month rates for 3,500-TEU ships at $45,255/day (+2.0% w/w), 2,700-TEU at $40,986 and 1,800-TEU at $34,595 — the 1,800–3,500 TEU band is currently the strongest, because available positions for late 2026 and 2027 are already scarce and charterers prefer low-consumption ECO tonnage. By contrast 6,500-TEU 12-month rates of about $71,422/day were up just 0.1% w/w, indicating a structural shortage of mid-size ships rather than broad-based tightness. Drewry separately flagged that potential strikes at German ports could worsen North European congestion and cause schedule slippage, squeezing shippers from both ends alongside pre-Golden Week Asian port congestion.",
+        [
+            S("海运圈聚焦（Linerlytica 拥堵与 VHBS New ConTex）", "https://www.hyqfocus.com/hyqfocus/jsp/model.jsp?id=40006&modelType=1"),
+            S("新浪财经·航运界（德路里提示德国港口罢工与亚洲港口拥堵）", "https://cj.sina.cn/article/norm_detail?url=https%3A%2F%2Ffinance.sina.com.cn%2Fmoney%2Ffuture%2Fwemedia%2F2026-09-19%2Fdoc-inisiwvz3067422.shtml"),
+        ],
+        True,
+    ),
+]
+
+# ---------------- 研究瞭望 / Research ----------------
+RESEARCH = [
+    IT(
+        "Gartner 给出仓储 AI 四层阶梯：从优化型传统 AI 到物理 AI 代理，落点是「人在环内」",
+        "Gartner sets out four tiers of warehouse AI — from optimisation AI to physical AI agents — with humans kept in the loop",
+        "Gartner 2026 年 9 月的分析认为仓储已走到 AI 落地的拐点，驱动来自三股力量的合流：劳动力约束使自动化从「可选项」变为「必选项」、资本模式转向更低风险的切入点、AI 与自主技术达到可运营成熟度。四条趋势按「智能复杂度」与「行动导向」两个维度排布：一是增强型优化导向传统 AI，把实时数据引入需求预测、人力排班、路径优化与库位管理，并保留可审计的确定性逻辑；二是运营驱动型生成式 AI，把设备维保记录、送货单、事故工单等非结构化数据合成为动态 SOP、作业指导与异常处理预案，直接推送到手持终端；三是建议式与半自主代理，分析队列、重排拣选任务、调配设备，但保留人工 override，由班组长确认后再执行；四是物理 AI 代理，把 AI、机器人与空间感知结合，执行拣选、打包、分拣与搬运。Gartner 供应链高级首席分析师 Federica Stufano 给出的路径相当务实：先啃人力预测与货位优化这类已被验证的用例，再扩展到生成式 AI 与代理式系统，并且始终保留人工监督与对新用例的持续评估——可追溯、可解释是人机协作能被信任的前提。",
+        "Gartner’s September 2026 analysis argues warehousing has reached an inflection point for AI deployment, driven by three converging forces: labour constraints that make automation non-negotiable, capital models shifting to lower-risk entry points, and AI and autonomy technologies reaching operational maturity. The four trends are mapped along two axes, intelligence sophistication and action orientation. First, enhanced optimisation-oriented traditional AI feeds richer real-time data into demand forecasting, labour planning, route optimisation and slotting while preserving deterministic, auditable logic. Second, operational-driven generative AI turns unstructured and semi-structured data — maintenance records, delivery notes, incident tickets — into dynamic SOPs, work instructions and exception-handling protocols pushed straight to handheld terminals. Third, suggestive and semiautonomous agents analyse queues, reassign picking tasks and redistribute equipment, but keep a human override: supervisors confirm the dispatch order before execution. Fourth, physical AI agents combine AI, robotics and spatial sensing to execute picking, packing, sorting and material handling. Federica Stufano, Senior Principal Analyst in Gartner’s Supply Chain practice, recommends a deliberately pragmatic path — start with proven use cases such as labour forecasting and slotting, then expand into generative AI and agents, keeping human oversight and continuous evaluation throughout, because transparency and auditability are what make human–machine collaboration trustworthy.",
+        [
+            S("IT Supply Chain（Gartner 四大趋势原文要点）", "https://itsupplychain.com/gartner-identifies-the-top-four-ai-trends-transforming-warehousing-for-supply-chain-leaders"),
+            S("Logistics Business（四条趋势分述）", "https://logisticsbusiness.com/2026/09/17"),
+            S("Cloud Tech Report（两个评估维度与分阶段路径）", "https://cloudtechreport.com/gartner-outlines-four-ai-tiers-in-warehouse-automation"),
+        ],
+        True,
+    ),
+    IT(
+        "中物联《中国供应链发展报告（2025—2026）》：物流供应链 AI 渗透率超 37%，运输环节以 78% 居首",
+        "CFLP’s China Supply Chain Development Report 2025–2026: AI penetration in logistics exceeds 37%, led by transport at 78%",
+        "中国物流与采购联合会 9 月 9 日发布《中国供应链发展报告（2025—2026）》。核心数字：物流供应链领域人工智能应用渗透率超过 37%，其中运输环节以 78% 的渗透率居于首位，安全合规 52.73%、智能仓储 47.27%；采购领域，采用智能采购供应链的企业相较传统模式采购效率可提升 30% 以上、采购周期可缩短 50% 以上。报告判断，2025 年我国供应链领域 AI 应用开始加速落地，以生成式大模型为引领，机器视觉、智能体、具身智能等多项技术协同演进，已在采购管理、需求预测、库存优化、智能调度、风险管理等核心环节实现深度赋能。另一条主线是出海形态的变化：我国供应链出海已从早期的「产品输出」和「产能合作」迈入「产业链供应链系统性出海」的新阶段，中欧班列+海运+海外仓共同构建立体化体系，我国正从「世界工厂」向整合研发、生产、物流、服务于一体的「全球供应链枢纽」演进。值得注意的是渗透率的分布极不均衡——运输环节已是成熟应用，智能仓储尚不足半数，这与仓储场景的非标准化、改造成本高等现实约束一致。",
+        "The China Federation of Logistics and Purchasing (CFLP) released the China Supply Chain Development Report 2025–2026 on Sept 9. Key figures: AI penetration in logistics and supply chain exceeds 37%, led by transport at 78%, with safety and compliance at 52.73% and smart warehousing at 47.27%; in procurement, companies using intelligent procurement supply chains report efficiency gains of more than 30% and procurement cycle reductions of more than 50% versus conventional models. The report judges that AI applications in China’s supply chain sector began accelerating in 2025, led by generative large models and advancing alongside machine vision, AI agents and embodied intelligence, now deeply empowering procurement management, demand forecasting, inventory optimisation, intelligent scheduling and risk management. A second thread is the changing shape of going global: China’s supply chain expansion has moved from early “product export” and “capacity cooperation” into a new stage of systematic export of industrial and supply chains, with China-Europe rail services, ocean freight and overseas warehouses forming an integrated network, and China evolving from the world’s factory into a global supply chain hub integrating R&D, production, logistics and services. Notably the penetration is highly uneven — transport is already a mature application while smart warehousing is still below half, consistent with the non-standard nature of warehouse environments and the high cost of retrofitting them.",
+        [
+            S("人民日报（2026 年 9 月 14 日 03 版）", "https://cpc.people.com.cn/BIG5/n1/2026/0914/c64387-40798085.html"),
+            S("央视网（报告发布与分环节数据）", "https://big5.cctv.com/gate/big5/news.cctv.cn/2026/09/09/ARTIqvdLSQ82fWr21aBYVCet260909.shtml"),
+            S("中国物流与采购网（中物联官网）", "https://www.chinawuliu.com.cn/zixun/202609/14/668638.shtml"),
+            S("证券时报（人民财讯电）", "https://egs.stcn.com/news/detail/2339454.html"),
+        ],
+        True,
+    ),
+    IT(
+        "MHI/Deloitte 2026 年报（n=500）：五年内预期采用率 高级分析 86%、机器人 73%、人形机器人 32%",
+        "MHI/Deloitte 2026 Annual Industry Report (n=500): five-year adoption intent — analytics 86%, robotics 73%, humanoids 32%",
+        "MHI 与德勤的《2026 年度行业报告》（样本 500 名供应链专业人士）给出五年内预期采用率排序：高级分析 86%、云计算与存储 85%、物联网与传感器 77%、机器人与自动化 73%、可穿戴与移动终端 69%、自动驾驶车辆与无人机 50%、人形机器人 32%——人形机器人虽占据舆论头条，在落地预期上仍排在末位。同一报告的另一组数字解释了态度与预算的落差：48% 的供应链领导者认为 AI 对运营的影响达到「显著或更大」，一年内跃升 25 个百分点；机器人与自动化的对应比例为 39%，同比升 16 个百分点；超过半数受访者称已在用 AI 代理自动化日常工作流。资金侧，约 56% 的组织计划增加供应链创新支出，52% 计划投入超过 100 万美元、17% 超过 1,000 万美元；约 60% 的仓库计划把 2026 年自动化预算提高 20%，72% 的物流企业转向「机器人即服务」（RaaS）合同——目的正是让无力承担大额资本开支的中型货主也能进场。与此同时 61% 的企业承认仍在运行过时或拼凑的系统，限制可见度并放大运营风险，这正是自动化投资的真实缺口所在。",
+        "The MHI/Deloitte 2026 Annual Industry Report, based on a survey of 500 supply chain professionals, ranks expected adoption within five years as follows: advanced analytics 86%, cloud computing and storage 85%, IoT and sensors 77%, robotics and automation 73%, wearables and mobile 69%, autonomous vehicles and drones 50%, and humanoid robotics 32% — humanoids dominate the headlines but sit last on deployment expectations. Another set of figures from the same report explains the gap between sentiment and budgets: 48% of supply chain leaders now rate AI’s impact on their operations as significant or greater, a 25-point jump in a single year; the equivalent figure for robotics and automation is 39%, up 16 points year on year; and more than half of executives say they are already deploying AI agents to automate day-to-day workflows. On money: about 56% of organisations expect to raise supply chain innovation spending, with 52% planning to spend over $1m and 17% over $10m; roughly 60% of warehouses plan to lift 2026 automation budgets by 20%, and 72% of logistics firms are shifting to Robotics-as-a-Service contracts — specifically so mid-tier shippers that cannot stomach large capital outlays can finally enter. Meanwhile 61% of companies admit they are still running on outdated or patched-together systems that limit visibility and add operational risk, which is where the real automation gap sits.",
+        [
+            S("Tart Labs（2026 MHI 年报采用率图表，n=500）", "https://www.tartlabs.com/blog/leveraging-iot-apps-for-supply-chain-optimization-and-management"),
+            S("Project Cargo Recap（48% / 39% 与 RaaS、预算数据）", "https://projectcargorecap.com/how-automation-and-3pl-partnerships-are-solving-the-supply-chain-capacity-squeeze-pcr/"),
+            S("Mixflow（MHI 年报投资意向：56% / 52% / 17%）", "https://mixflow.ai/blog/ai-by-the-numbers-september-2026-statistics-for-resilient-supply-chains-in-unpredictable-markets"),
+        ],
+        True,
+    ),
+]
+
+# ---------------- 应用风向 / Apps & Adoption ----------------
+APPS = [
+    IT(
+        "中国物流数字化进入兑现期：前 7 月数字化投入同比近 +30%，头部企业 AI 智能体场景超 1000 个",
+        "China’s logistics digitalisation pays off: digital spend +~30% YoY in Jan–Jul, 1,000+ AI agent scenarios at leading firms",
+        "央视《新闻联播》9 月 17 日报道，今年以来我国物流行业数字化研发投入持续加码。中国物流与采购联合会调研数据显示，今年前七个月重点物流企业数字化转型经费投入同比增长近 30%。场景侧：深圳港物流集团冷库里一批国内首创的冷热穿梭无人叉车，在温差近 50 摄氏度的环境中完成取放货作业，解决极寒条件下的作业痛点，效率提升约 40%——该设备已在盐田港智慧冷链产业园常态化运行，可自主完成出入库、移位、搬运、堆垛全流程，突破 -25℃ 冷冻区到常温区跨温区连续作业的技术瓶颈。智能立体仓库、物流机器人在仓储环节广泛应用，国家物流枢纽与骨干冷链物流基地加快数字化改造。更关键的是 AI 智能体已过了试点阶段：头部物流企业落地的 AI 智能体应用场景已超 1000 个，依托智能调度与需求预测，部分企业在产业集群内的厂边配送、线边补料已实现小时级响应，精准匹配高技术制造业生产节拍。",
+        "CCTV’s Xinwen Lianbo reported on Sept 17 that China’s logistics sector has continued to raise digital R&D spending this year. Survey data from the China Federation of Logistics and Purchasing show that digital transformation spending at key logistics enterprises rose close to 30% year-on-year in the first seven months. On the ground: at Shenzhen Port Logistics Group’s cold store, a domestically pioneered fleet of hot/cold shuttle autonomous forklifts handles put-away and retrieval across a temperature differential of nearly 50°C, solving the pain point of extreme-cold work and lifting efficiency by about 40% — the equipment now runs routinely at the Yantian Port smart cold-chain industrial park, autonomously completing inbound, outbound, transfer, handling and stacking, and breaking through the technical bottleneck of continuous operation from -25°C freezer zones to ambient zones. Smart high-bay warehouses and logistics robots are widely used in warehousing, and national logistics hubs and backbone cold-chain bases are accelerating digital retrofits. More importantly, AI agents have moved past pilot stage: leading logistics companies have deployed more than 1,000 AI agent application scenarios, and using intelligent scheduling plus demand forecasting some have achieved hour-level response for in-plant delivery and line-side replenishment inside industrial clusters, matching the production cadence of high-tech manufacturing.",
+        [
+            S("央视网·新闻联播（2026 年 9 月 17 日）", "https://news.cctv.cn/2026/09/17/ARTIAHngvrhvF7p5kH5yN6d4260917.shtml"),
+            S("中国政府网（同一报道全文）", "https://big5.www.gov.cn/gate/big5/www.gov.cn/yaowen/liebiao/202609/content_7081383.htm"),
+        ],
+        False,
+    ),
+    IT(
+        "菜鸟交付广州首个攀爬机器人仓：135 台机器人跑 4 万料箱，1 分 30 秒出货，面积利用率翻倍",
+        "Cainiao delivers Guangzhou’s first climbing-robot warehouse: 135 robots, 40,000 totes, 90-second cycle, 2x space utilisation",
+        "9 月 18 日，菜鸟在广州向客户交付当地首个新一代自研攀爬机器人仓库。仓库服务于天猫超市在广东的消费者，货架密布 4 万多个料箱，135 台菜鸟自研攀爬机器人在货架与地面之间攀爬穿行；消费者下单后，机器人在 AI 调度下独立完成攀爬货架、平面搬运等全链路作业，仅用 1 分 30 秒就把订单送达工作站，后续打包发货由人工完成。仓库面积利用率提升 2 倍，拣选效率大幅提升，支撑广东地区的半日达、当日达时效，双十一期间将保持 24 小时运转。商业化节奏很快：该款攀爬机器人发布仅 5 个月，已完成东莞、香港、广州等多个项目的交付投产，西班牙与荷兰项目进入交付阶段，覆盖国内电商、跨境电商、电子制造与服饰生产等行业。菜鸟物流科技方面称，其聚焦物流机器人与供应链 AI，已在全球 29 个国家落地超过 1100 个物流科技项目、服务全球客户超 400 个，其中包括 214 家行业领军企业与 26 家世界 500 强企业。",
+        "On Sept 18 Cainiao delivered its first self-developed next-generation climbing-robot warehouse in Guangzhou to a customer. The site serves Tmall Supermarket consumers in Guangdong, with more than 40,000 totes densely packed across the racking and 135 self-developed climbing robots moving between racks and floor. Once an order arrives, the robots independently complete the full chain — climbing the racks, horizontal transport — under AI scheduling, delivering the order to a workstation in 1 minute 30 seconds, with packing and dispatch finished by people. Space utilisation is doubled and picking efficiency sharply improved, supporting half-day and same-day delivery in Guangdong; the warehouse will run 24 hours a day through the Singles’ Day peak. Commercialisation has been fast: launched only five months ago, the climbing robot has already been delivered and commissioned in Dongguan, Hong Kong and Guangzhou, with projects in Spain and the Netherlands entering delivery, spanning domestic e-commerce, cross-border e-commerce, electronics manufacturing and apparel production. Cainiao Logistics Technology says it focuses on logistics robotics and supply chain AI, with over 1,100 projects deployed across 29 countries serving more than 400 global customers, including 214 industry leaders and 26 Fortune Global 500 companies.",
+        [
+            S("21 世纪经济报道 / 南方财经（9 月 18 日）", "https://finance.eastmoney.com/a/202609183878542417.html"),
+            S("南方+（菜鸟广州仓交付现场）", "https://www.toutiao.com/article/7686802362257719842/"),
+            S("亿邦动力（一周电商大事：菜鸟交付攀爬机器人仓）", "https://www.163.com/dy/article/L77A63O105118A6A.html"),
+        ],
+        True,
+    ),
+    IT(
+        "海柔创新二次递表港交所：全球 ACR 份额 32.8% 居首，上半年收入 11.18 亿元、三年半累亏 35.23 亿元",
+        "Hai Robotics refiles for Hong Kong IPO: 32.8% global ACR share, H1 revenue RMB 1.118bn, RMB 3.523bn lost in 3.5 years",
+        "9 月 13 日，深圳市海柔创新智能科技集团第二次向港交所递交上市申请，联席保荐人为高盛（亚洲）与中信证券（香港），拟以不同投票权架构上市——此前曾于 2026 年 2 月 13 日首次递表。据灼识咨询数据，公司 2025 年按收入及出货量计均为全球最大箱式仓储机器人（ACR）解决方案提供商，全球市场份额由 2024 年的 31.4% 升至 2025 年的 32.8%；业务覆盖 40 余个国家和地区，签约客户及渠道伙伴超 900 家，累计签约项目逾 2,000 个，客户复购率 89%，截至 6 月底在手订单 41.54 亿元，相当于 2025 年全年收入的 2.06 倍。财务曲线呈现典型的「高增长+高投入」：收入由 2023 年 8.07 亿元增至 2024 年 13.60 亿元、2025 年 20.17 亿元，2026 年上半年 11.18 亿元、同比增长 70.2%；毛利率由 2023 年 16.0% 一路修复至 2026 年上半年的 34.4%，海外市场毛利率 40.1% 明显高于大陆的 30.1%。但同期持续亏损：2023 至 2026 上半年累计亏损 35.23 亿元，截至 6 月底负债净额 43.71 亿元、其中赎回负债 52.54 亿元；2026 年上半年毛利 3.85 亿元，而销售及市场、行政、研发三项开支合计 6.97 亿元、占收入 62.3%。公司预计 2026 年全年仍将亏损。行业侧参照：灼识咨询估算 2025 年全球仓储拣选自动化市场约 1,925 亿元、2030 年达 4,000 亿元，其中 ACR 细分市场 2025 年约 61 亿元、2030 年达 860 亿元。",
+        "On Sept 13 Shenzhen Hai Robotics refiled its listing application with the Hong Kong Stock Exchange, with Goldman Sachs (Asia) and CITIC Securities (HK) as joint sponsors and a weighted voting rights structure — its first filing was on Feb 13, 2026. Per CIC data, the company was the world’s largest autonomous case-handling robot (ACR) solutions provider by both revenue and shipments in 2025, with global share rising from 31.4% in 2024 to 32.8% in 2025; it operates in more than 40 countries and regions with over 900 signed customers and channel partners, more than 2,000 cumulative contracted projects, an 89% repurchase rate, and a backlog of RMB 4.154bn at end-June, 2.06 times full-year 2025 revenue. The financial profile is classic high-growth, high-investment: revenue rose from RMB 807m in 2023 to RMB 1.360bn in 2024 and RMB 2.017bn in 2025, reaching RMB 1.118bn in H1 2026, up 70.2% YoY; gross margin recovered from 16.0% in 2023 to 34.4% in H1 2026, with overseas gross margin of 40.1% well above the 30.1% in mainland China. But losses persist: cumulative losses of RMB 3.523bn from 2023 to H1 2026, net liabilities of RMB 4.371bn at end-June including RMB 5.254bn of redemption liabilities; in H1 2026 gross profit was RMB 385m against combined selling, administrative and R&D expenses of RMB 697m, or 62.3% of revenue. The company expects to remain loss-making for full-year 2026. For context, CIC estimates the global warehouse picking automation market at about RMB 192.5bn in 2025 and RMB 400bn by 2030, with the ACR segment at roughly RMB 6.1bn in 2025 rising to RMB 86bn by 2030.",
+        [
+            S("深圳商报（二次递表与招股书数据）", "https://www.toutiao.com/article/7685291602697126452/"),
+            S("证券时报 e 公司（募资用途与 WVR 架构）", "https://www.toutiao.com/article/7685782970178847242/"),
+            S("南方+（毛利率与市场规模）", "https://www.nfnews.com/content/mobWmKnMyk.html"),
+            S("东方财富（在手订单与费用结构）", "https://finance.eastmoney.com/a/202609183879185692.html"),
+        ],
+        True,
+    ),
+    IT(
+        "Agility 发布 Digit 5：9 分钟充电跑 90 分钟，在手订单超 3 亿美元；Blue Yonder 同期打通多品牌机器人",
+        "Agility unveils Digit 5 — 9-minute charge, 90-minute run, $300m+ order book — as Blue Yonder links multi-vendor robots",
+        "9 月 15 日，Agility Robotics 发布第五代人形机器人 Digit 5，定位「无需护栏即可与人协同作业」。硬件指标全部指向工程化而非演示：身高 5 英尺 11 英寸（约 1.81 米）、体重 129 公斤，可重复搬运 22.7 公斤、较 Digit 4 提升 40%，触及高度 7.2 英尺（2.2 米）；电池单次运行 90 分钟、充电约 9 分钟，充放比从 Digit 4 的 2:1 提升到 10:1，单台一天可完成超过 20 小时的产出；夹爪采用 ISO 标准接口可换，覆盖拆垛、机器上料、组套排序、质检与码垛。安全侧采用 360 度多传感器人体检测与独立安全控制器，可根据检测到的人员存在类型自主避让、减速、停止或下蹲至稳定坐姿。商业化底数是上一代：Digit 4 已在 GXO、舍弗勒、亚马逊、丰田加拿大等客户现场累计运行超 6.5 万小时，在 GXO 亚特兰大附近工厂累计搬运约 10 万个料箱、准确率约 98%（公司自述，未经独立审计）。公司披露 Digit 5 已获超 3 亿美元多年期订单，但明确「须以满足特定合同里程碑为前提」，并非已确认收入；客户早期接入定于 2027 年上半年，年底全面上市，生产基地在俄勒冈州塞勒姆。同期 9 月 17 日 Blue Yonder 推出 Robotics Hub，用标准化 API 把新机器人厂商接入周期从数月压缩到数周；2026 年内物流机器人（Intralogistics Robotics）调查显示 52% 受访者已部署、32% 计划三年内部署，订单与箱拣选以 57% 占比领跑——产业重心正从「造一台能动的机器人」转向「让一群机器人在真实场景稳定协同」。",
+        "On Sept 15 Agility Robotics launched Digit 5, its fifth-generation humanoid, positioned as safe to work alongside people without fencing. Every hardware figure points to engineering rather than demo: 5 ft 11 in (1.81 m) tall and 129 kg, repeatable lifts of 22.7 kg — 40% more than Digit 4 — with a 7.2 ft (2.2 m) reach; the battery runs 90 minutes per charge and recharges in about 9 minutes, improving the run-to-charge ratio from Digit 4’s 2:1 to 10:1 so one unit can deliver more than 20 productive hours a day; grippers use an ISO-standard swappable mount covering depalletising, machine tending, kitting and sequencing, inspection and palletising. On safety it uses 360-degree multi-sensor human detection and an independent safety controller that can autonomously avoid, slow, stop or drop into a stable seated pose depending on the type of human presence detected. The commercial base is the previous generation: Digit 4 has logged more than 65,000 hours at customer sites including GXO, Schaeffler, Amazon and Toyota Motor Manufacturing Canada, moving about 100,000 totes at roughly 98% accuracy at GXO’s Flowery Branch site near Atlanta — company-reported, not independently audited. Agility disclosed more than $300m in multi-year orders for Digit 5 but stated explicitly these are subject to satisfaction of certain contractual milestones, not booked revenue; early customer access begins in H1 2027 with general availability by year-end, built at its Salem, Oregon plant. In parallel, on Sept 17 Blue Yonder launched Robotics Hub, using standardised APIs to cut new robot-vendor onboarding from months to weeks; the 2026 Intralogistics Robotics Survey found 52% of respondents already deploy intralogistics robots and 32% plan to within three years, with order and case picking leading at 57% — the industry’s centre of gravity is shifting from building a robot that moves to making a fleet cooperate reliably in real settings.",
+        [
+            S("Industrial Robotics Hub（Digit 5 参数与订单口径）", "https://www.industrialroboticshub.com/news/agility-digit-5-humanoid-300m-orders"),
+            S("亿邦动力（无需护栏协同与交付节奏）", "https://www.ebrun.com/20260917/708291.shtml"),
+            S("网易 / ZAKER 科技（NVIDIA Halos 与 ISO 25785-1）", "https://www.163.com/dy/article/L6URFGP80550A7YJ.html"),
+            S("CIVL（Blue Yonder Robotics Hub 与内物流机器人调查）", "https://civl.com/news/story/blue-yonder-launches-robotics-hub-to-link-multiple-robot-vendors-to-its-warehous-20759de5"),
+        ],
+        True,
+    ),
+]
+
+DATA = {
+    "updatedAt": UPDATED_AT,
+    "columns": [
+        {"cat": {"zh": "重点新闻", "en": "Key News"}, "color": COLORS[0], "items": KEY_NEWS},
+        {"cat": {"zh": "热门议题", "en": "Hot Topics"}, "color": COLORS[1], "items": HOT_TOPICS},
+        {"cat": {"zh": "研究瞭望", "en": "Research"}, "color": COLORS[2], "items": RESEARCH},
+        {"cat": {"zh": "应用风向", "en": "Apps & Adoption"}, "color": COLORS[3], "items": APPS},
+    ],
+}
+
+
+def main():
+    payload = json.dumps(DATA, ensure_ascii=False, indent=2)
+
+    # 1) 写 JSON
+    JSON_PATH.write_text(payload + "\n", encoding="utf-8")
+
+    # 2) 同步 index.html 内嵌快照
+    html = HTML_PATH.read_text(encoding="utf-8")
+    pattern = re.compile(
+        r'(<script id="embeddedRadar" type="application/json">)(.*?)(</script>)',
+        re.S,
+    )
+    if not pattern.search(html):
+        raise SystemExit("未找到 embeddedRadar 块，请检查 index.html")
+    html2, n = pattern.subn(lambda m: m.group(1) + "\n" + payload + "\n" + m.group(3), html, count=1)
+    HTML_PATH.write_text(html2, encoding="utf-8")
+
+    total = sum(len(c["items"]) for c in DATA["columns"])
+    verified = sum(1 for c in DATA["columns"] for i in c["items"] if i["verified"])
+    srcs = {s["label"] for c in DATA["columns"] for i in c["items"] for s in i["sources"]}
+    print(f"written: {JSON_PATH}")
+    print(f"synced : {HTML_PATH} (replaced {n} block)")
+    print(f"updatedAt: {UPDATED_AT}")
+    print(f"items: {total} | verified: {verified} | source labels: {len(srcs)}")
+
+
+if __name__ == "__main__":
+    main()
