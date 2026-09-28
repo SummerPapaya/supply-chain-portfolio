@@ -1,0 +1,252 @@
+# -*- coding: utf-8 -*-
+"""供应链雷达周更脚本（2026-09-28）
+
+标准：ee6be6d —— 权威来源 / 交叉验证 / 来源可溯 / 中英双语
+- 四栏固定顺序：重点新闻 → 热门议题 → 研究瞭望 → 应用风向
+- verified=True 仅用于 ≥2 家独立媒体佐证的条目
+- 同步两处：docs/radar-data.json 与 docs/index.html 内嵌 <script id="embeddedRadar">
+幂等：整份重建，重复执行结果一致。
+"""
+import json
+import re
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+DOCS = ROOT / "docs"
+JSON_PATH = DOCS / "radar-data.json"
+HTML_PATH = DOCS / "index.html"
+
+UPDATED_AT = "2026-09-28T17:00:00+08:00"
+
+COLORS = ["#e05656", "#f0a13a", "#5b8cff", "#35c2b0"]
+
+
+def S(label, url):
+    return {"label": label, "url": url}
+
+
+def IT(zh_t, en_t, zh_d, en_d, sources, verified):
+    return {
+        "title": {"zh": zh_t, "en": en_t},
+        "desc": {"zh": zh_d, "en": en_d},
+        "sources": sources,
+        "verified": verified,
+    }
+
+
+# ---------------- 重点新闻 / Key News ----------------
+KEY_NEWS = [
+    IT(
+        "SCFI 结束八连涨：3686.62 点转入高位调整，美线韧性明显强于欧线",
+        "SCFI’s eight-week rally ends: 3686.62 as the market shifts to high-level consolidation, US lanes far firmer than Europe",
+        "上海航交所 9 月 25 日数据：SCFI 微跌 1.21 点至 3686.62 点，终结连续八周上涨，四大远洋干线运价全线回落。分航线：美西 7463 美元/FEU（周跌 1.28%）、美东 10497 美元/FEU（-0.77%）、欧洲线 2313 美元/TEU（-4.61%）、地中海 3065 美元/TEU（-1.92%）；近洋侧东南亚逆势上涨 62 美元至 1166 美元/TEU，与区内指数走势互相印证。结构分化清晰：节前集中出货进入尾声、欧洲终端需求疲弱叠加新船运力持续投放，欧线下行压力最大；美线则受三重支撑——十一后 9 月底揽收货物顺延至 10 月装船、班轮公司缩舱减班、港口拥堵导致的被动空班，业内预计至少 10 月底前维持韧性。外部变量：中美同意将贸易休战延长至 2027 年 1 月 10 日，多家货代认为短期对集运市场影响有限，但有助于稳定贸易预期，春节前美国线出货需求预计平稳。",
+        "Shanghai Shipping Exchange data for Sept 25 show the SCFI slipping 1.21 points to 3686.62, ending eight straight weekly gains as rates on all four deep-sea trades pulled back. By lane: US West Coast $7,463/FEU (-1.28% WoW), US East Coast $10,497/FEU (-0.77%), North Europe $2,313/TEU (-4.61%) and the Mediterranean $3,065/TEU (-1.92%); in the near-sea trades, South-east Asia bucked the trend, up $62 to $1,166/TEU, corroborating the intra-Asia index. The divergence is structural: pre-holiday front-loading is tapering off while weak end-demand in Europe and continuing newbuild deliveries weigh hardest on Europe lanes; US lanes keep triple support — Golden Week cargo rolled into October sailings, carrier capacity cuts and congestion-driven blankings — with industry expectation of resilience at least through end-October. External variable: China and the US agreed to extend their trade truce to Jan 10, 2027; forwarders see limited near-term impact on container volumes but a stabilising effect on trade expectations, with pre-Lunar-New-Year US-bound demand expected to stay steady.",
+        [
+            S("上海航运交易所（转引：腾讯财经·航运界）", "https://gu.qq.com/resources/shy/news/detail-v2/index.html?t=1#/index?_tentrees_trans=0&id=SN20260928124339978283b7"),
+            S("新浪财经·航运港口行业周报（9/21–9/25）", "https://vip.stock.finance.sina.com.cn/q/go.php/vReport_Show/kind/lastest/rptid/843911608174/index.phtml"),
+            S("OilPriceAPI SCFI 序列（3686，9/25）", "https://www.oilpriceapi.com/prices/freight-indices/scfi-shanghai-containerized-freight-index"),
+        ],
+        True,
+    ),
+    IT(
+        "Drewry WCI 回落 1% 至 4468 美元/FEU：苏伊士回摆注入运力，跨太平洋凭空班撑价",
+        "Drewry WCI slips 1% to $4,468/FEU: returning Suez capacity weighs, transpacific held up by blank sailings",
+        "Drewry 9 月 24 日（周四）发布的世界集装箱运价指数（WCI）下跌 1% 至 4468 美元/FEU，回吐前一周涨幅，跌幅集中在亚欧：上海-热那亚 -5% 至 3835 美元/FEU、上海-鹿特丹 -4% 至 3485 美元/FEU——背后是苏伊士运河集装箱船通行量第 38 周升至 48 艘（第 37 周为 41 艘），有效运力持续回流；承运人虽然把亚欧下周空班从 3 班加到 7 班，仍难对冲。跨太平洋反而更硬：上海-洛杉矶 +2% 至 7838 美元/FEU、上海-纽约持平 10373 美元/FEU；黄金周前承运人把跨太平洋空班从 9 班加码到 15 班维持装载率。Drewry 判断苏伊士回流运力将压过减班力度，预计下周东西干线运价继续下探。欧洲侧还叠加两重压力：德国港口劳资纠纷悬而未决、莱茵河低水位限制内河驳运，欧洲供应链的内陆段风险高于海运段。",
+        "Drewry’s World Container Index fell 1% to $4,468 per 40ft as of Thursday Sept 24, reversing the previous week’s gain, with the decline concentrated on Asia–Europe: Shanghai–Genoa down 5% to $3,835/FEU and Shanghai–Rotterdam down 4% to $3,485/FEU — driven by Suez containership transits rising to 48 in Week 38 from 41 in Week 37, steadily re-injecting effective capacity. Carriers lifted Asia–Europe blank sailings to seven for next week (from three), not enough to offset. The transpacific held firmer: Shanghai–LA up 2% to $7,838/FEU and Shanghai–New York roughly flat at $10,373/FEU, with carriers scaling transpacific blank sailings from nine to 15 ahead of Golden Week. Drewry expects returning Suez capacity to outweigh the cuts, with East–West rates falling again next week. Europe adds two more layers: unresolved German port labour action and low Rhine water levels constraining barge feedering — the inland-leg risk now exceeds the sea leg.",
+        [
+            S("Drewry WCI（转引：Tetmo / gCaptain 链）", "https://tetmo.com/logistics-supply-chain/container-freight-rates-edge-lower-as-suez-traffic-resumes-ahead-of-golden-week"),
+            S("Shipeedy Logipedia（WCI 分航线明细）", "https://logipedia.shipeedy.com/en/news/global-container-freight-rates-continue-to-decline"),
+            S("tzp.news（Drewry 周报转述）", "https://tzp.news/en/news/2026-09-25-drewry-konteyner-endeksi-suveys-trafigi-artarken-geriledi"),
+        ],
+        True,
+    ),
+    IT(
+        "中美将贸易休战延长至 2027 年 1 月 10 日：白宫峰会落地，第八轮磋商达成多项共识",
+        "US and China extend the trade truce to Jan 10, 2027: White House summit lands, eighth round of talks yields multiple consensuses",
+        "美国财长贝森特 9 月 23 日确认，中美同意把原定 2026 年 11 月 10 日到期的贸易休战（釜山安排）延长两个月至 2027 年 1 月 10 日——时长短于市场此前预期的六个月，被彭博视为元首会晤「相对容易取得的成果」；现有暂停措施（新增报复性关税、301 造船业调查、稀土与高科技出口管制）继续冻结，1 月 10 日成为新的观察节点。习近平 9 月 24 日到访华盛顿，两国举行元首峰会。中国商务部 9 月 28 日解读第八轮经贸磋商成果：金融服务领域达成原则共识、中方将依法审批美资机构在华展业申请；双方牵头人何立峰与贝森特建立人工智能对话并已举行首次对话，下次对话定于 11 月底前，同时建立 AI 事件沟通渠道；吉隆坡联合安排延期，并就部分非敏感商品对等降税继续探讨。对供应链的影响：报关与成本结构短期不变，但为跨太平洋货流和春节前出货提供了可预期的政策窗口。",
+        "US Treasury Secretary Scott Bessent confirmed on Sept 23 that the two countries agreed to extend the Busan trade truce — originally expiring Nov 10, 2026 — by two months to Jan 10, 2027, shorter than the six months markets had hoped for and framed by Bloomberg as the easy win ahead of the summit; existing suspensions (new retaliatory tariffs, the Section 301 shipbuilding probe, rare-earth and high-tech export controls) stay frozen, making Jan 10 the next watch-point. Xi Jinping travelled to Washington on Sept 24 for the leaders’ summit. China’s Ministry of Commerce on Sept 28 briefed outcomes of the eighth round of talks: a principle consensus on financial services with Beijing to review US institutions’ applications; AI dialogue established between lead officials He Lifeng and Bessent with a first meeting held and the next due by end-November plus a channel for AI incident communication; extension of the Kuala Lumpur joint arrangement; and continued discussion of reciprocal tariff reductions on selected non-sensitive goods. For supply chains: filing and landed-cost maths are unchanged, but the window for transpacific flows and pre-Lunar-New-Year shipments is now more predictable.",
+        [
+            S("Bernama-Kyodo（贝森特确认延长）", "https://www.bernama.com/en/world/news.php?id=2611116"),
+            S("香港信报（休战延长与农产品采购进展）", "https://www.hkej.com/features/article/%E7%BE%8E%E5%9C%8B%E5%A4%A7%E9%81%B8%E9%81%B8%E6%83%85%E8%BF%BD%E8%B9%A4/2527399400/%E8%B2%BF%E6%98%93%E4%BC%91%E6%88%B0%E5%BB%B6%E9%95%B7%E5%85%A9%E6%9C%88+%E8%87%B3%E6%98%8E%E5%B9%B41%EF%BC%8E10"),
+            S("商务部解读第八轮磋商（转引：中华网）", "https://3g.china.com/act/news/10000169/20260928/49767803.html"),
+            S("Tariffs Tool 核查页（哪些变了/哪些没变）", "https://www.tariffstool.com/guides/us-china-trade-truce-extended-january-2027"),
+        ],
+        True,
+    ),
+    IT(
+        "红海回摆加速：Gemini 再把 4 条航线改回苏伊士（累计 6 条），COSCO 系完成危机以来首航",
+        "Red Sea return accelerates: Gemini moves four more services back through Suez (six in total), first COSCO transit since the crisis began",
+        "9 月 14 日，马士基与赫伯罗特（Gemini 合作）公告再把 AE5（亚洲-北欧）、AE11/AE12（亚洲-地中海）、ME2（印度-欧洲）由好望角改回苏伊士运河，与此前已恢复的 AE15/AE19 合计 6 条航线重走红海；首批西向航次 9 月 19 日起自亚洲离港（Antonia Maersk 635W、Marchen Maersk 635W 等），东向自 9 月 22 日始，亚欧/印欧航程缩短 10–14 天。同月其他玩家跟进但口径不一：MSC 恢复 Indusa 仅西向（9 月 23 日自科伦坡）、达飞 FAL2/FAL5 东向恢复而西向仍走好望角；9 月 16 日 24,188TEU 的 OOCL Portugal 完成 COSCO 系自红海危机以来首次南向过河，苏伊士运河管理局称 1–8 月集装箱船净吨位同比 +54.2%。但回归是「服务级、可逆」的：长荣、ONE、HMM、阳明仍未返回，胡塞武装同月沿也门海岸取得新进展并试图袭击利雅得，战争险费率高于一年前——每家公司声明都保留「视安全形势改回」条款，货主须按航线逐条确认而非整体假设。",
+        "On Sept 14 Maersk and Hapag-Lloyd (Gemini Cooperation) announced that four more services — AE5 (Asia–North Europe), AE11/AE12 (Asia–Med) and ME2 (India–Europe) — switch from the Cape of Good Hope back to the Suez Canal, joining AE15/AE19 for six strings in total; first westbound sailings departed Asia from Sept 19 (Antonia Maersk 635W, Marchen Maersk 635W), eastbound from Sept 22, cutting Asia–Europe/India–Europe transit times by 10–14 days. Other carriers followed with mixed postures: MSC restored Indusa westbound only (ex-Colombo Sept 23), CMA CGM restored FAL2/FAL5 eastbound while westbound legs keep the Cape; on Sept 16 the 24,188-TEU OOCL Portugal completed the first COSCO-group southbound transit since the crisis, and the Suez Canal Authority put Jan–Aug containership net tonnage up 54.2% year on year. But the return is service-level and reversible: Evergreen, ONE, HMM and Yang Ming have not come back, Houthi forces made further coastal gains and attempted a strike on Riyadh, and war-risk pricing sits above a year ago — every carrier statement keeps a revert clause, so shippers must confirm routing service by service rather than assume a wholesale return.",
+        [
+            S("Sagar Sandesh（Gemini 四航线改线公告）", "https://www.sagarsandesh.in/news/43341"),
+            S("Africa Ports & Ships（各联盟分向恢复明细）", "https://africaports.co.za/"),
+            S("Shipping Gazette（网络调整与运营压力）", "https://shippingazette.com/news/9260900000177"),
+            S("Carra Globe（回摆与安全形势的张力）", "https://carraglobe.com/red-sea-carrier-return-2026"),
+        ],
+        True,
+    ),
+]
+
+# ---------------- 热门议题 / Hot Topics ----------------
+HOT_TOPICS = [
+    IT(
+        "巴拿马运河日通行量砍到 32 艘、拍卖位拍出 530 万美元天价：El Niño 之下东岸物流成本正在重写",
+        "Panama Canal cuts daily transits to 32 and an auction slot fetches a record $5.3m: El Niño is rewriting East Coast logistics costs",
+        "运河分两步把日通行量从 36 降到 32（9 月 15 日起生效）：Neopanamax 船闸每日 9 个预约位、Panamax 23 个。ACP 第 A-29-2026 号通告披露，本水文年 5–8 月流域累计降雨比历史均值低 34%、来水量低 44%，而预报显示 2026–27 年 El Niño 可能更严重，2027 年 1–4 月旱季供水存疑——这是 2023–24 年那轮危机后又一次系统性限流。拍卖机制同步改造：按 LNG/LPG、集装箱/汽车船、干散/杂货、油轮四个组别分组放拍，且已持位客户不得同日再拍；9 月 1 日 SK Gas 为一艘 LPG 船的北向通行拍出 530 万美元，刷新 2023 年 Eneos 398 万美元的纪录。成本传导已经开始：MSC 把亚洲-美东/美湾巴拿马附加费提到 149 美元/TEU，达飞同一航线 500 美元/TEU，赫伯罗特 130 美元/TEU 并公开抱怨排队与吃水限制；原定 10 月 1 日的吃水下调（至 47.5 英尺）推迟执行。货主开始在「继续付附加费走巴拿马」与「改走美西+陆桥」之间重新算账。",
+        "The canal cut daily transits from 36 to 32 in two steps (effective Sept 15): nine bookable slots a day at the Neopanamax locks and 23 at the Panamax locks. Advisory A-29-2026 discloses that cumulative rainfall in the watershed was 34% below average and inflows 44% below for May–August, with forecasts pointing to a potentially severe 2026–27 El Niño and water availability in doubt for the Jan–April 2027 dry season — the second systemic restriction since the 2023–24 episode. The auction mechanism was also reworked: slots are now offered to four market-segment groups (LNG/LPG, container/ro-ro, dry bulk/general cargo, tankers), and holders of a booking cannot buy a second slot for the same date; on Sept 1 SK Gas paid a record $5.3m at auction for a northbound LPG transit, beating the $3.98m record set by Eneos in 2023. Costs are already flowing through: MSC raised its Panama surcharge to $149/TEU on Asia–US East & Gulf Coast cargo, CMA CGM to $500/TEU on the same trades, and Hapag-Lloyd $130/TEU while publicly complaining about queues and draft limits; the planned draft cut to 47.5 ft due Oct 1 was postponed. Shippers are re-running the numbers between paying surcharges via Panama and shifting to West Coast + rail.",
+        [
+            S("巴拿马运河管理局 A-29-2026 通告（官方）", "https://pancanal.com/wp-content/uploads/2026/08/ADV-29-2026-Additional-Measures-to-Address-Reduced-Precipitation-in-the-Canal-Watershed.pdf"),
+            S("The Conveyor（拍卖纪录与 Kuehne+Nagel 数据）", "https://www.theconveyor.co/p/panama-canal-crossings-get-pricier"),
+            S("Dataportuaria（赫伯罗特客户通告与附加费）", "https://dataportuaria.com/en/panama/shipping/panama-canal-restrictions-increase-costs-and-delays-for-hapa"),
+        ],
+        True,
+    ),
+    IT(
+        "德国六港无限期罢工进入全员投票：64.7% 否决资方方案，10 月 1 日见分晓",
+        "Germany’s six seaports move to an all-member ballot on indefinite strikes: 64.7% rejected the employer offer, verdict due Oct 1",
+        "ver.di 工会 9 月 15 日宣布启动无限期罢工的正式投票，覆盖汉堡、不来梅、不来梅哈芬、威廉港、埃姆登、布拉克六港约 1.1 万名港口工人，投票持续至 10 月 1 日晚。背景：9 月 2 日起的 48 小时警告性罢工已造成六港积压，鹿特丹、阿姆斯特丹、泽兰港 9 月 4 日也经历了约 8 小时罢工；9 月 15 日公布的意向投票中 64.7% 否决资方 12 个月方案（工资表 +3.4%、200 欧元假期补贴、集装箱业务 416 欧元补贴）。程序门槛：须 ≥75% 支持无限期罢工，ver.di 联邦工资委员会才决定谈判失败并启动无限期罢工。堆场现状：德国主要码头利用率已回落到 70–85%，但鹿特丹 ECT/RWG 仍 80–85%、APM Maasvlakte II 85–90%；叠加莱茵河低水位，北欧真正的瓶颈在内陆段。对中欧航线的影响：若长期停摆，将迫使班轮改挂鹿特丹/安特卫普-布鲁日，进一步挤压上海、宁波出发的北欧航线接卸能力，ZDS 警告「被分流一次的货物可能永久流失」。",
+        "The ver.di union on Sept 15 formally opened the ballot on indefinite strikes covering about 11,000 port workers across Hamburg, Bremen, Bremerhaven, Wilhelmshaven, Emden and Brake, voting through the evening of Oct 1. Context: the 48-hour warning strike from Sept 2 left backlogs at all six ports, Rotterdam/Amsterdam/Zealand saw an eight-hour stoppage on Sept 4, and the intent ballot published Sept 15 showed 64.7% rejecting the employers’ 12-month offer (+3.4% wage table, €200 holiday pay, €416 container-operations allowance). The procedural bar: at least 75% must back indefinite strikes before ver.di’s Federal Wage Commission declares negotiations failed. Yard status: German terminals have eased back to 70–85% utilisation, but Rotterdam’s ECT/RWG sit at 80–85% and APM Maasvlakte II at 85–90%, with low Rhine water making the inland leg the real bottleneck. For Asia–Europe shippers: a long stoppage would force diversions to Rotterdam and Antwerp-Bruges, squeezing discharge capacity for North Europe services ex-Shanghai and Ningbo — the port operators’ association ZDS warns cargo diverted once may never come back.",
+        [
+            S("Freight Academy（罢工时间线与堆场利用率）", "https://www.freight-academy.com/en/news/northern-european-ports-strike-backlog-20260919074544"),
+            S("宁波市贸促会预警快报第 91 期（引路透社）", "http://www.ccpitnb.org/art/2026/9/23/art_5590_638962.html"),
+        ],
+        True,
+    ),
+    IT(
+        "亚洲区内运价指数五连创新高至 1491 美元/FEU：台风、黄金周与油价把区内航线推上历史高位",
+        "Intra-Asia index hits a fifth straight record at $1,491/FEU: typhoons, Golden Week and bunker costs push regional lanes to historic highs",
+        "德路里亚洲区内集装箱运价指数（IACI）9 月 24 日当周环比 +6% 至 1491 美元/FEU，连续第五周刷新历史高位；分航线：上海-林查班 +22% 至 1609 美元/FEU、上海-雅加达 +12% 至 2300、上海-杰贝阿里连续第三周上涨至 8712，替代航线（如尼赫鲁港）同步走高。三重驱动：黄金周前集中出货、台风扰动后网络重排、以及油价——布伦特自 9 月初持续高于 100 美元/桶，新加坡船用燃油成本同比 +60%，ONE 已把紧急燃油附加费从 38 美元提到 60 美元/TEU。拥堵同步量化：第 38 周上海平均等泊 83 小时、宁波 38 小时（环比 +8 小时）；Linerlytica 估算东南亚港口拥堵已占全球 11%（一个月前 7%），新加坡的长排队甚至迫使 Temu 系电商向客户反复改期。突发事件：9 月 21 日雅加达丹戎不碌 NPCT1 码头火灾造成短期中断。德路里预计黄金周出货高峰结束后运价趋于企稳，后续取决于红海形势、燃油与拥堵缓解节奏。",
+        "Drewry’s Intra-Asia Container Index (IACI) rose 6% week on week to $1,491/FEU in the week of Sept 24, a fifth straight record; by lane, Shanghai–Laem Chabang gained 22% to $1,609/FEU, Shanghai–Jakarta 12% to $2,300 and Shanghai–Jebel Ali rose for a third straight week to $8,712, with alternative routings such as Nhava Sheva firming too. Three drivers overlap: pre-Golden Week front-loading, network re-arrangement after typhoon disruptions, and fuel — Brent has held above $100 since early September, Singapore bunker costs are up 60% year on year, and ONE raised its emergency bunker surcharge from $38 to $60/TEU. Congestion, quantified: Shanghai averaged 83 hours at anchorage in Week 38 and Ningbo 38 (+8 hours WoW); Linerlytica puts South-east Asia’s share of global port congestion at 11% (from 7% a month ago), with Singapore queues forcing Temu-affiliated e-commerce sellers to revise delivery dates repeatedly. One-off: a fire at Jakarta Tanjung Priok’s NPCT1 terminal on Sept 21 caused short-term disruption. Drewry expects rates to stabilise once the pre-holiday peak passes, with the path set by the Red Sea, bunkers and congestion relief.",
+        [
+            S("同花顺财经（德路里 IACI 专栏）", "https://m.10jqka.com.cn/20260928/c680302017.shtml"),
+            S("雪球（德路里 IACI 图表与明细）", "https://www.xueqiu.com/9548903041/410565461"),
+            S("The Loadstar（区内运价与拥堵、燃油分析）", "https://theloadstar.com/congestion-and-costlier-bunkers-keeping-intra-asia-rates-high"),
+            S("航运信息网（四连涨阶段数据）", "https://news.csi.com.cn/6929aeef-2fbf-47f7-9d70-c34067b746d6.html"),
+        ],
+        True,
+    ),
+    IT(
+        "集装箱船订单簿冲破 45%：马士基 26 艘 ULCV + 达飞 12 艘 24,000TEU，创 2008 年末以来新高",
+        "Containership orderbook surges past 45%: Maersk’s 26 ULCVs and CMA CGM’s 12 × 24,000 TEU take the ratio to a post-2008 high",
+        "Linerlytica 统计：随着马士基确认订造 26 艘超大型集装箱船（20 艘恒力重工 + 6 艘新时代造船，合计 48.4 万 TEU、LNG 双燃料、2029–30 年交付）以及达飞在扬子江船业追加 12 艘 24,000TEU 双燃料船，全球集装箱船在手订单达 1,925 艘 / 1560 万 TEU，订单簿与现役船队之比突破 45%——2008 年末以来首次，是在手运力较 2023 年 8 月疫情后峰值（760 万 TEU）的两倍多。各家订单簿比率：中远 52%、长荣 50%、达飞 45%、MSC 41%、ONE 35%，马士基则升至 29% 以上。分析师警告「运力军备竞赛才刚开始」：当前船舶短缺推高运价、租金与二手船价，反而令新造船价格显得便宜，追单动机不减。对供应链规划者的警示：本轮运价高位越依赖「有效运力不足」（红海绕航、拥堵、限速），2029–30 年这批订单集中交付时的下行压力就越深；马士基本轮大单也被 Linerlytica 解读为对「物流整合商」战略的第一次回头。",
+        "Per Linerlytica, with Maersk confirming firm orders for 26 ultra-large containerships (20 at Hengli Heavy Industry plus 6 at New Times Shipbuilding, 484,000 TEU in total, LNG dual-fuel, delivering 2029–30) and CMA CGM adding 12 dual-fuel 24,000 TEU vessels at Jiangsu Yangzijiang, the global containership orderbook stands at 1,925 ships / 15.6m TEU, pushing the orderbook-to-fleet ratio past 45% — first time since late 2008 and more than double the post-COVID peak of 7.6m TEU in August 2023. Orderbook ratios by carrier: Cosco 52%, Evergreen 50%, CMA CGM 45%, MSC 41%, ONE 35%, with Maersk jumping to 29%+. Analysts warn the capacity race is not done: vessel scarcity is driving freight, charter and second-hand prices to fresh highs, making newbuild prices look cheap by comparison. For supply-chain planners: the more today’s high rates depend on missing effective capacity (Red Sea diversion, congestion, slow steaming), the deeper the downside when this orderbook lands in 2029–30; Linerlytica also reads Maersk’s mega-order as the first break from its logistics-integrator strategy.",
+        [
+            S("Ship247（引 The Loadstar / Linerlytica）", "https://ship247.com/market-insights/maersk-mega-order-and-cma-cgm-push-containership-orderbook-ratio-to-45"),
+        ],
+        False,
+    ),
+]
+
+# ---------------- 研究瞭望 / Research ----------------
+RESEARCH = [
+    IT(
+        "DHL《物流趋势雷达 8.0》：Agentic AI 被列为最高影响趋势，AI 商务、算力经济与人形机器人新增入选",
+        "DHL Logistics Trend Radar 8.0: Agentic AI rated a top-impact trend, with AI Commerce, Compute Economy and Humanoids newly added",
+        "9 月 24 日，DHL 发布两年一版的第八版《物流趋势雷达》，新增四大趋势：Agentic AI（智能体 AI）、AI Commerce（AI 商务）、Compute Economy（算力经济）与 Humanoids（人形机器人）。核心判断：物流 AI 正从「辅助决策」走向「自主执行」——Agentic AI 被定义为能在既定目标下自主感知输入、制定计划、作出决策并执行多步骤任务的系统，与 AI Analytics（识别模式、预测风险、建议行动）构成供应链智能化的两个技术层；典型场景包括提前识别库存短缺、运输中断时自动调整货物流向、按实时需求重新配置运力。DHL 同时明确部署前提：自主决策边界、人工监督机制、数据质量与企业系统接口缺一不可。报告保留脱碳、可持续燃料、循环经济、车辆电动化等长期方向，并预计可穿戴传感器、远程操作、协作机器人将进入一线岗位，改变作业安全与技能配置。信号意义：行业头部玩家正式把「AI 代理进入供应链执行层」写入十年趋势图，与本周 Gartner、McKinsey 的判断互相印证。",
+        "On Sept 24 DHL released the eighth edition of its biennial Logistics Trend Radar, adding four trends: Agentic AI, AI Commerce, the Compute Economy and Humanoids. The core judgement: logistics AI is moving from assisting decisions to executing them — Agentic AI is defined as systems that autonomously sense inputs, plan, decide and execute multi-step tasks toward given goals, pairing with AI Analytics (spotting patterns, predicting risk, recommending actions) as the two technology layers of supply-chain intelligence; typical scenarios include anticipating inventory shortfalls, re-routing flows mid-disruption and re-configuring transport capacity in real time. DHL is explicit about deployment prerequisites: clear decision boundaries, human oversight, data quality and enterprise-system interfaces. The report keeps decarbonisation, sustainable fuels, circularity and vehicle electrification as long-term directions, and expects wearables, remote operations and cobotics to reach front-line roles, changing safety and skill profiles. The signal: a leading industry player has formally written AI agents into its decade map of supply-chain execution, corroborating this week’s Gartner and McKinsey outputs.",
+        [
+            S("美通社（DHL 官方新闻稿全文）", "https://www.prnasia.com/story/549685-1.shtml"),
+            S("维度网（趋势清单与 Agentic AI 定义）", "https://www.wedoany.com/shortnews/482874.html"),
+        ],
+        False,
+    ),
+    IT(
+        "Gartner 勾勒仓储 AI 四层演进：传统优化 → 运营式生成式 AI → 半自主代理 → 物理 AI 机器人",
+        "Gartner maps four waves of warehouse AI: traditional optimisation → operational GenAI → semi-autonomous agents → physical AI robots",
+        "Gartner 认为仓储物流已到 AI 采用的拐点——劳动力持续短缺、RaaS 等更低风险的自动化融资模式、以及技术成熟度共同推动仓库从「试验场」转为「正式生产环境」。研究给出四条互相衔接的演进线：(1) 传统 AI 优化——需求预测、排班、路径与库存管理从刚性规则模型转向实时数据驱动的学习算法，降本的同时提升决策透明度；(2) 运营式生成式 AI——把非结构化与半结构化数据转成动态 SOP、排障指南与决策支持，直接嵌入正在进行的作业；(3) 处方式/半自主代理——分析复杂物流数据、推荐甚至部分执行多步骤工作流，但最终决策留给人，是手工与全自动之间的桥；(4) 物理 AI 代理——算法+高级传感器+机器人接管拣选、包装、分拣与搬运，兼顾安全与产能。Gartner 高级首席分析师 Federica Stufano 的落地建议：从已被验证的用例（劳动力预测、货位优化）切入，先证明价值，再向生成式 AI 与代理扩展以提升决策与人力效率。",
+        "Gartner sees warehousing at an inflection point for AI adoption — persistent labour shortages, lower-risk financing models such as Robotics-as-a-Service, and maturing technology are pushing DCs from proving grounds to fully operational AI environments. The research lays out four connected waves: (1) advanced optimisation with traditional AI — demand forecasting, workforce planning, routing and inventory management moving from rigid rule-based models to learning algorithms fed by real-time data; (2) operational generative AI — turning unstructured and semi-structured data into dynamic SOPs, troubleshooting guides and decision support embedded in live operations; (3) prescriptive and semi-autonomous agents — analysing complex logistics data, recommending or partly executing multi-step workflows while the final decision stays human, bridging manual work and full automation; (4) physical AI agents — algorithms plus advanced sensors and robotics taking over picking, packing, sorting and material handling with high precision and throughput. Gartner Senior Principal Analyst Federica Stufano’s advice: start with proven use cases such as labour forecasting and slotting, prove the value, then expand into generative AI and agents where they improve decisions and workforce productivity.",
+        [
+            S("Gartner 观点（转引：IT-Daily）", "https://en.it-daily.net/it-management-en/ai-en/ai-in-logistics-gartner"),
+            S("Inside Logistics（四趋势综述）", "https://www.insidelogistics.ca/trends/gartner-identifies-four-ai-trends-reshaping-warehouse-operations"),
+        ],
+        False,
+    ),
+    IT(
+        "McKinsey：95% 货主已用至少一个运输 AI 用例，真正创造价值的公司有三个共同行为",
+        "McKinsey: 95% of shippers run at least one transportation AI use case — and value creators share three behaviours",
+        "McKinsey 最新分析给出物流 AI 采用的量化底数：95% 的货主已采用至少一个运输 AI 用例，三分之一已有 5 个以上在运行，93% 计划采用 4 个以上受调查用例；74% 的货主在人员、流程、系统与治理四个维度自评 AI 就绪度达 4/5 以上。研究重点不在采用率而在价值转化：真正把 AI 变成价值的公司有三个共同行为——把权衡变得可见（汇合分散数据源并叠加仿真分析，在同一决策环境里同时呈现成本、服务、利用率与风险的相互影响）；让分析贴近运营决策（把仿真、优化与 AI 分析放进运输与仓储运营现场、库存决策与异常管理之中，而非做成独立的分析师职能）；把决策直接连到执行（从承运人选择、车队分配到仓库配置、异常干预与履约路由形成更快的闭环）。对正在建 AI 供应链能力团队的参照：就绪度自评高不等于价值高，「决策-执行闭环」才是分水岭。",
+        "McKinsey’s latest analysis quantifies logistics AI adoption: 95% of shippers have adopted at least one transportation AI use case, a third already run five or more, and 93% plan to adopt four or more of the surveyed use cases; 74% of shippers self-rate four-plus out of five on AI readiness across people, processes, systems and governance. The point is not adoption but value conversion: companies that capture value share three behaviours — making trade-offs visible (pooling disparate data sources with simulation so cost, service, utilisation and risk implications appear in the same decision environment); moving analytics closer to operational decisions (embedding simulation, optimisation and AI analysis in transportation and warehouse operations, inventory decisions and exception management rather than a separate analyst function); and connecting decisions directly to execution (faster closed loops from carrier selection and fleet allocation to warehouse configuration, exception intervention and fulfilment routing). For teams building AI supply-chain capability: high readiness self-scores are not the same as value — the decision-to-execution loop is the real divide.",
+        [
+            S("MHL News（引 McKinsey 分析）", "https://www.mhlnews.com/technology-automation/blog/55405430/creating-value-from-ai-in-logistics"),
+        ],
+        False,
+    ),
+]
+
+# ---------------- 应用风向 / Apps & Adoption ----------------
+APPS = [
+    IT(
+        "亚马逊投 1 亿美元在印第安纳建机器人工厂：生产基地翻倍至四座，全球部署超 100 万台",
+        "Amazon commits $100m+ for a new robot plant in Indiana: production sites double to four, 1m+ robots already deployed",
+        "9 月 24 日，亚马逊宣布将在印第安纳州格林伍德投资逾 1 亿美元新建机器人工厂，预计 2028 年前投产——加上上月宣布的得州奥斯汀中心，其机器人生产基地将从两座翻倍到四座。新厂将创造 300 个制造与工程岗位、平均年薪近 10 万美元。亚马逊 2012 年以 7.75 亿美元收购 Kiva Systems 后进入机器人时代：过去十年累计部署超 100 万台机器人（Sparrow 机械臂、Proteus 自主移动机器人等），覆盖全球 300 多个场地、协助完成约 75% 的客户订单，公司称可记录工伤事故率降低超 40%，同期亦新增数十万员工与机器人协同。社会面张力未消：皮尤调查显示约七成美国成年人认为 AI 将在 20 年内造成岗位流失。对供应链从业者的信号：头部玩家把机器人产能「自研自用」并自建工厂，仓库自动化正从采购决策变成制造决策。",
+        "On Sept 24 Amazon announced it will invest more than $100m in a new robotics manufacturing plant in Greenwood, Indiana, due to be operational by 2028 — doubling its robot production base from two to four sites following last month’s announced Austin, Texas centre. The Indiana plant will create 300 manufacturing and engineering roles at salaries near $100,000. Amazon entered robotics with its 2012 acquisition of Kiva Systems for $775m: over the past decade it has deployed more than 1m robots (Sparrow arms, Proteus AMRs and others) across 300+ sites, assisting roughly 75% of customer orders, with the company reporting a 40%-plus reduction in recordable injury rates — while also adding hundreds of thousands of employees working alongside the machines. The societal tension persists: Pew finds about seven in ten US adults expect AI to cost jobs within 20 years. The signal for supply-chain practitioners: leading players now build robot capacity in-house, turning warehouse automation from a purchasing decision into a manufacturing decision.",
+        [
+            S("环球市场播报（转引：今日头条/新浪财经）", "https://www.toutiao.com/article/7689087788142101002/"),
+            S("今日头条（同源报道：岗位与薪资细节）", "https://www.toutiao.com/article/7689108291108061747"),
+        ],
+        False,
+    ),
+    IT(
+        "Brittany Ferries 数字孪生航线优化省油 6%：数千航次验证 97% 可靠性，已推广到 9 艘船",
+        "Brittany Ferries saves up to 6% fuel with digital-twin routing: 97% reliability validated over thousands of voyages, now on 9 ships",
+        "9 月 26 日披露：Brittany Ferries 与航路优化公司 Adrena、必维集团（Bureau Veritas Solutions M&O）合作的 AdrenaShip 数字孪生航线优化系统实现最高 6% 的燃油节省，且不牺牲班期完整性与服务质量。项目时间线：2016 年启动 AdrenaShip（当时省油约 4%）；2022 年引入必维为每艘船定制数字孪生，用运营数据与工程分析提升航路建议与主机操作指导的精度。验证强度是亮点：在 E-Flexer 级 Galicia 号上完成近两年随船监测、数千个商业航次实测，油耗预测模型可靠性达 97%，结果由独立方在真实航次上测得——航线是法国-英国-根西-爱尔兰-西班牙之间的短程紧班期渡轮，对 ETA 约束极严。系统现已部署到 9 艘船，并纳入公司更广的脱碳计划（配套 OptiCARBON 平台支持改装与船队更新决策）。这是「AI/数字孪生直接降低海运燃油成本」少有的长周期、可审计实测样本。",
+        "Disclosed on Sept 26: AdrenaShip, the digital-twin-enabled routing system developed by Brittany Ferries with route-optimisation firm Adrena and Bureau Veritas Solutions M&O, delivers fuel savings of up to 6% without sacrificing schedule integrity or service quality. Timeline: AdrenaShip launched in 2016 (initially ~4% savings); Bureau Veritas joined in 2022 to build vessel-specific digital twins that sharpen routing recommendations and machinery guidance with operational data and engineering analysis. The validation rigor stands out: nearly two years of onboard monitoring and thousands of commercial voyages aboard E-Flexer-class Galicia, with the consumption-prediction model reaching 97% reliability — measured by an independent body on live crossings with strict ETA windows on the operator’s short France–UK–Guernsey–Ireland–Spain routes. The system is now deployed across nine vessels and sits inside a wider decarbonisation programme (with the OptiCARBON platform supporting retrofit and fleet-renewal decisions). A rare long-horizon, audited field sample of AI/digital twins cutting marine fuel bills directly.",
+        [
+            S("Brittany Ferries 官方 Newsroom", "https://brittanyferriesnewsroom.com/brittany-ferries-adrena-and-bureau-veritas-achieve-up-to-6-energy-savings-through-digital-twin-optimised-routing"),
+            S("Container News", "https://container-news.com/brittany-ferries-cuts-fuel-consumption-by-up-to-6-with-digital-twin-routing/"),
+            S("Ship & Bunker", "https://shipandbunker.com/news/world/357565-brittany-ferries-achieves-up-to-6-fuel-savings-with-digital-twin-routing"),
+        ],
+        True,
+    ),
+    IT(
+        "Maersk 接管 PUMA 美国分销网络：北美首个多客户 AutoStore 仓，年处理约 2000 万件并向其他品牌开放",
+        "Maersk takes over PUMA’s US distribution: North America’s first multi-client AutoStore site, ~20m units a year, open to other brands from 2027",
+        "Maersk 宣布接管 PUMA 美国分销网络的运营管理，在加州 Torrance 落地其北美首个支持多客户运营的 AutoStore 立体仓储部署，年处理能力约 2000 万件，毗邻主要航空与海运门户；自 2027 年起将把富余产能开放给需要自动化履约的其他品牌，Maersk 北美合同物流负责人称目标是「更灵活、可扩展的履约网络」。PUMA 美洲供应链高级副总裁 Helmut Leibbrand 表示，此举旨在让全渠道履约更敏捷并放大既有基础设施投资的价值。对合同物流格局的含义：头部船公司正把 AutoStore 类密集存储加机器人拣选打包成合同物流的标准件，用「一仓多牌」摊薄自动化固定成本——降低品牌方自建自动化的门槛，也把物流巨头之间的竞争从舱位转向仓内运营能力。站点还将作为 Maersk 北美自动化履约的样板，向零售品牌输出同一套能力。",
+        "Maersk announced it will take over management of PUMA’s US distribution network, with a Torrance, California site becoming Maersk North America’s first AutoStore deployment supporting multi-client operations — roughly 20 million units annually, located near major air and ocean gateways. From 2027, spare capacity will be offered to other brands needing automated order fulfilment; Dave Hune, Maersk’s North America Head of Contract Logistics, framed it as a more flexible, scalable fulfilment network. Helmut Leibbrand, SVP Supply Chain Management Americas at PUMA, said the move is about agile omnichannel fulfilment and extracting more value from existing infrastructure investment. The implication for contract logistics: ocean carriers are productising dense-storage-plus-robot-picking as a standard contract-logistics module, amortising automation fixed costs across multiple brands per site — lowering the entry bar for shippers and shifting competition between logistics giants from vessel space to in-warehouse operations. The site doubles as Maersk’s North American showcase for automated fulfilment.",
+        [
+            S("Container News（Maersk × PUMA 报道）", "https://container-news.com/"),
+        ],
+        False,
+    ),
+]
+
+DATA = {
+    "updatedAt": UPDATED_AT,
+    "columns": [
+        {"cat": {"zh": "重点新闻", "en": "Key News"}, "color": COLORS[0], "items": KEY_NEWS},
+        {"cat": {"zh": "热门议题", "en": "Hot Topics"}, "color": COLORS[1], "items": HOT_TOPICS},
+        {"cat": {"zh": "研究瞭望", "en": "Research"}, "color": COLORS[2], "items": RESEARCH},
+        {"cat": {"zh": "应用风向", "en": "Apps & Adoption"}, "color": COLORS[3], "items": APPS},
+    ],
+}
+
+
+def main():
+    payload = json.dumps(DATA, ensure_ascii=False, indent=2)
+
+    # 1) 写 JSON
+    JSON_PATH.write_text(payload + "\n", encoding="utf-8")
+
+    # 2) 同步 index.html 内嵌快照
+    html = HTML_PATH.read_text(encoding="utf-8")
+    pattern = re.compile(
+        r'(<script id="embeddedRadar" type="application/json">)(.*?)(</script>)',
+        re.S,
+    )
+    if not pattern.search(html):
+        raise SystemExit("未找到 embeddedRadar 块，请检查 index.html")
+    html2, n = pattern.subn(lambda m: m.group(1) + "\n" + payload + "\n" + m.group(3), html, count=1)
+    HTML_PATH.write_text(html2, encoding="utf-8")
+
+    total = sum(len(c["items"]) for c in DATA["columns"])
+    verified = sum(1 for c in DATA["columns"] for i in c["items"] if i["verified"])
+    srcs = {s["label"] for c in DATA["columns"] for i in c["items"] for s in i["sources"]}
+    print(f"written: {JSON_PATH}")
+    print(f"synced : {HTML_PATH} (replaced {n} block)")
+    print(f"updatedAt: {UPDATED_AT}")
+    print(f"items: {total} | verified: {verified} | source labels: {len(srcs)}")
+
+
+if __name__ == "__main__":
+    main()
