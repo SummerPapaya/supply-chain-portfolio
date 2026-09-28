@@ -5,6 +5,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="ANJ1xwjmUljoCHnEMwr0Bu" />
 <title>AI 多模型视角下的全球供应链洞察研究 | Supply Chain AI Research Index</title>
 <meta name="description" content="用不同 AI 模型与 Agent 工具制作的供应链行业研究对比、每日热点雷达与衍生应用作品集" data-page-node-id="R30jOt7RdihhSzVTz0Fclr" />
+<!-- 图标：ink 底 + 纸色 SC，与导航栏 .brand-mark 同一套字（SF Mono 轮廓，无字体依赖） -->
+<link rel="icon" href="favicon.ico" sizes="48x48 32x32 16x16" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="icon-32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+<link rel="manifest" href="site.webmanifest" />
+<meta name="theme-color" content="#f7f6f2" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0a0d11" media="(prefers-color-scheme: dark)" />
+<!-- 链接预览：爬虫只读静态标签，不跑 JS，所以这里固定中文口径（og:title 不带站名后缀，卡片里 og:site_name 单独成行） -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="供应链 × AI 研究索引" />
+<meta property="og:title" content="AI 多模型视角下的全球供应链洞察研究" />
+<meta property="og:description" content="用不同 AI 模型与 Agent 工具制作的供应链行业研究对比、每日热点雷达与衍生应用作品集" />
+<meta property="og:url" content="https://supply-chain-lab.summercommences.com/" />
+<meta property="og:image" content="https://supply-chain-lab.summercommences.com/og-cover.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="供应链 × AI 研究索引：ink 底 SC 标记，标题「AI 多模型视角下的全球供应链洞察研究」" />
+<meta property="og:locale" content="zh_CN" />
+<meta property="og:locale:alternate" content="en_US" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="AI 多模型视角下的全球供应链洞察研究" />
+<meta name="twitter:description" content="用不同 AI 模型与 Agent 工具制作的供应链行业研究对比、每日热点雷达与衍生应用作品集" />
+<meta name="twitter:image" content="https://supply-chain-lab.summercommences.com/og-cover.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" data-page-node-id="5gGeabB6jmPOqa1LUUSlpg" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin data-page-node-id="TFlAdzERyWCQYIY0NY2pXH" />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+SC:wght@600;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" data-page-node-id="t22cFIY6CN5ZPclsNjZnDD" />
@@ -193,9 +218,13 @@
   }
   nav.scrolled { border-bottom-color: var(--line-soft); }
   .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+  /* 与 favicon 严格同款：固定 ink 底 + 纸色 SC（刻意不随主题反转）。
+     图标本身也是固定 ink 底，在深色环境里同 `favicon` 置于深色标签栏一样自然融入。 */
   .brand-mark {
-    width: 26px; height: 26px; border: 1.5px solid var(--ink); border-radius: 7px;
+    width: 26px; height: 26px; border-radius: 7px;
+    background: #101418; color: #f7f6f2;
     display: grid; place-items: center; position: relative; overflow: hidden;
+    flex: 0 0 auto;           /* 窄屏下不许被 flex 压扁（原会挤成 16.7×26 的窄条） */
   }
   .brand-mark::after {
     content: ""; position: absolute; inset: 0;
@@ -204,7 +233,7 @@
     animation: sheen 4.5s ease-in-out infinite;
   }
   @keyframes sheen { 0%,55% { transform: translateX(-100%);} 85%,100% { transform: translateX(100%);} }
-  .brand-mark span { font-family: var(--font-mono); font-size: 11px; font-weight: 500; }
+  .brand-mark span { font-family: var(--font-mono); font-size: 13px; font-weight: 500; }
   .brand-name { font-weight: 600; font-size: 14.5px; letter-spacing: .02em; }
   .brand-name em { font-style: normal; color: var(--ink-mute); font-weight: 400; }
   .nav-right { display: flex; align-items: center; gap: 20px; }
