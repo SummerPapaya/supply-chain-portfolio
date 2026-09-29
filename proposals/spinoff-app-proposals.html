@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>衍生应用候选方案 · #2 关税合规 vs #4 需求预测</title>
+<style>
+  :root{
+    --ink:#1c1f23; --ink-soft:#5a6470; --ink-mute:#8b95a1;
+    --line:rgba(28,31,35,.12); --line-soft:rgba(28,31,35,.07);
+    --teal:#0e7a6d; --teal-bg:#e6f2f0;
+    --blue:#1a4fd6; --blue-bg:#eaf0fd;
+    --amber:#8a5a00; --amber-bg:#fdf3e0;
+    --red:#a32d2d; --red-bg:#fcecec;
+    --sans:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:#fff;color:var(--ink);font-family:var(--sans);
+    font-size:14px;line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:920px;margin:0 auto;padding:56px 32px 96px}
+
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+    color:var(--ink-mute);text-transform:uppercase}
+  h1{font-size:27px;font-weight:600;margin:10px 0 6px;letter-spacing:-.01em}
+  .lede{color:var(--ink-soft);font-size:14.5px;margin:0 0 8px;max-width:660px}
+  .meta{font-family:var(--mono);font-size:11.5px;color:var(--ink-mute);
+    padding-bottom:26px;border-bottom:1px solid var(--line)}
+
+  h2{font-size:18px;font-weight:600;margin:52px 0 4px;letter-spacing:-.01em}
+  h2 .n{font-family:var(--mono);font-size:12px;color:var(--teal);
+    margin-right:10px;font-weight:500}
+  .sub{color:var(--ink-mute);font-size:12.5px;margin:0 0 20px}
+
+  h3{font-size:14.5px;font-weight:600;margin:30px 0 10px}
+  p{margin:0 0 13px}
+
+  .card{border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:16px 0}
+  .card.a{border-color:rgba(14,122,109,.34);background:#fbfdfc}
+  .card.b{border-color:rgba(26,79,214,.28);background:#fbfcff}
+
+  .tag{display:inline-block;font-family:var(--mono);font-size:10.5px;
+    letter-spacing:.08em;padding:3px 9px;border-radius:5px;margin-right:6px}
+  .t-ok{background:var(--teal-bg);color:var(--teal)}
+  .t-warn{background:var(--amber-bg);color:var(--amber)}
+  .t-no{background:var(--red-bg);color:var(--red)}
+  .t-info{background:var(--blue-bg);color:var(--blue)}
+
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line-soft);
+    vertical-align:top}
+  th{font-size:11.5px;font-family:var(--mono);letter-spacing:.06em;
+    color:var(--ink-mute);font-weight:500;border-bottom:1px solid var(--line)}
+  td.num{font-family:var(--mono);font-size:12.5px;white-space:nowrap}
+  .win{color:var(--teal);font-weight:600}
+  .lose{color:var(--ink-mute)}
+
+  ul{margin:8px 0 14px;padding-left:19px}
+  li{margin-bottom:7px}
+  li::marker{color:var(--ink-mute)}
+
+  code{font-family:var(--mono);font-size:12px;background:#f3f5f7;
+    padding:1.5px 5px;border-radius:4px;color:#2b3038}
+  a{color:var(--blue);text-decoration:none;border-bottom:1px solid rgba(26,79,214,.28)}
+
+  .layers{display:grid;grid-template-columns:1fr;gap:10px;margin:14px 0}
+  .layer{display:flex;gap:13px;align-items:flex-start;border:1px solid var(--line-soft);
+    border-radius:9px;padding:13px 15px;background:#fff}
+  .layer .lv{font-family:var(--mono);font-size:11px;color:var(--ink-mute);
+    padding-top:2px;min-width:26px}
+  .layer .lt{font-weight:600;font-size:13.5px;margin-bottom:2px}
+  .layer .ld{font-size:12.5px;color:var(--ink-soft);line-height:1.6}
+
+  .bar{height:6px;border-radius:3px;background:#eceef1;margin-top:5px}
+  .bar i{display:block;height:6px;border-radius:3px}
+
+  .verdict{border:1px solid var(--line);border-left:3px solid var(--teal);
+    border-radius:10px;padding:20px 24px;margin:22px 0;background:#fbfdfc}
+  .verdict h3{margin-top:0}
+
+  .note{border-left:2px solid var(--line);padding:2px 0 2px 15px;
+    color:var(--ink-soft);font-size:13px;margin:14px 0}
+
+  footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
+    font-family:var(--mono);font-size:11px;color:var(--ink-mute)}
+  @media(max-width:680px){
+    .wrap{padding:36px 18px 64px} h1{font-size:23px}
+    table{font-size:12px} th,td{padding:7px 6px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">Spin-off application · candidate evaluation</div>
+  <h1>衍生应用候选方案：#2 关税合规 vs #4 需求预测</h1>
+  <p class="lede">「从研究到产品」这条叙事链目前只走通了 1/7。本文件为两个候选缺口各出一版可落地方案，并按作品集已建立的准入标准判定优先级。</p>
+  <div class="meta">supply-chain-portfolio · 2026-09-28 · 方案阶段，未开工</div>
+
+  <h2><span class="n">01</span>为什么现在要补第二个应用</h2>
+  <p class="sub">Background · 结构性缺口</p>
+
+  <p>衍生应用版块目前只有 <strong>VeloCortex Maritime</strong>，而它精确对应「AI 补位 · 工作流缺口 Top 7」的第 1 名（9.3 分）。其余六个缺口全部空置：关税合规 8.4、冷链 8.0、需求预测 7.8、多智能体编排 7.8、ESG 碳核算 7.4、库存优化 7.4。</p>
+  <p>版块标题是「从研究到产品」，但只有 1/7 的缺口被证明能走到产品。补上第二个，不只是数量 +1，而是把「这套方法论可复用」从个例变成规律。</p>
+
+  <h3>准入标准（从 VeloCortex 反推，缺一不可）</h3>
+  <p>VeloCortex 给这个版块立了很高的门槛。任何新应用破坏其中一条，都会稀释作品集已经建立起来的诚信调性：</p>
+  <table>
+    <thead><tr><th style="width:34px">#</th><th>标准</th><th>为什么</th></tr></thead>
+    <tbody>
+      <tr><td class="num">1</td><td>对应 Top 7 中某个缺口</td><td>保住「研究 → 产品」的因果链，否则版块变成作品堆砌</td></tr>
+      <tr><td class="num">2</td><td>有<strong>免密钥 + CORS 开放</strong>的公开源做实时层</td><td>最难的一条。做不到就只能全靠演示数据，与「不冒充实时」的底线冲突</td></tr>
+      <tr><td class="num">3</td><td>纯静态可托管 GitHub Pages</td><td>零后端，可公开复现</td></tr>
+      <tr><td class="num">4</td><td>演示数据与实时数据显式分层</td><td>VeloCortex 已用 DemoDataBanner 立了规矩</td></tr>
+      <tr><td class="num">5</td><td>双语 + 独立 GitHub 仓库</td><td>与既有 5 报告 + 1 应用保持一致</td></tr>
+    </tbody>
+  </table>
+  <div class="note">第 2 条是真正的筛子。下面的方案评估里，两个候选在这一条上差距最大——也是最终排序的决定性因素。</div>
+
+  <h2><span class="n">02</span>数据源实测结果</h2>
+  <p class="sub">Evidence · 实测于 2026-09-27/28</p>
+
+  <p>不做假设，直接带 <code>Origin</code> 头实测了三个候选源的跨域与鉴权情况：</p>
+  <table>
+    <thead><tr><th>数据源</th><th>免密钥</th><th>CORS</th><th>判定</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Federal Register API</strong><br><code>federalregister.gov/api/v1/documents.json</code></td>
+        <td><span class="tag t-ok">YES</span></td>
+        <td><span class="tag t-ok">ACAO: *</span></td>
+        <td class="win">完全达标。实时（查询当天就有新文档）；近 30 天 62 条 HTS 相关文档。可按 agency 过滤 CBP / USITC / USTR。</td>
+      </tr>
+      <tr>
+        <td><strong>USITC HTS</strong><br><code>hts.usitc.gov/reststop/api/…</code></td>
+        <td><span class="tag t-ok">YES</span></td>
+        <td><span class="tag t-warn">不稳定</span></td>
+        <td class="lose">免费、官方，但无 SLA、schema 会变（2026 年已修订 15 次）；本次探测 <code>sectionJSON</code> 超时、<code>htsnoJSON</code> 返回 404。只能做<strong>构建期快照层</strong>。</td>
+      </tr>
+      <tr>
+        <td><strong>UN Comtrade preview</strong><br><code>comtradeplus.un.org/api/preview/…</code></td>
+        <td><span class="tag t-ok">YES</span></td>
+        <td><span class="tag t-no">不发 CORS 头</span></td>
+        <td class="lose">浏览器端被跨域阻断，<strong>做不了实时层</strong>，只能构建期预取后落静态 JSON。</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2><span class="n">03</span>方案 A · 关税与贸易合规雷达</h2>
+  <p class="sub">Candidate A · 对应缺口 #2（8.4 分，紧迫性 10/10）</p>
+
+  <div class="card a">
+    <div><span class="tag t-info">#2</span><span class="tag t-ok">已验证实时源</span></div>
+    <h3 style="margin:12px 0 6px">TariffLens · 关税与贸易合规雷达</h3>
+    <p style="margin:0;color:var(--ink-soft);font-size:13.5px">一句话定位：<strong>把「政策什么时候变、变了影响我多少钱」从人工逐票核对，变成一个可自查、可追溯的实时面板。</strong></p>
+  </div>
+
+  <h3>三层数据架构</h3>
+  <div class="layers">
+    <div class="layer">
+      <div class="lv">L1</div>
+      <div>
+        <div class="lt">实时层 · 政策变更流 <span class="tag t-ok">免密钥 · CORS 全开</span></div>
+        <div class="ld">Federal Register API。拉取 CBP / USITC / USTR / BIS 发布的关税相关文书（ANPRM、最终规则、232/301 公告、征求意见通知），按生效日与影响范围排序。每条附官方原文链接。</div>
+      </div>
+    </div>
+    <div class="layer">
+      <div class="lv">L2</div>
+      <div>
+        <div class="lt">快照层 · HTS 税率表 <span class="tag t-warn">构建期预取</span></div>
+        <div class="ld">USITC HTS 全表（约 32,295 条）构建期抓一次落 JSON，页面显式标注「HTS 快照 YYYY-MM-DD · Revision N」。查不到时明确显示「快照未覆盖」，绝不猜。</div>
+      </div>
+    </div>
+    <div class="layer">
+      <div class="lv">L3</div>
+      <div>
+        <div class="lt">演示层 · 影响测算样例 <span class="tag t-info">标注 DEMO</span></div>
+        <div class="ld">内置若干高波动品类的示例票证（多晶硅、半导体 8541、锂电池 8507.60、钢铝、光伏），用于演示税负差额测算。全部标 [DEMO]，与用户真实输入分区显示。</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>功能模块</h3>
+  <ul>
+    <li><strong>政策变更流</strong>：时间轴 + 倒计时卡片。按「生效日 ≤ 90 天」高亮，直接呼应雷达已有的两个窗口——CBP 境外单证核查 <strong>12 月 1 日征求意见截止</strong>、§232 多晶硅 <strong>12 月 4 日生效</strong>。</li>
+    <li><strong>HS 税率查询</strong>：输入 HS 码 → 返回 general / special / column 2 三档税率与快照版本。</li>
+    <li><strong>税负影响测算</strong>：输入 HS 码 + 货值 + 原产国 + 数量 → 测算 MFN 基准与附加措施叠加后的差额，并给出敏感度区间。</li>
+    <li><strong>口径声明面板</strong>：与 VeloCortex 的 DemoDataBanner 同构，逐块标注数据来源、快照时间、不确定性。</li>
+  </ul>
+
+  <h3>必须避开的坑</h3>
+  <ul>
+    <li><strong>不做自动 HS 归类。</strong>归类是持证报关行的法定工作；AI 做归类一旦出错，就是作品集自己反复批评的「精确的错误」。应用只接受用户已确定的 HS 码。</li>
+    <li><strong>输出「参考测算」而非「应缴税额」。</strong>Chapter 99 附加措施的叠加顺序、排除清单、原产地判定都会改变结果，必须显式声明不确定区间。</li>
+  </ul>
+
+  <h3>成本阶梯（照 VeloCortex 口径写）</h3>
+  <table>
+    <thead><tr><th style="width:120px">层级</th><th>内容</th></tr></thead>
+    <tbody>
+      <tr><td><span class="tag t-ok">已接入 · 免费</span></td><td>Federal Register API（免密钥、CORS 全开、纯静态托管即可运行）；USITC HTS 官方发布（免费但无 SLA，故降级为快照层）</td></tr>
+      <tr><td><span class="tag t-warn">需授权 · 付费</span></td><td>商业关税引擎（Thomson Reuters / Descartes 等，年费量级）；自动归类与报关申报系统对接；企业 ERP 单证流接入</td></tr>
+    </tbody>
+  </table>
+
+  <h2><span class="n">04</span>方案 B · 需求预测模型擂台</h2>
+  <p class="sub">Candidate B · 对应缺口 #4（7.8 分）</p>
+
+  <div class="card b">
+    <div><span class="tag t-info">#4</span><span class="tag t-no">无公开实时源</span><span class="tag t-ok">已有 pilot</span></div>
+    <h3 style="margin:12px 0 6px">ForecastArena · 需求预测模型擂台</h3>
+    <p style="margin:0;color:var(--ink-soft);font-size:13.5px">一句话定位：<strong>用户上传自己的销量数据，在浏览器里让多个预测模型同台竞技，并把「AI 到底有没有打过 baseline」如实摆出来。</strong></p>
+  </div>
+
+  <h3>三层数据架构</h3>
+  <div class="layers">
+    <div class="layer">
+      <div class="lv">L1</div>
+      <div>
+        <div class="lt">用户自带层 · 上传 CSV <span class="tag t-ok">真数据</span></div>
+        <div class="ld">拖入日期 × SKU × 销量的 CSV，浏览器内解析（不上传服务器）。这层的价值是「你的数据、你的结论」，天然规避造数嫌疑。</div>
+      </div>
+    </div>
+    <div class="layer">
+      <div class="lv">L2</div>
+      <div>
+        <div class="lt">结果层 · 既有 pilot 结论 <span class="tag t-warn">负结果</span></div>
+        <div class="ld">AI hybrid MAPE <strong>16.68%</strong> vs Naive lag-7 baseline <strong>12.42%</strong>——AI 落后约 4 个百分点。</div>
+      </div>
+    </div>
+    <div class="layer">
+      <div class="lv">L3</div>
+      <div>
+        <div class="lt">演示层 · 可复现样例 <span class="tag t-info">标注 DEMO</span></div>
+        <div class="ld">内置脱敏/合成时序样例，保证首次打开即有内容可看；牛鞭效应沿层级放大演示。</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>功能模块</h3>
+  <ul>
+    <li><strong>上传即跑</strong>：自动切分 train / test，跑 baseline 组（Naive lag-7、移动平均、季节性 Naive、指数平滑）与轻量模型组。</li>
+    <li><strong>擂台对比</strong>：MAPE / MAE / RMSE 横向表 + 时序曲线叠加。</li>
+    <li><strong>诚实披露徽章</strong>：模型未超越 baseline 时，显式显示「模型未超越 baseline」并给出差距分析——这是本方案最强的差异化点。</li>
+    <li><strong>牛鞭效应演示</strong>：呼应雷达「热门议题」栏的牛鞭效应条目。</li>
+  </ul>
+
+  <h3>硬约束与风险</h3>
+  <ul>
+    <li><strong>没有免密钥公开实时源</strong>——这是它相对方案 A 最大的短板，直接卡在准入标准第 2 条。只能靠「用户上传」替代。</li>
+    <li><strong>浏览器内跑不了真模型。</strong>Naive / MA / 指数平滑纯 JS 很好实现；但 GBM、Prophet 这类要在浏览器跑不现实（WASM 太重）。若改成预计算结果再展示，就退化成静态报告，与已有的 Codex 报告定位重复。</li>
+    <li><strong>「多模型集成」的 AI 含量因而偏低</strong>，容易做成统计玩具。</li>
+  </ul>
+
+  <h2><span class="n">05</span>横向对比</h2>
+  <p class="sub">Comparison · 按准入标准逐条打分</p>
+
+  <table>
+    <thead><tr><th style="width:30%">评估维度</th><th style="width:35%">A · TariffLens</th><th style="width:35%">B · ForecastArena</th></tr></thead>
+    <tbody>
+      <tr><td>① 对应 Top 7 缺口</td><td class="win">#2 · 8.4 分，紧迫性 10/10</td><td>#4 · 7.8 分</td></tr>
+      <tr><td>② 免密钥 + CORS 实时层</td><td class="win">已实测达标（Federal Register）</td><td class="lose">无；靠用户上传替代</td></tr>
+      <tr><td>③ 纯静态托管</td><td class="win">可，且无需 LLM 密钥</td><td class="win">可，但模型能力受限</td></tr>
+      <tr><td>④ 演示 / 实时分层</td><td class="win">三层清晰，边界明确</td><td>分层可行，但实时层缺位</td></tr>
+      <tr><td>⑤ 双语 + 独立仓库</td><td class="win">可</td><td class="win">可</td></tr>
+      <tr><td>时效钩子</td><td class="win">12/1 CBP 截止、12/4 §232 生效</td><td class="lose">无外部时间锚点</td></tr>
+      <tr><td>是否重复既有内容</td><td class="win">开辟关务合规新维度</td><td class="lose">「多模型对比」已被 5 份报告充分表达</td></tr>
+      <tr><td>叙事差异化</td><td>政策窗口期 + 合规红线意识</td><td class="win">诚实负结果（AI 打不过 baseline）</td></tr>
+      <tr><td>主要风险</td><td>税率叠加口径易出错</td><td class="lose">易做成玩具；无实时层</td></tr>
+    </tbody>
+  </table>
+
+  <h3>综合评分</h3>
+  <table>
+    <thead><tr><th style="width:46%">维度（沿用缺口榜权重思路）</th><th style="width:27%">A</th><th style="width:27%">B</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>准入合规度</td>
+        <td class="num">9.5 <div class="bar"><i style="width:95%;background:#0e7a6d"></i></div></td>
+        <td class="num">6.0 <div class="bar"><i style="width:60%;background:#8b95a1"></i></div></td>
+      </tr>
+      <tr>
+        <td>业务价值</td>
+        <td class="num">9.0 <div class="bar"><i style="width:90%;background:#0e7a6d"></i></div></td>
+        <td class="num">9.0 <div class="bar"><i style="width:90%;background:#1a4fd6"></i></div></td>
+      </tr>
+      <tr>
+        <td>落地可行性</td>
+        <td class="num">8.5 <div class="bar"><i style="width:85%;background:#0e7a6d"></i></div></td>
+        <td class="num">6.5 <div class="bar"><i style="width:65%;background:#8b95a1"></i></div></td>
+      </tr>
+      <tr>
+        <td>数据就绪度</td>
+        <td class="num">8.5 <div class="bar"><i style="width:85%;background:#0e7a6d"></i></div></td>
+        <td class="num">5.0 <div class="bar"><i style="width:50%;background:#8b95a1"></i></div></td>
+      </tr>
+      <tr>
+        <td>时效紧迫性</td>
+        <td class="num">10 <div class="bar"><i style="width:100%;background:#0e7a6d"></i></div></td>
+        <td class="num">7.0 <div class="bar"><i style="width:70%;background:#1a4fd6"></i></div></td>
+      </tr>
+      <tr>
+        <td><strong>加权综合</strong></td>
+        <td class="num win"><strong>9.1</strong></td>
+        <td class="num">6.8</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="verdict">
+    <h3>结论：优先做方案 A（TariffLens）</h3>
+    <p><strong>决定性因素是准入标准第 2 条。</strong>方案 A 是唯一实测拿到「免密钥 + CORS 开放」实时源的候选，能延续 VeloCortex 立下的「实时数据层全部真实」底线；方案 B 在这一条上无解，只能靠用户上传替代，本质上是个离线工具。</p>
+    <p>其次，A 有真实时间锚点——雷达里已经躺着 CBP <strong>12 月 1 日</strong>征求意见截止与 §232 多晶硅 <strong>12 月 4 日</strong>生效，现在上线正好卡在政策窗口期，作品集能讲「当下正在发生的事」。而 B 的「多模型对比」主题已被 5 份报告充分表达过，再做一次是重复叙事。</p>
+    <p style="margin-bottom:0">但 <strong>B 不该丢</strong>：它握着 A 没有的独特资产——「AI hybrid 16.68% 没打过 Naive lag-7 12.42%」这个诚实负结果。市面上几乎没有作品集敢把 AI 输给 baseline 摆出来，而这恰好与本站「口径守门人」「不冒充实时」「衍生值一律标 [derived]」的调性完全一致。建议 <strong>B 排在 A 之后作为第三个应用</strong>，届时以「方法论实验」而非「指挥中心」定位，并显式标注其数据层为「用户自带 / 演示」。</p>
+  </div>
+
+  <h2><span class="n">06</span>下一步</h2>
+  <p class="sub">Next step</p>
+  <p>单步推进：先确认 <strong>TariffLens 的三层数据架构与功能边界</strong>是否认可（尤其「不做自动归类、只出参考测算」这条红线）。确认后，下一步产出 Federal Register API 的字段级接入清单与页面骨架设计。</p>
+
+  <footer>
+    supply-chain-portfolio · 衍生应用候选方案 · 2026-09-28<br>
+    数据源结论均为实测；未开工，未改动站点任何文件
+  </footer>
+
+</div>
+</body>
+</html>

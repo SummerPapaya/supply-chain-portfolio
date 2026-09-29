@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>数据可得性清单 · A 关税 / B 需求预测</title>
+<style>
+  :root{
+    --ink:#1c1f23; --ink-soft:#5a6470; --ink-mute:#8b95a1;
+    --line:rgba(28,31,35,.12); --line-soft:rgba(28,31,35,.07);
+    --teal:#0e7a6d; --teal-bg:#e6f2f0;
+    --blue:#1a4fd6; --blue-bg:#eaf0fd;
+    --amber:#8a5a00; --amber-bg:#fdf3e0;
+    --red:#a32d2d; --red-bg:#fcecec;
+    --sans:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:#fff;color:var(--ink);font-family:var(--sans);
+    font-size:14px;line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:940px;margin:0 auto;padding:56px 32px 96px}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+    color:var(--ink-mute);text-transform:uppercase}
+  h1{font-size:26px;font-weight:600;margin:10px 0 6px;letter-spacing:-.01em}
+  .lede{color:var(--ink-soft);font-size:14.5px;margin:0 0 8px;max-width:680px}
+  .meta{font-family:var(--mono);font-size:11.5px;color:var(--ink-mute);
+    padding-bottom:26px;border-bottom:1px solid var(--line)}
+  h2{font-size:18px;font-weight:600;margin:50px 0 4px;letter-spacing:-.01em}
+  h2 .n{font-family:var(--mono);font-size:12px;color:var(--teal);
+    margin-right:10px;font-weight:500}
+  .sub{color:var(--ink-mute);font-size:12.5px;margin:0 0 18px}
+  h3{font-size:14.5px;font-weight:600;margin:26px 0 8px}
+  p{margin:0 0 12px}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+  th{font-size:11.5px;font-family:var(--mono);letter-spacing:.05em;
+    color:var(--ink-mute);font-weight:500;border-bottom:1px solid var(--line)}
+  td.mono,code{font-family:var(--mono);font-size:12px}
+  code{background:#f3f5f7;padding:1.5px 5px;border-radius:4px;color:#2b3038;
+    word-break:break-all}
+  ul{margin:8px 0 14px;padding-left:19px}
+  li{margin-bottom:6px}
+  li::marker{color:var(--ink-mute)}
+  .tag{display:inline-block;font-family:var(--mono);font-size:10.5px;
+    letter-spacing:.08em;padding:3px 9px;border-radius:5px;margin-right:6px}
+  .t-ok{background:var(--teal-bg);color:var(--teal)}
+  .t-warn{background:var(--amber-bg);color:var(--amber)}
+  .t-no{background:var(--red-bg);color:var(--red)}
+  .t-info{background:var(--blue-bg);color:var(--blue)}
+  .card{border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin:14px 0}
+  .card.a{border-color:rgba(14,122,109,.34);background:#fbfdfc}
+  .card.b{border-color:rgba(26,79,214,.28);background:#fbfcff}
+  .layers{display:grid;gap:10px;margin:14px 0}
+  .layer{display:flex;gap:13px;align-items:flex-start;border:1px solid var(--line-soft);
+    border-radius:9px;padding:13px 15px;background:#fff}
+  .layer .lv{font-family:var(--mono);font-size:11px;color:var(--ink-mute);
+    padding-top:2px;min-width:26px}
+  .layer .lt{font-weight:600;font-size:13.5px;margin-bottom:2px}
+  .layer .ld{font-size:12.5px;color:var(--ink-soft);line-height:1.6}
+  .verdict{border:1px solid var(--line);border-left:3px solid var(--teal);
+    border-radius:10px;padding:18px 22px;margin:20px 0;background:#fbfdfc}
+  .verdict h3{margin-top:0}
+  .note{border-left:2px solid var(--line);padding:2px 0 2px 15px;
+    color:var(--ink-soft);font-size:13px;margin:12px 0}
+  .warn{border-left:2px solid #e0a020;padding:2px 0 2px 15px;
+    color:#7a4f00;font-size:13px;margin:12px 0;background:#fffdf7}
+  footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);
+    font-family:var(--mono);font-size:11px;color:var(--ink-mute)}
+  @media(max-width:680px){.wrap{padding:36px 18px 64px} h1{font-size:22px}
+    table{font-size:12px} th,td{padding:6px 5px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">Data availability · verified 2026-09-28</div>
+  <h1>数据可得性清单：A 关税合规 / B 需求预测</h1>
+  <p class="lede">两个候选方案到底能拿到什么数据——逐条实测，区分「真实数据」与「备选 demo dataset」。所有结论均来自实际请求，非推测。</p>
+  <div class="meta">supply-chain-portfolio · 2026-09-28 · 全部端点实测于本机沙箱</div>
+
+  <h2><span class="n">01</span>总览</h2>
+  <p class="sub">Summary</p>
+  <table>
+    <thead><tr><th style="width:20%">方案</th><th style="width:24%">真实实时层</th><th style="width:28%">真实快照层</th><th style="width:28%">Demo dataset</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>A · TariffLens</strong><br>关税合规</td>
+        <td><span class="tag t-ok">已验证</span>Federal Register API<br>CORS <code>*</code> · 免密钥</td>
+        <td><span class="tag t-ok">已验证</span>USITC HTS 整表<br>35,502 条 · 13.5 MB</td>
+        <td><span class="tag t-info">内置</span>高波动品类样例票证</td>
+      </tr>
+      <tr>
+        <td><strong>B · ForecastArena</strong><br>需求预测</td>
+        <td class="mono"><span class="tag t-no">无</span>不存在免密钥 + CORS 的公开销量源</td>
+        <td class="mono"><span class="tag t-warn">仅用户自带</span>上传 CSV</td>
+        <td><span class="tag t-ok">已验证</span>Favorita 商店销量<br>300 万行 · 免登录可取</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2><span class="n">02</span>A · TariffLens 三层数据</h2>
+  <p class="sub">Candidate A · 两层真实数据均已打通</p>
+
+  <div class="layers">
+    <div class="layer">
+      <div class="lv">L1</div>
+      <div>
+        <div class="lt">实时层 · 政策变更流 <span class="tag t-ok">免密钥 · CORS 全开</span></div>
+        <div class="ld">
+          <code>https://www.federalregister.gov/api/v1/documents.json</code><br>
+          实测响应头 <code>access-control-allow-origin: *</code>。近 60 天命中 <strong>95 条</strong> HTS 相关文档。
+        </div>
+      </div>
+    </div>
+    <div class="layer">
+      <div class="lv">L2</div>
+      <div>
+        <div class="lt">快照层 · HTS 税率表 <span class="tag t-ok">已下载验证</span></div>
+        <div class="ld">
+          <code>https://www.usitc.gov/sites/default/files/tata/hts/hts_2026_revision_9_json.json</code><br>
+          HTTP 200 · <strong>13.5 MB</strong> · <strong>35,502 条</strong>。构建期下载后精简，不走运行时。
+        </div>
+      </div>
+    </div>
+    <div class="layer">
+      <div class="lv">L3</div>
+      <div>
+        <div class="lt">演示层 · 样例票证 <span class="tag t-info">标注 DEMO</span></div>
+        <div class="ld">多晶硅、半导体 8541、锂电池 8507.60、钢铝、光伏等高波动品类的示例票证。</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>L1 · Federal Register 可用字段</h3>
+  <table>
+    <thead><tr><th style="width:26%">字段</th><th style="width:16%">类型</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">title</td><td>string</td><td>文书标题</td></tr>
+      <tr><td class="mono">publication_date</td><td>date</td><td>发布日期</td></tr>
+      <tr><td class="mono">type</td><td>string</td><td><code>Rule</code> / <code>Notice</code> / <code>Proposed Rule</code>——可用于区分「已生效」与「征求意见中」</td></tr>
+      <tr><td class="mono">effective_on</td><td>date?</td><td><strong>生效日</strong>，做倒计时卡片的关键字段（Notice 类可能为 null）</td></tr>
+      <tr><td class="mono">agencies</td><td>array</td><td>可按 CBP / USITC / USTR / BIS / Commerce 过滤</td></tr>
+      <tr><td class="mono">html_url</td><td>url</td><td>官方原文链接，来源可溯</td></tr>
+      <tr><td class="mono">abstract</td><td>string</td><td>摘要正文，可做条目摘要</td></tr>
+      <tr><td class="mono">document_number</td><td>string</td><td>稳定唯一标识</td></tr>
+    </tbody>
+  </table>
+  <div class="note"><strong>实测命中雷达条目：</strong>多晶硅 §232 的官方原文就在里面——「Measures To Restrict Stockpiling of Polysilicon and Polysilicon Derivatives」，Commerce + BIS 发布，2026-09-24 公开、<strong>2026-09-22 生效</strong>。作品集的雷达条目与应用数据层可直接互链。</div>
+
+  <h3>L2 · HTS 整表字段与覆盖</h3>
+  <table>
+    <thead><tr><th style="width:26%">字段</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">htsno</td><td>HS 编码（含层级，如 <code>8507.60.00</code>）</td></tr>
+      <tr><td class="mono">indent</td><td>缩进层级，用于还原税则树</td></tr>
+      <tr><td class="mono">description</td><td>官方商品描述</td></tr>
+      <tr><td class="mono">general</td><td><strong>Column 1 一般税率（MFN）</strong>——13,659 条有值</td></tr>
+      <tr><td class="mono">special</td><td>优惠/FTA 税率（含 USMCA、GSP 等程序代码）</td></tr>
+      <tr><td class="mono">other</td><td>Column 2（非 MFN）</td></tr>
+      <tr><td class="mono">additionalDuties</td><td><strong>附加关税</strong>——512 条有值，即 232 / 301 等 Chapter 99 措施的载体</td></tr>
+      <tr><td class="mono">footnotes / quotaQuantity</td><td>脚注与配额</td></tr>
+    </tbody>
+  </table>
+
+  <h3>L2 · 关键品类实测结果</h3>
+  <table>
+    <thead><tr><th style="width:24%">HS 码</th><th style="width:34%">品目</th><th style="width:22%">general</th><th>备注</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">8507.60.00</td><td>锂离子电池</td><td class="mono">3.4%</td><td>special 含多国 Free</td></tr>
+      <tr><td class="mono">8541.10.00</td><td>二极管</td><td class="mono">Free</td><td>半导体主类</td></tr>
+      <tr><td class="mono">2804.61.00.00</td><td>多晶硅（含硅 ≥99.99%）</td><td class="mono">Free</td><td><strong>见下方红线说明</strong></td></tr>
+      <tr><td class="mono">8703.10.10.00</td><td>乘用车（雪地专用）</td><td class="mono">2.5%</td><td>—</td></tr>
+      <tr><td class="mono">7210.11.00.00</td><td>镀锡钢板 ≥0.5mm</td><td class="mono">Free</td><td>对应在查的 Tin Mill 案</td></tr>
+    </tbody>
+  </table>
+
+  <div class="warn">
+    <strong>数据本身自证了那条红线。</strong>多晶硅 2804.61 的 <code>general</code> 是 <code>Free</code>，但 §232 关税并不在这个字段里——它挂在 <code>additionalDuties</code> / Chapter 99 附加措施上。
+    这正是方案里定死「只出参考测算、不出应缴税额」的原因：只看基础税率会得出「零关税」的严重误导。
+  </div>
+
+  <h3>L2 · 体积处理</h3>
+  <p>整表 13.5 MB 不能直接进前端。构建期精简为「HS 码 + 描述 + general/special/other + additionalDuties」的子集，预计压到 <strong>300–600 KB</strong>；或按章节切片、按需加载。</p>
+
+  <h2><span class="n">03</span>B · ForecastArena 数据</h2>
+  <p class="sub">Candidate B · 无真实实时层，demo dataset 已落实</p>
+
+  <h3>真实实时层：确认不存在</h3>
+  <p>销量数据天然是企业私有（POS / OMS / ERP），不存在免密钥 + CORS 的公开源。B 的实时层只能由「用户上传」承担——这与方案 B 原本的定位一致，也意味着它按准入标准第 2 条不达标。</p>
+
+  <h3>Demo dataset：三个可选，推荐第一个</h3>
+  <table>
+    <thead><tr><th style="width:22%">数据集</th><th style="width:20%">规模</th><th>结构与适配度</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Corporación Favorita 商店销量</strong><br><span class="tag t-ok">推荐</span></td>
+        <td class="mono">3,000,888 行</td>
+        <td>字段 <code>date</code> / <code>store_nbr</code> / <code>family</code> / <code>sales</code> / <code>onpromotion</code>。
+        <strong>天然的多级结构</strong>（店 × 品类 × 日），正好对应「多级需求预测」；<code>onpromotion</code> 可做促销扰动因子。
+        HuggingFace 免登录可取，实测返回真实数据行。</td>
+      </tr>
+      <tr>
+        <td>UCI Online Retail II</td>
+        <td class="mono">45.6 MB<br>（zip）</td>
+        <td>英国在线零售两年交易级数据，CC BY 4.0，实测 HTTP 200。交易粒度而非 SKU×日，需自行聚合。</td>
+      </tr>
+      <tr>
+        <td>用户 pilot 数据</td>
+        <td class="mono">私有</td>
+        <td>已有 MAPE 16.68% vs 12.42% 结论。<strong>是否可公开需确认</strong>——含真实业务数据则需脱敏或仅展示聚合结论。</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>浏览器端能力边界（决定了 B 能做成什么）</h3>
+  <table>
+    <thead><tr><th style="width:50%">可跑</th><th>跑不了</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Naive lag-7 / 季节性 Naive / 移动平均 / 指数平滑（SES）/ Holt-Winters / Croston（间歇需求）</td>
+        <td>GBM、Prophet、深度学习——要么太重，要么需预计算，而预计算后即退化成静态报告（与已有 Codex 报告定位重复）</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="verdict">
+    <h3>结论</h3>
+    <p><strong>A 两层真实数据全部打通，可以开工。</strong>L1 实时（Federal Register，CORS 全开、免密钥）+ L2 快照（USITC HTS 整表，35,502 条已下载验证），加上内置的品类样例票证，三层齐备，且无需任何 API 密钥。</p>
+    <p><strong>B 拿不到真实实时数据</strong>，但 demo dataset 已落实（Favorita 300 万行，免登录可取，结构天然适配多级预测）。它的形态被限定为「用户上传 + 内置 demo」，按准入标准仍排在 A 之后。</p>
+    <p style="margin-bottom:0"><strong>执行顺序建议：A 先做（数据已就绪）→ B 次之 → 库存蓝图最后</strong>（它连 demo 都只能用模拟数据，但原型现成、改造成本最低）。</p>
+  </div>
+
+  <footer>
+    supply-chain-portfolio · 数据可得性清单 · 2026-09-28<br>
+    所有端点实测；结论随源方可得性变化需复验
+  </footer>
+
+</div>
+</body>
+</html>
