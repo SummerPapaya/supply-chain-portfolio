@@ -59,26 +59,18 @@
     </g>
 
     <!-- Five actual report toolchains, converging into a shared research lens. -->
-    <g id="research-lanes" class="sans" font-size="20" fill="#3d454d">
-      <text x="828" y="158" text-anchor="end">Cursor x Grok 4.5</text>
-      <text x="828" y="213" text-anchor="end">Kimi K3 Deep Research</text>
-      <text x="828" text-anchor="end" aria-label="WorkBuddy x Deepseek-V4-Pro">
-        <tspan x="828" y="256">WorkBuddy x</tspan>
-        <tspan x="828" y="281">Deepseek-V4-Pro</tspan>
-      </text>
-      <text x="828" y="323" text-anchor="end">Gemini 3.6 Flash</text>
-      <text x="828" y="378" text-anchor="end">Codex GPT-6 Astra</text>
+    <g id="research-lanes" class="sans" font-size="20.5" fill="#3d454d">
+      <text x="910" y="154" text-anchor="end">Cursor x Grok 4.5</text>
+      <text x="910" y="212" text-anchor="end">Kimi K3 Deep Research</text>
+      <text x="910" y="270" text-anchor="end">WorkBuddy x Deepseek-V4-Pro</text>
+      <text x="910" y="328" text-anchor="end">Gemini 3.6 Flash</text>
+      <text x="910" y="386" text-anchor="end">Codex GPT-6 Astra</text>
       <g fill="none" stroke="#dcd9d0" stroke-width="2" stroke-linecap="round">
-        <path id="lane-1" d="M850 152 C928 152 930 246 1022 264"/>
-        <path id="lane-2" d="M850 207 C930 207 948 251 1022 264"/>
-        <path id="lane-3" d="M850 262 L1022 264"/>
-        <path id="lane-4" d="M850 317 C930 317 948 277 1022 264"/>
-        <path id="lane-5" d="M850 372 C928 372 930 282 1022 264"/>
-      </g>
-      <g fill="#f7f6f2" stroke="#1a4fd6" stroke-width="2">
-        <circle cx="850" cy="152" r="5"/><circle cx="850" cy="207" r="5"/>
-        <circle cx="850" cy="262" r="5"/><circle cx="850" cy="317" r="5"/>
-        <circle cx="850" cy="372" r="5"/>
+        <path id="lane-1" d="M930 148 C966 148 964 246 1022 264"/>
+        <path id="lane-2" d="M930 206 C966 206 976 251 1022 264"/>
+        <path id="lane-3" d="M930 264 L1022 264"/>
+        <path id="lane-4" d="M930 322 C966 322 976 277 1022 264"/>
+        <path id="lane-5" d="M930 380 C966 380 964 282 1022 264"/>
       </g>
     </g>
 
@@ -104,12 +96,17 @@
     </g>
 
     <!-- Motion sequence: compare → scan → source verified → a quiet hold. -->
+    <g id="research-ports" fill="#f7f6f2" stroke="#1a4fd6" stroke-width="2">
+      <circle cx="930" cy="148" r="5"/><circle cx="930" cy="206" r="5"/>
+      <circle cx="930" cy="264" r="5"/><circle cx="930" cy="322" r="5"/>
+      <circle cx="930" cy="380" r="5"/>
+    </g>
     <g data-motion="packets" id="information-flow" fill="none" stroke="#1a4fd6" stroke-width="3.5" stroke-linecap="round">
-      <path class="packet" pathLength="100" d="M850 152 C928 152 930 246 1022 264"/>
-      <path class="packet packet-2" pathLength="100" d="M850 207 C930 207 948 251 1022 264"/>
-      <path class="packet packet-3" pathLength="100" d="M850 262 L1022 264"/>
-      <path class="packet packet-4" pathLength="100" d="M850 317 C930 317 948 277 1022 264"/>
-      <path class="packet packet-5" pathLength="100" d="M850 372 C928 372 930 282 1022 264"/>
+      <path class="packet" pathLength="100" d="M930 148 C966 148 964 246 1022 264"/>
+      <path class="packet packet-2" pathLength="100" d="M930 206 C966 206 976 251 1022 264"/>
+      <path class="packet packet-3" pathLength="100" d="M930 264 L1022 264"/>
+      <path class="packet packet-4" pathLength="100" d="M930 322 C966 322 976 277 1022 264"/>
+      <path class="packet packet-5" pathLength="100" d="M930 380 C966 380 964 282 1022 264"/>
     </g>
     <g id="comparison-focus">
       <circle cx="1040" cy="264" r="18" fill="#f7f6f2" stroke="#1a4fd6" stroke-width="2"/>
@@ -121,12 +118,12 @@
     <!-- Real portfolio contents. No decorative metrics or invented charts. -->
     <path d="M64 472 H1136" stroke="#dcd9d0" stroke-width="1.5"/>
     <g id="portfolio-contents" class="sans">
-      <text class="mono" x="64" y="528" font-size="42" fill="#1a4fd6">05</text>
-      <text x="140" y="523" font-size="25" font-weight="600" fill="#101418">独立研究报告</text>
-      <text x="140" y="552" font-size="20" fill="#6e767f">Independent reports</text>
+      <text x="64" y="523" font-size="25" font-weight="600" fill="#101418">每周供应链雷达</text>
+      <text x="64" y="552" font-size="20" fill="#0e7a6d">Weekly Radar · source-linked</text>
       <path d="M396 505 V554 M759 505 V554" stroke="#dcd9d0"/>
-      <text x="440" y="523" font-size="25" font-weight="600" fill="#101418">每周供应链雷达</text>
-      <text x="440" y="552" font-size="20" fill="#0e7a6d">Weekly Radar · source-linked</text>
+      <text class="mono" x="440" y="528" font-size="42" fill="#1a4fd6">05</text>
+      <text x="516" y="523" font-size="25" font-weight="600" fill="#101418">独立研究报告</text>
+      <text x="516" y="552" font-size="20" fill="#6e767f">Independent reports</text>
       <text class="mono" x="803" y="528" font-size="42" fill="#0e7a6d">02</text>
       <text x="878" y="523" font-size="22" font-weight="600" fill="#101418">衍生应用 / Spin-off apps</text>
       <text x="803" y="552" font-size="20" fill="#6e767f">VeloCortex Maritime · TariffLens</text>
