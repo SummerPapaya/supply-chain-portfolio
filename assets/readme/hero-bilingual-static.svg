@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600" role="img" aria-labelledby="hero-title hero-desc">
+  <title id="hero-title">Supply Chain Intelligence · 全球供应链多模型洞察</title>
+  <desc id="hero-desc">Supply Chain Portfolio: one research brief, five independent AI perspectives — Cursor x Grok 4.5, Kimi K3 Deep Research, WorkBuddy x Deepseek-V4-Pro, Gemini 3.6 Flash and Codex GPT-6 Astra. Weekly Radar and two research spin-offs: VeloCortex Maritime and TariffLens. 供应链研究作品集：同一命题、五种独立 AI 视角，每周情报雷达与两个研究衍生应用。静态备用版本。</desc>
+  <defs>
+    <clipPath id="frame-clip">
+      <rect width="1200" height="600" rx="24" />
+    </clipPath>
+    <clipPath id="globe-clip">
+      <circle cx="1040" cy="264" r="112" />
+    </clipPath>
+    <style>
+      .sans { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
+      .serif { font-family: Georgia, 'Times New Roman', serif; }
+      .mono { font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace; }
+    </style>
+  </defs>
+  <g clip-path="url(#frame-clip)">
+    <rect width="1200" height="600" fill="#f7f6f2" />
+    <g id="identity" transform="translate(64 44)">
+      <rect width="52" height="52" rx="14" fill="#101418" />
+      <text class="mono" x="26" y="34" text-anchor="middle" font-size="26" font-weight="500" letter-spacing="-2" fill="#f7f6f2">SC</text>
+      <text class="mono" x="74" y="20" font-size="20" letter-spacing="2" fill="#101418">SUPPLY CHAIN PORTFOLIO</text>
+      <text class="sans" x="74" y="48" font-size="18" fill="#6e767f">AI 多模型研究作品集 / MULTI-MODEL RESEARCH</text>
+    </g>
+    <g id="title-block">
+      <text class="serif" x="62" y="195" font-size="82" font-weight="700" letter-spacing="-3" fill="#101418">Supply Chain</text>
+      <text class="serif" x="62" y="284" font-size="88" font-weight="700" letter-spacing="-3" fill="#1a4fd6">Intelligence.</text>
+      <text class="sans" x="66" y="346" font-size="40" font-weight="600" letter-spacing="1" fill="#101418">全球供应链 · 多模型洞察</text>
+      <text class="sans" x="66" y="400" font-size="25" fill="#3d454d">一个命题，五种独立视角。</text>
+      <text class="sans" x="66" y="433" font-size="23" fill="#6e767f">One brief. Five independent perspectives.</text>
+    </g>
+    <g id="research-lanes" class="sans" font-size="20" fill="#3d454d">
+      <text x="828" y="158" text-anchor="end">Cursor x Grok 4.5</text>
+      <text x="828" y="213" text-anchor="end">Kimi K3 Deep Research</text>
+      <text x="828" text-anchor="end" aria-label="WorkBuddy x Deepseek-V4-Pro">
+        <tspan x="828" y="256">WorkBuddy x</tspan>
+        <tspan x="828" y="281">Deepseek-V4-Pro</tspan>
+      </text>
+      <text x="828" y="323" text-anchor="end">Gemini 3.6 Flash</text>
+      <text x="828" y="378" text-anchor="end">Codex GPT-6 Astra</text>
+      <g fill="none" stroke="#dcd9d0" stroke-width="2" stroke-linecap="round">
+        <path id="lane-1" d="M850 152 C928 152 930 246 1022 264" />
+        <path id="lane-2" d="M850 207 C930 207 948 251 1022 264" />
+        <path id="lane-3" d="M850 262 L1022 264" />
+        <path id="lane-4" d="M850 317 C930 317 948 277 1022 264" />
+        <path id="lane-5" d="M850 372 C928 372 930 282 1022 264" />
+      </g>
+      <g fill="#f7f6f2" stroke="#1a4fd6" stroke-width="2">
+        <circle cx="850" cy="152" r="5" />
+        <circle cx="850" cy="207" r="5" />
+        <circle cx="850" cy="262" r="5" />
+        <circle cx="850" cy="317" r="5" />
+        <circle cx="850" cy="372" r="5" />
+      </g>
+    </g>
+    <g id="global-research-lens">
+      <circle cx="1040" cy="264" r="112" fill="#eef0ed" fill-opacity=".7" stroke="#cbd5d7" stroke-width="1.5" />
+      <g clip-path="url(#globe-clip)" fill="none" stroke="#cbd5d7" stroke-width="1.2">
+        <ellipse cx="1040" cy="264" rx="39" ry="112" />
+        <ellipse cx="1040" cy="264" rx="81" ry="112" />
+        <ellipse cx="1040" cy="264" rx="112" ry="41" />
+        <ellipse cx="1040" cy="264" rx="112" ry="82" />
+        <path d="M928 264 H1152 M1040 152 V376" />
+      </g>
+      <g fill="none" stroke="#0e7a6d" stroke-width="2.2" stroke-linecap="round">
+        <path d="M991 195 Q1096 184 1122 307" />
+        <path d="M965 309 Q1050 358 1112 234" />
+      </g>
+      <g fill="#0e7a6d" stroke="#f7f6f2" stroke-width="3">
+        <circle cx="991" cy="195" r="5" />
+        <circle cx="1122" cy="307" r="5" />
+        <circle cx="965" cy="309" r="5" />
+        <circle cx="1112" cy="234" r="5" />
+      </g>
+    </g>
+    <g id="comparison-focus">
+      <circle cx="1040" cy="264" r="18" fill="#f7f6f2" stroke="#1a4fd6" stroke-width="2" />
+      <circle cx="1040" cy="264" r="5" fill="#1a4fd6" />
+      <text class="mono" x="1040" y="425" text-anchor="middle" font-size="18" letter-spacing="1" fill="#0e7a6d">COMPARE / 对照</text>
+    </g>
+    <path d="M64 472 H1136" stroke="#dcd9d0" stroke-width="1.5" />
+    <g id="portfolio-contents" class="sans">
+      <text class="mono" x="64" y="528" font-size="42" fill="#1a4fd6">05</text>
+      <text x="140" y="523" font-size="25" font-weight="600" fill="#101418">独立研究报告</text>
+      <text x="140" y="552" font-size="20" fill="#6e767f">Independent reports</text>
+      <path d="M396 505 V554 M759 505 V554" stroke="#dcd9d0" />
+      <text x="440" y="523" font-size="25" font-weight="600" fill="#101418">每周供应链雷达</text>
+      <text x="440" y="552" font-size="20" fill="#0e7a6d">Weekly Radar · source-linked</text>
+      <text class="mono" x="803" y="528" font-size="42" fill="#0e7a6d">02</text>
+      <text x="878" y="523" font-size="22" font-weight="600" fill="#101418">衍生应用 / Spin-off apps</text>
+      <text x="803" y="552" font-size="20" fill="#6e767f">VeloCortex Maritime · TariffLens</text>
+    </g>
+  </g>
+</svg>

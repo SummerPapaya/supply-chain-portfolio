@@ -1,6 +1,6 @@
-![AI 供应链研究](assets/hero-zh.svg)
+![全球供应链多模型洞察：同一命题、五种独立 AI 视角、每周雷达与两个衍生应用](assets/readme/hero-bilingual.svg)
 
-**[English README](README.md) · [English Cover](assets/hero.svg)**
+**[English README](README.md) · [Bilingual Cover](assets/readme/hero-bilingual.svg)**
 
 一个持续更新的 AI 多模型供应链研究作品集：在相同的调研命题下，收集并对比不同模型与智能体各自独立产出的结果，同时实时追踪全球供应链的动态变化。
 

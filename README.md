@@ -1,6 +1,6 @@
-![Supply Chain AI Research](assets/hero.svg)
+![Supply Chain Intelligence — one brief, five AI perspectives, Weekly Radar and two spin-off apps](assets/readme/hero-bilingual.svg)
 
-**[中文版 README](README.zh-cn.md) · [中文版封面](assets/hero-zh.svg)**
+**[中文版 README](README.zh-cn.md) · [中英双语封面](assets/readme/hero-bilingual.svg)**
 
 A continuously updated portfolio of AI multi-model supply-chain research: collecting and comparing independent outputs from different models and agents on the same brief, while tracking global supply-chain shifts in real time.
 
