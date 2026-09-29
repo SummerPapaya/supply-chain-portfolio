@@ -67,6 +67,28 @@
     --viz-label: rgba(16,20,24,.28);
     --viz-chip-bg: #141a22;
     --viz-chip-line: #2c3644;
+    /* TariffLens 配图（随主题切换浅/深） */
+    --tl-tag: #e05656;
+    --tl-win: #f7f5f0;
+    --tl-win-stroke: #d8d4c8;
+    --tl-ink: #1a1f26;
+    --tl-ink-soft: #8a8577;
+    --tl-line: #c9c4b4;
+    --tl-btn-text-soft: #5c574a;
+    --tl-panel: #fffdf9;
+    --tl-panel-stroke: #d8d4c8;
+    --tl-placeholder: #a39d8c;
+    --tl-btn-bg: #1a1f26;
+    --tl-btn-ink: #f7f5f0;
+    --tl-amber: #b4831e;
+    --tl-amber-soft: rgba(180,131,30,.09);
+    --tl-indigo: #4a5fc9;
+    --tl-green: #1e8e5a;
+    --tl-green-soft: rgba(30,142,90,.1);
+    --tl-red: #c9403f;
+    --tl-red-soft: #faf1ec;
+    --tl-red-text: #8a4a44;
+    --tl-shadow: #101418;
   }
   html[data-theme="dark"] {
     --paper: #0a0d11;
@@ -101,6 +123,28 @@
     --viz-label: rgba(233,237,242,.22);
     --viz-chip-bg: #171e27;
     --viz-chip-line: #2c3644;
+    /* TariffLens 配图（随主题切换浅/深） */
+    --tl-tag: #ff7a7a;
+    --tl-win: #161c24;
+    --tl-win-stroke: #2c3644;
+    --tl-ink: #e9edf2;
+    --tl-ink-soft: #9aa3af;
+    --tl-line: #39434f;
+    --tl-btn-text-soft: #aab2bd;
+    --tl-panel: #0f141a;
+    --tl-panel-stroke: #2c3644;
+    --tl-placeholder: #7e8794;
+    --tl-btn-bg: #e9edf2;
+    --tl-btn-ink: #101418;
+    --tl-amber: #e0b35a;
+    --tl-amber-soft: rgba(224,179,90,.16);
+    --tl-indigo: #6f86ff;
+    --tl-green: #34d39a;
+    --tl-green-soft: rgba(52,211,154,.16);
+    --tl-red: #e05656;
+    --tl-red-soft: #261a18;
+    --tl-red-text: #d98c86;
+    --tl-shadow: #000000;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -711,23 +755,38 @@
     #reports .card-curtain { display: none; }
   }
 
-  /* ---------- 衍生应用（主题统一） ---------- */
+  /* ---------- 衍生应用（主题统一；宽屏两卡并排，卡内 标题→配图→文案 纵排） ---------- */
+  .app-grid {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px; align-items: stretch;
+  }
+  @media (max-width: 1020px) { .app-grid { grid-template-columns: 1fr; } }
   .app-card {
     --card-accent: var(--teal);
-    display: grid; grid-template-columns: 1.1fr .9fr;
+    display: flex; flex-direction: column;
     background: var(--app-bg); color: var(--app-ink);
     border: 1px solid var(--app-border); border-radius: 14px;
     overflow: hidden; box-shadow: var(--shadow-card);
     transition: background .4s, border-color .4s;
   }
-  @media (max-width: 860px) { .app-card { grid-template-columns: 1fr; } }
-  .app-left { padding: clamp(30px, 4vw, 48px); }
-  .app-left h3 { font-family: var(--font-serif); font-size: clamp(22px, 2.6vw, 30px); font-weight: 700; color: var(--app-ink); margin: 12px 0 4px; }
-  .app-left .card-en { color: var(--app-mute); font-family: var(--font-mono); font-size: 12px; margin-bottom: 18px; }
+  .app-head { order: -2; padding: clamp(26px, 3vw, 40px) clamp(26px, 3.4vw, 44px) 0; }
+  .app-head h3 { font-family: var(--font-serif); font-size: clamp(22px, 2.2vw, 27px); font-weight: 700; color: var(--app-ink); margin: 12px 0 4px; }
+  .app-head .card-en { color: var(--app-mute); font-family: var(--font-mono); font-size: 12px; margin-bottom: 0; }
+  .app-fig {
+    order: -1; /* DOM 顺序为 标题→文案→配图，flex order 调整为 标题→配图→文案 */
+    margin: 20px 0 0;
+    background: var(--viz-bg);
+    border-top: 1px solid var(--app-border); border-bottom: 1px solid var(--app-border);
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px 0; overflow: hidden;
+    transition: background .4s, border-color .4s;
+  }
+  .app-fig svg { width: 88%; max-width: 440px; height: auto; }
+  .app-left { padding: clamp(26px, 3.4vw, 42px); flex: 1; display: flex; flex-direction: column; }
   .app-left p { color: var(--app-soft); font-size: 14px; margin-bottom: 18px; }
   .app-left ul { list-style: none; margin-bottom: 26px; }
   .app-left ul li { color: var(--app-soft); font-size: 13.5px; padding-left: 18px; position: relative; margin-bottom: 8px; }
-  .app-left ul li::before { content: ""; position: absolute; left: 2px; top: 9px; width: 6px; height: 1.5px; background: var(--teal); }
+  .app-left ul li::before { content: ""; position: absolute; left: 2px; top: 9px; width: 6px; height: 1.5px; background: var(--card-accent); }
   /* 成本阶梯：已接入（免费）/ 需授权（付费）
      行用 display:contents 摊平，让两行共用同一套列宽——否则 auto 列各自计算，
      第二列的正文起点会错开。 */
@@ -743,15 +802,6 @@
   .app-left .btn-primary:hover { filter: brightness(1.12); box-shadow: 0 6px 16px -6px rgba(45,212,176,.5); }
   .app-left .btn-ghost { border-color: var(--app-border); color: var(--app-soft); }
   .app-left .btn-ghost:hover { border-color: var(--app-ink); color: var(--app-ink); }
-  .app-right {
-    position: relative; min-height: 320px;
-    background: var(--viz-bg);
-    border-left: 1px solid var(--app-border);
-    display: flex; align-items: center; justify-content: center; overflow: hidden;
-    transition: background .4s, border-color .4s;
-  }
-  @media (max-width: 860px) { .app-right { border-left: none; border-top: 1px solid var(--app-border); } }
-  .app-right svg { width: 92%; max-width: 460px; height: auto; }
   .viz-grid-line { stroke: var(--viz-grid); stroke-width: 1; }
   .viz-land { fill: var(--viz-land); }
   .viz-ocean { fill: var(--viz-label); font-family: "JetBrains Mono", monospace; letter-spacing: .25em; }
@@ -886,7 +936,7 @@
   </p>
   <div class="hero-stats reveal reveal-d3" data-page-node-id="7IE7fqtq6P9NrgZ3aABJ65">
     <div class="stat" data-page-node-id="YnJADmNGOMtsthV6Dg8Wwd"><div class="num" data-count="5" data-page-node-id="CGxlgz8IJif1ms5HJ4RUhb">0</div><div class="lbl" data-i18n="stat1" data-page-node-id="0gT8W1y4NwfWprXrZBrrMK">独立研究报告</div></div>
-    <div class="stat" data-page-node-id="DzrO0FvUulX8iAOPazpEqm"><div class="num" data-count="1" data-page-node-id="8fsuHUJnuVDb07ZHizKFLF">0</div><div class="lbl" data-i18n="stat2" data-page-node-id="yEvEJ2ivcRueU7P1BAgjgk">衍生应用</div></div>
+    <div class="stat" data-page-node-id="DzrO0FvUulX8iAOPazpEqm"><div class="num" data-count="2" data-page-node-id="8fsuHUJnuVDb07ZHizKFLF">0</div><div class="lbl" data-i18n="stat2" data-page-node-id="yEvEJ2ivcRueU7P1BAgjgk">衍生应用</div></div>
     <div class="stat" data-page-node-id="Z5Uec7IgY2VQostWDnkuA5"><div class="num" data-page-node-id="omrlUhBMIo7amZenuAuKH5"><i data-page-node-id="lwYMCd5ZwTfCiTdFqFKlwZ">25</i>+</div><div class="lbl" data-i18n="stat3" data-page-node-id="eDIEgPTBrjIzdegK0ktHZA">机构数据源（WTO / Drewry / NY Fed…）</div></div>
     <div class="stat" data-page-node-id="tuNHpaBFqX8nSmg9CKKp57"><div class="num" data-page-node-id="R4y3cxix4wMdquCbKXqgxm">2026<i data-page-node-id="dgXTWVQl9IdpgiNt2sLDoq">H1</i></div><div class="lbl" data-i18n="stat4" data-page-node-id="yFfBXe5Yl6951jhC9r2ogH">当前研究窗口</div></div>
   </div>
@@ -1165,11 +1215,14 @@
     <h3 class="sub-title" data-i18n="app-title" data-page-node-id="k0NLzYBmVNWW6Fcsif6rYV">从研究到产品 · 衍生应用</h3>
     <span class="sec-note" data-page-node-id="gkaNmbXNX7OLDzal41gK4u">SPIN-OFF APPLICATION</span>
   </div>
+  <div class="app-grid">
   <div class="app-card reveal reveal-d1" data-page-node-id="FSaLjo4gBsteeXplvEHtRK">
-    <div class="app-left" data-page-node-id="hRMx3Hi1rSVYhRxQc8Clqr">
+    <div class="app-head">
       <span class="card-tool" style="--card-accent:var(--teal)" data-page-node-id="ngqziD0chSA7W2pKYdOXkE">VELOCORTEX AI · MARITIME</span>
       <h3 data-i18n="app-h3" data-page-node-id="grdGUTR7TddESY0axlRAPu">全球海运集装箱追踪指挥中心</h3>
       <div class="card-en" data-page-node-id="suSGomMMZcTDJbCZ9ehRtN">velocortex-maritime</div>
+    </div>
+    <div class="app-left" data-page-node-id="hRMx3Hi1rSVYhRxQc8Clqr">
       <p data-i18n="app-p" data-page-node-id="5HcaL0Lthjiw1EgFom8vVS">研究结论的产品化落地：把报告中反复出现的「可视化缺口」「滞箱费风险」「冷链失控」等痛点，做成一个可运行的海运与多式联运指挥平台。其中「实时数据层」全部接真实外部数据；箱级数据是可复现的演示数据集，面板底部逐块标注来源，不冒充实时。</p>
       <ul data-page-node-id="HmNMoNM5proBIvUuC7aytx">
         <li data-i18n="app-l1" data-page-node-id="9osoNppDlCoVjM79QOwb4O">实时数据层：13 个枢纽港真实气象与海况（Open-Meteo）+ 28 个咽喉点官方过境量（IMF PortWatch）+ 波罗的海实测 AIS 船位，均免密钥、浏览器直连</li>
@@ -1195,7 +1248,7 @@
         <a class="btn btn-ghost" href="https://github.com/SummerPapaya/velocortex-maritime" target="_blank" rel="noopener" data-page-node-id="fFGX3bgxICYWpndsB9ZG2y"><span data-i18n="btn-gh" data-page-node-id="Nmh3cWhGHwGDkQEgdAPSWC">在 GitHub 查看</span> <span class="arr" data-page-node-id="2h8I3C7FJeb30NcQtwhEjb">↗</span></a>
       </div>
     </div>
-    <div class="app-right" aria-hidden="true" data-page-node-id="lvlJ2MGdqV1e8R6sukNF1l">
+    <div class="app-fig" aria-hidden="true" data-page-node-id="lvlJ2MGdqV1e8R6sukNF1l">
       <svg viewBox="0 0 460 320" fill="none" data-page-node-id="gcZsOIRbfF4W7FTitEQ3sC">
         <!-- 网格 -->
         <g class="viz-grid-line" data-page-node-id="g0eVvftcqzOVBJkrSVddRM">
@@ -1265,6 +1318,108 @@
       </svg>
     </div>
   </div>
+
+  <div class="app-card reveal reveal-d2" data-page-node-id="TlCardNode">
+    <div class="app-head">
+      <span class="card-tool" style="--card-accent:var(--vermilion)" data-page-node-id="TlToolNode">TARIFFLENS · TRADE COMPLIANCE</span>
+      <h3 data-i18n="app2-h3" data-page-node-id="TlH3Node">关税与贸易合规参考台</h3>
+      <div class="card-en" data-page-node-id="TlEnNode">tarifflens</div>
+    </div>
+    <div class="app-left" data-page-node-id="TlLeftNode">
+      <p data-i18n="app2-p" data-page-node-id="TlPNode">把报告里反复出现的「关税怎么查、ADD/CVD 怎么提示、文本交叉引用为什么不出数字」做成可直接用的参考工具。严格守住三条红线：不做自动归类、文本引用形态绝不输出数字、三层数据分治（快照税率 / 实时公告 / 离线演示），每一层边界都显式标注。</p>
+      <ul data-page-node-id="TlUlNode">
+        <li data-i18n="app2-l1" data-page-node-id="TlL1Node">L1 快照：USITC HTS 2026 rev.9 一般税率 + Chapter 99 附加措施，可折叠、墨黑边条；从价 / 从量 / 文本引用三种形态码逐条标注</li>
+        <li data-i18n="app2-l2" data-page-node-id="TlL2Node">L2 实时：浏览器直连 Federal Register API（免密钥 HTTPS、13s 超时），失败自动回退本地快照；近 90 天相关公告 + ADD/CVD 仅提示存在性，不出金额</li>
+        <li data-i18n="app2-l3" data-page-node-id="TlL3Node">数据龄提示：快照超过 14 天标朱红 stale；L2 标题栏显示「实时 / 快照」徽标与三态状态条，溯源行在 live 时标注 LIVE · Federal Register API</li>
+        <li data-i18n="app2-l4" data-page-node-id="TlL4Node">参考测算默认折叠：仅做「基础税率 + 你填的货值 + 规费常数」的推导，本页不换算从量 / 复合，文本交叉引用拒绝输出数字（红线 02）</li>
+        <li data-i18n="app2-l5" data-page-node-id="TlL5Node">三层栏目固定顺序：先 L1 定基准 → 再 L2 看变动 → 最后 ¶ 溯源核对文件 SHA-256；两者不一致本身即红线 01 信号</li>
+      </ul>
+      <div class="app-cost" data-page-node-id="TlCostNode">
+        <div class="app-cost-row is-free" data-page-node-id="TlCostFree">
+          <span class="app-cost-tag" data-i18n="app2-c1h" data-page-node-id="TlC1h">已接入 · 免费</span>
+          <span class="app-cost-txt" data-i18n="app2-c1" data-page-node-id="TlC1">USITC HTS 静态快照 + Federal Register API（浏览器直连，免密钥）· 纯静态托管即可运行，无需服务端</span>
+        </div>
+        <div class="app-cost-row is-paid" data-page-node-id="TlCostPaid">
+          <span class="app-cost-tag" data-i18n="app2-c2h" data-page-node-id="TlC2h">需代理 · 视部署</span>
+          <span class="app-cost-txt" data-i18n="app2-c2" data-page-node-id="TlC2">若 Federal Register API 被 CORS 拦截，需在前端之外加一个约 10 行的边缘函数 / Serverless 代理（GitHub Pages 本身跑不了服务端）；非必须，失败即回退本地快照</span>
+        </div>
+      </div>
+      <div class="app-cost-note" data-i18n="app2-cnote" data-page-node-id="TlCnote">关税数据的权威性与时效靠三层分治保证：L1 写清「这是哪一期快照」，L2 写清「这是你打开页面这一刻的实时取数」，二者不一致本身就是信号，而非被悄悄合并。</div>
+      <div class="card-actions" data-page-node-id="TlActions">
+        <a class="btn btn-primary" href="https://summercommences.com/tarifflens/" target="_blank" rel="noopener" data-page-node-id="TlBtnApp"><span data-i18n="btn-app" data-page-node-id="TlBtnAppTxt">打开应用</span> <span class="arr" data-page-node-id="TlBtnAppArr">↗</span></a>
+        <a class="btn btn-ghost" href="https://github.com/SummerPapaya/tarifflens" target="_blank" rel="noopener" data-page-node-id="TlBtnGh"><span data-i18n="btn-gh" data-page-node-id="TlBtnGhTxt">在 GitHub 查看</span> <span class="arr" data-page-node-id="TlBtnGhArr">↗</span></a>
+      </div>
+    </div>
+    <div class="app-fig" aria-hidden="true" data-page-node-id="TlRight">
+      <svg viewBox="0 0 460 320" fill="none" data-page-node-id="TlSvg">
+        <!-- 角标（深底区） -->
+        <text x="12" y="18" font-size="9.5" style="fill:var(--tl-tag)" font-family="'JetBrains Mono',monospace" letter-spacing="2" data-page-node-id="TlTag">TARIFFLENS · 3-TIER REFERENCE DESK</text>
+
+        <!-- 应用窗口：随主题切换浅/深纸面 -->
+        <defs>
+          <filter id="tlWinShadow" x="-8%" y="-8%" width="116%" height="120%">
+            <feDropShadow dx="0" dy="4" stdDeviation="7" style="flood-color:var(--tl-shadow)" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <rect x="30" y="32" width="400" height="260" rx="10" style="fill:var(--tl-win);stroke:var(--tl-win-stroke)" filter="url(#tlWinShadow)" data-page-node-id="TlWin"/>
+        <!-- masthead -->
+        <text x="46" y="54" font-size="12" font-weight="700" style="fill:var(--tl-ink)" font-family="'Noto Serif SC',serif" data-page-node-id="TlMast">TariffLens</text>
+        <text x="122" y="54" font-size="7.5" style="fill:var(--tl-ink-soft)" font-family="'JetBrains Mono',monospace" letter-spacing="1.5" data-page-node-id="TlMastSub">HTS 2026 rev.9</text>
+        <rect x="358" y="42" width="28" height="15" rx="3" fill="none" style="stroke:var(--tl-line)" data-page-node-id="TlBtnLang"/>
+        <text x="372" y="52.5" text-anchor="middle" font-size="7.5" style="fill:var(--tl-btn-text-soft)" font-family="'JetBrains Mono',monospace" data-page-node-id="TlBtnLangT">EN</text>
+        <rect x="392" y="42" width="24" height="15" rx="3" fill="none" style="stroke:var(--tl-line)" data-page-node-id="TlBtnTheme"/>
+        <text x="404" y="52.5" text-anchor="middle" font-size="7" style="fill:var(--tl-btn-text-soft)" data-page-node-id="TlBtnThemeT">暗色</text>
+
+        <!-- 搜索栏 -->
+        <rect x="46" y="66" width="284" height="24" rx="4" style="fill:var(--tl-panel);stroke:var(--tl-line)" data-page-node-id="TlSearchBg"/>
+        <text x="56" y="81" font-size="8" style="fill:var(--tl-placeholder)" font-family="'JetBrains Mono',monospace" data-page-node-id="TlSearchT">输入 HTS 编码或品名 · 如 8507.60.00</text>
+        <rect x="338" y="66" width="66" height="24" rx="4" style="fill:var(--tl-btn-bg)" data-page-node-id="TlSearchBtn"/>
+        <text x="371" y="81" text-anchor="middle" font-size="8.5" style="fill:var(--tl-btn-ink)" data-page-node-id="TlSearchBtnT">查询</text>
+
+        <!-- L1 快照层：墨黑粗边条 -->
+        <g data-page-node-id="TlL1">
+          <rect x="46" y="102" width="358" height="52" rx="3" style="fill:var(--tl-panel);stroke:var(--tl-panel-stroke)"/>
+          <rect x="46" y="102" width="4" height="52" style="fill:var(--tl-ink)"/>
+          <rect x="58" y="110" width="22" height="13" rx="2" fill="none" style="stroke:var(--tl-ink)"/>
+          <text x="69" y="119.5" text-anchor="middle" font-size="7.5" style="fill:var(--tl-ink)" font-family="'JetBrains Mono',monospace">L1</text>
+          <text x="88" y="120" font-size="9.5" font-weight="600" style="fill:var(--tl-ink)" font-family="'Noto Serif SC',serif">快照 · USITC HTS 一般税率</text>
+          <rect x="332" y="109" width="64" height="14" rx="7" style="fill:var(--tl-amber-soft);stroke:var(--tl-amber)"/>
+          <text x="364" y="119" text-anchor="middle" font-size="7" style="fill:var(--tl-amber)" font-family="'JetBrains Mono',monospace" letter-spacing="1">SNAPSHOT</text>
+          <text x="58" y="141" font-size="8" style="fill:var(--tl-ink-soft)" font-family="'JetBrains Mono',monospace">8507.60.00 → Free · 3.4% · Chapter 99 附加措施</text>
+        </g>
+
+        <!-- L2 实时层：靛蓝粗边条 + LIVE 徽标 -->
+        <g data-page-node-id="TlL2">
+          <rect x="46" y="162" width="358" height="52" rx="3" style="fill:var(--tl-panel);stroke:var(--tl-panel-stroke)"/>
+          <rect x="46" y="162" width="4" height="52" style="fill:var(--tl-indigo)"/>
+          <rect x="58" y="170" width="22" height="13" rx="2" fill="none" style="stroke:var(--tl-indigo)"/>
+          <text x="69" y="179.5" text-anchor="middle" font-size="7.5" style="fill:var(--tl-indigo)" font-family="'JetBrains Mono',monospace">L2</text>
+          <text x="88" y="180" font-size="9.5" font-weight="600" style="fill:var(--tl-ink)" font-family="'Noto Serif SC',serif">实时 · Federal Register 公告</text>
+          <rect x="350" y="169" width="46" height="14" rx="7" style="fill:var(--tl-green-soft);stroke:var(--tl-green)"/>
+          <text x="373" y="179" text-anchor="middle" font-size="7" style="fill:var(--tl-green)" font-family="'JetBrains Mono',monospace" letter-spacing="1">LIVE</text>
+          <text x="58" y="201" font-size="8" style="fill:var(--tl-ink-soft)" font-family="'JetBrains Mono',monospace">近 90 天相关公告 · ADD/CVD 存在性提示 · 浏览器直连</text>
+        </g>
+
+        <!-- 形态提示芯片 -->
+        <g data-page-node-id="TlChips">
+          <rect x="46" y="222" width="122" height="16" rx="8" fill="none" style="stroke:var(--tl-line)"/>
+          <circle cx="58" cy="230" r="2.5" style="fill:var(--tl-amber)"/>
+          <text x="65" y="233" font-size="7.5" style="fill:var(--tl-btn-text-soft)" font-family="'JetBrains Mono',monospace">ADD/CVD 命中提示</text>
+          <rect x="176" y="222" width="132" height="16" rx="8" fill="none" style="stroke:var(--tl-line)" stroke-dasharray="3 2"/>
+          <text x="184" y="233" font-size="7.5" style="fill:var(--tl-ink-soft)" font-family="'JetBrains Mono',monospace">文本引用 · 只提示不折算</text>
+        </g>
+
+        <!-- 红线批注块：朱红左边条 -->
+        <g data-page-node-id="TlAnnot">
+          <rect x="46" y="246" width="358" height="36" rx="3" style="fill:var(--tl-red-soft)"/>
+          <rect x="46" y="246" width="5" height="36" style="fill:var(--tl-red)"/>
+          <text x="60" y="260" font-size="7.5" font-weight="700" style="fill:var(--tl-red)" font-family="'JetBrains Mono',monospace" letter-spacing="1">红线 02 · RED LINE</text>
+          <text x="60" y="274" font-size="8.5" style="fill:var(--tl-red-text)">文本交叉引用拒绝输出数字 —— 只提示形态，不折算金额</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+  </div>
 </section>
 
 <!-- ============ AI 补位：工作流缺口 Top 7 ============ -->
@@ -1305,8 +1460,8 @@
       <div class="gap-rank" data-page-node-id="CWnaashuM4iLACwrErwqxM">02</div>
       <div class="gap-main" data-page-node-id="embeWV7rhF7n44CZFlgljF">
         <h4 data-i18n="g2t" data-page-node-id="eL95d5ipIWHef1YbBRmULe">关税与贸易合规自动化</h4>
-        <p data-i18n="g2d" data-page-node-id="leDFHO10Ju5ly62egAX9Op">多晶硅 232 关税 12 月 4 日生效、欧盟反规避调查频发的环境下，人工逐票核对税则、原产地与最低进口价已不可持续。AI 可自动归类 HTS、测算税负变化、标记违规风险票证——政策窗口期越短，该缺口越值钱。</p>
-        <div class="gap-evi" data-page-node-id="wp1ZG9lEJHMGBPOXb4DSL4"><span data-page-node-id="qIlJa7eoiJusw8lB1AHMQf">§232 Polysilicon</span><span data-i18n="g2e" data-page-node-id="yt2e3gRpHetV0oGd2ykspb">雷达 · 重点新闻</span><span data-page-node-id="UxbkKjaLdV9zRzSPCBt5ZH">EU CSDDD</span></div>
+        <p data-i18n="g2d" data-page-node-id="leDFHO10Ju5ly62egAX9Op">美国对多晶硅及其衍生产品的 232 关税措施将于 2026 年 12 月 4 日生效、欧盟反规避调查频发的环境下，人工逐票核对税则、原产地与最低进口价已不可持续。AI 可自动归类 HTS、测算税负变化、标记违规风险票证——这正是本站 TariffLens 的核心场景，政策窗口期越短，该缺口越值钱。</p>
+        <div class="gap-evi" data-page-node-id="wp1ZG9lEJHMGBPOXb4DSL4"><span data-page-node-id="qIlJa7eoiJusw8lB1AHMQf">§232 Polysilicon</span><span data-i18n="g2e" data-page-node-id="yt2e3gRpHetV0oGd2ykspb">雷达 · 重点新闻</span><span data-page-node-id="UxbkKjaLdV9zRzSPCBt5ZH">EU CSDDD</span><span data-page-node-id="TlGapChip">TariffLens</span></div>
       </div>
       <div class="gap-bars" data-page-node-id="rHERiDylTt5P9Re0kvT73T">
         <div class="gap-bar" data-page-node-id="pzl8OKSsQitEOf1SZpuhXF"><div class="gb-top" data-page-node-id="ehDAS4f4CBHVp5v57JKE2e"><span data-i18n="dim-v" data-page-node-id="FIWS0vLMNf9OnoCtawuVj9">业务价值</span><b data-page-node-id="LHu0Gr8XzY4gBfCATYQ5E1">9.0</b></div><div class="gb-track" data-page-node-id="VM2vEJVCmHj8GuFH3nFP7O"><i class="gb-fill" style="--w:90%" data-page-node-id="AMzyWK4jGOPp2DgRP228Wv"></i></div></div>
@@ -1964,6 +2119,18 @@
     'app-c2h': 'Needs a licence · paid',
     'app-c2': 'Commercial global vessel positions — MarineTraffic web plans run US$10–100/month, but the AIS API is not included and needs a separate commercial agreement; HiFleet’s free tier caps at 50 vessels / 3-month tracks, with C-station polling from ¥20 per vessel/month under an offline contract · container-level EDI and reefer telemetry — US$150–1,500/month · demurrage and insurance-claim reconciliation — separate agreements with carriers and insurers',
     'app-cnote': 'Swapping the demo dataset for real container-level records is gated by contracts and licensing, not development effort: vessel positions stay affordable, but container-level data is an order-of-magnitude jump (0 → thousands of dollars a month).',
+    'app2-h3': 'TariffLens · Tariff & Trade-Compliance Reference',
+    'app2-p': 'Turns the recurring questions across the reports — how to look up a tariff, how to flag ADD/CVD, why a textual cross-reference never yields a number — into a directly usable reference tool. It holds three hard red lines: no automatic classification, never output a number for a textual cross-reference, and a strict three-tier data separation (snapshot rates / live bulletins / offline demo), with every tier boundary labelled explicitly.',
+    'app2-l1': 'L1 snapshot: USITC HTS 2026 rev.9 general rates + Chapter 99 additional measures — collapsible, ink-black border; each item tagged with one of three rate morphologies: ad valorem / specific / textual cross-reference.',
+    'app2-l2': 'L2 live: browser-direct Federal Register API (key-less HTTPS, 13s timeout), auto-falling back to a local snapshot on failure; relevant bulletins from the last 90 days plus ADD/CVD hints flag only existence, never an amount.',
+    'app2-l3': 'Data-age indicator: a snapshot older than 14 days is flagged stale in vermilion; the L2 header shows a Live/Snapshot badge with a three-state status strip, and the source line reads LIVE · Federal Register API when live.',
+    'app2-l4': 'The reference estimate is collapsed by default: it only derives base rate + the value you enter + a fee constant; it does not convert specific/compound rates, and a textual cross-reference refuses to output a number (Red Line 02).',
+    'app2-l5': 'Fixed tier order: L1 sets the baseline, then L2 shows the change, then a source-check of the file SHA-256; a mismatch between the two tiers is itself a Red Line 01 signal.',
+    'app2-c1h': 'Connected · free',
+    'app2-c1': 'USITC HTS static snapshot + Federal Register API (browser-direct, key-less) · runs on a purely static host, no server required.',
+    'app2-c2h': 'Needs a proxy · deployment-dependent',
+    'app2-c2': 'If the Federal Register API is blocked by CORS, add a ~10-line edge function or serverless proxy outside the front-end (GitHub Pages cannot run server-side code); not required — on failure it falls back to the local snapshot.',
+    'app2-cnote': 'The authority and freshness of tariff data rest on the three-tier separation: L1 states which snapshot it is, L2 states that it is live data at the moment you open the page, and a mismatch between the two is a signal — not something quietly merged.',
     'btn-dash': 'View Dashboard', 'btn-gh': 'View on GitHub', 'btn-app': 'Launch App',
     'gaps-title': 'Where AI Fills In · Top 7 Workflow Gaps',
     'gaps-intro': 'Synthesizing this week\'s radar and the shared findings across all five reports, these seven workflow gaps are where AI should step in first. Scoring: business value ×35% · feasibility ×25% · data readiness ×20% · urgency ×20%.',
@@ -1972,7 +2139,7 @@
     'g1d': 'Cape rerouting swings Asia–Europe ETAs by ±2 weeks while demurrage stays unquantifiable before berthing. AIS, port-queue and weather data are mature enough for AI to turn "wait and see" into "price it early, adjust speed" — a path already proven by VeloCortex on this site.',
     'g1e': 'Radar · Red Sea',
     'g2t': 'Tariff & trade-compliance automation',
-    'g2d': 'With Section 232 polysilicon duties effective Dec 4 and EU anti-circumvention probes multiplying, manual per-shipment checks of HTS codes, origin rules and minimum import prices no longer scale. AI can classify, re-cost and flag risky entries — the shorter the policy window, the more this gap is worth.',
+    'g2d': 'With U.S. Section 232 tariff measures on polysilicon and its derivative products taking effect on Dec 4, 2026, and EU anti-circumvention probes multiplying, manual per-shipment checks of HTS codes, origin rules and minimum import prices no longer scale. AI can classify, re-cost and flag risky entries — exactly the core use case of this site’s TariffLens, and the shorter the policy window, the more this gap is worth.',
     'g2e': 'Radar · Key News',
     'g3t': 'Cold-chain telemetry & SLA closed loop',
     'g3d': 'Temperature excursions in biopharma and fresh cargo are still settled after the fact. 0.1°C IoT sensors are commoditized; what\'s missing is AI on the telemetry stream — triaged alerts, insurance-grade evidence, automatic rerouting. The clearest-scoped, lowest-barrier gap of the five.',

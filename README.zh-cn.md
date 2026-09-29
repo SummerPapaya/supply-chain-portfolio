@@ -4,13 +4,13 @@
 
 一个持续更新的 AI 多模型供应链研究作品集：在相同的调研命题下，收集并对比不同模型与智能体各自独立产出的结果，同时实时追踪全球供应链的动态变化。
 
-![reports](https://img.shields.io/badge/reports-5-1a4fd6) ![spin-off app](https://img.shields.io/badge/%E8%A1%8D%E7%94%9F%E5%BA%94%E7%94%A8-1-0e7a6d) ![data sources](https://img.shields.io/badge/%E6%95%B0%E6%8D%AE%E6%9D%A5%E6%BA%90-25%2B-0969da) ![license](https://img.shields.io/badge/license-MIT-1a7f37) ![window](https://img.shields.io/badge/window-2026%20H1-656d76)
+![reports](https://img.shields.io/badge/reports-5-1a4fd6) ![spin-off app](https://img.shields.io/badge/%E8%A1%8D%E7%94%9F%E5%BA%94%E7%94%A8-2-0e7a6d) ![data sources](https://img.shields.io/badge/%E6%95%B0%E6%8D%AE%E6%9D%A5%E6%BA%90-25%2B-0969da) ![license](https://img.shields.io/badge/license-MIT-1a7f37) ![window](https://img.shields.io/badge/window-2026%20H1-656d76)
 
 ## 📊 项目简介
 
 这个仓库托管了一个作品集网站，将五份由 AI 生成的供应链研究报告并排展示——每份报告都由不同的模型或智能体，在**同一个调研命题**下独立产出。我们的目标，是观察不同的 AI "思维"如何回答同一个问题：它们各自强调什么、忽略了什么、又在何处达成共识。
 
-除了报告本身，网站还包含一个**每周供应链雷达**（交叉验证的新闻、研究与趋势），以及一个衍生应用——[VeloCortex Maritime](#velocortex-maritime)——将研究发现转化为一个可运行的集装箱追踪指挥中心。
+除了报告本身，网站还包含一个**每周供应链雷达**（交叉验证的新闻、研究与趋势），以及两个衍生应用——[VeloCortex Maritime](#velocortex-maritime) 与 [TariffLens](#tarifflens)（关税与贸易合规参考台）——将研究发现转化为可运行的产品原型。
 
 ## ✨ 核心特性
 
@@ -30,11 +30,19 @@
 | **Gemini** | Gemini 3.6 Flash · Search Grounding | 战略情报官 | 全栈工作台，内置 AI 问答可重新锚定到所选报告窗口；密钥始终留在服务端。 |
 | **Codex** | GPT-6 Astra · OpenAI Codex | 口径守门人 | 唯一把「时间窗口语义」写进正文的报告：流量可加总而存量不可、半年比率不等于两季平均，缺数一律留空而非补零。 |
 
-## 🚢 VeloCortex Maritime — 衍生应用
+## 🚢 衍生应用
+
+### VeloCortex Maritime
 
 研究结束之处，产品由此而生。**VeloCortex Maritime** 是一个全球集装箱追踪指挥中心，它诞生于五份报告中共同浮现的痛点——可视化盲区、滞期费风险盲区，以及冷链失温。
 
 功能包括：实时 AIS 船舶追踪、港口拥堵热力图、滞期费风险预测、冷链遥测，以及 SheetJS 导出。基于 React 19 + Express 构建，由 Gemini AI 对 IoT 遥测数据进行推理驱动。
+
+### TariffLens
+
+_关税与贸易合规参考台。_ 一个浏览器端的美国进口关税参考台，同样源于这些研究发现：怎么查税率、怎么标记 ADD/CVD、为什么文本交叉引用绝不出数字。它坚守三条硬红线——不做自动归类、文本引用形态绝不输出数字、三层数据分治（快照税率 / 实时公告 / 离线演示），每一层边界都显式标注。
+
+功能包括：L1 快照（USITC HTS 2026 rev.9 + Chapter 99）、L2 浏览器直连 Federal Register（失败回退本地快照）、数据龄提示（超过 14 天标朱红 stale）、以及默认折叠、拒绝折算从量 / 复合税率的参考测算。纯静态站点——无需构建、无需服务端。
 
 ## 🚀 快速开始
 
@@ -52,7 +60,7 @@ python3 -m http.server 8000 --directory docs
 # → http://localhost:8000
 ```
 
-每份报告的仪表盘位于 `docs/reports/<名称>/` 目录下，可从作品集首页在新标签页中打开。四份自包含单文件报告（cursorgrok / kimiagent / workbuddy / codex）完全离线可用；Gemini 报告与 VeloCortex 衍生应用是 React 构建产物，需要通过本地服务访问。
+每份报告的仪表盘位于 `docs/reports/<名称>/` 目录下，可从作品集首页在新标签页中打开。四份自包含单文件报告（cursorgrok / kimiagent / workbuddy / codex）完全离线可用；Gemini 报告与 VeloCortex 衍生应用是 React 构建产物，需要通过本地服务访问。**TariffLens** 是独立、完全静态的站点（无需构建），部署于 `summercommences.com/tarifflens/`。
 
 ## 📁 项目结构
 
@@ -67,6 +75,7 @@ docs/                        # GitHub Pages 站点根目录
 │   ├── codex/               # Codex — 离线双语 HTML + 原生 SVG 图表
 │   ├── gemini/              # Gemini — React 19 构建（静态）
 │   └── velocortex/          # VeloCortex Maritime — React 19 构建（静态）
+│                             # （TariffLens 为独立仓库——SummerPapaya/tarifflens——线上地址 summercommences.com/tarifflens/）
 ├── learning/                # 内嵌的 CSCP 与 Six Sigma 知识图谱
 ├── assets/                  # 封面 SVG、卡片幕布预览
 └── README-preview.html      # 本 README 的独立 HTML 预览
@@ -81,6 +90,7 @@ README.md / README.zh-cn.md  # 中英双语作品集说明
 - **作品集网站** — 原生 HTML/CSS/JS，零依赖，零构建步骤
 - **Cursor × Grok / Kimi / WorkBuddy / Codex 报告** — 自包含单文件 HTML
 - **Gemini / VeloCortex 应用** — React 19 + Vite，构建为静态资源
+- **TariffLens 应用** — 原生 HTML/CSS/JS，零依赖、零构建（独立仓库：SummerPapaya/tarifflens）
 - **数据来源** — GSCPI、Drewry WCI、SCFI、WTO、纽约联储、UNCTAD、中国海关、IATA、工信部、国家统计局、SEMI、ACEA 等（25+ 机构）
 
 ## 📄 许可证
