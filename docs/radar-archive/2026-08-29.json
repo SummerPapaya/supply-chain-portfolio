@@ -161,8 +161,8 @@
             "en": "First-of-its-kind: US probes forwarder Apex over alleged Nvidia chip smuggling"
           },
           "desc": {
-            "zh": "美国商务部工业与安全局（BIS）正调查新加坡货代 Apex Logistics（瑞士德迅集团全资子公司）是否在 2024 年违规运输搭载英伟达芯片的超微服务器，涉 47 批货物；据称两名前员工使用了将受控硬件申报为豁免的错误编码，路线为台湾→美国→东南亚→香港→内地。若查实，这将是美国首次对参与非法半导体贸易的运输企业采取执法行动。德迅股价 8 月 27 日欧洲盘中一度下跌 4.2%，为三个多月来最大跌幅。",
-            "en": "The Commerce Department's Bureau of Industry and Security is examining whether Singapore-based Apex Logistics — a wholly owned unit of Swiss group Kuehne+Nagel — illegally shipped Super Micro servers containing Nvidia chips in 2024, across 47 consignments. Two former employees allegedly applied a false shipping code designating the controlled hardware as exempt, on a Taiwan→US→Southeast Asia→Hong Kong→mainland China routing. If proven, it would be the first US enforcement action against a transportation company for participating in the illegal semiconductor trade. Kuehne+Nagel shares fell as much as 4.2% in European trading on Aug 27."
+            "zh": "美国商务部工业与安全局（BIS）正调查新加坡货代 Apex Logistics（瑞士德迅集团全资子公司）是否在 2024 年违规运输搭载英伟达芯片的超微服务器，涉 47 批货物；据称两名前员工使用了将受控硬件申报为豁免的错误编码，路线为中国台湾→美国→东南亚→中国香港→中国内地。若查实，这将是美国首次对参与非法半导体贸易的运输企业采取执法行动。德迅股价 8 月 27 日欧洲盘中一度下跌 4.2%，为三个多月来最大跌幅。",
+            "en": "The Commerce Department's Bureau of Industry and Security is examining whether Singapore-based Apex Logistics — a wholly owned unit of Swiss group Kuehne+Nagel — illegally shipped Super Micro servers containing Nvidia chips in 2024, across 47 consignments. Two former employees allegedly applied a false shipping code designating the controlled hardware as exempt, on a Taiwan, China→US→Southeast Asia→Hong Kong, China→mainland China routing. If proven, it would be the first US enforcement action against a transportation company for participating in the illegal semiconductor trade. Kuehne+Nagel shares fell as much as 4.2% in European trading on Aug 27."
           },
           "sources": [
             {
