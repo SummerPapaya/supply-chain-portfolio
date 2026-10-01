@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Round 5 · B+ 实施计划 M0–M5 与合成多级承重墙</title>
+<style>
+  :root{
+    --ink:#1c1f23; --ink-soft:#5a6470; --ink-mute:#8b95a1;
+    --line:rgba(28,31,35,.12); --line-soft:rgba(28,31,35,.07);
+    --teal:#0e7a6d; --teal-bg:#e6f2f0;
+    --blue:#1a4fd6; --blue-bg:#eaf0fd;
+    --amber:#8a5a00; --amber-bg:#fdf3e0;
+    --red:#a32d2d; --red-bg:#fcecec;
+    --sans:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:#fff;color:var(--ink);font-family:var(--sans);
+    font-size:14px;line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:960px;margin:0 auto;padding:56px 32px 96px}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+    color:var(--ink-mute);text-transform:uppercase}
+  h1{font-size:27px;font-weight:600;margin:10px 0 6px;letter-spacing:-.01em}
+  .lede{color:var(--ink-soft);font-size:14.5px;margin:0 0 8px;max-width:730px}
+  .meta{font-family:var(--mono);font-size:11.5px;color:var(--ink-mute);
+    padding-bottom:26px;border-bottom:1px solid var(--line)}
+  h2{font-size:18px;font-weight:600;margin:52px 0 4px;letter-spacing:-.01em}
+  h2 .n{font-family:var(--mono);font-size:12px;color:var(--teal);
+    margin-right:10px;font-weight:500}
+  .sub{color:var(--ink-mute);font-size:12.5px;margin:0 0 20px}
+  h3{font-size:14.5px;font-weight:600;margin:30px 0 10px}
+  p{margin:0 0 13px}
+  .card{border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:16px 0}
+  .card.a{border-color:rgba(14,122,109,.34);background:#fbfdfc}
+  .card.c{border-color:rgba(138,90,0,.30);background:#fffdf8}
+  .tag{display:inline-block;font-family:var(--mono);font-size:10.5px;
+    letter-spacing:.08em;padding:3px 9px;border-radius:5px;margin-right:6px}
+  .t-ok{background:var(--teal-bg);color:var(--teal)}
+  .t-warn{background:var(--amber-bg);color:var(--amber)}
+  .t-no{background:var(--red-bg);color:var(--red)}
+  .t-info{background:var(--blue-bg);color:var(--blue)}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line-soft);
+    vertical-align:top}
+  th{font-size:11.5px;font-family:var(--mono);letter-spacing:.06em;
+    color:var(--ink-mute);font-weight:500;border-bottom:1px solid var(--line)}
+  td.num{font-family:var(--mono);font-size:12.5px;white-space:nowrap}
+  .win{color:var(--teal);font-weight:600}
+  .lose{color:var(--ink-mute)}
+  ul,ol{margin:8px 0 14px;padding-left:19px}
+  li{margin-bottom:7px}
+  li::marker{color:var(--ink-mute)}
+  code{font-family:var(--mono);font-size:12px;background:#f3f5f7;
+    padding:1.5px 5px;border-radius:4px;color:#2b3038;word-break:break-all}
+  pre{font-family:var(--mono);font-size:12px;line-height:1.6;background:#f7f8fa;
+    border:1px solid var(--line-soft);border-radius:8px;padding:14px 16px;
+    overflow-x:auto;margin:12px 0}
+  .note{border-left:3px solid var(--teal);background:#fbfdfc;padding:13px 16px;
+    border-radius:0 8px 8px 0;margin:16px 0;font-size:13.5px}
+  .redline{border:1px solid rgba(163,45,45,.3);background:#fffbfb;
+    border-radius:12px;padding:20px 24px;margin:18px 0}
+  .redline h3{color:var(--red);margin-top:0}
+  .chk{font-family:var(--mono);font-size:12px;color:var(--teal)}
+  footer{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);
+    color:var(--ink-mute);font-size:12px}
+  s{color:var(--ink-mute)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">supply-chain-portfolio · 衍生应用选题</div>
+  <h1>Round 5 · B+ 实施计划 M0–M5</h1>
+  <p class="lede">
+    合成多级序列被提升为独立可验收的里程碑。本轮不再停在纸面推演 ——
+    两个原型已实际跑通，文中所有数值均为当日实测。
+  </p>
+  <div class="meta">
+    supply-chain-portfolio · 2026-10-01 · 继承 round 4 的 B+ 方案 ·
+    原型实测于当日 01:00–01:50 GMT+8 · 尚未动站点任何业务文件
+  </div>
+
+  <h2><span class="n">01</span>为什么合成层必须是承重墙</h2>
+  <p class="sub">这一节解释 round 4 之后出现的唯一结构性变化</p>
+
+  <p>
+    上一轮确认 demo 数据集换成 <strong>UCI Online Retail II</strong> 以解决许可问题。
+    但那次核对同时掏走了一样东西：<strong>多级结构</strong>。
+  </p>
+
+  <table>
+    <thead><tr><th style="width:24%">数据形态</th><th style="width:38%">UCI（换后的主 demo）</th><th>Favorita（已弃）</th></tr></thead>
+    <tbody>
+      <tr><td>层级</td><td class="lose">单渠道、单主体 —— 一家面向英国市场的在线礼品批发商，SKU 之上没有仓库/门店层级</td><td class="win">天生 54 家店 × 33 个品类</td></tr>
+      <tr><td>Country 能否顶替</td><td class="lose">不能。英国占 82.5% 销量，其余 42 国销量中位仅 7,038 单位、活跃天数低至 41 天</td><td>—</td></tr>
+      <tr><td>许可</td><td class="win">CC BY 4.0</td><td class="lose">Kaggle「Subject to Competition Rules」</td></tr>
+      <tr><td>间歇需求</td><td class="win">67% SKU 覆盖率 &lt;0.3，块状出货，Croston 主场</td><td class="lose">连续型为主</td></tr>
+    </tbody>
+  </table>
+
+  <p>
+    结论很硬：<strong>缺口 #7「多级库存 / 防呆」的 demo 只能由合成层承担。</strong>
+    这让那条原本只负责「锦上添花演示」的合成序列，变成了整个 B+ 的承重结构 ——
+    它要独自撑起 DC → RDC → 前置仓的三级网络、牛鞭效应、多级安全库存的正确算法。
+  </p>
+
+  <div class="redline">
+    <h3>红线边界澄清（本轮新增，须先确认）</h3>
+    <p>GSM（保证服务模型）本身是一个<strong>优化模型</strong>，会输出一个被标榜为最优的安全库存配置 ——
+    这与 B+ 红线①「不输出最优库存 / 建议下单量」正面相撞。</p>
+    <p><strong>建议的边界划分：</strong>红线①约束的是<strong>对用户上传数据</strong>的输出；
+    合成层整个是<strong>方法对照演示</strong>，整套标注 <code>[SYNTHETIC]</code>，
+    页面明示「这是在合成拓扑上比较两种算法，不是给你的库存建议」。</p>
+    <p>并且即便在合成层，也不给单一最优数：<strong>只输出「服务水平 → 库存」前沿曲线</strong>，
+    让使用者自己挑点。理由很简单 —— 服务水平（愿意担多少缺货风险）是业务选择，
+    算法不该替他定。<strong>这条请确认。</strong></p>
+  </div>
+
+  <h2><span class="n">02</span>两个原型已跑通</h2>
+  <p class="sub"><code>proposals/prototypes/multi-echelon-synth.mjs</code> · <code>gsm.mjs</code> · node 22 实测通过</p>
+
+  <p>
+    不在纸面上规划施工步骤 —— 先把最关键的两块<strong>实际跑一遍</strong>，
+    因为「看起来合理」和「跑得出来」之间通常隔着好几个 bug。
+  </p>
+
+  <h3>原型 A：多级合成序列</h3>
+  <div class="card a">
+    <p><span class="tag t-ok">三项物理校验全部通过</span></p>
+    <table>
+      <thead><tr><th style="width:26%">校验项</th><th style="width:30%">实测值</th><th>判定</th></tr></thead>
+      <tbody>
+        <tr><td>流量守恒</td><td>DC 订单均值 / 终端需求均值 = <strong>0.963</strong></td><td class="win">OK ✅</td></tr>
+        <tr><td>牛鞭单调放大</td><td>1.14x → 1.83x → <strong>3.68x</strong></td><td class="win">OK ✅</td></tr>
+        <tr><td>牛鞭量级</td><td>DC 端 3.68x（文献常见 1–4x）</td><td class="win">OK ✅</td></tr>
+        <tr><td>终端间歇率</td><td>中位覆盖率 <strong>0.18</strong>（UCI 实测目标 0.18）</td><td class="win">OK ✅</td></tr>
+        <tr><td>确定性</td><td>同种子逐位一致；换种子必然不同</td><td class="win">OK ✅</td></tr>
+        <tr><td>产物体积</td><td>9 SKU × 730 天 ≈ 15 KB（未压缩）</td><td class="win">OK ✅</td></tr>
+      </tbody>
+    </table>
+    <p style="margin:0">纯 JS、零依赖、<strong>无 node-only API</strong> —— 浏览器可直接跑，满足红线②「模型须浏览器内可复现」。</p>
+  </div>
+
+  <h3>原型 B：GSM vs 各点独立</h3>
+  <div class="card">
+    <table>
+      <thead><tr><th style="width:34%">方案</th><th style="width:22%">总安全库存</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>各点独立（朴素做法）</td><td class="num">7,303 件</td><td>每个节点按自身提前期备份用：<code>SS=z·σ·√T</code></td></tr>
+        <tr><td><strong>GSM 保证服务模型</strong></td><td class="num win">6,720 件</td><td>树形 DP 枚举「承诺服务时间」，使 ΣSS 最小</td></tr>
+        <tr><td>差额</td><td class="num">583 件（8.0%）</td><td>按 $12/件计，释放现金约 $6,998</td></tr>
+      </tbody>
+    </table>
+    <p style="margin:0"><strong>节省 8% 低于文献常引的 20–40%，这是本配置的真实结果，不调参数凑数。</strong>
+    手算验证过：改让 DC 也备 7 天，总量反而升到 7,605 件 —— 多一级缓冲增加的量
+    （+1,331）超过下游可削减的量（−737），聚合的池化优势抵不过重复覆盖。</p>
+  </div>
+
+  <h2><span class="n">03</span>过程中踩到的四个坑</h2>
+  <p class="sub">全部已修，记录在案 —— 这些比结论更值得复用</p>
+
+  <table>
+    <thead><tr><th style="width:22%">坑</th><th style="width:34%">症状</th><th>修正</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>① 发货源搞错</td>
+        <td>牛鞭比 87x / 9,024x，DC 订单均值是终端需求的 4,940 倍</td>
+        <td>发货量必须取「子节点本期实际订的量」，不能拿「父节点自己订的量 ÷ 子节点数」</td>
+      </tr>
+      <tr>
+        <td>② 缓冲层层重复</td>
+        <td>每层用<code>z·σ·√(L+1)</code>，而 σ 取自下级订单（已被上层动态污染），三层嵌套后 target 乘积式膨胀</td>
+        <td>σ 基准改为<strong>该节点承担的终端需求</strong>；安全库存交给决策层算，合成器不冒充</td>
+      </tr>
+      <tr>
+        <td>③ 递推形式失效</td>
+        <td><code>order = demand + ΔS</code> 只在完美履行下成立；加入 MOQ 后缺少负反馈，订单均值被系统性抬高 5.3 倍</td>
+        <td>显式跟踪库存位 IP：<code>order = f(S − IP)</code>，<code>IP ← IP + order − demand</code>，守恒由数学保证</td>
+      </tr>
+      <tr>
+        <td>④ 启动瞬态传染</td>
+        <td>期初库存位从 0 起步导致虚假建库，巨单向上传染，上层 MA 放大 15 倍（DC 第 0 天订了 513,600），此后链条数百天不下单</td>
+        <td>期初 IP 初始化为期初目标库存位，表示「带着与目标匹配的库存启动」</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="note">
+    <strong>最有复用价值的一条：正面列一个数学校验再开发。</strong>
+    如果没有「流量守恒」这条断言，①②会让一个看似完美的 Demo 带着 9,000 倍的假牛鞭上线 ——
+    那正是本站一贯反对的「精确的错误」。<strong>建议把物理断言写进 CI</strong>，不过关不许进演示层。
+  </p>
+
+  <h2><span class="n">04</span>M0–M5 里程碑</h2>
+  <p class="sub">每个里程碑都有可验收的产出与硬性完成判据</p>
+
+  <h3>M0 · 规格冻结与数据管线</h3>
+  <ul>
+    <li>冻结四层数据架构：L1 用户上传 / L2 你的真实 pilot / L3 决策层 / L4 演示层（UCI + 合成）</li>
+    <li>写 <code>scripts/build_uci_demo.py</code>：下载 zip → read_only 解析 xlsx →
+      <strong>SKU 统一转 str（混合类型陷阱）</strong> → 剔除 <code>Quantity ≤ 0</code> →
+      聚合 SKU × 日 → 按覆盖率分箱择优 → 输出 ≤200 KB 的 <code>demo-series.json</code></li>
+    <li><strong>完成判据</strong>：产物可取 content hash，两次构建逐字节一致；
+      页面标注口径写死且不可配置（来源、年份、聚合口径缺一不可）</li>
+  </ul>
+
+  <div class="card c">
+    <h3 style="margin-top:0">M1 · 合成多级承重墙 <span class="tag t-warn">独立可验收 · 不可降级</span></h3>
+    <p>这是本轮新增的独立里程碑。它承担的缺口 #7「多级库存 / 防呆」<strong>没有其他数据来源</strong>，
+    做不好就等于整个 B+ 少占一个缺口。</p>
+    <table>
+      <thead><tr><th style="width:34%">验收项</th><th style="width:26%">硬性判据</th><th>原型已实测</th></tr></thead>
+      <tbody>
+        <tr><td>流量守恒</td><td>DC订单均值/终端需求均值 ∈ [0.90, 1.10]</td><td class="win">0.963 ✅</td></tr>
+        <tr><td>牛鞭单调性</td><td>方差自下而上严格递增</td><td class="win">1.14 → 1.83 → 3.68 ✅</td></tr>
+        <tr><td>牛鞭量级</td><td>DC 端 &lt; 6x</td><td class="win">3.68x ✅</td></tr>
+        <tr><td>需求形态</td><td>覆盖率中位贴近 UCI 实测 0.18</td><td class="win">0.18 ✅</td></tr>
+        <tr><td>种子确定性</td><td>同种子逐位相同，换种子必然不同</td><td class="win">✅</td></tr>
+        <tr><td>浏览器可跑</td><td>零 node-only API，浏览器内复现</td><td class="win">✅</td></tr>
+        <tr><td>体积预算</td><td>≤ 200 KB（未压缩 JSON）</td><td class="win">15 KB ✅</td></tr>
+        <tr><td>GSM 对比</td><td>方向与量级如实披露，不凑文献数字</td><td class="win">8.0% ✅</td></tr>
+      </tbody>
+    </table>
+    <p><strong>必须一同演示（不可省略）：</strong></p>
+    <ul style="margin-bottom:0">
+      <li>GSM 最优解中有节点的 SS = 0（本例为 DC）。这不代表它不需要库存，
+        而是「承诺更长的交货服务时间，把不确定性转由下游持有」——
+        <strong>必须连同净补货时间 N_i 一起展示</strong>，否则就是误导。</li>
+      <li>节省比例与服务水平无关（两算法对 z 都线性），说明节省来自<strong>网络结构</strong>而非服务水平。</li>
+      <li>全部标注 <code>[SYNTHETIC]</code>。</li>
+    </ul>
+  </div>
+
+  <h3>M2 · 预测模型擂台</h3>
+  <ul>
+    <li>Naive / 季节性 Naive / 移动平均 / 指数平滑 / Holt-Winters / Croston / 轻量 GBDT，全部纯 JS</li>
+    <li>rolling-origin 回测 + 前视窗口；<strong>Prophet 依赖 Stan，已排除</strong></li>
+    <li><strong>完成判据</strong>：同一份数据两次跑逐位一致；间歇序列上 Croston 相对 MA 的优势可复现</li>
+  </ul>
+
+  <h3>M3 · 误差 → 库存决策链</h3>
+  <ul>
+    <li>误差分布 → 服务水平 z → 安全库存 → 补货点 → 现金占用；单级用教科书公式，多级进 GSM</li>
+    <li>核心图：<strong>把 4.26pp 的 MAPE 差距翻译成安全库存与现金占用的差额</strong></li>
+    <li><strong>完成判据</strong>：所有公式为用例表覆盖（含边界 <code>N=0</code>、<code>z=0</code>）；
+      输出为<strong>参考区间与前沿曲线</strong>，不出现「最优库存 / 建议下单量」字样</li>
+  </ul>
+
+  <h3>M4 · 站点接入</h3>
+  <ul>
+    <li><code>.app-grid</code> 两卡 → 三卡；<code>stat2</code> 计数 2 → 3；双语 <code>dataset.zh</code> 无条件先快照</li>
+    <li>配图沿用既有伸手不能的结构：纵排「标题 → 配图 → 文案」，按钮齐底</li>
+    <li><strong>完成判据</strong>：五档宽度 390 / 640 / 768 / 1024 / 1440 零溢出；语言来回切换后能切回中文</li>
+  </ul>
+
+  <h3>M5 · 双层标注与交付</h3>
+  <ul>
+    <li>数据层说明：UCI 写明年份与来源（历史零售数据，<strong>非实时</strong>）；合成层标 <code>[SYNTHETIC]</code></li>
+    <li>独立仓库 + 双语 + <code>--base=./</code> 构建</li>
+    <li><strong>完成判据</strong>：四层数据来源在 UI 上一眼可辨，不存在「说不清是哪层」的数字</li>
+  </ul>
+
+  <h2><span class="n">05</span>下一步</h2>
+  <p class="note">
+    M0 和 M1 可以并行 —— M1 不依赖 M0 的数据管线（合成自用序列生成器）。
+    <strong>建议先做 M1</strong>：它是唯一「做不出来就没有替代方案」的部分，
+    而且原型已经跑通，风险已经释放掉了。M1 完成后，B+ 最不确定的一块就确定了。
+  </p>
+
+  <footer>
+    supply-chain-portfolio · proposals/（草稿目录，不被 git 跟踪，未被 Pages 托管）·
+    本轮未改动站点任何业务文件，未推送。
+  </footer>
+</div>
+</body>
+</html>

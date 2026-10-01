@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Round 3 · 跳出 Top 7：热点驱动的其他选项与总排名</title>
+<style>
+  :root{
+    --ink:#1c1f23; --ink-soft:#5a6470; --ink-mute:#8b95a1;
+    --line:rgba(28,31,35,.12); --line-soft:rgba(28,31,35,.07);
+    --teal:#0e7a6d; --teal-bg:#e6f2f0;
+    --blue:#1a4fd6; --blue-bg:#eaf0fd;
+    --amber:#8a5a00; --amber-bg:#fdf3e0;
+    --red:#a32d2d; --red-bg:#fcecec;
+    --sans:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:#fff;color:var(--ink);font-family:var(--sans);
+    font-size:14px;line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:960px;margin:0 auto;padding:56px 32px 96px}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+    color:var(--ink-mute);text-transform:uppercase}
+  h1{font-size:27px;font-weight:600;margin:10px 0 6px;letter-spacing:-.01em}
+  .lede{color:var(--ink-soft);font-size:14.5px;margin:0 0 8px;max-width:700px}
+  .meta{font-family:var(--mono);font-size:11.5px;color:var(--ink-mute);
+    padding-bottom:26px;border-bottom:1px solid var(--line)}
+  h2{font-size:18px;font-weight:600;margin:52px 0 4px;letter-spacing:-.01em}
+  h2 .n{font-family:var(--mono);font-size:12px;color:var(--teal);
+    margin-right:10px;font-weight:500}
+  .sub{color:var(--ink-mute);font-size:12.5px;margin:0 0 20px}
+  h3{font-size:14.5px;font-weight:600;margin:30px 0 10px}
+  p{margin:0 0 13px}
+  .card{border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:16px 0}
+  .card.a{border-color:rgba(14,122,109,.34);background:#fbfdfc}
+  .card.b{border-color:rgba(26,79,214,.28);background:#fbfcff}
+  .card.c{border-color:rgba(138,90,0,.30);background:#fffdf8}
+  .tag{display:inline-block;font-family:var(--mono);font-size:10.5px;
+    letter-spacing:.08em;padding:3px 9px;border-radius:5px;margin-right:6px}
+  .t-ok{background:var(--teal-bg);color:var(--teal)}
+  .t-warn{background:var(--amber-bg);color:var(--amber)}
+  .t-no{background:var(--red-bg);color:var(--red)}
+  .t-info{background:var(--blue-bg);color:var(--blue)}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line-soft);
+    vertical-align:top}
+  th{font-size:11.5px;font-family:var(--mono);letter-spacing:.06em;
+    color:var(--ink-mute);font-weight:500;border-bottom:1px solid var(--line)}
+  td.num{font-family:var(--mono);font-size:12.5px;white-space:nowrap}
+  .win{color:var(--teal);font-weight:600}
+  .lose{color:var(--ink-mute)}
+  ul{margin:8px 0 14px;padding-left:19px}
+  li{margin-bottom:7px}
+  li::marker{color:var(--ink-mute)}
+  code{font-family:var(--mono);font-size:12px;background:#f3f5f7;
+    padding:1.5px 5px;border-radius:4px;color:#2b3038;word-break:break-all}
+  .layers{display:grid;grid-template-columns:1fr;gap:10px;margin:14px 0}
+  .layer{display:flex;gap:13px;align-items:flex-start;border:1px solid var(--line-soft);
+    border-radius:9px;padding:13px 15px;background:#fff}
+  .layer .lv{font-family:var(--mono);font-size:11px;color:var(--ink-mute);
+    padding-top:2px;min-width:26px}
+  .layer .lt{font-weight:600;font-size:13.5px;margin-bottom:2px}
+  .layer .ld{font-size:12.5px;color:var(--ink-soft);line-height:1.6}
+  .bar{height:6px;border-radius:3px;background:#eceef1;margin-top:5px}
+  .bar i{display:block;height:6px;border-radius:3px}
+  .spark{display:inline-block;height:8px;border-radius:2px;background:#0e7a6d;vertical-align:middle}
+  .spark.off{background:#dfe3e7}
+  .verdict{border:1px solid var(--line);border-left:3px solid var(--teal);
+    border-radius:10px;padding:20px 24px;margin:22px 0;background:#fbfdfc}
+  .verdict h3{margin-top:0}
+  .redline{border-left:3px solid var(--red);border-radius:0 10px 10px 0;
+    padding:16px 22px;margin:16px 0;background:#fdf7f7;border:1px solid rgba(163,45,45,.16)}
+  .redline h3{margin:0 0 8px;color:var(--red);font-size:13.5px}
+  .redline ul{margin-bottom:0}
+  .note{border-left:2px solid var(--line);padding:2px 0 2px 15px;
+    color:var(--ink-soft);font-size:13px;margin:14px 0}
+  .chain{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:10px;
+    align-items:center;margin:18px 0}
+  .chain .node{border:1px solid var(--line);border-radius:10px;padding:13px 14px;background:#fff}
+  .chain .node b{display:block;font-size:13px;margin-bottom:3px}
+  .chain .node span{font-size:12px;color:var(--ink-soft);line-height:1.55}
+  .chain .arrow{font-family:var(--mono);color:var(--ink-mute)}
+  @media(max-width:760px){
+    .chain{grid-template-columns:1fr;gap:6px}
+    .chain .arrow{text-align:center;transform:rotate(90deg)}
+  }
+  footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
+    font-family:var(--mono);font-size:11px;color:var(--ink-mute)}
+  @media(max-width:680px){
+    .wrap{padding:36px 18px 64px} h1{font-size:23px}
+    table{font-size:12px} th,td{padding:7px 6px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">Spin-off application · round 3 · beyond the Top 7 gaps</div>
+  <h1>跳出 Top 7：热点驱动的其他选项与总排名</h1>
+  <p class="lede">Round 2 只从「AI 补位 · 工作流缺口 Top 7」里选人，那是一个封闭集合。这一轮把范围放到全部雷达期数、五份报告的共同发现、Gartner 2026 供应链技术八大趋势与当前行业热点里，逐个验证数据源可操作性，再和 A / B 放在同一张表上比。</p>
+  <div class="meta">supply-chain-portfolio · 2026-09-29 · round 3 · 数据源实测于当日 20:05–20:35 GMT+8</div>
+  <p class="note" style="margin-top:14px"><strong>本文件有两处已被 round 4 修订，请以 round 4 为准：</strong>① 第 04 节 N4「没有任何免密钥结构化源」措辞过强——实测 BLS / QCEW / Hugging Face / GitHub 均有免密钥结构化源，正确的判词是「部署侧不单列、运行侧零公开源」，最终评分 6.3–7.2（基准 <strong>6.7</strong>，原 6.0）；② 下表「#3 冷链遥测」一行作废——冷链因实时层与 VeloCortex 同源，已正式移出候选池；同时新增「岗位信号」维度后 B 升级为 B+ 并与 A 实质并列。见 <code>round4-physicalai-score-and-jobfit-2026-09-29.html</code>。</p>
+
+  <h2><span class="n">01</span>扫描范围与一个关键发现</h2>
+  <p class="sub">Scope · 为什么 Top 7 不够用</p>
+
+  <p>Top 7 的来源是「本周雷达热点 + 五份报告共同发现」，但它有一个结构性盲区：<strong>七个缺口全是「流程与算法」缺口</strong>——可视化、税率、冷链、预测、编排、碳、库存。而雷达九期里出现频率最高的一个方向，根本不在里面。</p>
+
+  <h3>雷达九期条目的方向频次</h3>
+  <table>
+    <thead><tr><th style="width:30%">方向</th><th style="width:16%">出现期数</th><th style="width:54%">对应现状</th></tr></thead>
+    <tbody>
+      <tr><td>咽喉点中断与运价（红海 / 霍尔木兹 / 巴拿马）</td><td class="num">9 / 9 <span class="spark" style="width:54px"></span></td><td class="win">已覆盖 → VeloCortex（缺口 #1）</td></tr>
+      <tr><td>关税与贸易政策</td><td class="num">8 / 9 <span class="spark" style="width:48px"></span></td><td class="win">已覆盖 → TariffLens（缺口 #2）</td></tr>
+      <tr><td><strong>仓储机器人 / 具身智能 / 物理 AI</strong></td><td class="num">8 / 9 <span class="spark" style="width:48px"></span></td><td class="lose">缺口榜里一条都没有；也做不成数据应用（见第 04 节 N4）</td></tr>
+      <tr><td>Agentic AI 落地、集成与治理</td><td class="num">5 / 9 <span class="spark" style="width:30px"></span></td><td>部分 → DisruptionOps（缺口 #5），治理面空置</td></tr>
+      <tr><td>AI 回报与 ROI 争议</td><td class="num">5 / 9 <span class="spark" style="width:30px"></span></td><td class="lose">缺口榜里没有；无公开数据源（N3）</td></tr>
+      <tr><td><strong>出口管制 / 实体清单 / 制裁合规</strong></td><td class="num">2 / 9 <span class="spark" style="width:12px"></span> <span class="tag t-warn">集中在最近两期</span></td><td class="win">缺口榜里没有，<strong>但数据源实测最强</strong>（N1）</td></tr>
+      <tr><td>绿色 / 碳合规</td><td class="num">2 / 9 <span class="spark" style="width:12px"></span></td><td>缺口 #6，round 2 已否（Scope 3 无源）</td></tr>
+      <tr><td>人才与能力</td><td class="num">2 / 9 <span class="spark" style="width:12px"></span></td><td>缺口榜候补（6.9）</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note"><strong>关键发现：</strong>「出口管制与制裁合规」只出现两期，但两期都在最近：08-29「首例！美国调查货代 Apex 涉英伟达芯片走私，德迅股价大跌」、09-21「实体 AI 撞上出口管制：三星 RB-Y1 被列入 FCC 清单暂停对美出货」。<strong>期数少不代表不重要，而代表它正在起势</strong>——而它恰好有一条极高质量的官方数据源，这是 Top 7 里好几个缺口都不具备的条件。</div>
+
+  <h3>外部坐标：Gartner 2026 供应链技术八大趋势的三主题框架</h3>
+  <p>八大趋势分三组：<strong>Autonomy &amp; Agency</strong>（Polyfunctional Robots / Physical AI / Agentic AI / Collaborative MAS）、<strong>Specialization &amp; Intelligence</strong>（Intelligent Simulation / Domain-Specific LMs）、<strong>Trust &amp; Governance</strong>（Product Provenance / Decision Governance）。把本站已建与在选的应用放进去，缺口一目了然：</p>
+  <table>
+    <thead><tr><th style="width:24%">主题</th><th style="width:38%">本站落点</th><th>状态</th></tr></thead>
+    <tbody>
+      <tr><td>可见性与运营</td><td>VeloCortex Maritime</td><td class="win">已上线</td></tr>
+      <tr><td>合规（税）</td><td>TariffLens</td><td class="win">已上线</td></tr>
+      <tr><td>Autonomy &amp; Agency</td><td>DisruptionOps（候选 A）</td><td class="win">候选，已评分</td></tr>
+      <tr><td><strong>Trust &amp; Governance</strong></td><td>—</td><td class="lose"><strong>整组空置：Product Provenance 与 Decision Governance 一个都没落地</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h2><span class="n">02</span>新候选数据源实测</h2>
+  <p class="sub">Evidence · 与 round 2 同一套方法，带 <code>Origin</code> 头</p>
+
+  <table>
+    <thead><tr><th style="width:30%">数据源</th><th style="width:82px">免密钥</th><th style="width:74px">CORS</th><th>实测结论</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>美国贸易部 CSL 合并筛查清单</strong><br><code>data.trade.gov/downloadable_consolidated_screening_list/v1/consolidated.json</code></td>
+        <td><span class="tag t-ok">YES</span></td><td><span class="tag t-ok">ACAO: *</span></td>
+        <td class="win"><strong>本轮最强发现。</strong>26,144 条、11 张官方清单合并、支持 Range 请求、<code>last-modified: 2026-09-29 11:15 GMT</code>（日更 05:00 ET）。含 BIS Entity List 3,419 / DPL 1,596 / UVL 222 / MEU 70 + OFAC SDN 19,391 / SSI 286 / CMIC 68 + 国务院 ITAR Debarred 801 / ISN 161。<strong>类型含 Vessel 1,540 与 Aircraft 342</strong>——船名筛查可用。</td>
+      </tr>
+      <tr>
+        <td><strong>OFAC SDN 全量 CSV</strong><br><code>sanctionslistservice.ofac.treas.gov/api/PublicationPreview/exports/SDN.CSV</code></td>
+        <td><span class="tag t-ok">YES</span></td><td><span class="tag t-ok">ACAO: *</span></td>
+        <td class="win">302 跳转到 us-gov-west-1 的预签名地址后可下载，重定向响应带 CORS 头，有效期 1 小时。与 CSL 互为交叉验证源。</td>
+      </tr>
+      <tr>
+        <td><strong>欧盟合并金融制裁清单</strong><br><code>webgate.ec.europa.eu/fsd/fsf/public/files/csvFullSanctionsList_1_1/content?token=…</code></td>
+        <td><span class="tag t-ok">YES</span></td><td><span class="tag t-no">无 CORS</span></td>
+        <td class="win">24.8 MB CSV，字段完整（Entity / NameAlias / Address 三层 + 法规出处）。浏览器端不可直取，<strong>走构建期快照</strong>——与 TariffLens 的 USITC HTS 同一模式，已有先例。</td>
+      </tr>
+      <tr>
+        <td><strong>纽约联储 GSCPI</strong><br><code>newyorkfed.org/…/gscpi_data.xlsx</code></td>
+        <td><span class="tag t-ok">YES</span></td><td><span class="tag t-no">无 CORS</span></td>
+        <td class="lose">可下载（206），但是 <strong>xlsx 且月更</strong>。能当背景指标，撑不起一个应用的实时层。</td>
+      </tr>
+      <tr>
+        <td><strong>GDELT 全球事件库</strong><br><code>api.gdeltproject.org/api/v2/doc/doc</code></td>
+        <td><span class="tag t-ok">YES</span></td><td><span class="tag t-warn">限流</span></td>
+        <td class="lose">两次实测均 <strong>429</strong>（本出口 IP 被限流），第三次才通。新闻信号有价值，但<strong>不能作为核心实时层依赖</strong>；若用须做降级。</td>
+      </tr>
+      <tr>
+        <td><strong>BIS 官方清单直链</strong><br><code>bis.doc.gov/dpl/dpl.txt</code> · <code>bis.gov/entity-list</code></td>
+        <td><span class="tag t-warn">已迁移</span></td><td>—</td>
+        <td class="lose">旧地址 <strong>301 跳到 bis.gov 首页</strong>；新入口 <code>/entity-list</code> 落到 EAR §744 正文（16.5 MB HTML，非机器可读）。→ <strong>机器可读路径只剩 CSL</strong>，这也说明 CSL 的不可替代性。</td>
+      </tr>
+      <tr>
+        <td><strong>Lloyd's 市场协会 JWC 战争险区域</strong><br><code>lmalloyds.com/lma/jointwarcommittee</code></td>
+        <td colspan="2"><span class="tag t-no">404</span></td>
+        <td class="lose">入口已失效且无 API。战争险与保费数据全部封闭在经纪商体系内 → <strong>「中断保险成本」方向的数据基础不成立</strong>。</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2><span class="n">03</span>新候选 N1 · 出口管制与制裁筛查</h2>
+  <p class="sub">Candidate N1 · 非 Top 7 缺口，来自雷达热点 + Gartner Trust &amp; Governance</p>
+
+  <div class="card a">
+    <div><span class="tag t-ok">源质量全场最高</span><span class="tag t-ok">日更 · 免密钥 · CORS 全开</span><span class="tag t-info">Gartner 未覆盖主题</span></div>
+    <h3 style="margin:12px 0 6px">ScreenLens · 出口管制与制裁清单筛查台</h3>
+    <p style="margin:0;color:var(--ink-soft);font-size:13.5px">一句话定位：<strong>把「这个交易对手、这条船、这家供应商能不能碰」从翻 11 张官方清单，变成一个当日可查、命中即给证据链的筛查动作。</strong></p>
+  </div>
+
+  <h3>为什么它不是「第二个 TariffLens」</h3>
+  <p>这是它最大的质疑，必须先答。TariffLens 回答的是「<strong>要交多少钱</strong>」，ScreenLens 回答的是「<strong>能不能交易</strong>」——前者是税率测算，后者是主体筛查；前者数据是税率表，后者数据是名单；前者的红线是「不做 HS 归类」，后者的红线是「不做法律判定」。<strong>两条线在实务里由不同岗位负责，互不替代。</strong></p>
+  <p>更关键的是它可以做成<strong>跨应用的治理层</strong>，而不是又一个合规孤岛：CSL 里 1,540 条 Vessel、342 条 Aircraft，正好能对 VeloCortex 的船舶做尽职调查。三个应用由此连成一条链：</p>
+
+  <div class="chain">
+    <div class="node"><b>VeloCortex</b><span>这条船在哪、在堵什么<br><em>可见性</em></span></div>
+    <div class="arrow">→</div>
+    <div class="node"><b>TariffLens</b><span>这批货要交多少税<br><em>合规 · 税</em></span></div>
+    <div class="arrow">→</div>
+    <div class="node"><b>ScreenLens</b><span>这个对手方/这条船能不能碰<br><em>治理 · 主体</em></span></div>
+  </div>
+
+  <h3>三层数据架构</h3>
+  <div class="layers">
+    <div class="layer">
+      <div class="lv">L1</div>
+      <div>
+        <div class="lt">实时层 · 美国 CSL 合并清单 <span class="tag t-ok">已实测 · 日更</span></div>
+        <div class="ld">26,144 条，`last-modified` 显示在页面上（如「名单快照 2026-09-29 11:15 GMT，来源 11 张清单」）。可直取或降级为构建期快照；无论哪种，页面必须显示日期。</div>
+      </div>
+    </div>
+    <div class="layer">
+      <div class="lv">L2</div>
+      <div>
+        <div class="lt">扩展快照层 · 欧盟清单 / OFAC 直链 <span class="tag t-warn">构建期预取</span></div>
+        <div class="ld">欧盟 24.8 MB CSV 与 OFAC SDN 各自落成瘦身 JSON，用于交叉验证「美国清单未命中 ≠ 全球无风险」，页面上分区标注数据源与法域。</div>
+      </div>
+    </div>
+    <div class="layer">
+      <div class="lv">L3</div>
+      <div>
+        <div class="lt">演示层 · 筛查样例 <span class="tag t-info">标注 DEMO</span></div>
+        <div class="ld">内置若干公开报道过的典型主体（含船只类型），演示不同清单、不同 <code>programs</code>（如 SDGT / 561-Related）的命中差异与处置路径。全部标 [DEMO]，与用户真实输入分区。</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>功能模块</h3>
+  <ul>
+    <li><strong>批量筛查</strong>：粘贴一份对手方清单（供应商 / 客户 / 货代 / 船名），一键出命中表。这是真实工作形态——没人一次只查一个名字。</li>
+    <li><strong>命中卡</strong>：显示命中字段（name / alt_names / address / SWIFT-BIC 等 <code>ids</code>）、所属清单、<code>programs</code>、<code>remarks</code> 原文、<code>source_information_url</code> 官方出处，以及「建议做什么」（进一步尽职调查 / 咨询法律 / 申请许可）。</li>
+    <li><strong>相似度与匹配依据透明</strong>：分数、命中字段、是否仅凭音译别名命中，全部摊开；<strong>不隐藏判据</strong>。</li>
+    <li><strong>对象类型分流</strong>：Entity 10,341 / Individual 7,652 / Vessel 1,540 / Aircraft 342 四类不同处置剧本——船名查的是船东与 AIS 关联，个人查的是 KYC，性质不同。</li>
+    <li><strong>可导出筛查记录</strong>：时间戳 + 名单版本 + 输入 + 结果，形成一条可审计的决策留痕链（这正好落在 Gartner 的 Decision Governance 上）。</li>
+  </ul>
+
+  <div class="redline">
+    <h3>红线（与 TariffLens 同等级别，不可回退）</h3>
+    <ul>
+      <li><strong>① 只出「候选命中」，不做法律判定。</strong>命中 ≠ 禁止交易。官方口径原话就是「additional due diligence should be conducted before proceeding」——直接引用它，不要自己发明结论。</li>
+      <li><strong>② 不提供「合规通过」。</strong>只能显示「当前名单版本未命中」，并注明这只是筛查链条中的一步；不做任何「可以交易」的表述。</li>
+      <li><strong>③ 名单版本必须可见。</strong>显示 <code>last-modified</code> 与覆盖的清单列表；旧快照要显式标注日期，不用旧名单冒充当日。</li>
+      <li><strong>④ 不做自动 HS 归类</strong>（延续 TariffLens 红线 01）：应用只接受用户给定的主体与商品信息，不给归类建议。</li>
+    </ul>
+  </div>
+
+  <h3>实现要点（33.8 MB 不能直接扔给浏览器）</h3>
+  <ul>
+    <li>构建期瘦身：只保留 <code>name / alt_names / addresses.country / source / programs / type / entity_number</code>，预估可压到原始体积的两三成，gzip 后更小。</li>
+    <li>匹配策略先粗后细：<strong>blocking</strong>（首字母 + 国家 + 类型）缩小候选集，再对候选做编辑距离 / 音译近似打分。26k 条 × 用户输入的全量相似度会造成明显卡顿。</li>
+    <li>批量输入要限制单次条数并显示进度，不做「静默等待」。</li>
+  </ul>
+
+  <h2><span class="n">04</span>其余新方向：为什么不做</h2>
+  <p class="sub">Rejected · 热点是真的，可操作性不行</p>
+
+  <table>
+    <thead><tr><th style="width:15%">方向</th><th style="width:15%">热度</th><th style="width:34%">致命短板</th><th>处置</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>N2 韧性指数台</strong><br><span class="lose">供应链压力 / 事前预判</span></td>
+        <td class="num">高</td>
+        <td>唯一像样的公开源 GSCPI 是 <strong>xlsx + 月更</strong>，其余（PortWatch 咽喉点）<strong>VeloCortex 已在用</strong>。做出来与已有实时层高度重叠。</td>
+        <td class="win">降级为 <strong>DisruptionOps 的背景指标条</strong>（GSCPI 月度 + 事件计数），不独立成应用。</td>
+      </tr>
+      <tr>
+        <td><strong>N3 AI 用例价值账本</strong><br><span class="lose">AI ROI 与回报争议</span></td>
+        <td class="num">高</td>
+        <td>雷达五期都在讲「仅 37% 说改善了利润」「多数无法让 AI 产生回报」，痛点极真实——但<strong>零公开数据源</strong>，全靠用户手填，直接卡准入第 2 条；且极易做成一张 Excel 模板。</td>
+        <td class="win">作为 <strong>ForecastArena 的 ROI 模块</strong>（预测误差 → 库存占用 → 现金流），有上游数据支撑才立得住。</td>
+      </tr>
+      <tr>
+        <td><strong>N4 物理 AI / 具身机器人追踪</strong><br><span class="lose">仓储机器人与无人车</span></td>
+        <td class="num">最高<br><span class="lose">8/9 期</span></td>
+        <td>全站出现频率最高的方向。原判「<s>没有任何免密钥结构化源</s>」<strong>措辞过强、已被 round 4 修正</strong>：BLS / QCEW / Hugging Face / GitHub 均有免密钥结构化源，但<strong>部署侧（IFR 付费年度 PDF，且不单列仓储机器人）与运行侧（舰队遥测零公开源）双双缺失</strong>。做出来只能是人工登记的里程碑列表——那是内容页，不是数据应用。修正后评分 6.7，结论仍为不做。</td>
+        <td class="lose">不做。它已经被雷达「应用风向」栏承担得很好了，做成应用反而显得空。</td>
+      </tr>
+      <tr>
+        <td><strong>N5 中断保险与战争险定价</strong><br><span class="lose">不可投保 / 千万美元附加</span></td>
+        <td class="num">中</td>
+        <td>实测 JWC 入口 404、无 API；保费与费率全部封闭在经纪商体系内。任何「测算」都会是无源之数。</td>
+        <td class="win">在 DisruptionOps 里保留一个<strong>粗估成本模块</strong>（用公开日租与绕航天数做区间，明确标注为粗估），不做独立应用。</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2><span class="n">05</span>总排名</h2>
+  <p class="sub">All candidates · 同一套权重：业务价值 35% · 落地可行性 25% · 数据就绪度 20% · 时效紧迫性 20%</p>
+
+  <table>
+    <thead><tr><th style="width:26%">候选</th><th style="width:15%">来源</th><th style="width:12%">准入</th><th style="width:12%">价值</th><th style="width:12%">可行</th><th style="width:12%">数据</th><th style="width:11%">紧迫</th><th>加权</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>A · DisruptionOps</strong></td><td>缺口 #5</td>
+        <td class="num">9.0</td><td class="num">9.0</td><td class="num">7.5</td><td class="num">9.0</td><td class="num">9.0</td>
+        <td class="num win"><strong>8.6</strong></td>
+      </tr>
+      <tr>
+        <td><strong>N1 · ScreenLens</strong></td><td>雷达热点 + Gartner 治理</td>
+        <td class="num">9.0</td><td class="num">8.5</td><td class="num">8.0</td><td class="num">9.0</td><td class="num">8.5</td>
+        <td class="num win"><strong>8.5</strong></td>
+      </tr>
+      <tr>
+        <td><strong>B · ForecastArena</strong></td><td>缺口 #4</td>
+        <td class="num">8.0</td><td class="num">9.0</td><td class="num">7.5</td><td class="num">7.0</td><td class="num">7.5</td>
+        <td class="num win"><strong>7.9</strong></td>
+      </tr>
+      <tr>
+        <td>#3 冷链遥测</td><td>缺口 #3</td>
+        <td class="num">5.5</td><td class="num">8.0</td><td class="num">8.0</td><td class="num">5.0</td><td class="num">7.0</td>
+        <td class="num">7.2</td>
+      </tr>
+      <tr>
+        <td>N2 韧性指数台</td><td>报告 + 趋势</td>
+        <td class="num">6.0</td><td class="num">8.0</td><td class="num">7.0</td><td class="num">6.5</td><td class="num">7.5</td>
+        <td class="num">7.4</td>
+      </tr>
+      <tr>
+        <td>#6 ESG 碳核算</td><td>缺口 #6</td>
+        <td class="num">4.5</td><td class="num">8.5</td><td class="num">6.0</td><td class="num">4.0</td><td class="num">8.5</td>
+        <td class="num">7.0</td>
+      </tr>
+      <tr>
+        <td>N3 AI 价值账本</td><td>研究瞭望 5 期</td>
+        <td class="num">4.5</td><td class="num">8.0</td><td class="num">7.5</td><td class="num">4.0</td><td class="num">7.0</td>
+        <td class="num">6.9</td>
+      </tr>
+      <tr>
+        <td>#7 库存优化</td><td>缺口 #7</td>
+        <td class="num">4.0</td><td class="num">8.5</td><td class="num">7.0</td><td class="num">4.0</td><td class="num">7.0</td>
+        <td class="num">6.9</td>
+      </tr>
+      <tr>
+        <td>N4 物理 AI 追踪</td><td>应用风向 8 期</td>
+        <td class="num">3.5</td><td class="num">7.5</td><td class="num">6.0</td><td class="num">3.0</td><td class="num">6.5</td>
+        <td class="num lose">6.0</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>A 与 N1 的分差只有 0.1，凭什么 A 还是第一</h3>
+  <p>两条都不是数据源问题，而是<strong>叙事与版块结构</strong>问题：</p>
+  <ul>
+    <li><strong>A 落在既有的因果链里</strong>：它对应 Top 7 的 #5，版块标题「从研究到产品」的因果关系不变。N1 不在 Top 7 内，若要做，得先补一条「趋势落地」的叙事线（承认 Gartner Trust &amp; Governance 是第二个选人来源），否则它会显得「来路不明」——而补这条线本身是额外工作。</li>
+    <li><strong>A 的业务价值是全榜并列最高（9.5）</strong>，N1 的 8.5 高但不到顶。</li>
+    <li><strong>N1 会改变版块配比</strong>：三个应用里两个合规（TariffLens + ScreenLens）。虽然我给它的解法是「做成跨应用的治理层」（接 VeloCortex 的船），但那是设计意图，读者第一眼看到的仍是「又一个查名单的」。</li>
+  </ul>
+  <p>但反过来说，<strong>N1 的落地成本大概率低于 A</strong>：没有多源去重、没有地理命中计算，核心只是索引与模糊匹配；数据源也从四源变成一源 + 两个构建期快照，失败面小得多。</p>
+
+  <div class="verdict">
+    <h3>修订建议：A → N1 → B（把 ScreenLens 提到 ForecastArena 之前）</h3>
+    <p>Round 2 的排序是 A → B。本轮新增证据后我改口：<strong>N1 应该排在 B 之前</strong>。理由是 B 的两个短板这轮都没有被解决——仍然没有 SKU 级实时源，「多模型对比」的叙事仍与五份报告重叠；而 N1 的源质量实测是全场最高的一个，上线成本还更低。</p>
+    <p>B 的独门资产（你的真实 pilot 与那个诚实负结果）<strong>不会因为晚做而失效</strong>，反而等 A / N1 上线后，可以用它们已经建立的方法论与口径语言来包装——届时它不是「第三个应用」，而是「本站方法论的一次自检」。</p>
+    <p style="margin-bottom:0">如果这条排序你认可，那么接下来的单步动作不变：<strong>先确认 A 的第一条红线</strong>（不调用 LLM，编排为确定性规则并页面明示）。N1 的红线（只出候选命中、不提供「合规通过」）可以在 A 开工后再定稿。</p>
+  </div>
+
+  <h3>不是四选三，而是各归其位</h3>
+  <p>本轮被否掉的方向不需要丢弃，它们各有去处：</p>
+  <table>
+    <thead><tr><th style="width:26%">方向</th><th style="width:32%">去处</th><th>为什么这样放更好</th></tr></thead>
+    <tbody>
+      <tr><td>N2 韧性指数</td><td class="win">→ DisruptionOps 背景层</td><td>GSCPI 月度曲线 + 事件计数放在事件流上方，提供「当前处于什么环境」的参照，无需独立应用</td></tr>
+      <tr><td>N3 AI 价值账本</td><td class="win">→ ForecastArena ROI 模块</td><td>误差 → 库存 → 现金流，有上游数据才有说服力；且天然消化你的负结果</td></tr>
+      <tr><td>N5 中断保险成本</td><td class="win">→ DisruptionOps 成本粗估</td><td>公开日租与绕航天数可做区间估算，明确标注粗估，不装成精算</td></tr>
+      <tr><td>N4 物理 AI 追踪</td><td class="lose">→ 不做（雷达已承担）</td><td>无源方向做成应用，只会暴露「这个版块没有数据」</td></tr>
+      <tr><td>#3 冷链</td><td class="win">→ DisruptionOps 热敏货 SLA 剧本</td><td>承接 round 2 结论不变</td></tr>
+    </tbody>
+  </table>
+
+  <h2><span class="n">06</span>下一步</h2>
+  <p class="sub">Next step</p>
+  <p>只推进一步：<strong>确认排序 A → N1 → B 是否成立</strong>。若成立，我按 round 2 的 M0–M5 继续推进 A；若你更想把 N1 提到最前（毕竟它的源质量与落地成本都更优），我可以先把 N1 的 spec 与红线写出来，A 顺延。</p>
+  <p style="margin-bottom:0">需要提前说明的一点：N1 若要落地，站点的「AI 补位」版块叙事需要小幅扩展——因为它的来路不是 Top 7 缺口，而是雷达热点与 Gartner 治理主题。这件事我做，但需要你点头，因为它触及站点已有的因果链表述。</p>
+
+  <footer>
+    supply-chain-portfolio · round 3 · 热点驱动的其他选项与总排名 · 2026-09-29<br>
+    全部数据源结论为当日实测（带 Origin 头的跨域探测 / 重定向跟随 / 响应头核验）；本文件未改动站点任何业务文件
+  </footer>
+
+</div>
+</body>
+</html>

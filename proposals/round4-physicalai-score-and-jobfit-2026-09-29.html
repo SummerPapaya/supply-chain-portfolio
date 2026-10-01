@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Round 4 · 物理 AI 补位评分测算与「求职口径」重排</title>
+<style>
+  :root{
+    --ink:#1c1f23; --ink-soft:#5a6470; --ink-mute:#8b95a1;
+    --line:rgba(28,31,35,.12); --line-soft:rgba(28,31,35,.07);
+    --teal:#0e7a6d; --teal-bg:#e6f2f0;
+    --blue:#1a4fd6; --blue-bg:#eaf0fd;
+    --amber:#8a5a00; --amber-bg:#fdf3e0;
+    --red:#a32d2d; --red-bg:#fcecec;
+    --sans:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:#fff;color:var(--ink);font-family:var(--sans);
+    font-size:14px;line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:960px;margin:0 auto;padding:56px 32px 96px}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+    color:var(--ink-mute);text-transform:uppercase}
+  h1{font-size:27px;font-weight:600;margin:10px 0 6px;letter-spacing:-.01em}
+  .lede{color:var(--ink-soft);font-size:14.5px;margin:0 0 8px;max-width:730px}
+  .meta{font-family:var(--mono);font-size:11.5px;color:var(--ink-mute);
+    padding-bottom:26px;border-bottom:1px solid var(--line)}
+  h2{font-size:18px;font-weight:600;margin:52px 0 4px;letter-spacing:-.01em}
+  h2 .n{font-family:var(--mono);font-size:12px;color:var(--teal);
+    margin-right:10px;font-weight:500}
+  .sub{color:var(--ink-mute);font-size:12.5px;margin:0 0 20px}
+  h3{font-size:14.5px;font-weight:600;margin:30px 0 10px}
+  p{margin:0 0 13px}
+  .card{border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:16px 0}
+  .card.a{border-color:rgba(14,122,109,.34);background:#fbfdfc}
+  .card.b{border-color:rgba(26,79,214,.28);background:#fbfcff}
+  .card.c{border-color:rgba(138,90,0,.30);background:#fffdf8}
+  .tag{display:inline-block;font-family:var(--mono);font-size:10.5px;
+    letter-spacing:.08em;padding:3px 9px;border-radius:5px;margin-right:6px}
+  .t-ok{background:var(--teal-bg);color:var(--teal)}
+  .t-warn{background:var(--amber-bg);color:var(--amber)}
+  .t-no{background:var(--red-bg);color:var(--red)}
+  .t-info{background:var(--blue-bg);color:var(--blue)}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line-soft);
+    vertical-align:top}
+  th{font-size:11.5px;font-family:var(--mono);letter-spacing:.06em;
+    color:var(--ink-mute);font-weight:500;border-bottom:1px solid var(--line)}
+  td.num{font-family:var(--mono);font-size:12.5px;white-space:nowrap}
+  .win{color:var(--teal);font-weight:600}
+  .lose{color:var(--ink-mute)}
+  ul{margin:8px 0 14px;padding-left:19px}
+  li{margin-bottom:7px}
+  li::marker{color:var(--ink-mute)}
+  code{font-family:var(--mono);font-size:12px;background:#f3f5f7;
+    padding:1.5px 5px;border-radius:4px;color:#2b3038;word-break:break-all}
+  .layers{display:grid;grid-template-columns:1fr;gap:10px;margin:14px 0}
+  .layer{display:flex;gap:13px;align-items:flex-start;border:1px solid var(--line-soft);
+    border-radius:9px;padding:13px 15px;background:#fff}
+  .layer .lv{font-family:var(--mono);font-size:11px;color:var(--ink-mute);
+    padding-top:2px;min-width:26px}
+  .layer .lt{font-weight:600;font-size:13.5px;margin-bottom:2px}
+  .layer .ld{font-size:12.5px;color:var(--ink-soft);line-height:1.6}
+  .bar{height:6px;border-radius:3px;background:#eceef1;margin-top:5px}
+  .bar i{display:block;height:6px;border-radius:3px}
+  .spark{display:inline-block;height:8px;border-radius:2px;background:#0e7a6d;vertical-align:middle}
+  .spark.off{background:#dfe3e7}
+  .bigscore{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+    background:var(--line-soft);border:1px solid var(--line-soft);
+    border-radius:11px;overflow:hidden;margin:18px 0}
+  .bigscore div{background:#fff;padding:14px 15px}
+  .bigscore .k{font-family:var(--mono);font-size:10.5px;color:var(--ink-mute);
+    letter-spacing:.06em;margin-bottom:4px}
+  .bigscore .v{font-family:var(--mono);font-size:20px;font-weight:600}
+  .bigscore .w{font-family:var(--mono);font-size:10.5px;color:var(--ink-mute)}
+  .bigscore .tot{background:#fbfdfc}
+  .bigscore .tot .v{color:var(--teal)}
+  .verdict{border:1px solid var(--line);border-left:3px solid var(--teal);
+    border-radius:10px;padding:20px 24px;margin:22px 0;background:#fbfdfc}
+  .verdict h3{margin-top:0}
+  .redline{border-left:3px solid var(--red);border-radius:0 10px 10px 0;
+    padding:16px 22px;margin:16px 0;background:#fdf7f7;border:1px solid rgba(163,45,45,.16)}
+  .redline h3{margin:0 0 8px;color:var(--red);font-size:13.5px}
+  .redline ul{margin-bottom:0}
+  .note{border-left:2px solid var(--line);padding:2px 0 2px 15px;
+    color:var(--ink-soft);font-size:13px;margin:14px 0}
+  .chain{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:10px;
+    align-items:center;margin:18px 0}
+  .chain .node{border:1px solid var(--line);border-radius:10px;padding:13px 14px;background:#fff}
+  .chain .node b{display:block;font-size:13px;margin-bottom:3px}
+  .chain .node span{font-size:12px;color:var(--ink-soft);line-height:1.55}
+  .chain .arrow{font-family:var(--mono);color:var(--ink-mute)}
+  footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);
+    font-family:var(--mono);font-size:11px;color:var(--ink-mute)}
+  @media(max-width:760px){
+    .chain{grid-template-columns:1fr;gap:6px}
+    .chain .arrow{text-align:center;transform:rotate(90deg)}
+    .bigscore{grid-template-columns:repeat(2,1fr)}
+  }
+  @media(max-width:680px){
+    .wrap{padding:36px 18px 64px} h1{font-size:23px}
+    table{font-size:12px} th,td{padding:7px 6px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">Spin-off application · round 4 · scoring &amp; job-fit re-rank</div>
+  <h1>物理 AI 的补位评分测算，与「求职口径」重排</h1>
+  <p class="lede">你问了两件事，这一轮一起答：①「仓储机器人 / 具身 / 物理 AI」按站内同一套权重量化能打多少分；② 若把「对未来求职的信号价值」计入，排序怎么变。同时按你的新约束把冷链移出候选池，并把预测 / 库存方向提到台面上。</p>
+  <div class="meta">supply-chain-portfolio · 2026-09-29 · round 4 · 数据源实测于当日 20:15–20:55 GMT+8 · 未改动站点任何业务文件</div>
+
+  <h2><span class="n">01</span>测算口径：两套，不能混用</h2>
+  <p class="sub">Method · 站内口径回答「哪个缺口该被补」，求职口径回答「哪个作品能帮你拿offer」</p>
+
+  <p>站内缺口章节自己写明了权重：<strong>业务价值 35% · 落地可行性 25% · 数据就绪度 20% · 时效紧迫性 20%</strong>。本轮沿用这套，不做任何改动——<strong>这样算出来的分可以直接和缺口榜（9.3 / 8.4 / 8.0 / 7.8 / 7.8 / 7.4 / 7.4）与候选榜（A 8.6 / N1 8.5 / B 7.9）同表比较，不需要换算。</strong></p>
+
+  <p>另立一套<strong>求职口径</strong>：加入「岗位信号」维度占 20%，原四维按比例缩到 80%（价值 28% · 可行 20% · 数据 16% · 紧迫 16%）。</p>
+
+  <div class="note"><strong>这套权重只用于你自己的决策，不写进站点。</strong>站点公布的权重一旦为了个人求职目的改动，就破坏了它与 Top 7 缺口榜的可比性——那正是这个版块最值钱的地方（同一把尺子量所有候选）。</div>
+
+  <h2><span class="n">02</span>数据源实测：修正 round 3 的一处过强结论</h2>
+  <p class="sub">Evidence · 带 Origin 头的跨域探测 / 响应头核验 / 内容抽样</p>
+
+  <p>Round 3 对这条方向的判词是「<em>没有任何免密钥结构化源</em>」。这句话<strong>过于绝对，实测部分推翻</strong>；但它真正要表达的那个意思，反而被本轮证据加强了。</p>
+
+  <table>
+    <thead><tr><th style="width:26%">数据源</th><th style="width:9%">免密钥</th><th style="width:11%">CORS</th><th style="width:13%">粒度</th><th style="width:41%">实测结论</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>BLS 公开 API v2<br><code>api.bls.gov/publicAPI/v2</code></td>
+        <td class="win">是</td><td class="win"><code>ACAO: *</code></td><td>月度</td>
+        <td>通。总非农 2026-08 = 159,075 千人可直取。但<strong> CES 没有「仓储与储存」单列序列</strong>——<code>CES4249300001</code> 等候选 ID 全部返回 <em>Series does not exist</em>，只能退到「交通运输与仓储」大类。</td>
+      </tr>
+      <tr>
+        <td>BLS QCEW 开放数据<br><code>data.bls.gov/cew/data/api/2023/1/industry/493.csv</code></td>
+        <td class="win">是</td><td class="lose">无 CORS</td><td>季度 · 县级</td>
+        <td>通且内容真实：NAICS 493 仓储，含机构数 / 三月就业 / 季度工资 / 周薪 / 同比变动。无 <code>ACAO</code> 头 → <strong>只能构建期快照</strong>（与 TariffLens 的 USITC HTS 同一模式，已有先例）。</td>
+      </tr>
+      <tr>
+        <td>Census 时序 API<br><code>api.census.gov/data/timeseries</code></td>
+        <td class="win">是</td><td class="win"><code>ACAO: *</code></td><td>月度</td>
+        <td>端点可达且 CORS 全开，但本轮三组参数均未取到零售 / 电商有效载荷（需再定参）；国际贸易端点返回 302 → <strong>需 API key，不计入</strong>。</td>
+      </tr>
+      <tr>
+        <td>Hugging Face Hub + datasets-server</td>
+        <td class="win">是</td><td class="win"><code>ACAO</code> 回显 Origin</td><td>实时</td>
+        <td>通。<code>search=lerobot</code> 命中 1,000+ 数据集（分页上限），<code>lerobot/pusht</code> 单集 25,650 条 episode 可数。<strong>这是真·具身智能数据面</strong>，但它是研究侧，不是部署侧。</td>
+      </tr>
+      <tr>
+        <td>GitHub Search API</td>
+        <td class="win">是</td><td class="win"><code>ACAO: *</code></td><td>实时</td>
+        <td>通。topic 规模实测：embodied-ai 1,107 / physical-ai 545 / amr 379 / humanoid-robot 151 / warehouse-robotics 46。</td>
+      </tr>
+      <tr>
+        <td>IFR World Robotics 2026<br><span class="tag t-no">9/24 刚发布</span></td>
+        <td class="lose">PDF 免费<br>数据付费</td><td class="lose">—</td><td>年度</td>
+        <td><strong>决定性发现：它不覆盖仓储机器人。</strong>2025 年全球工业机器人存量 9% 增至 500 万台、年装机超 60 万台（2026 预测 65.5 万、2029 达 80.6 万），中国 35.4 万台占全球 59%、美国 3.85 万台升为第二——<strong>全部是「工厂里的工业机器人」</strong>。可下载物只有演示 PDF 与 5 张 PNG 图。</td>
+      </tr>
+      <tr>
+        <td>机器人舰队遥测 / AMR 实时状态</td>
+        <td class="lose">—</td><td class="lose">—</td><td class="lose">—</td>
+        <td class="lose"><strong>全市场不存在任何公开源。</strong>与冷链 IoT 不同（至少传感器普及、私有数据可采集），这个方向的运行层没有任何出口。</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>两句话的修订</h3>
+  <ul>
+    <li><strong>改错的</strong>：「没有任何免密钥结构化源」→ 劳动力侧（BLS / QCEW）与研究生态侧（HF / GitHub）的源既免费也开放，甚至带 CORS。</li>
+    <li><strong>被加强的</strong>：<strong>这个方向的本体——部署量与运行状态——没有任何可解析的公开口径。</strong>唯一权威装机数据是 IFR 的付费年度 PDF，而它<em>连仓储机器人都不单列</em>；即便你买下来，也答不了这个应用的题。</li>
+  </ul>
+
+  <h2><span class="n">03</span>物理 AI 补位评分：6.7 / 10</h2>
+  <p class="sub">Score · 站内四维权重，逐维给依据</p>
+
+  <h3>逐维打分</h3>
+  <table>
+    <thead><tr><th style="width:20%">维度</th><th style="width:10%">得分</th><th style="width:70%">依据</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>业务价值</strong><br><span class="w" style="font-family:var(--mono);font-size:11px;color:var(--ink-mute)">×35%</span></td>
+        <td class="num">7.5</td>
+        <td>热度全站第一（8/9 期），痛点真实（人力成本、产能弹性、工伤）。但「AI 补位」在这里必须先问<strong>补的是谁的活</strong>：机器人本体不是 AI 能补的，能补的只是部署节奏与商业论证这类分析决策。而这一层与五份报告已有论述重叠，且雷达「应用风向」栏已连续承担 8 期——差异化被稀释。</td>
+      </tr>
+      <tr>
+        <td><strong>落地可行性</strong><br><span class="w" style="font-family:var(--mono);font-size:11px;color:var(--ink-mute)">×25%</span></td>
+        <td class="num">6.5</td>
+        <td>纯静态 Pages 托管没问题。问题在<strong>功能会残缺</strong>：能做出来的只有劳动力侧与生态侧，机器人侧做不出来。若强行把不同口径（付费年度 / 季度 / 月度 / 实时）拼成一个故事，恰好违反本站「不把不同口径混为一谈」的调性——是自己批评过的错误。</td>
+      </tr>
+      <tr>
+        <td><strong>数据就绪度</strong><br><span class="w" style="font-family:var(--mono);font-size:11px;color:var(--ink-mute)">×20%</span></td>
+        <td class="num">5.5</td>
+        <td><strong>本轮的实质修订项，从 3.0 上调。</strong>源不是零——但可用的<strong>全是代理指标</strong>（就业、工资、数据集数量、代码活跃度），而<strong>部署侧与运行侧双双缺失</strong>。对照：N1 是当日日更的官方名单（9.0），#7 库存只是 ERP 主数据质量问题（6.5）——它比两者都差。</td>
+      </tr>
+      <tr>
+        <td><strong>时效紧迫性</strong><br><span class="w" style="font-family:var(--mono);font-size:11px;color:var(--ink-mute)">×20%</span></td>
+        <td class="num">6.5</td>
+        <td>持续热度 ≠ 时间窗口。它没有 §232 生效日那种硬锚点，也没有「现在不做就错过」的截止线。BLS 季度更新只能提供节律，不构成紧迫。</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="bigscore">
+    <div><div class="k">业务价值 ×35%</div><div class="v">7.5</div><div class="w">→ 2.63</div></div>
+    <div><div class="k">落地可行性 ×25%</div><div class="v">6.5</div><div class="w">→ 1.63</div></div>
+    <div><div class="k">数据就绪度 ×20%</div><div class="v">5.5</div><div class="w">→ 1.10</div></div>
+    <div><div class="k">时效紧迫性 ×20%</div><div class="v">6.5</div><div class="w">→ 1.30</div></div>
+    <div class="tot" style="grid-column:1 / -1"><div class="k">加权综合</div><div class="v">6.7 / 10</div><div class="w">2.63 + 1.63 + 1.10 + 1.30 = 6.65 → 6.7</div></div>
+  </div>
+
+  <h3>敏感性：换口径会不会翻盘</h3>
+  <table>
+    <thead><tr><th style="width:44%">口径</th><th class="num">价值</th><th class="num">可行</th><th class="num">数据</th><th class="num">紧迫</th><th class="num">综合</th></tr></thead>
+    <tbody>
+      <tr><td>保守：只认「免密钥 + CORS 浏览器直取」</td><td class="num">7.5</td><td class="num">6.0</td><td class="num">4.5</td><td class="num">6.5</td><td class="num">6.3</td></tr>
+      <tr><td><strong>基准：把快照层与生态源都计入</strong></td><td class="num">7.5</td><td class="num">6.5</td><td class="num">5.5</td><td class="num">6.5</td><td class="num win">6.7</td></tr>
+      <tr><td>乐观：重新定位为「仓储用工 × 自动化账本」</td><td class="num">7.5</td><td class="num">7.5</td><td class="num">6.5</td><td class="num">7.0</td><td class="num">7.2</td></tr>
+    </tbody>
+  </table>
+
+  <p><strong>结论：6.3 – 7.2，基准 6.7。</strong>在任何一种口径下都进不了前列——低于 A 8.6、N1 8.5、B 7.9，也低于缺口榜末两位（#6 ESG 与 #7 库存，各 7.4）。<strong>「不做」的结论维持不变，但理由换了</strong>：不是「没有源」，而是「有源，但源不在这个方向的本体上」。</p>
+
+  <h2><span class="n">04</span>它为什么结构性地做不成</h2>
+  <p class="sub">Why · 三条原因，第 ① 条可以升格为方法论</p>
+
+  <div class="card c">
+    <table style="margin:0">
+      <thead><tr><th style="width:26%">原因</th><th style="width:74%">说明</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>① 新闻密度 ≠ 数据密度</strong></td>
+          <td>8/9 期的热度来自<strong>新闻事件</strong>——三星 RB-Y1 被列入 FCC 清单暂停对美出货、各家发布人形机与试点、融资轮次。事件型热点天然产生文章，<strong>不产生可解析数据</strong>。这是值得写进方法论的一条：<em>热度榜不能直接当选人榜</em>，两者之间必须隔一道「数据可得性」的筛子。</td>
+        </tr>
+        <tr>
+          <td><strong>② 权威口径在墙内，且不对题</strong></td>
+          <td>唯一权威的装机数据是 IFR 年度付费 PDF。付费本身不是致命伤——<strong>致命的是它不单列仓储 / 物流机器人</strong>。即便买下全套 World Robotics，你能答的仍是「工厂自动化」，不是「仓储自动化」。</td>
+        </tr>
+        <tr>
+          <td><strong>③ 运行侧零公开源</strong></td>
+          <td>没有 L1 实时层，就过不了准入标准第 2 条——这是 VeloCortex 立下的底线。这条底线不能为了热度破例，否则「不冒充实时」的整站诚信叙事就漏了。</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2><span class="n">05</span>按你的新约束重排：冷链出，预测 / 库存进</h2>
+  <p class="sub">Re-rank · 新增「岗位信号」维度</p>
+
+  <h3>冷链移出候选池</h3>
+  <p>理由接受，而且它和 round 2 的结论正好合流：冷链的实时层只能复用 VeloCortex 同源的港口气象 + 自编遥测，<strong>本质是换皮</strong>。Round 2 已把它降为 DisruptionOps 的「热敏货 SLA」剧本，本轮正式从候选池移除——缺口 #3 的 8.0 分不再参与排序。</p>
+
+  <h3>「岗位信号」怎么打分（可追问）</h3>
+  <table>
+    <thead><tr><th style="width:22%">候选</th><th class="num" style="width:12%">岗位信号</th><th style="width:66%">依据</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>B+ · 预测 → 库存</strong></td>
+        <td class="num win">9.5</td>
+        <td>demand planning / S&amp;OP / 安全库存 / 服务水平 / MAPE / 补货点 / 牛鞭效应——供应链管理岗 JD 的高频词几乎全覆盖。更重要的是<strong>面试里可被追问</strong>：你的 pilot 为什么输给 baseline？服务水平定多少、为什么？安全库存的假设是什么？——全是这个岗位的真实问题。</td>
+      </tr>
+      <tr>
+        <td>A · DisruptionOps</td>
+        <td class="num">7.5</td>
+        <td>体现流程设计、跨部门编排与规则化思维，是真实的运营能力信号；但偏执行与响应，与需求计划 / 库存这类岗位的直接相关性弱一档。</td>
+      </tr>
+      <tr>
+        <td>N1 · ScreenLens</td>
+        <td class="num">6.5</td>
+        <td>贸易合规方向真实且在起势，但在供应链管理岗里属<strong>专岗</strong>，不是主线关键词。</td>
+      </tr>
+      <tr>
+        <td>物理 AI</td>
+        <td class="num lose">6.0</td>
+        <td>偏工业工程 / 自动化方向，供应链管理岗 JD 里少见；作品能展示判断力，但面试官难以顺着它追问你的专业能力。</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>重排结果</h3>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:24%">候选</th>
+        <th class="num">价值<br>28%</th><th class="num">可行<br>20%</th><th class="num">数据<br>16%</th>
+        <th class="num">紧迫<br>16%</th><th class="num">岗位<br>20%</th>
+        <th class="num">求职口径</th><th class="num">站内口径</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>A · DisruptionOps</strong></td>
+        <td class="num">9.0</td><td class="num">7.5</td><td class="num">9.0</td><td class="num">9.0</td><td class="num">7.5</td>
+        <td class="num">8.40</td><td class="num">8.6</td>
+      </tr>
+      <tr style="background:#fbfdfc">
+        <td><strong>B+ · 预测 → 库存</strong><br><span class="tag t-ok">新</span></td>
+        <td class="num">9.0</td><td class="num">8.0</td><td class="num">7.5</td><td class="num">7.0</td><td class="num win">9.5</td>
+        <td class="num win">8.34</td><td class="num lose">—</td>
+      </tr>
+      <tr>
+        <td><strong>N1 · ScreenLens</strong></td>
+        <td class="num">8.5</td><td class="num">8.0</td><td class="num">9.0</td><td class="num">8.5</td><td class="num">6.5</td>
+        <td class="num">8.08</td><td class="num">8.5</td>
+      </tr>
+      <tr>
+        <td>物理 AI</td>
+        <td class="num">7.5</td><td class="num">6.5</td><td class="num">5.5</td><td class="num">6.5</td><td class="num">6.0</td>
+        <td class="num lose">6.52</td><td class="num lose">6.7</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="verdict">
+    <h3>排序最重要的变化：A 与 B+ 从 0.7 的分差缩到 0.06，实质并列</h3>
+    <p style="margin-bottom:0">站内口径排序<strong>不变</strong>：A（8.6）&gt; N1（8.5）&gt; B（7.9）。求职口径下 B 升级为 B+ 后从第三位升到并列第一。两条排序不冲突，因为它们回答的不是同一个问题——<strong>站内口径问「哪个缺口最该被补」，求职口径问「哪个作品最能帮你拿到下一份工作」。</strong></p>
+  </div>
+
+  <h2><span class="n">06</span>B+ 方案：一个应用覆盖两个缺口</h2>
+  <p class="sub">#4 需求预测 + #7 库存优化 · 合并而不是并列做两个</p>
+
+  <h3>为什么合并</h3>
+  <p>两个缺口的短板恰好互补：<strong>#4 缺实时层、像统计玩具；#7 数据就绪度只有 6.5、卡在 ERP 主数据质量。</strong>预测给库存提供<em>可复现的上游误差分布</em>，库存给预测提供<em>业务重量与现金流出口</em>。单独做预测＝工具；单独做库存＝依赖用户 ERP 且无法验证；<strong>串起来＝决策链</strong>。版块账上，一个应用覆盖两个缺口，「从研究到产品」从 1/7 走到 3/7。</p>
+
+  <div class="chain">
+    <div class="node"><b>预测误差</b><span>MAPE 16.68% vs 12.42%<br>差 4.26 个百分点</span></div>
+    <div class="arrow">→</div>
+    <div class="node"><b>服务水平</b><span>z 值由用户声明<br>不预设「最优」</span></div>
+    <div class="arrow">→</div>
+    <div class="node"><b>安全库存与现金占用</b><span>误差 → 备货 → 营运资金<br>全链路可复现</span></div>
+  </div>
+
+  <p><strong>一句话定位：</strong>把「预测准不准」推进到「库存该备多少」，起点是你自己那个诚实的负结果。</p>
+
+  <h3>四层数据架构</h3>
+  <div class="layers">
+    <div class="layer"><div class="lv">L1</div><div><div class="lt">用户自带层 · 上传 CSV</div><div class="ld">日期 × SKU × 销量，浏览器内解析，不上传服务器。这层的价值是「你的数据、你的结论」，天然规避造数嫌疑。</div></div></div>
+    <div class="layer"><div class="lv">L2</div><div><div class="lt">真实结论层 · 你的 pilot</div><div class="ld">AI hybrid MAPE 16.68% vs Naive lag-7 baseline 12.42%。这是本应用最强的差异化资产，也是唯一的「非造数」起点。</div></div></div>
+    <div class="layer"><div class="lv">L3</div><div><div class="lt">决策层 · 纯确定性计算</div><div class="ld">误差分布 → 服务水平 z 值 → 安全库存 → 补货点 → 库存占用与持有成本。全部公式可审查、结果可在浏览器内复现。</div></div></div>
+    <div class="layer"><div class="lv">L4</div><div><div class="lt">演示层 · UCI Online Retail II <span class="tag t-ok">CC BY 4.0 · 已下载解析</span></div><div class="ld">已替换 Favorita 并<strong>完成落盘解析</strong>（详见第 07 节）：1,067,371 行 → 4,985 SKU → <strong>67% 为间歇型需求</strong>，正是 Croston 的主场。<strong>注意它是单渠道、无多级结构</strong>——英国的单一在线批发商，因此<strong>多级库存（缺口 #7）只能由合成层承担</strong>，这条已上升为硬约束。构建期切片后内置。</div></div></div>
+  </div>
+
+  <h3>功能模块</h3>
+  <ul>
+    <li><strong>模型擂台</strong>：Naive / 季节性 Naive / 移动平均 / 指数平滑 / Croston / 轻量 GBDT——全部纯 JS 可行（Prophet 依赖 Stan，排除）。</li>
+    <li><strong>误差 → 库存传导</strong>：把 4.26 个百分点的 MAPE 差距换算成安全库存与现金占用的差额。<strong>这是全站最有说服力的一张图</strong>，也是那个负结果第一次变成业务语言。</li>
+    <li><strong>牛鞭效应</strong>：沿层级放大，呼应雷达「热门议题」栏。</li>
+    <li><strong>诚实徽章</strong>：模型未超越 baseline 时显式披露，并给出差距分析。</li>
+  </ul>
+
+  <div class="redline">
+    <h3>红线（与 TariffLens 同等级别，不可回退）</h3>
+    <ul>
+      <li><strong>① 不输出「最优库存」或「建议下单量」。</strong>只输出「给定服务水平与误差分布下的参考安全库存区间」，并明列公式与假设。</li>
+      <li><strong>② 所有模型在浏览器内可复现。</strong>不拿预计算结果冒充实时运算——本站批评过这种包装。</li>
+      <li><strong>③ 不冒充实时层。</strong>页面明示「用户自带数据 + 公开月度宏观序列」，不写「实时」二字。</li>
+      <li><strong>④ 不引入 LLM。</strong>与 A 同一口径：本站的可信资产是「可审查的确定性逻辑」，不是 LLM 包装。</li>
+    </ul>
+  </div>
+
+  <h2><span class="n">07</span>B+ 数据层实测：三条核对与一条许可红线</h2>
+  <p class="sub">Verified 2026-09-30 · 与既有规划对齐后重跑，全部为当日实测</p>
+
+  <p>既有规划把 B 的 demo 数据集记为「Favorita 300 万行，免登录可取」。我重跑了一遍：<strong>结论对上一半，但有两处必须修正，其中一处是新增红线。</strong></p>
+
+  <table>
+    <thead><tr><th style="width:22%">核对项</th><th style="width:20%">既有记录</th><th style="width:58%">本轮实测</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>数据集定位</strong></td>
+        <td>Favorita 商店销量<br>300 万行</td>
+        <td class="win">对上。<code>mrcksggcfc/store-sales-time-series-forecasting</code> 实测 <strong>3,000,888 行</strong>，字段 <code>id / date / store_nbr / family / sales / onpromotion</code>，与记录完全一致。<br><span class="tag t-warn">易混</span>HF 上的同名镜像 <code>hsnalmasri/favorita</code> 是<strong>另一份数据</strong>：1.25 亿行 / 903 MB、字段是 <code>item_nbr</code> 而非 <code>family</code>。两者别混用。</td>
+      </tr>
+      <tr>
+        <td><strong>运行时可取性</strong></td>
+        <td>免登录可取</td>
+        <td class="win">比预期更好。HF <code>datasets-server /rows</code> 端点<strong>免密钥 + CORS 回显 Origin + HTTP 200</strong>，浏览器可直接取到真实数据行。但 <strong><code>length</code> 硬上限 100 行</strong>（传 5000 返回 422：<em>Parameter 'length' must not be greater than 100</em>）。→ 只能做<strong>抽样演示层</strong>：点任一个「店 × 品类」实时拉真实历史序列；做不了全量训练。</td>
+      </tr>
+      <tr>
+        <td><strong>许可条款</strong></td>
+        <td class="lose">未记录</td>
+        <td class="lose"><strong>本轮唯一的新增红线。</strong>HF 镜像 <strong>license 未声明</strong>；回到源头查证，Kaggle 该竞赛数据的许可写的是 <strong>「Subject to Competition Rules」</strong>——不是开放许可。放进公开作品集有实打实的风险，<strong>这一点此前规划里没有标出来</strong>。</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>三条处置选项</h3>
+  <table>
+    <thead><tr><th style="width:18%">选项</th><th style="width:46%">做法</th><th>代价</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>A. 换数据集</strong><br><span class="tag t-ok">推荐为主</span></td>
+        <td><strong>UCI Online Retail II</strong>（UCI ML Repository #502）：<strong>已下载并完整解析</strong>——45,622,418 字节 zip → <code>online_retail_II.xlsx</code>，两个 sheet、<strong>1,067,371 行</strong>。<strong>CC BY 4.0</strong>，署名即可公开使用，这是唯一来源方自己写清使用条款的候选。</td>
+        <td>多一步聚合；无 <code>onpromotion</code> 促销字段；<strong>无多级结构</strong>（见下方代价条款）</td>
+      </tr>
+      <tr>
+        <td><strong>B. 切片 + 显式声明</strong></td>
+        <td>仍用 Favorita，但只内置<strong>极小切片</strong>（如 2 店 × 5 品类 × 2 年），页面固定标注「来源 Kaggle Store Sales（Corporación Favorita），受竞赛规则约束，仅作演示」。构建期落 JSON，不运行时拉取。</td>
+        <td>许可风险只是缩小暴露面，<strong>并未消除</strong>；不建议作为唯一方案</td>
+      </tr>
+      <tr>
+        <td><strong>C. 合成数据</strong><br><span class="tag t-info">推荐为辅</span></td>
+        <td>用可复现种子生成带已知季节性 / 间歇性的序列，页面标注「合成 · 用于方法演示」。</td>
+        <td>失去「真实数据」的说服力——而这恰是本站最值钱的东西</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="note"><strong>决定：A 为主 + C 为辅（已确认）。</strong>主 demo 用 UCI（CC BY 4.0，可署名公开），另留一条合成序列专做「间歇需求 / Croston / 多级结构」这类需要控制变量的方法演示。<strong>Favorita 不进公开版本</strong>——它适合本地验证，不适合挂到作品集上。</p>
+
+  <h3>下载并解析核验（2026-09-30 追加）</h3>
+  <p>上一轮只验到 HTTP 200。既然定了用它，就把文件真正下载下来跑到行级别——<strong>「能下载」和「能进浏览器」是两件事</strong>。</p>
+
+  <table>
+    <thead><tr><th style="width:24%">核验项</th><th>实测结果</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>落盘</strong></td>
+        <td class="win">HTTP 200，45,622,418 字节。解压为单文件 <code>online_retail_II.xlsx</code>，含 <code>Year 2009-2010</code>（525,461 行）与 <code>Year 2010-2011</code>（541,910 行），合计 <strong>1,067,371 行</strong> × 8 字段。</td>
+      </tr>
+      <tr>
+        <td><strong>字段结构</strong></td>
+        <td><code>Invoice / StockCode / Description / Quantity / InvoiceDate / Price / Customer ID / Country</code>。<br><span class="tag t-warn">易错</span>列序与常见文档记录不同——<code>InvoiceDate</code> 在第 <strong>5</strong> 列、<code>Country</code> 在第 <strong>8</strong> 列，按经济大类/GDP 惯例猜列索引会取到垃圾数据。<code>StockCode</code> 是<strong>混合类型</strong>（<code>85123A</code> 是 str、<code>71053</code> 是 int），聚合前必须统一转 str。</td>
+      </tr>
+      <tr>
+        <td><strong>时间跨度</strong></td>
+        <td>2009-12-01 → 2011-12-09，<strong>739 天</strong>，含 3 个完整年度季节性（圣诞节礼品季峰值明显）。足够做 90/10 或 rolling-origin 回测。</td>
+      </tr>
+      <tr>
+        <td><strong>脏数据</strong></td>
+        <td>退货/冲销行 22,950 条（<code>Quantity &lt; 0</code>）、credit 发票（<code>C</code> 前缀）19,494 条、<code>Price = 0</code> 6,202 条、<code>Customer ID</code> 缺失 243,007 条。<strong>须在聚合法里显式剔除</strong>并在页面注明口径，否则需求序列会被退货拉成负值。</td>
+      </tr>
+      <tr>
+        <td><strong>聚合产出</strong></td>
+        <td class="win">聚合成 SKU × 日：4,985 个 SKU、534,500 个非零格子。</td>
+      </tr>
+      <tr>
+        <td><strong>浏览器可行性</strong></td>
+        <td class="win">切 64 条序列（36 连续 + 28 间歇）× 739 天 → JSON <strong>124 KB</strong>，gzip <strong>35 KB</strong>。<strong>体积预算绰绰有余</strong>，可按需要扩到数百条序列。</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>意外收益：它是间歇需求的主场</h3>
+  <p>原本以为换数据集只是「为了拿干净许可而做的让步」，实测结果<strong>反而是升级</strong>。对活跃跨度 ≥30 天的 4,649 个 SKU 统计需求覆盖率（非零天 / 跨度）：</p>
+  <table>
+    <thead><tr><th style="width:26%">序列形态</th><th style="width:16%">SKU 数</th><th style="width:12%">占比</th><th>适用模型</th></tr></thead>
+    <tbody>
+      <tr><td>平稳型（覆盖率 ≥70%）</td><td class="num">190</td><td class="num">4%</td><td>Holt-Winters / 指数平滑</td></tr>
+      <tr><td>中间型（30–70%）</td><td class="num">1,343</td><td class="num">29%</td><td>移动平均 / 指数平滑</td></tr>
+      <tr><td><strong>间歇型（覆盖率 &lt;30%）</strong></td><td class="num win">3,116</td><td class="num win">67%</td><td><strong>Croston / SBA</strong></td></tr>
+    </tbody>
+  </table>
+  <p>覆盖率分位：<strong>p10 = 0.03 · p25 = 0.07 · 中位 = 0.18 · p75 = 0.38 · p90 = 0.58</strong>。也就是说<strong>中位 SKU 每 5.5 天才出一次货</strong>。这正是 <code>sales = 0</code> 泛滥、MAPE 会退化失效的经典场景，也正是 Naive / MA 这类方法会被 Croston 显著拉开差距的地方——<strong>「多模型擂台」在这份数据上比在 Favorita 上更有戏</strong>。</p>
+  <p>抽样还显示典型的<strong>块状需求（lumpy demand）</strong>：间歇组某 SKU 前 30 天为 <code>[288, 305, 9, 31, 0, 0, 11, 0, 14, 0, …]</code>——批发客户一次性提货，而非零星出货。这是库存管理最难的一档，恰好落在本公司缺口 #7 的射程里。</p>
+
+  <div class="redline">
+    <h3>代价条款（新增硬约束，须逐条接受）</h3>
+    <p>换 UCI 不是无痛的。<strong>它解决了许可问题，但掏走了多级结构</strong>：</p>
+    <ul>
+      <li><strong>UCI 是单渠道、单主体数据</strong>——一家面向英国市场的在线礼品批发商，SKU 层级之上<strong>没有仓库/门店层级</strong>。而 Favorita 天生就是 54 家店 × 33 个品类。</li>
+      <li><strong>Country 维度顶替不了层级。</strong>实测：United Kingdom 占 <strong>82.5% 销量</strong>（9,634,240 单位 / 4,974 SKU / 604 活跃天），其余 42 个国家销量<strong>中位数仅 7,038 单位</strong>，丹麦只有 41 个活跃天、澳大利亚 77 天——序列稀疏到做不了任何独立建模。用它冒充「多级」是自欺。</li>
+      <li><strong>因此：缺口 #7「多级库存 / 防呆」demo 的唯一来源必须是合成层。</strong>这把 L4 里那条合成序列从「锦上添花的演示」提升为<strong>承重墙</strong>——它要负责 DC → RDC → 前置仓的三级结构、牛鞭效应演示、以及多级安全库存的正确算法（不是各点独立算再相加）。<strong>这是本轮改动对实施计划影响最大的一条。</strong></li>
+      <li>顺带记住：UCI 缺 <code>onpromotion</code>，促销扰动因子改由合成层提供，或改用「星期几 + 月度季节性」作为可解释变量。</li>
+    </ul>
+  </div>
+
+  <h3>这该如何落到实施上</h3>
+  <ul>
+    <li><strong>构建期脚本</strong>（新增 M0 任务）：下载 zip → read_only 解析 xlsx → <strong>按 SKU 统一 str 化、显式剔除 <code>Quantity ≤ 0</code> 行</strong> → 聚合成 SKU × 日 → 按覆盖率分箱挑选序列 → 输出≤200 KB 的 <code>demo-series.json</code>。脚本可放进 B+ 独立仓库，作品集只引用产物。</li>
+    <li><strong>页面标注</strong>（不可省）：<code>来源 UCI Online Retail II（UCI ML Repository #502），CC BY 4.0；聚合口径：剔除退货与冲销行，单位＝日销量（件）；数据区间 2009-12-01–2011-12-09</code>。<strong>必须写明年份</strong>，不能让访客误以为是实时数据。</li>
+    <li><strong>合成层接管范围</strong>：多级（DC/RDC/前置仓）、牛鞭效应、促销扰动、控制变量的方法对照实验。全部标注 <code>[SYNTHETIC]</code>。</li>
+  </ul>
+
+  <h3>这对评分的影响</h3>
+  <p>B+ 的数据就绪度从 <strong>7.0 上调到 7.5</strong>：现在有了<strong>免密钥 + CORS 的真实公开数据层</strong>（<code>/rows</code> 抽样）与<strong>许可干净的基准集</strong>（UCI），不再是纯「用户上传」。但它<strong>仍然不是实时层</strong>——数据是历史零售数据，页面必须写明年份与来源，一个字不能含糊。</p>
+  <p>重算：9.0×0.28 + 8.0×0.20 + 7.5×0.16 + 7.0×0.16 + 9.5×0.20 = 2.52 + 1.60 + 1.20 + 1.12 + 1.90 = <strong>8.34</strong>。与 A 的 8.40 仍是实质并列，<strong>排序不变</strong>。</p>
+
+  <h2><span class="n">08</span>修订结论与下一步</h2>
+
+  <h3>结论</h3>
+  <ul>
+    <li><strong>物理 AI 补位评分 6.7</strong>（区间 6.3–7.2），全榜末两位。<strong>不做</strong>——理由从「没有源」修正为「有源，但源不在这个方向的本体上（部署侧不单列、运行侧零公开源）」。</li>
+    <li><strong>冷链正式移出候选池</strong>，其复用 VeloCortex 同源数据的判断维持。</li>
+    <li><strong>加入岗位信号后，B+ 从事后补位升到并列第一（8.34 vs A 8.40）</strong>；B+ 的数据层本轮补做实测后，数据就绪度 7.0 → 7.5（见第 07 节）。</li>
+    <li><strong>B+ 的数据层有一条必须先解决的许可红线</strong>：既有规划推荐的 Favorita 数据集，源头许可是 Kaggle「Subject to Competition Rules」，不是开放许可 → 建议改用 UCI Online Retail II（CC BY 4.0）为主、合成序列为辅，Favorita 只留作本地验证。</li>
+    <li><strong>既有规划里的三条状态已核对</strong>：① 存档缺 09-21 那个 bug <strong>已修复</strong>（现有 8 期，09-21 在列，无需补）；② 「库存蓝图原型现成」<strong>在本仓库中未找到</strong>，但 B+ 的库存层是纯确定性计算、不依赖额外数据集，因此不受影响；③ 浏览器能力边界（可跑 Naive / SNaive / MA / ES / Holt-Winters / Croston，跑不了 GBM / Prophet）与既有记录一致，已并入 B+ 的模型清单。</li>
+    <li><strong>建议先做 B+</strong>：并列时用你的目标做 tie-break——你要覆盖预测 / 库存，而 B+ 是唯一同时覆盖这两个方向的选项，且它把你已有的真实 pilot 从「一个负结果」升级为「一条决策链的证据」。</li>
+  </ul>
+
+  <h3>四件待你点头的事</h3>
+  <ol style="padding-left:19px">
+    <li><strong>B+ 的合并方向是否成立</strong>（#4 + #7 由一个应用承接）。</li>
+    <li><strong>红线 ① 「不输出最优库存，只出参考区间」是否认可</strong>——这条定下来，M0 的 spec 就有骨架。</li>
+    <li><s><strong>demo 数据集换不换</strong>：我建议 <strong>UCI Online Retail II（CC BY 4.0）为主 + 合成序列为辅</strong>，Favorita 只留作本地验证。这条是新增的，因为此前规划没查到它的许可约束。</s> <span class="tag t-ok">已决定 · 2026-09-30</span> 采用「换」方案，并完成下载解析核验；代价条款（UCI 无多级 → 合成层承接缺口 #7）已写入第 07 节。</li>
+    <li><strong>站点是否允许扩「候选来源」表述</strong>：N1 需要把来源从「Top 7 缺口」扩到「Top 7 + 雷达热点」。我的建议是<strong>「求职口径」这套权重不公开</strong>，站点只保留公布的四维口径。</li>
+  </ol>
+
+  <p class="note">下一步只做一件：确认第 1、2、3 条。确认后我出 B+ 的 M0–M5 里程碑，以及 L3 决策层的公式表（安全库存、补货点、持有成本口径逐条列出并标注假设）。</p>
+
+  <footer>
+    supply-chain-portfolio · round 4 · 物理 AI 补位评分与求职口径重排 · 2026-09-29<br>
+    全部数据源结论为当日实测（带 Origin 头的跨域探测 / 响应头核验 / 内容抽样）；本轮未改动站点任何业务文件，亦未推送任何内容
+  </footer>
+
+</div>
+</body>
+</html>
