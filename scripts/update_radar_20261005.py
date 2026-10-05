@@ -1,0 +1,257 @@
+# -*- coding: utf-8 -*-
+"""供应链雷达周更脚本（2026-10-05）
+
+标准：ee6be6d —— 权威来源 / 交叉验证 / 来源可溯 / 中英双语
+- 四栏固定顺序：重点新闻 → 热门议题 → 研究瞭望 → 应用风向
+- verified=True 仅用于 ≥2 家独立媒体佐证的条目
+- 同步两处：docs/radar-data.json 与 docs/index.html 内嵌 <script id="embeddedRadar">
+幂等：整份重建，重复执行结果一致。
+"""
+import json
+import re
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+DOCS = ROOT / "docs"
+JSON_PATH = DOCS / "radar-data.json"
+HTML_PATH = DOCS / "index.html"
+
+UPDATED_AT = "2026-10-05T21:40:00+08:00"
+
+COLORS = ["#e05656", "#f0a13a", "#5b8cff", "#35c2b0"]
+
+
+def S(label, url):
+    return {"label": label, "url": url}
+
+
+def IT(zh_t, en_t, zh_d, en_d, sources, verified):
+    return {
+        "title": {"zh": zh_t, "en": en_t},
+        "desc": {"zh": zh_d, "en": en_d},
+        "sources": sources,
+        "verified": verified,
+    }
+
+
+# ---------------- 重点新闻 / Key News ----------------
+KEY_NEWS = [
+    IT(
+        "G7 同意释放 1 亿桶柴油与原油储备：四年内分批投放，前 20 天前置释放柴油",
+        "G7 agrees to release 100 million barrels of diesel and crude: staged over four months, front-loaded on diesel",
+        "10 月 2 日（周五），法国总统马克龙召集 G7 领导人视频会议后宣布：七国将经 IEA 协调，在 4 个月内释放合计 1 亿桶原油与成品油，其中 G7 及其伙伴国将在前 20 天内前置投放“相当规模的柴油”，并协调各国炼厂检修排期以避免产能同时停机。背景是美国柴油价格创纪录：AAA 数据显示 9 月 22 日全美柴油均价一度达 6.52 美元/加仑，10 月 2 日为 6.37 美元/加仑；欧洲柴油期货一度站上 200 美元/桶。消息公布后欧洲柴油期货跌逾 4%，布伦特原油一度回落至 100 美元/桶下方，柴油相对原油的溢价从 76.77 美元/桶收窄至约 69 美元/桶。七国同时承诺彼此之间不设能源出口限制。需要提示的边界：IEA 今年 3 月已协调过 4 亿桶释放、目前约执行三分之二，本次 1 亿桶在表述上是“落实既有承诺”，并非纯粹的增量；放储只能补库存缺口，无法替代受损炼能。",
+        "On Friday Oct 2, after a video call of G7 leaders convened by French President Emmanuel Macron, the group said it would implement a coordinated release through the IEA of 100 million barrels, beginning immediately over four months, including a front-loaded substantial diesel release within the first 20 days by G7 members and partners. Leaders also agreed to coordinate refinery maintenance schedules to prevent simultaneous capacity shutdowns, and to refrain from energy export restrictions among themselves. The trigger is record US diesel: AAA put the national average at a record $6.52/gallon on Sept 22 and $6.37 on Oct 2, with European gasoil futures above $200/bbl. European gasoil futures fell more than 4% on the announcement and Brent briefly dropped back below $100/bbl; diesel’s premium over crude narrowed from $76.77 to roughly $69/bbl. Caveat worth stating: the IEA already coordinated a 400-million-barrel release in March with about two-thirds delivered, and the G7 text frames this 100 million as completing those existing commitments rather than a clean additional tranche. Releases bridge a supply gap; they do not rebuild damaged refining capacity.",
+        [
+            S("Le Monde / AFP（G7 联合声明全文要点）", "https://www.lemonde.fr/en/international/article/2026/10/02/g7-leaders-hold-talks-after-us-pressures-eu-on-fuel-reserves-and-diesel-ban_6758179_4.html"),
+            S("Al Jazeera（柴油价格与供需成因）", "https://www.aljazeera.com/news/2026/10/3/g7-to-release-100-million-barrels-of-oil-and-diesel-will-it-curb-prices"),
+            S("The Hill（美方政治背景与 IEA 3 月承诺）", "https://thehill.com/policy/energy-environment/6126022-trump-europe-diesel-stockpile-g7"),
+            S("OilPrice（市场即时反应与裂解价差）", "https://oilprice.com/Latest-Energy-News/World-News/G7-Moves-to-Release-100-Million-Barrels-to-Counter-Diesel-Crisis.amp.html"),
+        ],
+        True,
+    ),
+    IT(
+        "中美互开 300 亿美元对等降税清单：美方 77 类、中方 1,619 项，休战延至 2027 年 1 月 10 日",
+        "China and the US publish mirror $30bn tariff-cut lists: 77 US lines, 1,619 Chinese lines, truce extended to Jan 10, 2027",
+        "继 9 月下旬元首会晤后，中美经贸团队达成八点共识并于 9 月 27—28 日公布降税清单：双方各自挑选约 300 亿美元非敏感商品给予更优惠税率，美方清单 77 类（烟花、家居用品、运动器材、玩具、微波炉、圣诞饰品等），中方清单 1,619 项（肉类、海产、谷物、煤炭、木材、化妆品、医疗器械等）。中国商务部解读称清单内约 90% 产品的税率将降至最惠国税率水平、相互加征关税予以免除；美方口径为改善约 30% 美国对华出口的市场准入。双方同时将原定 2026 年 11 月 10 日到期的贸易休战延长两个月至 2027 年 1 月 10 日，并新设中美贸易理事会、投资理事会与农业工作组（年底前首次会议），约定 11 月底前举行人工智能对话并建立 AI 事件沟通渠道；中方承诺 2027、2028 年每年进口 1,000 万吨美国煤炭。两个必须提示的边界：一是美国最大对华农产品出口项大豆仍被排除在清单外，继续面临 10% 附加关税；二是降税需各自完成国内法律程序后同步实施，落地节奏（业内预计 9 月下旬至 11 月中旬）与最终税率仍未确定。",
+        "Following the late-September summit, the two economic teams agreed an eight-point package and published the mirror lists on Sept 27–28: each side selects roughly $30bn of non-sensitive goods for preferential tariff treatment — 77 US-bound categories (fireworks, household goods, sporting equipment, toys, microwave ovens, Christmas ornaments) and 1,619 Chinese-bound items (meat, seafood, grain, coal, timber, cosmetics, medical devices). China’s Ministry of Commerce said about 90% of listed products will fall to MFN rates with reciprocal surcharges waived; USTR framed it as improving market access for roughly 30% of US exports to China. Both sides extended the truce — due to expire Nov 10, 2026 — by two months to Jan 10, 2027, and created a US–China Board of Trade, an investment council and an agriculture working group (first meeting before year-end), with an AI dialogue scheduled before end-November plus an AI incident communication channel. China committed to importing 10m tonnes of US coal in each of 2027 and 2028. Two caveats matter: soybeans, the largest US farm export to China, remain outside the list and still carry a 10% surcharge; and the cuts take effect only after each side completes domestic legal procedures, so timing (industry expects late September to mid-November) and final rates are still unsettled.",
+        [
+            S("Sing Tao USA（商务部解读 + 彭博/路透清单口径）", "https://www.singtaousa.com/2026/09/29/news/usa/china-us-300-billion-tariff-list"),
+            S("C.H. Robinson（美方 77 类与落地程序）", "https://www.chrobinson.com.br/en-US/resources/blog/october-trade-updates-tariffs-fees-and-refunds"),
+            S("工商時報（SCFI 周报同步印证休战期限）", "https://www.ctee.com.tw/news/20260930701893-430503"),
+        ],
+        True,
+    ),
+    IT(
+        "苏伊士回摆进入“主力航线级”：COSCO 时隔两年多首次西行，Premier Alliance FE1 亦改为经运河",
+        "Suez return reaches mainline scale: COSCO’s first westbound transit in over two years, Premier Alliance FE1 rerouted",
+        "Linerlytica 第 39 周市场脉搏显示：自 5 月以来累计已有 140 艘、合计逾 200 万 TEU 运力的集装箱船从好望角航线结构性改回苏伊士；上周（截至 9 月底）是 2024 年以来苏伊士运河集装箱船通行最繁忙的一周，30 艘 4,000 TEU 以上船舶通过。关键节点是 10 月 4 日：COSCO 在 9 月中旬以来已安排 9 个东行航次经运河后，由 24,188 TEU 的 OOCL Spain 执行 AEU1/LL1 服务，完成两年多来首次西行过河（同服务在 CMA CGM 客户口径为 FAL5）；此前 OOCL Portugal 已于 9 月 16 日完成危机以来首次南向通行。Premier Alliance（ONE / HMM / 阳明）亦把 FE1 亚洲—北欧线改回苏伊士：8,100 TEU 的 ONE Continuity 定于 10 月 17 日（另有排期口径为 10 月 19 日）自林查班出发，11 月 9 日抵运河、11 月 19 日抵鹿特丹，NYK Venus、ONE Hamburg、NYK Orion 随后跟进。风险面并未解除：欧盟 Aspides 护航任务公开表示舰艇数量不足以覆盖所有护航申请，被分析师列为全面、快速回摆的主要制约；航运分析机构估算目前仍有约 35% 的亚欧航次走红海。",
+        "Linerlytica’s Week 39 Market Pulse: since May, 140 containerships with more than 2m TEU of capacity have structurally switched back from Cape of Good Hope routings to Suez, and the latest week was the busiest for Suez containership transits since 2024, with 30 ships above 4,000 TEU transiting. The milestone is Oct 4: after nine eastbound Suez voyages scheduled since mid-September, COSCO makes its first westbound transit in more than two years with the 24,188 TEU OOCL Spain on the AEU1/LL1 service (known as FAL5 to CMA CGM customers), following the OOCL Portugal’s first southbound passage on Sept 16. The Premier Alliance (ONE, HMM, Yang Ming) is also returning its FE1 Asia–North Europe service to the canal: the 8,100 TEU ONE Continuity is scheduled to depart Laem Chabang on Oct 17 (some schedules show Oct 19), reach the canal on Nov 9 and Rotterdam on Nov 19, with NYK Venus, ONE Hamburg and NYK Orion following. Risk is not resolved: the EU’s Aspides mission says it lacks enough vessels to meet all escort requests — cited by analysts as the main brake on a fuller, faster return — while one shipping consultancy estimates roughly 35% of Asia–Europe sailings currently use the Red Sea route.",
+        [
+            S("Linerlytica Market Pulse 2026 Week 39", "https://www.linerlytica.com/post/market-pulse-2026-week-39"),
+            S("The Loadstar（FE1 班期与 eeSea 数据）", "https://tcldlt.net/8843"),
+            S("OrePulse（MSI 估算 + Aspides 护航产能）", "https://www.orepulse.com/news/premier-alliance-to-resume-suez-transits-for-fe1-service-in-oct"),
+        ],
+        True,
+    ),
+    IT(
+        "运价东西分化：SCFI 连二跌至 3662.30 点，欧地线续跌、美线逆势小涨，承运人押注 10 月中 FAK 上调",
+        "East–West split deepens: SCFI falls a second week to 3662.30, Europe/Med down again, US lanes up, carriers push mid-October FAKs",
+        "9 月 30 日上海航运交易所数据：SCFI 综合指数报 3662.30 点、较上期跌 24.32 点（-0.66%），为连二跌；同期 CCFI 报 1923.93 点、涨 0.3%。分航线：上海—美西 7,578 美元/FEU（+1.54%）、上海—美东 10,528 美元/FEU（+0.3%），美线维持高位；上海—欧洲 3,378 美元/FEU（-4.76%）、上海—地中海 3,771 美元/FEU（-3.7%），欧地线继续回落。Drewry 世界集装箱指数（WCI）10 月 2 日报 4,434 美元/40ft（-1%），上海—鹿特丹 3,399 美元（-2%）、上海—热那亚 3,702 美元（-3%），亚欧已连续 12 周下行；跨太平洋则为上海—洛杉矶 7,835 美元（持平）、上海—纽约 10,428 美元（+1%）。为扭转跌势，MSC 与 CMA CGM 已宣布自 10 月 19 日起上调远东—欧洲/地中海/北非 FAK，MSC 北欧线 4,500 美元/40ft、阿尔及利亚最高 6,900 美元，CMA CGM 西地中海 4,600 美元、北非 6,900 美元。行业普遍提醒：黄金周工厂停产使货量走软、苏伊士回流持续注入有效运力，FAK 属承运人“喊价”，能否落地要看节后实际舱位。另有报道称中国监管部门关注美东线逾 1 万美元/FEU 的高运价，船公司已暂缓 9 月下半月在中国市场的喊涨。",
+        "Shanghai Shipping Exchange data for Sept 30: the SCFI composite fell 24.32 points (-0.66%) to 3662.30, a second consecutive weekly decline, while the CCFI rose 0.3% to 1923.93. By lane: Shanghai–US West Coast $7,578/FEU (+1.54%) and Shanghai–US East Coast $10,528/FEU (+0.3%) stayed at highs; Shanghai–Europe $3,378/FEU (-4.76%) and Shanghai–Mediterranean $3,771/FEU (-3.7%) kept sliding. Drewry’s World Container Index stood at $4,434 per 40ft on Oct 2 (-1%), with Shanghai–Rotterdam $3,399 (-2%) and Shanghai–Genoa $3,702 (-3%) — Asia–Europe has now declined for 12 straight weeks — while Shanghai–LA held at $7,835 and Shanghai–New York rose 1% to $10,428. To reverse the slide, MSC and CMA CGM filed higher Far East–Europe/Med/North Africa FAKs from Oct 19: MSC at $4,500/40ft to North Europe and up to $6,900 to Algeria; CMA CGM at $4,600 to West Med and $6,900 to North Africa. Industry caution is uniform: Golden Week factory closures soften volumes and returning Suez transits keep adding effective capacity, so the FAKs are carrier asks to be tested against actual post-holiday space. Separate reporting says Chinese authorities are scrutinising US East Coast rates above $10,000/FEU, and carriers paused late-September rate-increase filings in the China market.",
+        [
+            S("21 财经·上海航运交易所（SCFI 3662.30 / CCFI 1923.93）", "https://m.21jingji.com/timeline/f3c62327dc2b6f2eed986358dc58e139.html"),
+            S("工商時報（分航线明细与官方关注高运价）", "https://www.ctee.com.tw/news/20260930701893-430503"),
+            S("World Ports Organization（Drewry WCI 10/2 分航线）", "https://www.worldports.org/world-container-rates-drop-slightly"),
+            S("Container News（MSC / CMA CGM 10 月中 FAK）", "https://sourcing.center/news/2026-10-02-container-news-msc-fak-far-east-europe-oct19"),
+        ],
+        True,
+    ),
+]
+
+# ---------------- 热门议题 / Hot Topics ----------------
+HOT_TOPICS = [
+    IT(
+        "霍尔木兹风险常态化：9 月 29 日再有商船被不明投射物击中起火，UKMTO 建议谨慎通行",
+        "Hormuz risk normalises: another merchant vessel hit by an unidentified projectile on Sept 29, UKMTO advises caution",
+        "英国海上贸易行动办公室（UKMTO）9 月 29 日通报（Warning 143-26）：收到第三方迟报称一艘商船在穿越霍尔木兹海峡时遭“不明投射物”袭击并起火，随后火势被扑灭、船员安全、船舶继续航行，尚未确认损失与责任方；UKMTO 建议该海域船舶谨慎通行并保持警惕。央视新闻/央广网同步报道了 28 日晚间的这一事件（火已扑灭、船员安全、暂无环境影响报告）。另有海事媒体汇总称，同日更广范围内有三艘船舶报告被击中，均归因于身份不明的投射物；伊朗法尔斯通讯社则称曾向“违规”船只鸣枪示警。需要说明的是：袭击方身份未获独立确认，各方口径不一致——伊朗革命卫队方面多次公开宣称海峡已成其“猎场”，而实际通行并未中断。对货主的直接影响已出现：有行业周报称马士基暂停往返伊拉克、科威特、卡塔尔、巴林、沙特、约旦及大部分阿联酋的冷藏箱订舱，并对吉达当地收货人货物加收 3,800 美元紧急运费——该细节目前仅见单一行业周报转述，暂按未交叉验证处理。",
+        "UKMTO reported on Sept 29 (Warning 143-26), citing a delayed third-party report, that a vessel transiting the Strait of Hormuz was struck by an unidentified projectile, causing a fire that was extinguished; the crew is safe and the ship continued its voyage, with damage extent and attribution unestablished. UKMTO advised vessels in the area to exercise caution and report suspicious activity. CCTV/CNR carried the same incident from the night of Sept 28 (fire extinguished, crew safe, no environmental impact reported). Maritime press aggregation adds that three vessels in the wider area reported being struck the same day, all attributed to unidentified projectiles, while Iran’s Fars News Agency said warning shots were fired at vessels it claimed were violating the strait. Attribution remains unconfirmed and accounts diverge: IRGC spokesmen have repeatedly described the strait as a hunting ground, yet transits continue. Operational effects are already visible: one industry weekly reports Maersk has suspended reefer bookings to and from Iraq, Kuwait, Qatar, Bahrain, Saudi Arabia, Jordan and most of the UAE, and applies a $3,800 emergency freight cost on cargo for local consignees in Jeddah — this specific detail rests on a single trade weekly and is flagged here as not independently corroborated.",
+        [
+            S("UKMTO Warning 143-26（转引：World Ports Organization）", "https://www.worldports.org/vessel-struck-by-suspected-projectile-in-strait-of-hormuz"),
+            S("央广网 / 央视新闻客户端", "https://www.toutiao.com/article/7690921583783526946"),
+            S("Maritime News（9/29–10/1 海峡安全汇总）", "https://www.maritimenews.com/iran-conflict-maritime-disruptions/iran-conflict-hormuz-shipping-pressure"),
+            S("Spider Logistics（马士基订舱调整，单源待证）", "https://www.spiderlogisticsinc.cn/blog/capacity-flip-suez-return-africa-surcharges-sep-30-2026"),
+        ],
+        True,
+    ),
+    IT(
+        "德国港口劳资进入关键窗口：无限期罢工投票 10 月 1 日截止需 75% 反对率，北欧堆场 88–90% 已无缓冲",
+        "German port labour at a decision point: indefinite-strike ballot closed Oct 1 on a 75% rejection threshold, North European yards at 88–90%",
+        "据赫伯罗特运营更新转述，德国海港约 11,000 名码头工人（覆盖 Brake、不来梅哈芬、埃姆登、汉堡、威廉港五地受集体协议约束的企业）就无限期罢工进行的会员投票于 10 月 1 日晚截止：本轮谈判要被宣告失败、进而可启动无限期罢工，须达到 75% 的反对率门槛；此前 9 月 15 日的咨询投票中 5,500 余人参与，3,578 票反对、1,945 票赞成，反对率 64.7%。薪资分歧具体为：资方 ZDS 提出 12 个月方案（加薪 3.4%、年度集装箱津贴增加 416 欧元、假期津贴增加 200 欧元）或 18 个月方案（加薪 5.1%、每小时保底增加 1.20 欧元、集装箱津贴增至 5,000 欧元）；ver.di 要求 12 个月内时薪上调 8.2%、每小时至少增加 2.50 欧元。该争端已在 8 月触发 24 小时警告性罢工、9 月初触发 48 小时停工。截至本期发稿，工会尚未公开最终计票结果，无限期罢工是否启动仍待确认——这点必须标为未定。可确认的压力已经发生：Freight Academy 10 月 1 日更新显示鹿特丹、汉堡、不来梅哈芬堆场利用率 88–90%，靠泊延误 32–44 小时，德国港口仍在清理罢工积压、落后 2–3 天；鹿特丹 APMT Maasvlakte II 码头 85–90%。",
+        "Per a Hapag-Lloyd operational update, a membership ballot on indefinite strike action covering about 11,000 workers at tariff-bound port companies in Brake, Bremerhaven, Emden, Hamburg and Wilhelmshaven closed on the evening of Oct 1. The bargaining round is declared unsuccessful — clearing the way for open-ended strikes — only if a 75% rejection threshold is met; in the earlier consultation on Sept 15, more than 5,500 workers took part, with 3,578 against and 1,945 in favour, i.e. 64.7% opposed. The gap is concrete: the ZDS employers’ association offered a 12-month deal (3.4% pay rise, €416 more annual container allowance, €200 more holiday pay) or an 18-month option (5.1% rise, €1.20/hour guaranteed minimum, container allowance lifted to €5,000); ver.di is seeking 8.2% on hourly wages with a €2.50/hour floor over 12 months. The dispute already produced a 24-hour warning strike in August and a 48-hour stoppage in early September. As of publication the union has not released the final count, so whether indefinite strikes proceed remains unconfirmed — flagged explicitly as pending. What is confirmed is the pressure: Freight Academy’s Oct 1 update puts Rotterdam, Hamburg and Bremerhaven yard utilisation at 88–90% with berthing delays of 32–44 hours, German ports still two to three days behind clearing strike backlog, and Rotterdam’s APMT Maasvlakte II terminal at 85–90%.",
+        [
+            S("World Ports Organization（赫伯罗特运营更新转述）", "https://www.worldports.org/german-port-workers-vote-on-indefinite-strike-after-rejecting-pay-offer"),
+            S("Freight Academy / CPM（10/1 北欧堆场与延误数据）", "https://www.cpm-scm.com/supply-chain-review/article-1477.html"),
+        ],
+        True,
+    ),
+    IT(
+        "马尼拉港“数字休息日”：报关行与卡车司机以停点鼠标方式抗议空箱无处可还，行业内部出现分裂",
+        "Manila’s digital “rest day”: brokers and truckers protest by logging off as empty boxes pile up, with the industry split",
+        "10 月 5 日（原定 9 月 28 日、后为让货主完成在手业务而推迟），菲律宾报关行与码头卡车司机联盟发起“港口休息日”：不同于传统罢工，行动以数字化方式进行——报关行继续提交货物申报以避免 15 天弃货期，但停止生成闸口通行证、订舱与卡车舱单，卡车司机则拒绝接单与提箱，以此向外国船公司施压。核心诉求是：船公司拒收空箱长达两周至一个月，导致数千个空箱滞留在卡车、车库与私营堆场，直接侵蚀报关行与司机的收入。菲律宾海关局称正推动在 9 月内签署针对港口拥堵的联合行政命令。行业并非铁板一块：代表约 60% 码头卡车车主的 ACTOO 明确不参加，主张先与政府部门和受影响行业对话、寻找“具体可行的解决方案”，同时保留动员能力。对货主的启示是：此类“软抵制”不会像罢工那样一次性中断，但会持续抬高通道时间与滞箱成本，且因参与方不一致，实际影响程度难以量化。",
+        "On Oct 5 — postponed from Sept 28 to let traders and importers clear pending transactions — Philippine customs brokers and port truckers began a “rest day on the ports”. Rather than a physical strike, the action is digital: brokers may continue lodging goods declarations to avoid the 15-day abandonment period but are asked not to generate gate passes, bookings or truck manifests, while truckers decline gate passes and hauling. The grievance is that foreign shipping lines have refused to accept empty containers for two weeks to a month, stranding thousands of boxes on trucks, in garages and at private CY depots, and directly eroding brokers’ and drivers’ earnings. The Bureau of Customs says it is targeting a joint administrative order on port congestion. The industry is not united: ACTOO, which represents roughly 60% of port-based truckers, said it will not join, preferring to work with government agencies and other affected sectors on “concrete and workable solutions” while retaining the capacity to mobilise later. For shippers, the lesson is that soft resistance of this kind does not break the flow in one clean outage; it raises gate-cycle times and detention costs persistently, and because participation is uneven, the actual impact is hard to quantify.",
+        [
+            S("PortCalls Asia（PCBAPI 通知全文要点）", "https://portcalls.com/oct-5-rest-day-at-manila-ports-confirmed-brokers-and-truckers-group-says"),
+            S("LogisticsNewsPH（10/5 行动启动与诉求）", "https://logisticsnews.ph/2026/10/05/port-users-blame-foreign-shipping-lines-for-manila-congestion-as-digital-rest-day-begins"),
+            S("LogisticsNewsPH（ACTOO 不参加、行业分歧）", "https://logisticsnews.ph/2026/10/02/truckers-divided-actoo-skips-planned-strike-calls-for-dialogue"),
+        ],
+        True,
+    ),
+    IT(
+        "欧盟钢铁新规 10 月 1 日起强制“熔炼地”证明：配额砍 47%、配额外税率翻倍至 50% 且可叠加",
+        "EU steel regime tightens Oct 1: melt-and-pour proof becomes mandatory, quotas cut 47%, out-of-quota duty doubled to 50% and stackable",
+        "欧盟取代原保障措施的第 2026/1384 号“钢铁产能过剩条例”迎来最后一环：自 2026 年 10 月 1 日起，进口商必须提供可验证证据，说明钢材最初在哪个国家熔炼并浇铸（mill and pour），通常通过工厂试验证书（MTC）体现，需在清关时以 TARIC 商品编码申报；委员会已于 8 月 31 日敲定文件要求，2026 年 10 月 1 日至 2027 年 9 月 30 日为过渡期，可凭发票、交货单、质量证书、长期供应商声明等替代证据，2027 年 10 月 1 日起 MTC 强制。此前两项已于 7 月 1 日生效：年度免税配额降至 18,345,922 吨（较原制度平均减少 47%，其中约 915 万吨预留给自贸协定伙伴，其余按最惠国待遇开放），配额外税率由 25% 翻倍至 50% 从价税，且与既有反倾销税、反补贴税叠加计算——对已适用 30% 反倾销税的产品，配额外综合负担可达 80%。规则覆盖 26 个钢铁产品类别，季度管理；中国获 22 个子类别国别配额，但被排除在其他国家未用完配额的剩余池之外。设计意图是封堵“在第三国轧制即改原产地”的绕行路径。过渡期后（2028 年 6 月 30 日前委员会须评估）熔炼地有可能直接决定配额归属，届时贸易流向将被重新分配。",
+        "Regulation (EU) 2026/1384, the EU’s steel overcapacity instrument that replaced the safeguard regime, reaches its final milestone on Oct 1, 2026: importers must supply verifiable evidence of the country where the steel was first melted and poured, typically a Mill Test Certificate, declared via TARIC commodity codes at customs clearance. The Commission finalised documentation requirements on Aug 31; a transition running to Sept 30, 2027 allows alternative evidence (invoices, delivery notes, quality certificates, long-term supplier declarations), after which the MTC becomes mandatory. Two earlier pillars took effect July 1: the annual duty-free tariff-rate quota was cut to 18,345,922 tonnes — about 47% below the previous regime, with roughly 9.15m tonnes reserved for FTA partners and the rest open on an MFN basis — and the out-of-quota duty doubled from 25% to 50% ad valorem, applied cumulatively on top of existing anti-dumping and countervailing duties (a product already carrying a 30% AD duty faces an 80% combined burden). The measure covers 26 product categories administered quarterly; China holds country-specific quotas in 22 sub-categories but is excluded from residual pools of unused volume. The intent is to close the route of finishing semi-finished steel in a third country to acquire its origin. The Commission must assess by June 30, 2028 whether melt-and-pour country should itself determine quota eligibility — a review that could reallocate substantial trade flows.",
+        [
+            S("The European Post（熔炼地规则与配额设计）", "https://theeuropeanpost.eu/research-analysis/melt-and-pour-checks-test-the-steel-overcapacity-regulation"),
+            S("Peacock Tariff Consulting（条例条文与时间表）", "https://www.peacocktariffconsulting.com/eu-steel-wall-3"),
+            S("越南通讯社 VNA / VietnamPlus（官方应对提示）", "https://www.vietnam.vn/en/thuong-vu-khuyen-cao-nganh-thep-viet-nam-chu-dong-truoc-eu"),
+        ],
+        True,
+    ),
+]
+
+# ---------------- 研究瞭望 / Research ----------------
+RESEARCH = [
+    IT(
+        "运力悖论量化：订单簿超 1,400 万 TEU（约现有船队 42%），2026 船队仅增 4.6%、2027 增 9%",
+        "The capacity paradox, quantified: orderbook above 14m TEU (~42% of fleet), fleet growth just 4.6% in 2026 and 9% in 2027",
+        "BIMCO 口径：全球集装箱船队运力刚突破 3,400 万 TEU，而在建新船合同已超 1,400 万 TEU，约相当于现有运营船队的 42%，为历史最高；但由于交付节奏放缓，2026 年船队实际仅增长 4.6%，BIMCO 预计 2027 年增长 9%。Veson Nautical 四季度展望给出更锋利的对照：订单簿已超 1,400 万 TEU（年内新增下单逾 300 万 TEU），预计 2026—2029 年净船队年均增长 10.9%，而 TEU-mile 需求 2026 年增长 4.9%、2027—2029 年均 4.1%，供给明显跑赢需求，据此预测期内运价平均下跌约 32%。Transport Intelligence / Alphaliner 的补充数据同样指向结构性过剩：全球订单/运力比创纪录超过 40%，2027—2028 年间约 1,000 艘新船、8.5 百万 TEU 将进入市场；MSC 手持订单 146 艘、239 万 TEU，COSCO 112 艘、140 万 TEU，CMA CGM 预期相对船队增长 42.6%。值得记录的张力在于：德鲁里年初曾警告 2026 年集运业息税前利润可能较 2025 年的 320 亿美元下滑最多 96.7%，但截至目前并未发生——原因正是绕行、港口拥堵与低载运率吃掉了纸面运力。这意味着一旦苏伊士回摆完成，被释放的有效运力会同时压低运价与利润。",
+        "BIMCO puts the global container fleet just past 34m TEU with newbuilding contracts above 14m TEU — roughly 42% of the operating fleet, an unprecedented ratio — yet because deliveries slowed, the fleet grew only 4.6% in 2026, with BIMCO forecasting 9% growth in 2027. Veson Nautical’s Q4 outlook sharpens the contrast: the orderbook exceeds 14m TEU after more than 3m TEU ordered year-to-date, with net fleet growth forecast to average 10.9% a year over 2026–2029 against TEU-mile demand of 4.9% in 2026 and 4.1% annually in 2027–2029, implying freight rates declining about 32% on average across the forecast period. Transport Intelligence and Alphaliner data point the same way: the orderbook-to-fleet ratio is a record above 40%, with roughly 1,000 newbuilds and 8.5m TEU arriving in 2027–2028; MSC has 146 ships (2.39m TEU) on order, COSCO 112 ships (1.4m TEU), and CMA CGM projects 42.6% relative fleet growth. The tension worth recording: Drewry warned earlier this year that container carrier EBIT could fall as much as 96.7% from 2025’s $32bn on oversupply — which has not happened, because detours, port congestion and lower load factors absorb the paper capacity. That is precisely why a completed Suez return would release effective capacity and compress both rates and margins at once.",
+        [
+            S("Vietnam.vn（BIMCO 船队与订单簿数据）", "https://www.vietnam.vn/en/nghich-ly-van-tai-bien-ky-1-tau-dat-dong-moi-ky-luc-vi-sao-cuoc-container-van-neo-dinh"),
+            S("Riviera Maritime（Veson Nautical 四季度展望）", "https://www.rivieramm.com/opinion/veson-nautical-full-restoration-is-unlikely-before-at-least-mid-2027-90179"),
+            S("Logistics Management（Alphaliner / Ti 订单簿）", "https://www.logisticsmgmt.com/article/top_30_ocean_carriers_2026_walking_a_capacity_tightrope"),
+        ],
+        True,
+    ),
+    IT(
+        "航空枢纽评价本周双榜：新华社系“创新指数”与 OAG Megahubs 2026 给出两套完全不同的排名逻辑",
+        "Two air-hub scorecards this week: a Xinhua innovation index and OAG Megahubs 2026 rank hubs on opposite logics",
+        "本周航空物流枢纽评价体系出现两份口径截然不同的榜单，值得放在一起读。其一是新华社中国经济信息社编制、在全球数字贸易博览会发布的《全球航空物流枢纽创新发展指数报告（2026）》：选取全球 25 个代表性样本枢纽，设置 5 个一级、7 个二级、22 个三级指标，从创新环境、创新资源、创新应用、创新服务、发展质效五个维度评价；结果显示枢纽呈“金字塔”分布——上海浦东国际机场与香港国际机场位列“创新引领区”两强并立，“创新优势区”8 座（含广州白云、深圳宝安、鄂州花湖及韩国仁川、巴黎戴高乐等），“创新特色区”15 座（含郑州新郑、嘉兴南湖/东方天地港等）。报告特别指出，在人工智能与低空/无人货运领域，中国枢纽积极拓展 AI 应用场景。其二是 OAG Megahubs 2026（按 connections 计）：伊斯坦布尔机场以 337 个通航点、连接度 265.4 分居首，伦敦希思罗退居第二（227 点、246.2 分），阿姆斯特丹、吉隆坡、芝加哥奥黑尔列前五；亚太占全球前 20 中的 8 席，上海浦东由第 19 升至第 14、广州白云由第 36 升至第 19、香港重回前 20（第 22→20）。对供应链规划的可用性：前者把枢纽竞争力从吞吐量扩展到创新要素，适合高价值货（医药、半导体、跨境电商）通道设计与分拨中心选址；后者衡量的是纯连通性，适合中转路径与航线网络规划。两者不互相印证，应视为互补而非替代。",
+        "Two air-hub scorecards with opposite logics landed this week and are worth reading together. First, the Global Air Logistics Hub Innovation and Development Index Report (2026), compiled by Xinhua’s China Economic Information Service and released at the Global Digital Trade Expo: it samples 25 hubs and scores them across five first-tier, seven second-tier and 22 third-tier indicators spanning innovation environment, resources, application, services and development quality. Results form a pyramid — Shanghai Pudong and Hong Kong International Airport in the “innovation leadership” tier as a duopoly; eight hubs in the “innovation advantage” tier (including Guangzhou Baiyun, Shenzhen Bao’an and Ezhou Huahu alongside Incheon and Paris CDG); and 15 in the “innovation characteristic” tier (including Zhengzhou Xinzheng and Jiaxing Nanhu/Oriental World Port). It singles out AI and low-altitude/unmanned freight as areas where Chinese hubs are extending AI use cases. Second, OAG Megahubs 2026, which ranks by connections: Istanbul leads with 337 destinations and a connectivity score of 265.4, London Heathrow slips to second (227 destinations, 246.2), followed by Amsterdam, Kuala Lumpur and Chicago O’Hare; Asia-Pacific takes eight of the global top 20, with Shanghai Pudong rising 19th to 14th, Guangzhou Baiyun 36th to 19th, and Hong Kong returning to the top 20 (22nd to 20th). Practical use: the first extends hub competitiveness beyond throughput to innovation inputs, suiting high-value lanes (pharma, semiconductors, cross-border e-commerce) and distribution-centre siting; the second measures pure connectivity, suiting transit routing and network planning. They do not corroborate each other and should be treated as complementary, not substitutable.",
+        [
+            S("中国产业经济信息网（转中国青年报，新华社中国经济信息社编制）", "https://cinic.org.cn/hy/wl/1655053.html"),
+            S("Scoreclever（OAG Megahubs 2026 排名明细）", "https://ca.scoreclever.com/current-affairs/oag-megahubs-2026-delhi-igia-istanbul-most-connected"),
+        ],
+        True,
+    ),
+    IT(
+        "DHL《全球联结度报告 2026》：2025 年全球化仍处历史高位，货物平均运距 5,010 公里创纪录",
+        "DHL Global Connectedness Report 2026: globalisation held near record highs in 2025, with goods travelling a record 5,010 km on average",
+        "DHL 与纽约大学斯特恩商学院联合发布的《全球联结度报告 2026》给出一个反直觉的量化基准：2025 年全球联结度维持在 2022 年峰值附近的历史高位，货物贸易与 FDI 的平均运距均创纪录——贸易货物平均行驶 5,010 公里，为有记录以来最长；报告同时预测尽管不确定性与地缘紧张上升，2030 年前全球货物贸易仍将以年均约 2.6% 的速度增长。DHL 的分析还指出，只有相对较小的一部分全球流量从地缘竞争对手处转移，多数国家仍与广泛的伙伴保持贸易。方法论意义在于：它把“去全球化”叙事从总量判断拉回到结构判断——当前发生的是重构（reconfiguration）而非逆转（reversal），企业是在多元化供应商、增设第二产地、准备替代航线，同时并没有放弃国际采购。对网络设计的直接含义是：单一“回流/近岸”假设会高估风险敞口，而“多路径可达性”（备选港口、备选承运人与备选产地的组合）才是可量化的韧性指标。",
+        "The DHL Global Connectedness Report 2026, produced with NYU Stern, offers a counter-intuitive benchmark: global connectedness held near its 2022 peak in 2025, with goods trade and FDI travelling record average distances — traded goods moved an average of 5,010 km, the longest distance on record — and it projects global goods trade still growing about 2.6% a year through 2030 despite rising uncertainty and geopolitical tension. DHL’s analysis adds that only a relatively small share of global flows has shifted away from geopolitical rivals, with most countries continuing to trade across a wide range of partners. The methodological point matters: it moves the “deglobalisation” debate from a volume judgement to a structural one. What is happening is reconfiguration, not reversal — firms diversify suppliers, add second production locations and qualify alternative routes without abandoning international sourcing. For network design, the implication is direct: a single reshoring/nearshoring assumption overstates exposure, whereas multi-path reachability — the combination of qualified alternative ports, carriers and origins — is the resilience metric that can actually be measured.",
+        [
+            S("Vanguard Logistics（DHL 报告核心数据引述）", "https://www.vanguardlogistics.com/just-in-time-to-just-in-case-supply-chain"),
+            S("Business Times（DHL 供应链中东非负责人解读，2.6% 增速预测）", "https://www.sapphirepearl.com.sg/?live-blog-19755565-2026-08-01-story-audio-is-generated-using-ai-unpredictability-in-the-global-trade-system-an"),
+        ],
+        True,
+    ),
+]
+
+# ---------------- 应用风向 / Apps & Adoption ----------------
+APPS = [
+    IT(
+        "Barrett Distribution 与 UNIT AI 扩合作：2027 起用“网络化物理 AI”打通全国仓网的库存、履约与退货",
+        "Barrett Distribution expands UNIT AI partnership: networked physical AI across its national warehouse network from 2027",
+        "美国第三方物流商 Barrett Distribution Centers 宣布扩大与 UNIT AI 的合作，自 2027 年起在整个仓网部署后者的 Networked Physical AI（网络化物理 AI）平台。区别于只在单一设施内运行的传统仓储自动化，该平台跨多个仓库节点协同，首批能力包括：分布式库存布点、智能履约编排、全网库存可视化、去中心化退货处理。交付方式为 UNIT 的 Warehouse-as-a-Service（仓库即服务）模式，意在绕开传统自动化项目的高额前期投入、实施复杂度与长周期。CEO Tim Barrett 的表态把动因说得很直白：电商增长要求供应链做“结构性重组”，而不仅是把单个仓做得更高效；UNIT 联合创始人 Avihou Barkay 则把阶段划分为“第一波让单仓更高效，下一波把仓连起来，让库存、履约与退货在靠近消费端的网络中被编排”。可迁移的判据：把自动化评估对象从“单仓 ROI”改为“网络级库存周转 + 履约时效 + 退货成本”的组合，并把实施周期与资本开支作为准入条件。",
+        "US third-party logistics provider Barrett Distribution Centers announced an expanded partnership with UNIT AI to deploy UNIT’s Networked Physical AI Platform across its operations beginning in 2027. Unlike conventional warehouse automation designed to run within a single facility, the platform connects inventory, fulfillment and returns across multiple sites, with initial capabilities covering distributed inventory placement, intelligent fulfillment orchestration, network-wide inventory visibility and decentralised returns processing. It is delivered through UNIT’s Warehouse-as-a-Service model, explicitly to avoid the upfront capital, operational complexity and long implementation timelines typical of warehouse automation. CEO Tim Barrett framed the motivation as e-commerce requiring a structural realignment of supply chains rather than incremental single-site efficiency; UNIT co-founder Avihou Barkay framed the phases as “the first wave made individual facilities more efficient; the next connects facilities so inventory, fulfillment and returns can be orchestrated near points of consumption.” The transferable test: move the evaluation unit from single-site ROI to a network-level combination of inventory turns, fulfillment lead time and returns cost, and treat implementation time and capital outlay as gating criteria.",
+        [
+            S("American Journal of Transportation（合作公告全文）", "https://www.ajot.com/news/barrett-distribution-centers-expands-unit-ai-partnership-to-bring-physical-ai-across-its-warehouse-network"),
+            S("Biography News（平台能力与 WaaS 模式）", "https://www.biography-news.com/article/248260"),
+            S("CPM Supply Chain Review（物理 AI 落地前提：WMS/WES 与主数据）", "https://www.cpm-scm.com/supply-chain-review/article-1467.html"),
+        ],
+        True,
+    ),
+    IT(
+        "真仓跑出真实曲线：科捷物流天津武清仓机器人拣选占比 5 个月内由不足 1% 升至近 17%",
+        "A real warehouse, a real curve: Kejie’s Tianjin Wuqing site lifts robot picking share from under 1% to nearly 17% in five months",
+        "神州控股（00861.HK）在 2026 生态伙伴大会上披露了一组可核验的运营数据：旗下科捷物流自今年 4 月起在天津武清真仓跑正式订单，五个月内机器人拣选占全仓单量的比例从不到 1% 提升至近 17%。同期发布的两款产品落在四层体系的两端——面向企业岗位的供应链智能体“捷小果”已遍历 118 个岗位、沉淀百余条岗位技能；面向仓内人机的“人机共舞 5.0”提供整体协同方案，采用“云脑+端脑”架构（云脑负责波次汇总、拣选优先级与任务调度，端脑机器人负责识别、避障与拣选）。9 月 22 日，科捷物流与昆腾动力签署具身智能机器人场景共创及联合推广战略合作协议：科捷开放自有仓储、分拣、转运真实场景并提供 OMS/WMS/TMS/BMS 与控制塔数据接口，昆腾提供机器人本体与具身智能模型，双方重点打磨拣选、搬运、复核环节的调度与作业算法。公司同时宣布计划把百余个自营仓的典型场景开放给多家具身智能公司共创。方法论要点被现场反复强调：具身智能的训练离不开真实复杂场景——海量 SKU、不规则包装与动态订单波峰，实验室模拟难以复刻。",
+        "Digital China Holdings (00861.HK) disclosed verifiable operating data at its 2026 ecosystem partner conference: subsidiary Kejie Logistics has been running live orders at its Tianjin Wuqing warehouse since April, and within five months robot picking rose from under 1% of total site orders to nearly 17%. Two products launched at the event sit at opposite ends of a four-layer stack — “Jiexiaoguo”, a supply-chain agent for enterprise roles that has covered 118 positions and accumulated over 100 role skills, and “Human–Robot Collaboration 5.0” for in-warehouse coordination, built on a cloud-brain plus device-brain architecture (the cloud brain handles wave consolidation, picking priority and task scheduling; the device brain handles recognition, obstacle avoidance and picking). On Sept 22, Kejie signed a strategic co-creation and joint promotion agreement with Quantum Dynamics: Kejie opens its real warehousing, sorting and transfer scenarios along with OMS/WMS/TMS/BMS and control-tower data interfaces, while the partner supplies robot hardware and embodied-AI models, with joint work focused on scheduling and task algorithms for picking, moving and checking. Kejie also plans to open typical scenarios across more than 100 self-operated warehouses to multiple embodied-AI firms. The methodological point repeated on stage: embodied intelligence cannot be trained without real, complex environments — long-tail SKUs, irregular packaging and dynamic order peaks that lab simulation cannot reproduce.",
+        [
+            S("人民网财经（神州控股生态伙伴大会）", "https://finance.people.com.cn/BIG5/n1/2026/0930/c1004-40808161.html"),
+            S("央广网（科捷物流 × 昆腾动力合作）", "https://www.cnr.cn/jingji/cjtt/yw/20260929/t20260929_527828647.shtml"),
+        ],
+        True,
+    ),
+    IT(
+        "中国快递业务量破 1,500 亿件：比 2025 年提前 12 天，自动化分拣与无人配送进入规模放量",
+        "China’s parcel volume passes 150 billion: 12 days earlier than 2025, with automated sorting and unmanned delivery scaling",
+        "国家邮政局 9 月 30 日发布数据：截至 9 月 29 日，今年以来我国快递业务量已超 1,500 亿件，比 2025 年提前 12 天（2025 年为 10 月 11 日破 1,500 亿件，比 2024 年提前 37 天；2024 年为 11 月 17 日首次突破）。规模之外更值得关注的是技术渗透的量化口径：全国已建成 1,200 余个县级寄递中心、42.7 万个村级服务站；机器人仓配与全自动分拣流水线广泛应用，无人配送车覆盖 200 多座城市，无人机年运快件近 400 万件。落地效果在一线可见——上海松江某网点自动化设备投用后，分拣环节不再需要快递员提前 1 个多小时到岗，释放的时间被转到取送件与客户服务；在产业侧，河北白沟箱包产业带“楼上生产、楼下揽收”成为常态，开学季某网点日均揽收双肩包约 15 万件。从供应链视角看，这组数据的意义不在于总量纪录，而在于末端履约的边际成本结构正在被自动化改写：分拣、末端派送与产业带前置揽收三个环节同时提效，才支撑了连续三年提前。",
+        "China’s State Post Bureau reported on Sept 30 that the country’s parcel volume had exceeded 150 billion as of Sept 29 — 12 days earlier than in 2025 (Oct 11 in 2025, itself 37 days earlier than 2024; the 150 billion mark was first crossed on Nov 17, 2024). Beyond volume, the quantifiable technology penetration matters: more than 1,200 county-level delivery centres and 427,000 village-level service stations have been built; robotic warehousing and fully automated sorting lines are widely deployed, unmanned delivery vehicles operate in over 200 cities, and drones now carry close to 4m parcels a year. The effect is visible at the front line: at a Songjiang, Shanghai station, automation removed the need for couriers to arrive more than an hour early for sorting, freeing time for pickup, delivery and customer service; in industrial clusters, “production upstairs, pickup downstairs” has become routine in Baigou, Hebei, where one station handled about 150,000 backpacks a day during the back-to-school season. From a supply-chain view, the significance is not the record but the changing marginal cost structure of last-mile fulfilment: only simultaneous gains in sorting, last-mile delivery and cluster-side pre-collection sustain three consecutive years of earlier milestones.",
+        [
+            S("央视网（国家邮政局数据与技术渗透细节）", "https://news.cctv.com/2026/09/30/ARTIzZA9qjjoFOtkBXWrw2je260930.shtml"),
+            S("新华社（权威快报）", "http://bgimg.ce.cn/xwzx/gnsz/gdxw/202609/t20260930_3244700.shtml"),
+        ],
+        True,
+    ),
+]
+
+DATA = {
+    "updatedAt": UPDATED_AT,
+    "columns": [
+        {"cat": {"zh": "重点新闻", "en": "Key News"}, "color": COLORS[0], "items": KEY_NEWS},
+        {"cat": {"zh": "热门议题", "en": "Hot Topics"}, "color": COLORS[1], "items": HOT_TOPICS},
+        {"cat": {"zh": "研究瞭望", "en": "Research"}, "color": COLORS[2], "items": RESEARCH},
+        {"cat": {"zh": "应用风向", "en": "Apps & Adoption"}, "color": COLORS[3], "items": APPS},
+    ],
+}
+
+
+def main():
+    payload = json.dumps(DATA, ensure_ascii=False, indent=2)
+
+    # 1) 写 JSON
+    JSON_PATH.write_text(payload + "\n", encoding="utf-8")
+
+    # 2) 同步 index.html 内嵌快照
+    html = HTML_PATH.read_text(encoding="utf-8")
+    pattern = re.compile(
+        r'(<script id="embeddedRadar" type="application/json">)(.*?)(</script>)',
+        re.S,
+    )
+    if not pattern.search(html):
+        raise SystemExit("未找到 embeddedRadar 块，请检查 index.html")
+    html2, n = pattern.subn(lambda m: m.group(1) + "\n" + payload + "\n" + m.group(3), html, count=1)
+    HTML_PATH.write_text(html2, encoding="utf-8")
+
+    total = sum(len(c["items"]) for c in DATA["columns"])
+    verified = sum(1 for c in DATA["columns"] for i in c["items"] if i["verified"])
+    srcs = {s["label"] for c in DATA["columns"] for i in c["items"] for s in i["sources"]}
+    print(f"written: {JSON_PATH}")
+    print(f"synced : {HTML_PATH} (replaced {n} block)")
+    print(f"updatedAt: {UPDATED_AT}")
+    print(f"items: {total} | verified: {verified} | source labels: {len(srcs)}")
+
+
+if __name__ == "__main__":
+    main()
