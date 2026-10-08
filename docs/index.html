@@ -47,6 +47,7 @@
     --accent-rgb: 26,79,214;
     --accent-deep: #123a9e;
     --teal: #0e7a6d;
+    --vermilion: #c9403f;
     --card: #ffffff;
     --grid-line: rgba(16,20,24,.035);
     --glow: none;
@@ -89,6 +90,20 @@
     --tl-red-soft: #faf1ec;
     --tl-red-text: #8a4a44;
     --tl-shadow: #101418;
+    /* PSI 守恒台配图（随主题切换浅/深） */
+    --psi-tag: #1a4fd6;
+    --psi-win: #f7f5f0;
+    --psi-win-stroke: #d8d4c8;
+    --psi-ink: #1a1f26;
+    --psi-ink-soft: #8a8577;
+    --psi-line: #c9c4b4;
+    --psi-panel: #fffdf9;
+    --psi-panel-stroke: #d8d4c8;
+    --psi-bal: #6b7a55;
+    --psi-rec: #2f6f8f;
+    --psi-neg: #a63d33;
+    --psi-gap: #cfc9bd;
+    --psi-shadow: #101418;
   }
   html[data-theme="dark"] {
     --paper: #0a0d11;
@@ -102,6 +117,7 @@
     --accent-rgb: 91,140,255;
     --accent-deep: #7ba3ff;
     --teal: #2dd4bf;
+    --vermilion: #ff7a7a;
     --card: #12171e;
     --grid-line: rgba(233,237,242,.05);
     --glow: radial-gradient(ellipse 55% 38% at 50% -6%, rgba(91,140,255,.13), transparent 70%),
@@ -145,6 +161,20 @@
     --tl-red-soft: #261a18;
     --tl-red-text: #d98c86;
     --tl-shadow: #000000;
+    /* PSI 守恒台配图（随主题切换浅/深） */
+    --psi-tag: #7ba3ff;
+    --psi-win: #161c24;
+    --psi-win-stroke: #2c3644;
+    --psi-ink: #e9edf2;
+    --psi-ink-soft: #9aa3af;
+    --psi-line: #39434f;
+    --psi-panel: #0f141a;
+    --psi-panel-stroke: #2c3644;
+    --psi-bal: #9aae7c;
+    --psi-rec: #63a8cf;
+    --psi-neg: #e0756a;
+    --psi-gap: #3a4450;
+    --psi-shadow: #000000;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -792,7 +822,7 @@
      第二列的正文起点会错开。 */
   .app-cost { display: grid; grid-template-columns: auto 1fr; gap: 11px 12px; margin: 0 0 14px; }
   .app-cost-row { display: contents; }
-  .app-cost-tag { align-self: start; justify-self: start; font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: .06em; padding: 3px 7px; border-radius: 5px; white-space: nowrap; color: var(--app-mute); border: 1px solid var(--app-border); }
+  .app-cost-tag { align-self: start; justify-self: start; font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: .06em; padding: 3px 7px; border-radius: 5px; white-space: normal; max-width: 16em; overflow-wrap: break-word; color: var(--app-mute); border: 1px solid var(--app-border); }
   .app-cost-row.is-free .app-cost-tag { color: var(--teal); border-color: var(--teal); }
   .app-cost-txt { color: var(--app-soft); font-size: 12.5px; line-height: 1.6; padding-bottom: 11px; border-bottom: 1px solid var(--app-border); }
   .app-cost-row:last-child .app-cost-txt { padding-bottom: 0; border-bottom: none; }
@@ -802,6 +832,26 @@
   .app-left .btn-primary:hover { filter: brightness(1.12); box-shadow: 0 6px 16px -6px rgba(45,212,176,.5); }
   .app-left .btn-ghost { border-color: var(--app-border); color: var(--app-soft); }
   .app-left .btn-ghost:hover { border-color: var(--app-ink); color: var(--app-ink); }
+  /* 衍生应用卡片折叠：默认只显示首段简介 + 超链接按钮 + 展开按钮；点按钮后再展开详情列表与成本阶梯 */
+  .app-toggle {
+    align-self: flex-start;
+    display: inline-flex; align-items: center; gap: 6px;
+    margin: 2px 0 22px;
+    font-family: var(--font-mono); font-size: 12.5px; font-weight: 600;
+    color: var(--card-accent, var(--teal));
+    background: transparent; border: none; border-radius: 6px;
+    padding: 4px 2px; cursor: pointer; transition: background .15s, opacity .15s;
+  }
+  .app-toggle:hover { background: var(--app-bg); text-decoration: underline; }
+  .app-toggle::after { content: "展开详情 ▾"; }
+  html[lang="en"] .app-toggle::after { content: "Show details ▾"; }
+  .app-card:not(.is-collapsed) .app-toggle::after { content: "收起 ▴"; }
+  html[lang="en"] .app-card:not(.is-collapsed) .app-toggle::after { content: "Collapse ▴"; }
+  .app-card.is-collapsed .app-left > ul,
+  .app-card.is-collapsed .app-left > .app-cost,
+  .app-card.is-collapsed .app-left > .app-cost-note { display: none; }
+  /* 进销存守恒验算台：部署确认前暂不展示（commit & push 并由用户确认后再移除 is-pending） */
+  .app-card.is-pending { display: none; }
   .viz-grid-line { stroke: var(--viz-grid); stroke-width: 1; }
   .viz-land { fill: var(--viz-land); }
   .viz-ocean { fill: var(--viz-label); font-family: "JetBrains Mono", monospace; letter-spacing: .25em; }
@@ -936,7 +986,7 @@
   </p>
   <div class="hero-stats reveal reveal-d3" data-page-node-id="7IE7fqtq6P9NrgZ3aABJ65">
     <div class="stat" data-page-node-id="YnJADmNGOMtsthV6Dg8Wwd"><div class="num" data-count="5" data-page-node-id="CGxlgz8IJif1ms5HJ4RUhb">0</div><div class="lbl" data-i18n="stat1" data-page-node-id="0gT8W1y4NwfWprXrZBrrMK">独立研究报告</div></div>
-    <div class="stat" data-page-node-id="DzrO0FvUulX8iAOPazpEqm"><div class="num" data-count="2" data-page-node-id="8fsuHUJnuVDb07ZHizKFLF">0</div><div class="lbl" data-i18n="stat2" data-page-node-id="yEvEJ2ivcRueU7P1BAgjgk">衍生应用</div></div>
+    <div class="stat" data-page-node-id="DzrO0FvUulX8iAOPazpEqm"><div class="num" data-count="3" data-page-node-id="8fsuHUJnuVDb07ZHizKFLF">0</div><div class="lbl" data-i18n="stat2" data-page-node-id="yEvEJ2ivcRueU7P1BAgjgk">衍生应用</div></div>
     <div class="stat" data-page-node-id="Z5Uec7IgY2VQostWDnkuA5"><div class="num" data-page-node-id="omrlUhBMIo7amZenuAuKH5"><i data-page-node-id="lwYMCd5ZwTfCiTdFqFKlwZ">25</i>+</div><div class="lbl" data-i18n="stat3" data-page-node-id="eDIEgPTBrjIzdegK0ktHZA">机构数据源（WTO / Drewry / NY Fed…）</div></div>
     <div class="stat" data-page-node-id="tuNHpaBFqX8nSmg9CKKp57"><div class="num" data-page-node-id="R4y3cxix4wMdquCbKXqgxm">2026<i data-page-node-id="dgXTWVQl9IdpgiNt2sLDoq">H1</i></div><div class="lbl" data-i18n="stat4" data-page-node-id="yFfBXe5Yl6951jhC9r2ogH">当前研究窗口</div></div>
   </div>
@@ -1216,7 +1266,7 @@
     <span class="sec-note" data-page-node-id="gkaNmbXNX7OLDzal41gK4u">SPIN-OFF APPLICATION</span>
   </div>
   <div class="app-grid">
-  <div class="app-card reveal reveal-d1" data-page-node-id="FSaLjo4gBsteeXplvEHtRK">
+  <div class="app-card reveal reveal-d1 is-collapsed" data-page-node-id="FSaLjo4gBsteeXplvEHtRK">
     <div class="app-head">
       <span class="card-tool" style="--card-accent:var(--teal)" data-page-node-id="ngqziD0chSA7W2pKYdOXkE">VELOCORTEX AI · MARITIME</span>
       <h3 data-i18n="app-h3" data-page-node-id="grdGUTR7TddESY0axlRAPu">全球海运集装箱追踪指挥中心</h3>
@@ -1224,6 +1274,7 @@
     </div>
     <div class="app-left" data-page-node-id="hRMx3Hi1rSVYhRxQc8Clqr">
       <p data-i18n="app-p" data-page-node-id="5HcaL0Lthjiw1EgFom8vVS">研究结论的产品化落地：把报告中反复出现的「可视化缺口」「滞箱费风险」「冷链失控」等痛点，做成一个可运行的海运与多式联运指挥平台。其中「实时数据层」全部接真实外部数据；箱级数据是可复现的演示数据集，面板底部逐块标注来源，不冒充实时。</p>
+      <button type="button" class="app-toggle" aria-expanded="false"></button>
       <ul data-page-node-id="HmNMoNM5proBIvUuC7aytx">
         <li data-i18n="app-l1" data-page-node-id="9osoNppDlCoVjM79QOwb4O">实时数据层：13 个枢纽港真实气象与海况（Open-Meteo）+ 28 个咽喉点官方过境量（IMF PortWatch）+ 波罗的海实测 AIS 船位，均免密钥、浏览器直连</li>
         <li data-i18n="app-l2" data-page-node-id="BoxwlmhkthkJlKCMrSxiw7">箱级冷链与生物医药货演示数据集：温度、湿度、震动、门封完整性与偏移告警，含 AI 滞期费敞口测算</li>
@@ -1319,7 +1370,7 @@
     </div>
   </div>
 
-  <div class="app-card reveal reveal-d2" data-page-node-id="TlCardNode">
+  <div class="app-card reveal reveal-d2 is-collapsed" data-page-node-id="TlCardNode">
     <div class="app-head">
       <span class="card-tool" style="--card-accent:var(--vermilion)" data-page-node-id="TlToolNode">TARIFFLENS · TRADE COMPLIANCE</span>
       <h3 data-i18n="app2-h3" data-page-node-id="TlH3Node">关税与贸易合规参考台</h3>
@@ -1327,6 +1378,7 @@
     </div>
     <div class="app-left" data-page-node-id="TlLeftNode">
       <p data-i18n="app2-p" data-page-node-id="TlPNode">把报告里反复出现的「关税怎么查、ADD/CVD 怎么提示、文本交叉引用为什么不出数字」做成可直接用的参考工具。严格守住三条红线：不做自动归类、文本引用形态绝不输出数字、三层数据分治（快照税率 / 实时公告 / 离线演示），每一层边界都显式标注。</p>
+      <button type="button" class="app-toggle" aria-expanded="false"></button>
       <ul data-page-node-id="TlUlNode">
         <li data-i18n="app2-l1" data-page-node-id="TlL1Node">L1 快照：USITC HTS 2026 rev.9 一般税率 + Chapter 99 附加措施，可折叠、墨黑边条；从价 / 从量 / 文本引用三种形态码逐条标注</li>
         <li data-i18n="app2-l2" data-page-node-id="TlL2Node">L2 实时：浏览器直连 Federal Register API（免密钥 HTTPS、13s 超时），失败自动回退本地快照；近 90 天相关公告 + ADD/CVD 仅提示存在性，不出金额</li>
@@ -1416,6 +1468,119 @@
           <text x="60" y="260" font-size="7.5" font-weight="700" style="fill:var(--tl-red)" font-family="'JetBrains Mono',monospace" letter-spacing="1">红线 02 · RED LINE</text>
           <text x="60" y="274" font-size="8.5" style="fill:var(--tl-red-text)">文本交叉引用拒绝输出数字 —— 只提示形态，不折算金额</text>
         </g>
+      </svg>
+    </div>
+  </div>
+
+  <div class="app-card reveal reveal-d3 is-pending" data-page-node-id="PsiCardNode">
+    <div class="app-head">
+      <span class="card-tool" style="--card-accent:var(--accent)" data-page-node-id="PsiToolNode">PSI ENGINE · INVENTORY RECONCILIATION</span>
+      <h3 data-i18n="app3-h3" data-page-node-id="PsiH3Node">进销存守恒验算台</h3>
+      <div class="card-en" data-page-node-id="PsiEnNode">psi-conservation-engine</div>
+    </div>
+    <div class="app-left" data-page-node-id="PsiLeftNode">
+      <p data-i18n="app3-p" data-page-node-id="PsiPNode">把「库存为什么对不上」从一句抱怨变成一台可以当场复算的仪器：以 6.1 万个账目、28.5 万个库存区间为底，对 21.5 万个相邻差分对逐对套用同一条恒等式 adj =（期末 − 期初）+ Σ销量，每一对都被判进「守恒 / 推断到货 / 未解释负差」三类中的恰好一类。不好看的部分照原样摆出来——这是本站唯一一个把负结果放在第一屏的工具。</p>
+      <ul data-page-node-id="PsiUlNode">
+        <li data-i18n="app3-l1" data-page-node-id="PsiL1Node">两种验法都摆在页面上，且不混为一谈：600 个账目样本里的 4,509 个差分对可以逐条在浏览器里重算（「自己验一遍」，与构建期共用一份实现 psi-core.js）；全部 60,968 个账目的判定条数另有一份按需加载的索引（gzip 97 KB，不点不下载），相加即得 215,180 与三分，与构建期逐位相等。样本证明算法对，全量证明公布的那几个数是真的——两者互不替代</li>
+        <li data-i18n="app3-l2" data-page-node-id="PsiL2Node">三分结果不挑好看的：守恒 78.62%（169,176 对）· 推断到货 16.15%（34,762 对）· 未解释负差 5.22%（11,242 对）；五分之一以上的差分对无法用单一恒等式解释，这是数据本身的性质，不粉饰、也不合并进「其他调整」</li>
+        <li data-i18n="app3-l3" data-page-node-id="PsiL3Node">两套退货口径并列、不做裁定：主口径把退货行排除在销量之外，备选口径把退货当作回库；两者判定不同的差分对 4,976 个（2.31%），页面同屏显示并标注冲突来源，不单方面裁决</li>
+        <li data-i18n="app3-l4" data-page-node-id="PsiL4Node">局限面板是「一等交付物」：默认展开、不提供收起，9 条局限每条配一个已量化的事实与一个具体下一步；本版本解决不了的直接写「本版本不解决」，不塞进脚注</li>
+        <li data-i18n="app3-l5" data-page-node-id="PsiL5Node">数据边界写在明面上：来源为 Mendeley 脱敏重采样数据集（CC BY 4.0），渠道与门店类型各仅 1 个取值、推断到货中 69% 为单件——不得描述为「某零售商的真实 ERP 数据」；换成企业真实进销存后，两套验证断言必须整组重写</li>
+      </ul>
+      <div class="app-cost" data-page-node-id="PsiCostNode">
+        <div class="app-cost-row is-free" data-page-node-id="PsiCostFree">
+          <span class="app-cost-tag" data-i18n="app3-c1h" data-page-node-id="PsiC1h">已接入 · 免费</span>
+          <span class="app-cost-txt" data-i18n="app3-c1" data-page-node-id="PsiC1">Mendeley DOI 10.17632/27x8mjm8k4.1（CC BY 4.0，可再分发，快照已内嵌）· 纯静态托管，浏览器直连，无服务端、无密钥、无接口配额</span>
+        </div>
+        <div class="app-cost-row is-paid" data-page-node-id="PsiCostPaid">
+          <span class="app-cost-tag" data-i18n="app3-c2h" data-page-node-id="PsiC2h">需接入 · 视数据源</span>
+          <span class="app-cost-txt" data-i18n="app3-c2" data-page-node-id="PsiC2">换成企业真实进销存（ERP / WMS 导出）时，瓶颈不在算力而在数据治理：同一 SKU 的口径对齐、退货与调拨单据的语义区分、盘点差异的归因——A1–A16、F1–F12 与 V-A–V-E 三套断言要整组重写，否则换一份数据之后「守恒率」这个数字就不再有意义</span>
+        </div>
+      </div>
+      <div class="app-cost-note" data-i18n="app3-cnote" data-page-node-id="PsiCnote">这台仪器的价值不在 78.62% 这个数字，而在 5.22% 那一栏被明确标出来、并且不打算糊过去——多数对账工具的做法是把差额丢进一个「其他调整」科目。</div>
+      <div class="card-actions" data-page-node-id="PsiActions">
+        <a class="btn btn-primary" href="reports/psi/index.html" target="_blank" rel="noopener" data-page-node-id="PsiBtnApp"><span data-i18n="btn-app" data-page-node-id="PsiBtnAppTxt">打开应用</span> <span class="arr" data-page-node-id="PsiBtnAppArr">↗</span></a>
+        <a class="btn btn-ghost" href="https://data.mendeley.com/datasets/27x8mjm8k4/1" target="_blank" rel="noopener" data-page-node-id="PsiBtnData"><span data-i18n="btn-data" data-page-node-id="PsiBtnDataTxt">数据出处 · CC BY 4.0</span> <span class="arr" data-page-node-id="PsiBtnDataArr">↗</span></a>
+      </div>
+    </div>
+    <div class="app-fig" aria-hidden="true" data-page-node-id="PsiFigNode">
+      <svg viewBox="0 0 460 320" fill="none" data-page-node-id="PsiSvg">
+        <defs>
+          <filter id="psiWinShadow" x="-8%" y="-8%" width="116%" height="122%">
+            <feDropShadow dx="0" dy="4" stdDeviation="7" style="flood-color:var(--psi-shadow)" flood-opacity="0.22"/>
+          </filter>
+          <clipPath id="psiLane"><rect x="46" y="220" width="358" height="20" rx="4"/></clipPath>
+        </defs>
+        <text x="12" y="18" font-size="9.5" style="fill:var(--psi-tag)" font-family="'JetBrains Mono',monospace" letter-spacing="2" data-page-node-id="PsiTag">PSI · CONSERVATION ENGINE</text>
+
+        <rect x="30" y="32" width="400" height="260" rx="10" style="fill:var(--psi-win);stroke:var(--psi-win-stroke)" filter="url(#psiWinShadow)" data-page-node-id="PsiWin"/>
+
+        <!-- 唯一的恒等式 -->
+        <g data-page-node-id="PsiEq">
+          <rect x="46" y="58" width="358" height="40" rx="3" style="fill:var(--psi-panel);stroke:var(--psi-panel-stroke)"/>
+          <rect x="46" y="58" width="4" height="40" style="fill:var(--psi-ink)"/>
+          <text x="60" y="76" font-size="10" font-weight="600" style="fill:var(--psi-ink)" font-family="'JetBrains Mono',monospace">adj = ( Q_end − Q_start ) + Σ sold</text>
+          <text x="60" y="90" font-size="7" style="fill:var(--psi-ink-soft)" font-family="'JetBrains Mono',monospace">evaluated only when prev.End + 1 day == this.Start</text>
+        </g>
+
+        <!-- 三分：每一对恰好落进一类 -->
+        <text x="46" y="116" font-size="7" style="fill:var(--psi-ink-soft)" font-family="'JetBrains Mono',monospace" letter-spacing="0.8" data-page-node-id="PsiMixLabel">215,180 ADJACENT PAIRS · EACH LANDS IN EXACTLY ONE CLASS</text>
+        <g data-page-node-id="PsiMixBar">
+          <rect x="46" y="124" width="281.5" height="24" style="fill:var(--psi-bal)"/>
+          <rect x="327.5" y="124" width="57.8" height="24" style="fill:var(--psi-rec)"/>
+          <rect x="385.3" y="124" width="18.7" height="24" style="fill:var(--psi-neg)"/>
+        </g>
+        <g font-family="'JetBrains Mono',monospace" data-page-node-id="PsiMixLegend">
+          <rect x="46" y="158" width="7" height="7" rx="1.5" style="fill:var(--psi-bal)"/>
+          <text x="58" y="164.8" font-size="7.5" style="fill:var(--psi-ink-soft)">BALANCED</text>
+          <text x="46" y="182" font-size="12.5" font-weight="700" style="fill:var(--psi-ink)">78.62%</text>
+          <text x="46" y="193" font-size="7" style="fill:var(--psi-ink-soft)">169,176 pairs</text>
+
+          <rect x="165" y="158" width="7" height="7" rx="1.5" style="fill:var(--psi-rec)"/>
+          <text x="177" y="164.8" font-size="7.5" style="fill:var(--psi-ink-soft)">RECEIPT</text>
+          <text x="165" y="182" font-size="12.5" font-weight="700" style="fill:var(--psi-ink)">16.15%</text>
+          <text x="165" y="193" font-size="7" style="fill:var(--psi-ink-soft)">34,762 pairs</text>
+
+          <rect x="284" y="158" width="7" height="7" rx="1.5" style="fill:var(--psi-neg)"/>
+          <text x="296" y="164.8" font-size="7.5" style="fill:var(--psi-ink-soft)">NEGATIVE</text>
+          <text x="284" y="182" font-size="12.5" font-weight="700" style="fill:var(--psi-ink)">5.22%</text>
+          <text x="284" y="193" font-size="7" style="fill:var(--psi-ink-soft)">11,242 pairs</text>
+        </g>
+
+        <!-- 单个账目的区间时间线（示意） -->
+        <!-- 这两段是同一行（y=214）的左右两端：左端随长度增长会撞上右端。
+             实测 (ILLUSTRATIVE) 那 13 个字符正好把两段挤到重叠 39px，「示意」
+             的含义改由图自身承担，不再用文字占位。 -->
+        <text x="46" y="214" font-size="7" style="fill:var(--psi-ink-soft)" font-family="'JetBrains Mono',monospace" letter-spacing="0.8" data-page-node-id="PsiTlLabel">ONE ACCOUNT · SEGMENTS BY DAY</text>
+        <text x="404" y="214" text-anchor="end" font-size="7" style="fill:var(--psi-ink-soft)" font-family="'JetBrains Mono',monospace" data-page-node-id="PsiTlHint">click any segment → recomputed in-browser</text>
+        <g clip-path="url(#psiLane)" data-page-node-id="PsiLane">
+          <rect x="46" y="220" width="358" height="20" style="fill:var(--psi-gap)"/>
+          <rect x="46.00" y="220" width="41.48" height="20" style="fill:var(--psi-bal)"/>
+          <rect x="87.48" y="220" width="8.73" height="20" style="fill:var(--psi-rec)"/>
+          <rect x="96.21" y="220" width="45.84" height="20" style="fill:var(--psi-bal)"/>
+          <rect x="142.05" y="220" width="8.73" height="20" style="fill:var(--psi-neg)"/>
+          <rect x="168.24" y="220" width="41.48" height="20" style="fill:var(--psi-bal)"/>
+          <rect x="209.72" y="220" width="8.73" height="20" style="fill:var(--psi-rec)"/>
+          <rect x="218.45" y="220" width="52.39" height="20" style="fill:var(--psi-bal)"/>
+          <rect x="297.04" y="220" width="19.64" height="20" style="fill:var(--psi-rec)"/>
+          <rect x="316.68" y="220" width="41.48" height="20" style="fill:var(--psi-bal)"/>
+          <rect x="358.16" y="220" width="8.73" height="20" style="fill:var(--psi-neg)"/>
+          <rect x="366.89" y="220" width="37.11" height="20" style="fill:var(--psi-bal)"/>
+          <!-- 断档：差分不跨灰段 -->
+          <rect x="150.78" y="220" width="17.47" height="20" style="fill:var(--psi-gap)"/>
+          <rect x="270.84" y="220" width="26.20" height="20" style="fill:var(--psi-gap)"/>
+        </g>
+        <g font-family="'JetBrains Mono',monospace" font-size="7" style="fill:var(--psi-ink-soft)" data-page-node-id="PsiLaneLegend">
+          <rect x="46" y="250" width="6" height="6" rx="1.2" style="fill:var(--psi-bal)"/>
+          <text x="57" y="256">balanced</text>
+          <rect x="118" y="250" width="6" height="6" rx="1.2" style="fill:var(--psi-rec)"/>
+          <text x="129" y="256">receipt ▲</text>
+          <rect x="196" y="250" width="6" height="6" rx="1.2" style="fill:var(--psi-neg)"/>
+          <text x="207" y="256">negative ▼</text>
+          <rect x="288" y="250" width="6" height="6" rx="1.2" style="fill:var(--psi-gap)"/>
+          <text x="299" y="256">gap ░ · differencing stops</text>
+        </g>
+        <text x="46" y="278" font-size="6.5" style="fill:var(--psi-ink-soft)" font-family="'JetBrains Mono',monospace" data-page-node-id="PsiFoot">psi-seed.json · Mendeley DOI 10.17632/27x8mjm8k4.1 · CC BY 4.0 · integer arithmetic</text>
       </svg>
     </div>
   </div>
@@ -2026,7 +2191,7 @@
     'eyebrow': 'AI-Driven Global Supply Chain Research | Ongoing Series',
     'h1': 'Global Supply Chain Intelligence,<br />Through <span class="thin">Multiple AI Models</span>',
     'hero-sub': 'A continuously updated portfolio of AI multi-model supply-chain research: collecting and comparing independent work from different models and agents on the same brief, while tracking global supply-chain shifts in real time. The Weekly Radar below surfaces cross-verified intelligence for <span class="js-radar-date">2026-09-15</span>, each item with its original source.',
-    'stat1': 'Independent Reports', 'stat2': 'Spin-off Application',
+    'stat1': 'Independent Reports', 'stat2': 'Spin-off Applications',
     'stat3': 'Institutional data sources (WTO / Drewry / NY Fed…)', 'stat4': 'Current Window',
     'brief-title': 'This Week\'s Supply Chain Radar',
     'brief-live': 'Cross-verified · Sources cited',
@@ -2151,6 +2316,19 @@
     'app2-c2h': 'Needs a proxy · deployment-dependent',
     'app2-c2': 'If the Federal Register API is blocked by CORS, add a ~10-line edge function or serverless proxy outside the front-end (GitHub Pages cannot run server-side code); not required — on failure it falls back to the local snapshot.',
     'app2-cnote': 'The authority and freshness of tariff data rest on the three-tier separation: L1 states which snapshot it is, L2 states that it is live data at the moment you open the page, and a mismatch between the two is a signal — not something quietly merged.',
+    'app3-h3': 'PSI Conservation Workbench',
+    'app3-p': 'Turns “why doesn’t the inventory reconcile” from a complaint into an instrument you can re-run on the spot: on top of 61k accounts and 285k inventory intervals, all 215,180 adjacent differencing pairs are put through one single identity — adj = (Q_end − Q_start) + Σ sold — and every pair lands in exactly one of three classes: balanced, inferred receipt, unexplained negative. The unflattering part is shown as it is: this is the only tool on this site that puts a negative result on the first screen.',
+    'app3-l1': 'Two checks sit on the page and are never merged into one word: the 4,509 pairs inside the 600-lane sample can be recomputed one by one in the browser (the “verify it myself” button, sharing psi-core.js with the build), while a lazily loaded index of all 60,968 lanes (97 KB gzipped, nothing fetched until you click) adds up to 215,180 and the three-way split, digit for digit. The sample shows the algorithm is right; the full index shows the published numbers are real. Neither substitutes for the other.',
+    'app3-l2': 'The three-way split is not cherry-picked: balanced 78.62% (169,176 pairs) · inferred receipt 16.15% (34,762) · unexplained negative 5.22% (11,242). More than a fifth of all adjacent pairs cannot be explained by a single identity — a property of the data itself, neither dressed up nor merged into an “other adjustments” bucket.',
+    'app3-l3': 'Two returns conventions sit side by side with no ruling: the primary convention excludes return rows from sales, while the alternative treats returns as restocked; 4,976 pairs (2.31%) are classified differently under the two, and the page shows both on screen with the source of the conflict labelled instead of quietly deciding.',
+    'app3-l4': 'The limitations panel is a first-class deliverable: expanded by default with no way to collapse it, its 9 rows each pair one quantified fact with one concrete next step; whatever this version cannot settle says so outright instead of being tucked into a footnote.',
+    'app3-l5': 'Data boundaries are stated up front: the source is a de-identified, resampled Mendeley dataset (CC BY 4.0) in which Sales Channel and Store Type each hold a single distinct value and 69% of inferred receipts are a single unit — it must not be described as any retailer’s real ERP data; swapping in a real ERP/WMS feed means rewriting both assertion suites wholesale.',
+    'app3-c1h': 'Connected · free',
+    'app3-c1': 'Mendeley DOI 10.17632/27x8mjm8k4.1 (CC BY 4.0, redistributable, snapshot embedded) · purely static hosting, browser-direct, no server, no keys, no API quota.',
+    'app3-c2h': 'Needs integration',
+    'app3-c2': 'Swapping in real ERP/WMS transaction data — what it costs depends on the data source — the bottleneck is data governance rather than compute: aligning SKU definitions, separating returns from transfer documents, attributing count variances; and the three assertion suites (A1–A16, F1–F12 and V-A–V-E) have to be rewritten as a set, or the conservation rate stops meaning anything on a different dataset.',
+    'app3-cnote': 'The value of this instrument is not the 78.62% figure but the 5.22% row being called out explicitly and left un-swept — most reconciliation tools drop the difference into an “other adjustments” line.',
+    'btn-data': 'Data source · CC BY 4.0',
     'btn-dash': 'View Dashboard', 'btn-gh': 'View on GitHub', 'btn-app': 'Launch App',
     'gaps-title': 'Where AI Fills In · Top 7 Workflow Gaps',
     'gaps-intro': 'Synthesizing this week\'s radar and the shared findings across all five reports, these seven workflow gaps are where AI should step in first. Scoring: business value ×35% · feasibility ×25% · data readiness ×20% · urgency ×20%.',
@@ -2398,6 +2576,15 @@
   // 中文原文永远不会被记录，此后点「中文」因 dataset.zh 为 null 而切不回来。
   document.querySelectorAll('[data-i18n]').forEach(el => { el.dataset.zh = el.innerHTML; });
   applyLang(localStorage.getItem('sc-lang') || 'zh-CN');
+  /* 衍生应用卡片折叠：点展开按钮切换 is-collapsed，并同步 aria-expanded（按钮文案由 CSS 按 lang/状态驱动，不碰 I18N 字典） */
+  document.querySelectorAll('.app-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const card = btn.closest('.app-card');
+      if (!card) return;
+      const collapsed = card.classList.toggle('is-collapsed');
+      btn.setAttribute('aria-expanded', String(!collapsed));
+    });
+  });
   loadRadar().then(loadArchiveIndex);
 
   /* ================= 导航滚动态 ================= */
