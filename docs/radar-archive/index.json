@@ -1,6 +1,16 @@
 {
-  "count": 9,
+  "count": 10,
   "issues": [
+    {
+      "date": "2026-10-05",
+      "updatedAt": "2026-10-05T21:40:00+08:00",
+      "file": "2026-10-05.json",
+      "retro": false,
+      "items": 14,
+      "verified": 14,
+      "sources": 40,
+      "columns": 4
+    },
     {
       "date": "2026-09-28",
       "updatedAt": "2026-09-28T17:00:00+08:00",
