@@ -3,35 +3,64 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Supply Chain Industry Report 2026H1 / 供应链行业报告</title>
+<title>供应链行业报告 · 至 2026Q3</title>
 <style>
   :root { --bg:#f6f8fb; --panel:#fff; --text:#0f172a; --muted:#64748b; --line:#e2e8f0; --blue:#2563eb; --orange:#ea580c; --soft:#eff6ff; --ok:#047857; --warn:#b45309; --danger:#b91c1c; --info:#1d4ed8; }
   * { box-sizing: border-box; }
+  html, body { width:100%; max-width:100%; overflow-x:clip; }
   body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; background:var(--bg); color:var(--text); line-height:1.55; }
-  .wrap { max-width:1100px; margin:0 auto; padding:28px 20px 64px; }
-  h1 { font-size:28px; margin:0 0 8px; }
-  h2 { font-size:20px; margin:36px 0 14px; padding-top:8px; border-top:1px solid var(--line); }
-  h3 { font-size:16px; margin:18px 0 10px; }
-  p.lead { color:var(--muted); margin:0 0 20px; }
-  .panel { background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:16px; margin-bottom:16px; }
-  .controls { display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+  .wrap { width:100%; max-width:100%; margin:0; padding:28px 32px 64px; }
+  .mast { margin: 0 0 18px; }
+  .kicker { margin:0 0 8px; font-size:12px; font-weight:700; letter-spacing:0.2em; color:var(--muted); }
+  h1 { font-size:32px; line-height:1.2; margin:0; letter-spacing:0.06em; font-weight:650; }
+  .mast-rule { width:36px; height:2px; background:var(--text); margin:12px 0 10px; }
+  h2.judgment { border-top:0; margin:0 0 6px; padding-top:0; font-size:16px; font-weight:650; }
+  h2 { font-size:18px; margin:8px 0 10px; padding-top:0; border-top:0; }
+  h2.follow { font-size:16px; margin:4px 0 6px; }
+  h2.quiet { font-size:15px; color:var(--muted); margin:0 0 8px; font-weight:600; }
+  .plate { margin-top:36px; padding-top:20px; border-top:1px solid var(--line); }
+  .plate-label { display:flex; align-items:baseline; gap:10px; margin:0 0 14px; font-size:14px; font-weight:700; }
+  .plate-label span { font-size:12px; letter-spacing:0.16em; color:var(--blue); font-weight:700; }
+  .plate-panel { background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px 18px 18px; }
+  .plate-panel .chart-box { border:0; background:transparent; padding:0; margin-top:4px; }
+  .plate-panel.plate { border-top:1px solid var(--line); }
+  .structure { margin-top:28px; background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px 18px 18px; }
+  .structure.plate { margin-top:28px; }
+  .structure h2 { margin:0 0 6px; font-size:16px; }
+  .split { display:grid; grid-template-columns:minmax(240px,340px) 1fr; gap:18px; align-items:start; margin-top:12px; }
+  @media (max-width:860px){ .split { grid-template-columns:1fr; } }
+  .seg-facts { display:flex; flex-wrap:wrap; gap:6px 14px; margin:8px 0 12px; color:var(--muted); font-size:13px; }
+  .structure .radar-box { border:0; padding:0; margin:0; background:transparent; }
+  h3 { font-size:16px; margin:8px 0 8px; }
+  p.lead { color:var(--muted); margin:0; font-size:14px; }
+  .panel { background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:14px 16px; margin-bottom:8px; }
+  .control-row { display:flex; flex-wrap:wrap; gap:8px 18px; align-items:center; }
+  .control-row + .control-row { margin-top:10px; padding-top:10px; border-top:1px solid var(--line); }
+  .control-label { font-size:12px; color:var(--muted); min-width:2.5em; }
+  .controls { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+  .appendix { margin-top:28px; padding-top:16px; border-top:1px solid var(--line); }
+  #judgmentBody { max-width: 74ch; margin: 0 0 4px; }
+  .stats { margin: 0; }
   .btn,.pill,select { border:1px solid var(--line); background:#fff; color:var(--text); border-radius:999px; padding:8px 14px; font-size:14px; cursor:pointer; }
   select { border-radius:10px; }
   .btn.active,.pill.active { background:var(--blue); border-color:var(--blue); color:#fff; }
   .range { color:var(--muted); font-size:14px; margin:10px 0 0; }
   .callout { background:var(--soft); border:1px solid #bfdbfe; border-radius:12px; padding:12px 14px; color:#1e3a8a; font-size:14px; margin-top:12px; }
-  .stats { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; }
+  .plate .callout:first-of-type { margin-top:0; }
+  .stats { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; min-width:0; }
   @media (max-width:900px){ .stats{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
-  .stat { background:#fff; border:1px solid var(--line); border-radius:12px; padding:14px; }
-  .stat .v { font-size:24px; font-weight:700; margin-bottom:6px; }
+  .stat { min-width:0; background:transparent; border:0; border-top:2px solid var(--text); border-radius:0; padding:12px 4px 4px; }
+  .stat .v { font-size:32px; font-weight:700; letter-spacing:-0.03em; font-variant-numeric:tabular-nums; margin-bottom:4px; }
   .stat .l { font-size:13px; color:var(--muted); }
   .stat.success .v { color:var(--ok); } .stat.warning .v { color:var(--warn); } .stat.danger .v { color:var(--danger); } .stat.info .v { color:var(--info); }
-  table { width:100%; border-collapse:collapse; background:#fff; border:1px solid var(--line); border-radius:12px; overflow:hidden; }
-  th,td { text-align:left; padding:12px 14px; border-bottom:1px solid var(--line); vertical-align:top; font-size:14px; }
-  th { background:#f8fafc; color:var(--muted); font-weight:600; }
+  .plate, .plate-panel, .structure, .chart-box { min-width:0; max-width:100%; }
+  table { width:100%; max-width:100%; table-layout:fixed; border-collapse:collapse; background:#fff; border:0; border-radius:0; }
+  th,td { text-align:left; padding:12px 14px; border-bottom:1px solid var(--line); vertical-align:top; font-size:14px; overflow-wrap:anywhere; }
+  th { background:transparent; color:var(--text); font-weight:700; font-size:12px; letter-spacing:0.08em; border-bottom:2px solid var(--text); padding:8px 14px 10px; }
   tr:nth-child(even) td { background:#fafbfc; }
   .muted { color:var(--muted); font-size:13px; }
-  .chart-box,.radar-box { background:#fff; border:1px solid var(--line); border-radius:12px; padding:12px; margin-top:10px; }
+  .chart-box,.radar-box { background:#fff; border:1px solid var(--line); border-radius:12px; padding:12px; margin-top:10px; overflow:hidden; }
+  #lineChart svg { width:100%; max-width:100%; height:auto; display:block; }
   .legend { display:flex; gap:16px; margin-top:8px; font-size:13px; }
   .legend .cn { color:var(--blue); } .legend .gl { color:var(--orange); }
   .sources a { color:var(--blue); }
@@ -40,268 +69,132 @@
 </head>
 <body>
 <div class="wrap">
-  <h1 id="title"></h1>
-  <p class="lead" id="subtitle"></p>
-  <div class="panel"><div class="controls" id="controls"></div><p class="range" id="range"></p><div class="callout" id="archiveNote" style="display:none"></div></div>
-  <h2 id="h1"></h2><div class="stats" id="metrics"></div>
-  <h2 id="h2"></h2><div id="dynamics"></div>
-  <h2 id="h3"></h2><h3 id="chartTitle"></h3><p class="muted" id="chartCaption"></p><div class="chart-box" id="lineChart"></div>
-  <h2 id="h4"></h2><div id="topics"></div>
-  <h2 id="h5"></h2><div id="trends"></div>
-  <h2 id="h6"></h2><p class="muted" id="segIntro"></p><div class="controls" id="segPills" style="margin:12px 0"></div><div class="stats" id="segStats"></div><div id="segTable" style="margin-top:14px"></div>
-  <h3 id="radarTitle"></h3><p class="muted" id="radarCaption"></p><div class="radar-box" id="radar"></div>
-  <div class="legend"><span class="cn" id="legendCn"></span><span class="gl" id="legendGl"></span></div>
-  <div class="callout" id="segNote"></div>
-  <h2 id="h7"></h2><div class="sources" id="sources"></div>
+  <header class="mast">
+    <p class="kicker" id="kicker"></p>
+    <h1 id="title"></h1>
+    <div class="mast-rule"></div>
+    <p class="lead" id="subtitle"></p>
+  </header>
+  <div class="panel" id="controls"></div>
+  <section class="plate">
+    <p class="plate-label"><span>01</span><b id="lab1"></b></p>
+    <div class="stats" id="metrics"></div>
+  </section>
+  <section class="plate">
+    <p class="plate-label"><span>02</span><b id="lab2"></b></p>
+    <h2 class="judgment" id="judgment"></h2>
+    <p id="judgmentBody"></p>
+    <div class="callout" id="archiveNote" style="display:none"></div>
+  </section>
+  <section class="plate plate-panel">
+    <p class="plate-label"><span>03</span><b id="lab3"></b></p>
+    <h2 id="h3"></h2><h3 id="chartTitle"></h3><div class="chart-box" id="lineChart"></div><p class="muted" id="chartCaption"></p>
+  </section>
+  <section class="plate">
+    <p class="plate-label"><span>04</span><b id="lab4"></b></p>
+    <h2 id="h2" class="follow"></h2><div id="dynamics"></div>
+  </section>
+  <h2 id="h4" style="display:none"></h2><div id="topics" style="display:none"></div>
+  <h2 id="h5" style="display:none"></h2><div id="trends" style="display:none"></div>
+  <section class="structure plate">
+    <p class="plate-label"><span>05</span><b id="lab5"></b></p>
+    <h2 id="h6"></h2>
+    <p class="muted" id="segIntro"></p>
+    <div class="controls" id="segPills" style="margin:12px 0 0"></div>
+    <div class="split">
+      <div>
+        <div class="radar-box" id="radar"></div>
+        <div class="legend"><span class="cn" id="legendCn"></span><span class="gl" id="legendGl"></span></div>
+      </div>
+      <div>
+        <h3 id="radarTitle"></h3>
+        <p id="segNote"></p>
+        <div class="seg-facts" id="segFacts"></div>
+        <div id="segTable"></div>
+      </div>
+    </div>
+  </section>
+  <section class="plate">
+    <p class="plate-label"><span>06</span><b id="lab6"></b></p>
+    <h2 id="h7" class="quiet"></h2><div class="sources" id="sources"></div>
+  </section>
   <footer id="footer"></footer>
 </div>
 <script>
 const PERIOD_META = {
+  "2026YTD": {
+    label: { zh: "2026年年初至今", en: "2026 year to date" },
+    range: { zh: "2026-01 至 2026-09，含一至三季度", en: "2026-01 to 2026-09, Q1 through Q3" },
+  },
   "2025H2": {
-    "label": {
-      "zh": "2025年下半年",
-      "en": "2025 H2"
-    },
-    "range": {
-      "zh": "时间范围：2025-07 至 2025-12（档案窗口）",
-      "en": "Range: 2025-07 to 2025-12 (archive window)"
-    }
+    label: { zh: "2025年下半年", en: "2025 H2" },
+    range: { zh: "2025-07 至 2025-12", en: "2025-07 to 2025-12" },
   },
   "2026H1": {
-    "label": {
-      "zh": "2026年上半年",
-      "en": "2026 H1"
-    },
-    "range": {
-      "zh": "时间范围：2026-01 至 2026-06（已披露口径）",
-      "en": "Range: 2026-01 to 2026-06 (published data scope)"
-    }
+    label: { zh: "2026年上半年", en: "2026 H1" },
+    range: { zh: "2026-01 至 2026-06", en: "2026-01 to 2026-06" },
+  },
+  "2026H2": {
+    label: { zh: "2026年下半年（至9月）", en: "2026 H2 (through Sep)" },
+    range: { zh: "2026-07 至 2026-09，四季度尚未纳入", en: "2026-07 to 2026-09; Q4 is not in yet" },
+    partial: true,
   },
   "2025Q3": {
-    "label": {
-      "zh": "2025年三季度",
-      "en": "2025 Q3"
-    },
-    "range": {
-      "zh": "时间范围：2025-07 至 2025-09（档案窗口）",
-      "en": "Range: 2025-07 to 2025-09 (archive window)"
-    }
+    label: { zh: "2025年三季度", en: "2025 Q3" },
+    range: { zh: "2025-07 至 2025-09", en: "2025-07 to 2025-09" },
   },
   "2025Q4": {
-    "label": {
-      "zh": "2025年四季度",
-      "en": "2025 Q4"
-    },
-    "range": {
-      "zh": "时间范围：2025-10 至 2025-12（档案窗口）",
-      "en": "Range: 2025-10 to 2025-12 (archive window)"
-    }
+    label: { zh: "2025年四季度", en: "2025 Q4" },
+    range: { zh: "2025-10 至 2025-12", en: "2025-10 to 2025-12" },
   },
   "2026Q1": {
-    "label": {
-      "zh": "2026年一季度",
-      "en": "2026 Q1"
-    },
-    "range": {
-      "zh": "时间范围：2026-01 至 2026-03",
-      "en": "Range: 2026-01 to 2026-03"
-    }
+    label: { zh: "2026年一季度", en: "2026 Q1" },
+    range: { zh: "2026-01 至 2026-03", en: "2026-01 to 2026-03" },
   },
   "2026Q2": {
-    "label": {
-      "zh": "2026年二季度",
-      "en": "2026 Q2"
-    },
-    "range": {
-      "zh": "时间范围：2026-04 至 2026-06（6月部分数据滚动中）",
-      "en": "Range: 2026-04 to 2026-06 (June data still updating)"
-    }
-  }
+    label: { zh: "2026年二季度", en: "2026 Q2" },
+    range: { zh: "2026-04 至 2026-06", en: "2026-04 to 2026-06" },
+  },
+  "2026Q3": {
+    label: { zh: "2026年三季度", en: "2026 Q3" },
+    range: { zh: "2026-07 至 2026-09", en: "2026-07 to 2026-09" },
+  },
 };
+
+
 const PERIODS_BY_MODE = {
-  "half": [
-    "2025H2",
-    "2026H1"
-  ],
-  "quarter": [
-    "2025Q3",
-    "2025Q4",
-    "2026Q1",
-    "2026Q2"
-  ]
+  ytd: ["2026YTD"],
+  half: ["2025H2", "2026H1", "2026H2"],
+  quarter: ["2025Q3", "2025Q4", "2026Q1", "2026Q2", "2026Q3"],
 };
+
+
 const CN_LPI_SERIES = {
-  "2025H2": {
-    "categories": [
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec"
-    ],
-    "data": [
-      99,
-      100,
-      101,
-      101,
-      102,
-      103
-    ],
-    "kind": "archive_proxy"
-  },
-  "2026H1": {
-    "categories": [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May"
-    ],
-    "data": [
-      51.2,
-      47.5,
-      50.2,
-      49.7,
-      50.3
-    ],
-    "kind": "official"
-  },
-  "2025Q3": {
-    "categories": [
-      "Jul",
-      "Aug",
-      "Sep"
-    ],
-    "data": [
-      99,
-      100,
-      101
-    ],
-    "kind": "archive_proxy"
-  },
-  "2025Q4": {
-    "categories": [
-      "Oct",
-      "Nov",
-      "Dec"
-    ],
-    "data": [
-      101,
-      102,
-      103
-    ],
-    "kind": "archive_proxy"
-  },
-  "2026Q1": {
-    "categories": [
-      "Jan",
-      "Feb",
-      "Mar"
-    ],
-    "data": [
-      51.2,
-      47.5,
-      50.2
-    ],
-    "kind": "official"
-  },
-  "2026Q2": {
-    "categories": [
-      "Apr",
-      "May"
-    ],
-    "data": [
-      49.7,
-      50.3
-    ],
-    "kind": "official"
-  }
+  "2025H2": { categories: ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"], data: [100, 100, 100, 100, 100, 100], kind: "archive_proxy" },
+  "2025Q3": { categories: ["Jul", "Aug", "Sep"], data: [100, 100, 100], kind: "archive_proxy" },
+  "2025Q4": { categories: ["Oct", "Nov", "Dec"], data: [100, 100, 100], kind: "archive_proxy" },
+  "2026Q1": { categories: ["Jan", "Feb", "Mar"], data: [51.2, 47.5, 50.2], kind: "official" },
+  "2026Q2": { categories: ["Apr", "May", "Jun"], data: [49.7, 50.3, 50.6], kind: "official" },
+  "2026H1": { categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"], data: [51.2, 47.5, 50.2, 49.7, 50.3, 50.6], kind: "official" },
+  "2026Q3": { categories: ["Jul", "Aug", "Sep"], data: [50.4, 50.9, 51.5], kind: "official" },
+  "2026H2": { categories: ["Jul", "Aug", "Sep"], data: [50.4, 50.9, 51.5], kind: "official" },
+  "2026YTD": { categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"], data: [51.2, 47.5, 50.2, 49.7, 50.3, 50.6, 50.4, 50.9, 51.5], kind: "official" },
 };
+
+
 const GLOBAL_GSCPI_SERIES = {
-  "2025H2": {
-    "categories": [
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec"
-    ],
-    "data": [
-      96,
-      95,
-      94,
-      95,
-      96,
-      97
-    ],
-    "kind": "archive_proxy"
-  },
-  "2026H1": {
-    "categories": [
-      "Feb",
-      "Mar",
-      "Apr",
-      "May"
-    ],
-    "data": [
-      0.54,
-      0.68,
-      1.82,
-      1.82
-    ],
-    "kind": "official"
-  },
-  "2025Q3": {
-    "categories": [
-      "Jul",
-      "Aug",
-      "Sep"
-    ],
-    "data": [
-      96,
-      95,
-      94
-    ],
-    "kind": "archive_proxy"
-  },
-  "2025Q4": {
-    "categories": [
-      "Oct",
-      "Nov",
-      "Dec"
-    ],
-    "data": [
-      95,
-      96,
-      97
-    ],
-    "kind": "archive_proxy"
-  },
-  "2026Q1": {
-    "categories": [
-      "Feb",
-      "Mar"
-    ],
-    "data": [
-      0.54,
-      0.68
-    ],
-    "kind": "official"
-  },
-  "2026Q2": {
-    "categories": [
-      "Apr",
-      "May"
-    ],
-    "data": [
-      1.82,
-      1.82
-    ],
-    "kind": "official"
-  }
+  "2025Q3": { categories: ["Jul", "Aug", "Sep"], data: [0.03, -0.08, -0.04], kind: "official" },
+  "2025Q4": { categories: ["Oct", "Nov", "Dec"], data: [-0.15, -0.21, 0.47], kind: "official" },
+  "2025H2": { categories: ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"], data: [0.03, -0.08, -0.04, -0.15, -0.21, 0.47], kind: "official" },
+  "2026Q1": { categories: ["Jan", "Feb", "Mar"], data: [0.36, 0.49, 0.63], kind: "official" },
+  "2026Q2": { categories: ["Apr", "May", "Jun"], data: [1.78, 1.81, 1.21], kind: "official" },
+  "2026H1": { categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"], data: [0.36, 0.49, 0.63, 1.78, 1.81, 1.21], kind: "official" },
+  "2026Q3": { categories: ["Jul", "Aug", "Sep"], data: [0.93, 1.2, 1.28], kind: "official" },
+  "2026H2": { categories: ["Jul", "Aug", "Sep"], data: [0.93, 1.2, 1.28], kind: "official" },
+  "2026YTD": { categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"], data: [0.36, 0.49, 0.63, 1.78, 1.81, 1.21, 0.93, 1.2, 1.28], kind: "official" },
 };
+
+
 const RADAR_AXES = [
   {
     "zh": "预测与补货",
@@ -850,210 +743,391 @@ const SPECIALTY_CONFIG = {
 const t = (lang, text) => (lang === 'zh' ? text.zh : text.en);
 const rowsOf = (lang, rows) => rows.map((r) => [t(lang, r.a), t(lang, r.b), t(lang, r.c)]);
 
-function getMetricCards(scope, period) {
-  if (scope === "cn") {
-    if (period === "2025Q3") {
-      return [
-        { value: "100.0", label: { zh: "档案趋势分值均值", en: "Archive trend score avg." }, tone: "info" },
-        { value: "99→101", label: { zh: "季内变化", en: "In-quarter movement" }, tone: "info" },
-        { value: "温和回升", label: { zh: "运行特征", en: "Operating condition" }, tone: "success" },
-        { value: "基准=100", label: { zh: "档案口径", en: "Archive baseline" }, tone: "neutral" },
-      ];
-    }
-    if (period === "2025Q4") {
-      return [
-        { value: "102.0", label: { zh: "档案趋势分值均值", en: "Archive trend score avg." }, tone: "success" },
-        { value: "101→103", label: { zh: "季内变化", en: "In-quarter movement" }, tone: "success" },
-        { value: "持续改善", label: { zh: "运行特征", en: "Operating condition" }, tone: "success" },
-        { value: "基准=100", label: { zh: "档案口径", en: "Archive baseline" }, tone: "neutral" },
-      ];
-    }
-    if (period === "2025H2") {
-      return [
-        { value: "101.0", label: { zh: "档案趋势分值均值", en: "Archive trend score avg." }, tone: "info" },
-        { value: "99→103", label: { zh: "半年度趋势", en: "Half-year trend" }, tone: "success" },
-        { value: "稳中向好", label: { zh: "运行特征", en: "Operating condition" }, tone: "success" },
-        { value: "基准=100", label: { zh: "档案口径", en: "Archive baseline" }, tone: "neutral" },
-      ];
-    }
-    if (period === "2026Q1") {
-      return [
-        { value: "49.6%", label: { zh: "LPI季度均值", en: "LPI quarterly average" }, tone: "info" },
-        { value: "51.2→47.5→50.2", label: { zh: "季内波动路径", en: "In-quarter path" }, tone: "warning" },
-        { value: "修复中", label: { zh: "供应链运行状态", en: "Supply chain state" }, tone: "info" },
-        { value: "54.2%", label: { zh: "业务活动预期（3月）", en: "Business expectation (Mar)" }, tone: "success" },
-      ];
-    }
-    if (period === "2026Q2") {
-      return [
-        { value: "50.3%", label: { zh: "LPI（5月）", en: "LPI (May)" }, tone: "success" },
-        { value: "49.7→50.3", label: { zh: "二季度修复轨迹", en: "Q2 recovery path" }, tone: "info" },
-        { value: "56.3%", label: { zh: "业务活动预期（4月）", en: "Business expectation (Apr)" }, tone: "success" },
-        { value: "53.7%", label: { zh: "固定资产投资指数（4月）", en: "Fixed-asset investment index (Apr)" }, tone: "info" },
-      ];
-    }
-    return [
-      { value: "50.3%", label: { zh: "LPI（5月）", en: "LPI (May)" }, tone: "success" },
-      { value: "47.5→50.3", label: { zh: "2-5月修复", en: "Recovery from Feb to May" }, tone: "info" },
-      { value: "扩张区间", label: { zh: "景气状态", en: "Expansion zone" }, tone: "success" },
-      { value: "韧性增强", label: { zh: "产业链协同性", en: "Stronger chain coordination" }, tone: "info" },
-    ];
-  }
-
-  if (period === "2025Q3") {
-    return [
-      { value: "95.0", label: { zh: "档案趋势分值均值", en: "Archive trend score avg." }, tone: "warning" },
-      { value: "96→94", label: { zh: "季内变化", en: "In-quarter movement" }, tone: "warning" },
-      { value: "压力缓升", label: { zh: "供应链信号", en: "Supply chain signal" }, tone: "warning" },
-      { value: "基准=100", label: { zh: "档案口径", en: "Archive baseline" }, tone: "neutral" },
-    ];
-  }
-  if (period === "2025Q4") {
-    return [
-      { value: "96.0", label: { zh: "档案趋势分值均值", en: "Archive trend score avg." }, tone: "info" },
-      { value: "95→97", label: { zh: "季内变化", en: "In-quarter movement" }, tone: "info" },
-      { value: "震荡修复", label: { zh: "供应链信号", en: "Supply chain signal" }, tone: "info" },
-      { value: "基准=100", label: { zh: "档案口径", en: "Archive baseline" }, tone: "neutral" },
-    ];
-  }
-  if (period === "2025H2") {
-    return [
-      { value: "95.5", label: { zh: "档案趋势分值均值", en: "Archive trend score avg." }, tone: "info" },
-      { value: "96→97", label: { zh: "半年度趋势", en: "Half-year trend" }, tone: "info" },
-      { value: "先压后稳", label: { zh: "运行特征", en: "Operating condition" }, tone: "warning" },
-      { value: "基准=100", label: { zh: "档案口径", en: "Archive baseline" }, tone: "neutral" },
-    ];
-  }
-  if (period === "2026Q1") {
-    return [
-      { value: "1.9%", label: { zh: "WTO 2026货物贸易基线", en: "WTO 2026 merchandise baseline" }, tone: "info" },
-      { value: "0.68", label: { zh: "GSCPI（3月）", en: "GSCPI (Mar)" }, tone: "warning" },
-      { value: "51.3", label: { zh: "全球制造业PMI（3月）", en: "Global Manufacturing PMI (Mar)" }, tone: "info" },
-      { value: "压力抬升", label: { zh: "供应链信号", en: "Supply chain signal" }, tone: "warning" },
-    ];
-  }
-  if (period === "2026Q2") {
-    return [
-      { value: "1.82", label: { zh: "GSCPI（4月）", en: "GSCPI (Apr)" }, tone: "warning" },
-      { value: "2571.73", label: { zh: "SCFI（5/29）", en: "SCFI (May 29)" }, tone: "warning" },
-      { value: "$2,800/FEU", label: { zh: "WCI（5/28）", en: "WCI (May 28)" }, tone: "warning" },
-      { value: "高波动", label: { zh: "运行特征", en: "Operating condition" }, tone: "danger" },
-    ];
-  }
-  return [
-    { value: "1.9%", label: { zh: "WTO 2026货物贸易基线", en: "WTO 2026 merchandise baseline" }, tone: "info" },
-    { value: "1.82", label: { zh: "GSCPI（4月）", en: "GSCPI (Apr)" }, tone: "warning" },
-    { value: "2571.73", label: { zh: "SCFI（5/29）", en: "SCFI (May 29)" }, tone: "warning" },
-    { value: "$2,800/FEU", label: { zh: "WCI（5/28）", en: "WCI (May 28)" }, tone: "warning" },
-  ];
+function card(value, zh, en, tone) {
+  return { value, label: { zh, en }, tone };
 }
 
-function getDynamics(scope) {
-  if (scope === "cn") {
-    return [
-      {
-        a: { zh: "物流景气修复", en: "Logistics sentiment recovery" },
-        b: { zh: "春节扰动后需求逐步回暖", en: "Demand gradually recovered after holiday disruption" },
-        c: { zh: "补库与履约效率同步改善", en: "Restocking and fulfillment efficiency improved together" },
-      },
-      {
-        a: { zh: "产业链协同增强", en: "Stronger chain coordination" },
-        b: { zh: "制造端与物流端联动增强", en: "Manufacturing and logistics coordination strengthened" },
-        c: { zh: "对计划弹性提出更高要求", en: "Higher requirements for planning agility" },
-      },
-      {
-        a: { zh: "跨境与内贸并行", en: "Cross-border and domestic parallel growth" },
-        b: { zh: "跨境履约与内需物流同步发力", en: "Cross-border fulfillment and domestic logistics grew together" },
-        c: { zh: "仓配网络需统一调度", en: "Warehouse and distribution networks need unified orchestration" },
-      },
-    ];
-  }
-  return [
-    {
-      a: { zh: "结构性波动常态化", en: "Structural volatility is the new normal" },
-      b: { zh: "地缘与政策扰动持续", en: "Geopolitical and policy volatility persisted" },
-      c: { zh: "供应链策略从效率转向韧性+价值", en: "Strategy shifted from pure efficiency to resilience + value" },
-    },
-    {
-      a: { zh: "海运风险溢价维持", en: "Shipping risk premium remains" },
-      b: { zh: "关键航线运价在Q2抬升", en: "Key route freight rates rose in Q2" },
-      c: { zh: "成本和交付稳定性双承压", en: "Both cost and delivery stability came under pressure" },
-    },
-    {
-      a: { zh: "AI驱动供给约束外溢", en: "AI-driven supply constraints spilled over" },
-      b: { zh: "先进制程/封装资源趋紧", en: "Advanced node/packaging capacity tightened" },
-      c: { zh: "采购与产能锁定成为重点", en: "Procurement and capacity locking became critical" },
-    },
-  ];
+function move(themeZh, themeEn, signalZh, signalEn, actionZh, actionEn) {
+  return {
+    a: { zh: themeZh, en: themeEn },
+    b: { zh: signalZh, en: signalEn },
+    c: { zh: actionZh, en: actionEn },
+  };
 }
 
-function getTopics(scope) {
-  if (scope === "cn") {
-    return [
-      {
-        a: { zh: "关键料保障", en: "Critical material assurance" },
-        b: { zh: "双供与替代BOM管理提速", en: "Dual sourcing and substitute BOM acceleration" },
-        c: { zh: "建立Top料号保供看板", en: "Build top-SKU assurance dashboard" },
-      },
-      {
-        a: { zh: "跨境履约", en: "Cross-border fulfillment" },
-        b: { zh: "仓网与口岸协同成为竞争点", en: "Warehouse-port orchestration became a differentiator" },
-        c: { zh: "优化前置仓与海外仓联动", en: "Optimize forward and overseas warehouse linkage" },
-      },
-      {
-        a: { zh: "AI计划与调度", en: "AI planning and scheduling" },
-        b: { zh: "预测与异常响应速度提升", en: "Forecasting and exception response improved" },
-        c: { zh: "形成人机协同闭环", en: "Build human-in-the-loop closed loop" },
-      },
-    ];
-  }
-  return [
-    {
-      a: { zh: "区域化重构", en: "Regional reconfiguration" },
-      b: { zh: "Near/Friend-shoring持续推进", en: "Near/friend-shoring continued" },
-      c: { zh: "从备份供应商走向网络设计", en: "Move from backup suppliers to network design" },
-    },
-    {
-      a: { zh: "Agentic AI采购", en: "Agentic AI procurement" },
-      b: { zh: "AI从试点走向流程嵌入", en: "AI moved from pilots to workflow embedding" },
-      c: { zh: "同步强化治理、审计和权限", en: "Strengthen governance, audit, and access control" },
-    },
-    {
-      a: { zh: "供应链金融与现金流", en: "Supply chain finance and cash flow" },
-      b: { zh: "高波动下资金效率更关键", en: "Cash efficiency became more critical in high volatility" },
-      c: { zh: "推进动态折扣与在途可视化", en: "Advance dynamic discounting and in-transit visibility" },
-    },
-  ];
-}
-
-
-const TRENDS = {
-  zh: [
-    ["网络韧性", "从单点优化走向多节点网络优化", "建立双供覆盖率与切换演练机制"],
-    ["计划体系", "静态计划转向情景化滚动计划", "在S&OP中引入关税/运价/交期联动仿真"],
-    ["数智化", "AI从分析走向执行闭环", "优先落地预测-预警-处置三段式自动化"]
+const CHINA_ARCHIVE = {
+  headline: {
+    zh: "2025 年中国月度 LPI 还不能当读数用",
+    en: "The 2025 China LPI months are not usable as readings",
+  },
+  judgment: {
+    zh: "本版没有核到可逐月引用的 2025 年中国物流业景气指数官方序列。图上的分值是档案代理（基准=100），只为把时间轴留住，不能解释成景气回升。做决策请改看 2026 年。",
+    en: "This edition does not have a citable monthly official China LPI series for 2025. The chart is an archive proxy (baseline=100) that only holds the time axis. It is not a recovery. Switch to a 2026 window for a decision.",
+  },
+  tone: "warning",
+  cards: [
+    card("代理", "不是官方 LPI", "Not an official LPI", "warning"),
+    card("100", "代理基准", "Proxy baseline"),
+    card("2026", "可引用的读数从这里开始", "Citable readings start here", "info"),
+    card("未引用", "不把代理分写成结论", "Proxy scores are not findings"),
   ],
-  en: [
-    ["Network Resilience", "From point optimization to multi-node network optimization", "Establish dual-source coverage and switch-over drills"],
-    ["Planning System", "From static planning to scenario-based rolling planning", "Introduce tariff/freight/lead-time simulation into S&OP"],
-    ["Digital Intelligence", "AI is moving from analytics to execution loops", "Prioritize forecast-alert-response automation"]
-  ]
+  moves: [
+    move("口径", "Scope", "2025 年中国曲线是占位，不是统计", "The 2025 China line is a placeholder, not a statistic", "对外引用时删掉这张图，只留 2026", "Drop this chart from any external citation; keep 2026"),
+    move("对比", "Comparison", "全球 2025 年已经换成纽约联储修订值，中国没有同等序列", "Global 2025 now uses the revised New York Fed series; China does not have an equivalent", "不要把两边的 2025 年曲线放在同一张结论页", "Do not put the two 2025 lines on the same findings page"),
+    move("下一步", "Next", "2026 年 1 月以后的中国读数可以引用", "China readings from January 2026 onward are citable", "从 2026Q1 开始读修复路径", "Start the recovery path at 2026Q1"),
+  ],
 };
 
+function getBrief(scope, period) {
+  if (scope === "cn" && (period === "2025Q3" || period === "2025Q4" || period === "2025H2")) return CHINA_ARCHIVE;
+
+  if (scope === "cn" && period === "2026Q1") {
+    return {
+      headline: { zh: "春节把景气打到收缩，3 月才收回扩张", en: "The holiday pushed sentiment into contraction; March got it back" },
+      judgment: {
+        zh: "LPI 1 月 51.2%，2 月 47.5%，3 月 50.2%。2 月的低点主要是春节错位，不能写成需求塌陷。3 月只是回到荣枯线上方，还没有形成斜率。",
+        en: "LPI was 51.2% in January, 47.5% in February, and 50.2% in March. The February low is mostly the Lunar New Year shift, not a demand collapse. March only crossed back above 50.",
+      },
+      tone: "warning",
+      cards: [
+        card("47.5%", "2 月低点", "February low", "warning"),
+        card("50.2%", "3 月回到扩张", "March back in expansion", "info"),
+        card("51.2%", "1 月起点", "January start"),
+        card("春节", "先拆季节，再谈趋势", "Separate the holiday from the trend", "warning"),
+      ],
+      moves: [
+        move("读数", "Reading", "季内振幅大于期末位置", "The intra-quarter swing is larger than the ending level", "复盘用 1 月和 3 月，不要用季度均值", "Review January and March, not the quarterly average"),
+        move("库存", "Inventory", "2 月收缩会让补货日历整体后移", "The February contraction pushes the replenishment calendar back", "把节后回补和真实需求分开下单", "Separate post-holiday restock from real demand"),
+        move("计划", "Planning", "3 月只是站回 50 上方", "March is only just back above 50", "承诺量维持，等二季度确认再加", "Hold commitments until Q2 confirms"),
+      ],
+    };
+  }
+
+  if (scope === "cn" && period === "2026Q2") {
+    return {
+      headline: { zh: "刚回到扩张，三个月只抬了 0.9 个点", en: "Back in expansion, and only 0.9 point higher in three months" },
+      judgment: {
+        zh: "4 月 LPI 49.7%，5 月 50.3%，6 月 50.6%。6 月不是单独引用的标题，而是 7 月官方表述“较上月回落 0.2 个百分点”回推出来的。二季度完成了从收缩边缘回到扩张，斜率仍然很浅。",
+        en: "LPI was 49.7% in April, 50.3% in May, and 50.6% in June. June is not a standalone headline; it is implied by the official July line that the index fell 0.2 point from the prior month. Q2 crossed back into expansion on a shallow slope.",
+      },
+      tone: "info",
+      cards: [
+        card("49.7%", "4 月仍在收缩", "April still contracting", "warning"),
+        card("50.3%", "5 月回到扩张", "May back in expansion", "success"),
+        card("50.6%", "6 月，由 7 月回推", "June, implied by July", "info"),
+        card("+0.9", "4 月到 6 月，百分点", "April to June, points"),
+      ],
+      moves: [
+        move("确认", "Confirmation", "5 月和 6 月连续站在 50 上方，7 月官方也说业务总量已连续 3 个月扩张", "May and June both held above 50, and the July release said business volume had expanded for three straight months", "把 6 月当成修复确认，不当成加速", "Treat June as confirmation, not acceleration"),
+        move("库存", "Inventory", "斜率只有 0.9 个点，加库存的理由还不充分", "A 0.9-point slope is not enough to justify more stock", "安全库存维持，不加到旺季假设", "Hold safety stock; do not build a peak-season case"),
+        move("观察", "Watch", "真正的连续抬升出现在三季度", "The sustained climb shows up in Q3", "用 7 月以后的读数决定是否加产", "Use the readings after July to decide on more output"),
+      ],
+    };
+  }
+
+  if (scope === "cn" && period === "2026H1") {
+    return {
+      headline: { zh: "上半年是 V 型，不是单边上行", en: "The first half was a V, not a straight climb" },
+      judgment: {
+        zh: "LPI 从 1 月 51.2% 落到 2 月 47.5%，4 月再次落到 49.7%，6 月收在 50.6%。两次跌破 50 之后都收回来了，但年底的位置几乎回到了 1 月，斜率很浅。6 月由 7 月“回落 0.2 个百分点”回推。",
+        en: "LPI fell from 51.2% in January to 47.5% in February, slipped again to 49.7% in April, and finished June at 50.6%. Both breaks below 50 were recovered, but June is close to January and the slope is shallow. June is implied by July's 0.2-point decline.",
+      },
+      tone: "info",
+      cards: [
+        card("47.5%", "2 月低点", "February low", "warning"),
+        card("49.7%", "4 月第二次跌破", "Second break, April", "warning"),
+        card("50.6%", "6 月收官", "June close", "success"),
+        card("两次", "跌破 50 后又收回", "Recovered after two breaks below 50"),
+      ],
+      moves: [
+        move("叙事", "Narrative", "用“修复”而不是“景气上行”描述上半年", "Describe H1 as a repair, not a boom", "对外材料不要画成单边箭头", "Do not draw H1 as a one-way arrow"),
+        move("节奏", "Cadence", "2 月和 4 月是两个不同的坑", "February and April are two different holes", "节假日坑和 4 月再收缩要分开复盘", "Review the holiday hole and the April relapse separately"),
+        move("衔接", "Handoff", "6 月只是站稳，加速在 7 月以后", "June only stabilized; the climb is after July", "下半年预算从三季度的连续扩张起算", "Start the second-half case from Q3's run of expansion"),
+      ],
+    };
+  }
+
+  if (scope === "cn" && (period === "2026Q3" || period === "2026H2")) {
+    return {
+      headline: {
+        zh: period === "2026H2" ? "下半年至今连续扩张，但这还不是完整的下半年" : "扩张在继续，成本没有松开",
+        en: period === "2026H2" ? "Expansion has continued so far this half, and the half is not finished" : "Expansion continues, and costs have not eased",
+      },
+      judgment: {
+        zh: "LPI 7 月 50.4%，8 月 50.9%，9 月 51.5%，自 5 月起连续 5 个月扩张。9 月新订单 51.2%，业务活动预期 56.2%，设备利用率 50.1%，今年首次回到扩张。前九个月主营业务成本指数都在 52% 以上，9 月利润指数与 8 月持平。东部业务总量回升 1 个百分点，是总量抬升的主因；西部新订单回落 0.5 个百分点。10 月以后尚未纳入。",
+        en: "LPI was 50.4% in July, 50.9% in August, and 51.5% in September, a fifth straight month of expansion since May. September new orders were 51.2%, expectations 56.2%, and equipment utilization 50.1%, its first expansion month of 2026. The main-business cost index stayed above 52% for the first nine months, and the September profit index was flat on August. Eastern business volume rose 1 point and drove the national lift; western new orders fell 0.5 point. Nothing after September is included.",
+      },
+      tone: "warning",
+      cards: [
+        card("51.5%", "9 月 LPI，连续 5 个月扩张", "September LPI, fifth expansion month", "success"),
+        card("51.2%", "9 月新订单", "September new orders", "info"),
+        card("56.2%", "9 月业务活动预期", "September expectations", "success"),
+        card(">52%", "前九个月成本指数", "Cost index, first nine months", "warning"),
+      ],
+      moves: [
+        move(
+          "需求",
+          "Demand",
+          "新订单 51.2%，设备利用率年内首次扩张；东/中/西业务总量 51.3% / 51.2% / 51.7%",
+          "New orders 51.2%; equipment utilization expanded for the first time this year; east / central / west volumes 51.3% / 51.2% / 51.7%",
+          "排产跟着东部放量，不要把全国均值套到西部新订单",
+          "Schedule to the eastern lift; do not apply the national average to western orders",
+        ),
+        move(
+          "利润",
+          "Margin",
+          "成本指数仍高于 52%，9 月利润指数与 8 月持平，三季度利润均值与二季度持平",
+          "The cost index is still above 52%; September profit was flat on August, and the Q3 profit average matched Q2",
+          "扩产配额和价格条款分开批。扩张不是毛利许可",
+          "Approve volume and price terms separately. Expansion is not a margin permit",
+        ),
+        move(
+          "预期",
+          "Expectations",
+          "预期指数 56.2%，比 8 月高 1.8 个百分点，明显高于新订单",
+          "Expectations are 56.2%, up 1.8 points from August, and well above new orders",
+          "用预期做情景上限，用新订单做承诺上限",
+          "Use expectations as the scenario ceiling and new orders as the commitment ceiling",
+        ),
+      ],
+    };
+  }
+
+  if (scope === "cn" && period === "2026YTD") {
+    return {
+      headline: { zh: "年初至今是两头扩张，中间两次跌破", en: "The year so far expanded at both ends, with two breaks in the middle" },
+      judgment: {
+        zh: "这是 1–9 月的整段，不是把三季度单独拿出来。LPI 1 月 51.2%，2 月 47.5%，3 月 50.2%，4 月 49.7%，5 月 50.3%，6 月 50.6%（由 7 月回推），7 月 50.4%，8 月 50.9%，9 月 51.5%。上半年是 V 型，5 月以后才连着站在扩张区。9 月是年内高点，但只比 1 月高 0.3 个点。前九个月成本指数都高于 52%。",
+        en: "This is January–September as one path, not Q3 on its own. LPI was 51.2% in January, 47.5% in February, 50.2% in March, 49.7% in April, 50.3% in May, 50.6% in June (implied by July), 50.4% in July, 50.9% in August, and 51.5% in September. The first half was a V; expansion only held from May. September is the high of the year so far, and it is only 0.3 point above January. The cost index stayed above 52% for all nine months.",
+      },
+      tone: "warning",
+      cards: [
+        card("51.5%", "9 月，年内高点", "September, high so far", "success"),
+        card("47.5%", "2 月，年内低点", "February, low so far", "warning"),
+        card("两次", "跌破 50：2 月、4 月", "Breaks below 50: Feb, Apr", "warning"),
+        card(">52%", "前九个月成本指数", "Cost index, all nine months", "danger"),
+      ],
+      moves: [
+        move("分段", "Three parts", "春节坑、4 月再收缩、5–9 月连续扩张，不是一条均值", "A holiday hole, an April relapse, then expansion from May through September. Not one average", "年初至今按这三段写，三季度只是第三段", "Write the year as these three parts. Q3 is only the third"),
+        move("位置", "Level", "9 月 51.5% 只比 1 月高 0.3 个点，斜率在三季度，位置仍靠近年初", "September's 51.5% is only 0.3 point above January. The slope is in Q3; the level is still near January", "不要用 9 月一个点代表这一年", "Do not let the September print stand for the year"),
+        move("利润", "Margin", "成本闸门九个月都没有松开", "The cost gate has not opened in any of the nine months", "用 9 月排产，用成本指数批价格", "Schedule off September, and approve price off the cost index"),
+      ],
+    };
+  }
+
+  if (scope === "global" && period === "2025Q3") {
+    return {
+      headline: { zh: "压力贴着长期均值，供给不是当时的主矛盾", en: "Pressure sat on the long-run average; supply was not the binding constraint" },
+      judgment: {
+        zh: "GSCPI 7 月 0.03，8 月 -0.08，9 月 -0.04。三个月都在零附近。0 是长期均值，负数表示压力低于平均。这是 2026 年冲击之前的松弛期。",
+        en: "GSCPI was 0.03 in July, -0.08 in August, and -0.04 in September. All three months sat on zero. Zero is the long-run average; a negative reading is below-average pressure. This is the loose period before the 2026 shock.",
+      },
+      tone: "info",
+      cards: [
+        card("0.03", "7 月", "July"),
+        card("-0.08", "8 月，低于均值", "August, below average", "success"),
+        card("-0.04", "9 月", "September", "success"),
+        card("0", "长期均值", "Long-run average"),
+      ],
+      moves: [
+        move("判断", "Call", "供给约束不是 2025 年三季度的预算前提", "Supply stress is not the budgeting premise for 2025 Q3", "这段时期的问题在需求和政策，不在交期", "The issues in this window are demand and policy, not lead time"),
+        move("库存", "Inventory", "低于均值时加安全库存会变成多余现金", "Extra safety stock in a below-average window becomes idle cash", "维持周转，不要预支 2026 年的冲击", "Keep turns; do not pre-build the 2026 shock"),
+        move("口径", "Vintage", "序列取纽约联储 2026 年 10 月发布后的修订值", "The series is the New York Fed vintage after the October 2026 release", "引用时写明 vintage，历史值还会再修订", "Name the vintage; history will be revised again"),
+      ],
+    };
+  }
+
+  if (scope === "global" && period === "2025Q4") {
+    return {
+      headline: { zh: "11 月最松，12 月一个月转正", en: "November was the loosest month; December flipped positive" },
+      judgment: {
+        zh: "GSCPI 10 月 -0.15，11 月 -0.21，12 月 0.47。年末一个月从明显低于均值转到高于均值。2026 年的抬升不是从零突然开始的。",
+        en: "GSCPI was -0.15 in October, -0.21 in November, and 0.47 in December. One month took the index from clearly below average to above it. The 2026 rise did not start from zero.",
+      },
+      tone: "warning",
+      cards: [
+        card("-0.21", "11 月低点", "November low", "success"),
+        card("0.47", "12 月转正", "December turns positive", "warning"),
+        card("+0.68", "11 月到 12 月", "November to December", "warning"),
+        card("0", "长期均值", "Long-run average"),
+      ],
+      moves: [
+        move("转折", "Turn", "变化集中在 12 月，不是整个季度均匀抬升", "The change is concentrated in December, not spread evenly across the quarter", "复盘锚在 12 月，不要用季度均值", "Anchor the review on December, not the quarterly average"),
+        move("衔接", "Handoff", "12 月 0.47 已经高于随后的 1 月 0.36", "December's 0.47 is already above January's 0.36", "2026 年开年是接住这个转正，不是新的起点", "Early 2026 inherits this turn; it is not a fresh start"),
+        move("动作", "Action", "转正幅度仍小于 0.5 个标准差", "The positive reading is still under half a standard deviation", "只做交期预警，不加峰值库存", "Set a lead-time watch, not peak inventory"),
+      ],
+    };
+  }
+
+  if (scope === "global" && period === "2025H2") {
+    return {
+      headline: { zh: "下半年大部分月份低于均值，转折在 12 月", en: "Most of the half sat below average; the turn was December" },
+      judgment: {
+        zh: "7 月到 11 月在 -0.21 到 0.03 之间，12 月 0.47。2025 年下半年不是压力年。把它画成持续紧张，会把 2026 年 4 月的跳升解释错。",
+        en: "July through November ranged from -0.21 to 0.03, then December printed 0.47. The second half of 2025 was not a stress year. Drawing it as persistent tightness misreads the April 2026 jump.",
+      },
+      tone: "info",
+      cards: [
+        card("-0.21", "11 月低点", "November low", "success"),
+        card("0.47", "12 月", "December", "warning"),
+        card("5", "低于或贴近均值的月份", "Months at or below average"),
+        card("1", "明显转正的月份", "Month clearly above average", "warning"),
+      ],
+      moves: [
+        move("叙事", "Narrative", "2025 年下半年是松、然后在最后一个月转正", "H2 2025 was loose, then turned positive in the last month", "年度总结把 12 月单独写出", "Call December out in the annual write-up"),
+        move("对比", "Contrast", "这半年的高点 0.47，远低于 2026 年 5 月的 1.81", "The half's high of 0.47 is far below May 2026 at 1.81", "不要用 2025 年的库存政策去对标 2026 年二季度", "Do not benchmark 2025 inventory policy against 2026 Q2"),
+        move("口径", "Vintage", "全部使用 2026 年 10 月修订序列", "All points use the October 2026 revised vintage", "替换掉旧版里基准=100 的全球代理分", "Replace the old baseline-100 global proxy"),
+      ],
+    };
+  }
+
+  if (scope === "global" && period === "2026Q1") {
+    return {
+      headline: { zh: "压力在抬，但还远不是二季度的冲击", en: "Pressure was rising, and it was not yet the second-quarter shock" },
+      judgment: {
+        zh: "GSCPI 1 月 0.36，2 月 0.49，3 月 0.63。三个月连续上行，3 月仍低于 1 个标准差。事后看，这是 4 月跳到 1.78 之前的积累，当时还不是冲击本身。",
+        en: "GSCPI was 0.36 in January, 0.49 in February, and 0.63 in March. Three rising months, and March was still below one standard deviation. In hindsight this is the buildup before April's jump to 1.78, not the shock itself.",
+      },
+      tone: "info",
+      cards: [
+        card("0.36", "1 月", "January"),
+        card("0.49", "2 月", "February", "info"),
+        card("0.63", "3 月", "March", "warning"),
+        card("1.78", "下一月，4 月", "Next month, April", "danger"),
+      ],
+      moves: [
+        move("判断", "Call", "一季度的正确动作是盯斜率，不是宣布冲击", "The right Q1 move was to watch the slope, not declare a shock", "复盘时把 3 月和 4 月切开", "Keep March and April in different chapters"),
+        move("预警", "Watch", "连续三个月抬升，已经不是噪音", "Three rising months are no longer noise", "4 周交期预警在 3 月就该打开", "A four-week lead-time watch should already have been on in March"),
+        move("库存", "Inventory", "0.63 还不到后来峰值的一半", "0.63 is not yet half the later peak", "不要用二季度的库存政策回写一季度", "Do not rewrite Q1 with the Q2 inventory policy"),
+      ],
+    };
+  }
+
+  if (scope === "global" && period === "2026Q2") {
+    return {
+      headline: { zh: "冲击在 4 月和 5 月，6 月已经从峰值下来", en: "The shock was April and May; June was already off the peak" },
+      judgment: {
+        zh: "GSCPI 4 月 1.78，5 月 1.81，6 月 1.21，取 2026 年 10 月修订口径。旧版把 4 月和 5 月都写成 1.82，那个重复值作废。冲击集中在 4–5 月，6 月已从峰值回落 0.60。只记峰值会把二季度读成一条平线。",
+        en: "GSCPI was 1.78 in April, 1.81 in May, and 1.21 in June on the October 2026 vintage. The previous edition's repeated 1.82 for April and May is retired. The shock sat in April and May; June was already 0.60 off the peak. Remembering only the peak flattens the quarter.",
+      },
+      tone: "danger",
+      cards: [
+        card("1.78", "4 月跳升", "April jump", "danger"),
+        card("1.81", "5 月本轮峰值", "May peak of this cycle", "danger"),
+        card("1.21", "6 月", "June", "warning"),
+        card("-0.60", "5 月到 6 月", "May to June", "info"),
+      ],
+      moves: [
+        move("叙事", "Narrative", "二季度有冲击，也有 6 月的回落", "Q2 contains both the shock and the June retreat", "对外只写 1.81 会漏掉已经开始的回落", "Quoting only 1.81 drops the retreat that had already started"),
+        move("预算", "Budget", "峰值不适合做下半年的运行假设", "The peak is a poor operating assumption for the second half", "下半年用 6 月以后的路径，不用 5 月", "Run the second half off the post-June path, not May"),
+        move("运价", "Freight", "上半年报告里的 5 月末 SCFI / WCI 快照本轮没有刷新到 9 月", "The late-May SCFI / WCI snapshots in the H1 edition were not refreshed through September", "三季度卡片不再挂这组运价", "Q3 cards no longer carry those freight prints"),
+      ],
+    };
+  }
+
+  if (scope === "global" && period === "2026H1") {
+    return {
+      headline: { zh: "前三个月是慢爬，4 月才是这半年的事件", en: "The first three months were a grind; April is the event of the half" },
+      judgment: {
+        zh: "1 月到 3 月从 0.36 升到 0.63，4 月跳到 1.78，5 月 1.81，6 月回到 1.21。上半年的定义是 4 月的跳升，不是一季度的慢爬，也不是一条停在峰值上的平线。",
+        en: "January to March rose from 0.36 to 0.63, April jumped to 1.78, May printed 1.81, and June fell back to 1.21. The half is defined by the April jump, not by the first-quarter grind and not by a line that stayed at the peak.",
+      },
+      tone: "danger",
+      cards: [
+        card("0.63", "3 月，跳升前", "March, before the jump", "info"),
+        card("1.81", "5 月峰值", "May peak", "danger"),
+        card("1.21", "6 月收官", "June close", "warning"),
+        card("4 月", "定义事件", "The defining month", "danger"),
+      ],
+      moves: [
+        move("分段", "Split", "1–3 月和 4–6 月不是同一种运行状态", "January–March and April–June are not the same operating state", "半年复盘按季度写，不要合成一个均值", "Write the half as two quarters, not one average"),
+        move("峰值", "Peak", "1.81 是高点，不是半年的典型水平", "1.81 is the high, not the typical level of the half", "典型水平看 6 月的 1.21，压力情景才用 1.81", "Use June's 1.21 as typical and 1.81 only as the stress case"),
+        move("衔接", "Handoff", "6 月已经在回落，7 月还会再下一台阶", "June was already falling, and July steps down again", "下半年计划从 7 月的 0.93 接，而不是从 5 月接", "Hand the second half off July's 0.93, not off May"),
+      ],
+    };
+  }
+
+  if (scope === "global" && period === "2026YTD") {
+    return {
+      headline: { zh: "4 月是这一年的事件，9 月还没有回到跳升之前", en: "April is the event of the year, and September is not back to where the jump started" },
+      judgment: {
+        zh: "这是 1–9 月的整段。GSCPI 从 1 月 0.36、2 月 0.49、3 月 0.63，跳到 4 月 1.78、5 月 1.81，再落到 6 月 1.21、7 月 0.93，然后 8 月修订后 1.20、9 月 1.28。低点在 7 月，终点在 9 月，终点仍高于一季度的每一个月。年初至今不是“冲击已经过去”。",
+        en: "This is January–September as one path. GSCPI went from 0.36, 0.49, and 0.63 in the first quarter to 1.78 in April and 1.81 in May, then 1.21 in June and 0.93 in July, and a revised 1.20 in August and 1.28 in September. The low is July and the end is September, and the end is still above every first-quarter month. Year to date is not “the shock is over.”",
+      },
+      tone: "warning",
+      cards: [
+        card("0.36", "1 月起点", "January start"),
+        card("1.81", "5 月峰值", "May peak", "danger"),
+        card("0.93", "7 月，离开峰值后的低点", "July, low after the peak", "info"),
+        card("1.28", "9 月终点", "September close", "warning"),
+      ],
+      moves: [
+        move("三段", "Three parts", "1–3 月慢爬，4–5 月冲击，6–9 月离开峰值但没有回到跳升前", "January–March ground higher, April–May was the shock, June–September left the peak without returning to the pre-jump level", "要看其中一段，改选季度。年初至今才是这一年", "To read one part, switch to a quarter. Year to date is the year"),
+        move("预算", "Budget", "9 月 1.28 是当前运行点，5 月 1.81 是压力情景，0.36–0.63 只是跳升前的底", "September's 1.28 is the operating point, May's 1.81 is the stress case, and 0.36–0.63 is only the floor before the jump", "不要用任何一个季度均值代替 1–9 月", "Do not replace January–September with any one quarterly average"),
+        move("修订", "Revision", "8 月从 1.06 上修到 1.20，整条年初至今的线都是 10 月口径", "August was revised from 1.06 to 1.20, and the whole year-to-date line is the October vintage", "下次发布先对修订，再判断 9 月以后的方向", "On the next release, check the revision before judging the direction after September"),
+      ],
+    };
+  }
+
+  return {
+    headline: {
+      zh: period === "2026H2" ? "7 月下了台阶，8 月和 9 月又抬头" : "离开了峰值，然后重新抬头",
+      en: period === "2026H2" ? "July stepped down; August and September turned back up" : "Off the peak, then turning back up",
+    },
+    judgment: {
+      zh: "GSCPI 7 月 0.93，8 月修订后 1.20，9 月 1.28。8 月初值是 1.06，10 月发布时上修到 1.20。9 月约高于长期均值 1.3 个标准差，仍低于 5 月峰值 1.81，也远低于 2021 年 12 月的 4.43。故事不是冲击结束。下半年目前只收到 9 月，10 月指数尚未发布。",
+      en: "GSCPI was 0.93 in July, a revised 1.20 in August, and 1.28 in September. August's first print was 1.06 and was revised up to 1.20 in the October release. September is about 1.3 standard deviations above the long-run average, still below the May peak of 1.81 and far below 4.43 in December 2021. The shock is not over. This half only runs through September; October is not out.",
+    },
+    tone: "warning",
+    cards: [
+      card("0.93", "7 月低点", "July low", "info"),
+      card("1.20", "8 月，由 1.06 上修", "August, revised from 1.06", "warning"),
+      card("1.28", "9 月", "September", "warning"),
+      card("1.81", "5 月峰值，用来对照", "May peak, for scale", "danger"),
+    ],
+    moves: [
+      move(
+        "预算",
+        "Budget",
+        "7 月 0.93 和 5 月 1.81 都不适合当四季度的运行点",
+        "Neither July's 0.93 nor May's 1.81 is a good operating point for the fourth quarter",
+        "运行假设用 9 月的 1.28，压力情景另列 1.81",
+        "Use September's 1.28 as the operating case and keep 1.81 as a separate stress case",
+      ),
+      move(
+        "修订",
+        "Revision",
+        "8 月在一个月内上修了 0.14",
+        "August was revised up by 0.14 within a month",
+        "S&OP 锁定纽约联储 2026 年 10 月 vintage，下次发布先对修订再对方向",
+        "Lock S&OP to the October 2026 New York Fed vintage, and check revisions before direction",
+      ),
+      move(
+        "动作",
+        "Action",
+        "压力离开峰值后又连升两个月，距离 2021 年的极端值仍然很远",
+        "Pressure has risen for two months off the peak and is still far from the 2021 extreme",
+        "优先锁交期和在途，不要把安全库存加回 5 月的水平",
+        "Lock lead times and in-transit visibility; do not rebuild safety stock to the May level",
+      ),
+    ],
+  };
+}
+
 const state = {
-  lang: localStorage.getItem("report-lang") || "zh",
-  scope: localStorage.getItem("report-scope") || "cn",
-  windowMode: localStorage.getItem("report-window-mode") || "half",
-  period: localStorage.getItem("report-period") || "2026H1",
-  specialtyTab: localStorage.getItem("report-specialty-tab") || "electronics"
+  lang: localStorage.getItem("report-lang-q3") || "zh",
+  scope: localStorage.getItem("report-scope-q3") || "cn",
+  windowMode: localStorage.getItem("report-window-ytd") || "ytd",
+  period: localStorage.getItem("report-period-ytd") || "2026YTD",
+  specialtyTab: localStorage.getItem("report-specialty-q3") || "electronics"
 };
 
 function persist() {
-  localStorage.setItem("report-lang", state.lang);
-  localStorage.setItem("report-scope", state.scope);
-  localStorage.setItem("report-window-mode", state.windowMode);
-  localStorage.setItem("report-period", state.period);
-  localStorage.setItem("report-specialty-tab", state.specialtyTab);
+  localStorage.setItem("report-lang-q3", state.lang);
+  localStorage.setItem("report-scope-q3", state.scope);
+  localStorage.setItem("report-window-ytd", state.windowMode);
+  localStorage.setItem("report-period-ytd", state.period);
+  localStorage.setItem("report-specialty-q3", state.specialtyTab);
 }
 
 function el(tag, attrs={}, children=[]) {
@@ -1080,10 +1154,10 @@ function table(headers, rows) {
   t.appendChild(tb); return t;
 }
 
-function renderLineChart(container, categories, data, seriesName) {
-  const w=900, h=280, pad={l:48,r:20,t:24,b:40};
-  const max = Math.max(...data) * 1.15 || 1;
-  const min = Math.min(0, Math.min(...data));
+function renderLineChart(container, categories, data, seriesName, axis) {
+  const w=900, h=280, pad={l:56,r:64,t:28,b:40};
+  const max = axis && axis.yMax != null ? axis.yMax : (Math.max(...data) * 1.15 || 1);
+  const min = axis && axis.yMin != null ? axis.yMin : Math.min(0, Math.min(...data));
   const span = max - min || 1;
   const x = (i) => pad.l + (i * (w - pad.l - pad.r)) / Math.max(1, categories.length - 1);
   const y = (v) => pad.t + (1 - (v - min) / span) * (h - pad.t - pad.b);
@@ -1095,8 +1169,16 @@ function renderLineChart(container, categories, data, seriesName) {
     grid += `<text x="${pad.l-8}" y="${yy+4}" text-anchor="end" fill="#64748b" font-size="11">${val.toFixed(1)}</text>`;
   }
   const labels = categories.map((c,i) => `<text x="${x(i)}" y="${h-12}" text-anchor="middle" fill="#64748b" font-size="11">${c}</text>`).join("");
-  const dots = data.map((v,i) => `<circle cx="${x(i)}" cy="${y(v)}" r="4" fill="#2563eb"/>`).join("");
-  container.innerHTML = `<svg viewBox="0 0 ${w} ${h}" width="100%" height="280" role="img" aria-label="${seriesName}">${grid}<polyline fill="none" stroke="#2563eb" stroke-width="2.5" points="${pts}"/>${dots}${labels}<text x="${pad.l}" y="16" fill="#0f172a" font-size="12" font-weight="600">${seriesName}</text></svg>`;
+  const stroke = (axis && axis.color) || "#2563eb";
+  const fmt = (v) => (axis && axis.ref === 0 ? Number(v).toFixed(2) : String(v));
+  const dots = data.map((v,i) => `<circle cx="${x(i)}" cy="${y(v)}" r="4" fill="${stroke}"/>`).join("");
+  const valueLabels = data.map((v,i) => `<text x="${x(i)}" y="${y(v)-8}" text-anchor="middle" fill="#0f172a" font-size="11">${fmt(v)}</text>`).join("");
+  let ref = "";
+  if (axis && axis.ref != null) {
+    const yy = y(axis.ref);
+    ref = `<line x1="${pad.l}" y1="${yy}" x2="${w-pad.r}" y2="${yy}" stroke="#94a3b8" stroke-dasharray="4 3"/><text x="${w-pad.r}" y="${yy-4}" text-anchor="end" fill="#64748b" font-size="11">${axis.refLabel || axis.ref}</text>`;
+  }
+  container.innerHTML = `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMinYMin meet" role="img" aria-label="${seriesName}">${grid}${ref}<polyline fill="none" stroke="${stroke}" stroke-width="2.5" points="${pts}"/>${dots}${valueLabels}${labels}<text x="${pad.l}" y="16" fill="#0f172a" font-size="12" font-weight="600">${seriesName}</text></svg>`;
 }
 
 function renderRadar(container, cnVals, glVals, lang) {
@@ -1126,109 +1208,131 @@ function renderRadar(container, cnVals, glVals, lang) {
 function render() {
   persist();
   const lang = state.lang, scope = state.scope;
-  if (!PERIODS_BY_MODE[state.windowMode].includes(state.period)) state.period = PERIODS_BY_MODE[state.windowMode][0];
+  const list = PERIODS_BY_MODE[state.windowMode];
+  if (!list.includes(state.period)) state.period = list[list.length - 1];
   const period = state.period;
   const chart = scope === "cn" ? CN_LPI_SERIES[period] : GLOBAL_GSCPI_SERIES[period];
   const isArchive = chart.kind === "archive_proxy";
+  const isPartial = PERIOD_META[period].partial === true;
+  const brief = getBrief(scope, period);
   const specialty = SPECIALTY_CONFIG[state.specialtyTab];
 
-  document.getElementById("title").textContent = lang === "zh"
-    ? "供应链行业报告（可切换中英文与时间窗口）"
-    : "Supply Chain Industry Report (Language + Time Window Switchable)";
-  document.getElementById("subtitle").textContent = lang === "zh"
-    ? "该版本支持：中文/英文切换、半年/季度窗口切换、中国/全球市场视角切换，并支持2025Q3~2026Q2档案浏览。由 Canvas 交互报告转换的 HTML 预览版。"
-    : "Supports Chinese/English, half-year/quarter windows, China/global views, and archive browsing from 2025Q3 to 2026Q2. HTML preview converted from the interactive Canvas report.";
+  document.getElementById("kicker").textContent = t(lang, PERIOD_META[period].label);
+  const plateNames = lang === "zh"
+    ? ["读数", "判断", "月度路径", "要做的事", "能力结构", "来源"]
+    : ["Readings", "Judgment", "Monthly path", "Moves", "Capability", "Sources"];
+  plateNames.forEach((name, i) => { document.getElementById("lab" + (i + 1)).textContent = name; });
+  const titleEl = document.getElementById("title");
+  titleEl.textContent = lang === "zh" ? "供应链行业报告" : "Supply Chain Industry Report";
+  titleEl.style.letterSpacing = lang === "zh" ? "0.06em" : "-0.02em";
+  document.getElementById("subtitle").textContent = t(lang, PERIOD_META[period].range) + (scope === "cn"
+    ? (lang === "zh" ? " · 中国物流业景气指数" : " · China Logistics Prosperity Index")
+    : (lang === "zh" ? " · 纽约联储 GSCPI，2026年10月修订口径" : " · NY Fed GSCPI, October 2026 vintage"));
   document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
 
   const controls = document.getElementById("controls");
   controls.innerHTML = "";
   const mkBtn = (label, active, onClick) => el("button", {className:"btn"+(active?" active":""), type:"button", onClick}, label);
-  controls.appendChild(mkBtn("中文", lang==="zh", ()=>{state.lang="zh"; render();}));
-  controls.appendChild(mkBtn("English", lang==="en", ()=>{state.lang="en"; render();}));
-  controls.appendChild(mkBtn(lang==="zh"?"中国市场":"China Market", scope==="cn", ()=>{state.scope="cn"; render();}));
-  controls.appendChild(mkBtn(lang==="zh"?"全球市场":"Global Market", scope==="global", ()=>{state.scope="global"; render();}));
-  const modeSel = el("select", {onChange:(e)=>{state.windowMode=e.target.value; state.period=PERIODS_BY_MODE[state.windowMode][0]; render();}});
-  [["half", lang==="zh"?"半年窗口":"Half-year window"],["quarter", lang==="zh"?"季度窗口":"Quarter window"]].forEach(([v,l])=>{
-    const o=el("option",{value:v},l); if(v===state.windowMode) o.selected=true; modeSel.appendChild(o);
-  });
-  controls.appendChild(modeSel);
-  const periodSel = el("select", {onChange:(e)=>{state.period=e.target.value; render();}});
-  PERIODS_BY_MODE[state.windowMode].forEach(id=>{
-    const o=el("option",{value:id}, t(lang, PERIOD_META[id].label));
-    if(id===period) o.selected=true; periodSel.appendChild(o);
-  });
-  controls.appendChild(periodSel);
+  const group = (label, nodes) => {
+    const row = el("div", {className:"control-row"});
+    row.appendChild(el("span", {className:"control-label"}, label));
+    nodes.forEach((node) => row.appendChild(node));
+    return row;
+  };
+  controls.appendChild(group(lang==="zh"?"语言":"Language", [
+    mkBtn("中文", lang==="zh", ()=>{state.lang="zh"; render();}),
+    mkBtn("English", lang==="en", ()=>{state.lang="en"; render();}),
+  ]));
+  controls.appendChild(group(lang==="zh"?"视角":"Lens", [
+    mkBtn(lang==="zh"?"中国":"China", scope==="cn", ()=>{state.scope="cn"; render();}),
+    mkBtn(lang==="zh"?"全球":"Global", scope==="global", ()=>{state.scope="global"; render();}),
+  ]));
+  const timeNodes = [
+    mkBtn(lang==="zh"?"年初至今":"Year to date", state.windowMode==="ytd", ()=>{state.windowMode="ytd"; state.period="2026YTD"; render();}),
+    mkBtn(lang==="zh"?"季度":"Quarter", state.windowMode==="quarter", ()=>{state.windowMode="quarter"; state.period="2026Q3"; render();}),
+    mkBtn(lang==="zh"?"半年":"Half-year", state.windowMode==="half", ()=>{state.windowMode="half"; state.period="2026H2"; render();}),
+  ];
+  if (PERIODS_BY_MODE[state.windowMode].length > 1) {
+    const periodSel = el("select", {onChange:(e)=>{state.period=e.target.value; render();}});
+    PERIODS_BY_MODE[state.windowMode].forEach(id=>{
+      const o=el("option",{value:id}, t(lang, PERIOD_META[id].label));
+      if(id===period) o.selected=true; periodSel.appendChild(o);
+    });
+    timeNodes.push(periodSel);
+  }
+  controls.appendChild(group(lang==="zh"?"时间":"Period", timeNodes));
 
-  document.getElementById("range").textContent = t(lang, PERIOD_META[period].range);
+  document.getElementById("judgment").textContent = t(lang, brief.headline);
+  document.getElementById("judgmentBody").textContent = t(lang, brief.judgment);
   const arch = document.getElementById("archiveNote");
-  if (isArchive) {
+  if (isPartial) {
     arch.style.display = "block";
     arch.textContent = lang === "zh"
-      ? "2025Q3/Q4 与 2025H2 图表为时间序列档案代理分值（基准=100），用于跨期趋势对比，不等同官方原始统计值。"
-      : "Charts for 2025Q3/Q4 and 2025H2 use archive proxy trend scores (baseline=100) for cross-period comparison, and are not official raw statistics.";
+      ? "2026年下半年目前只收到7–9月。10月以后的官方读数出来之前，不要把它写成全年下半场结论。"
+      : "2026 H2 so far only contains July–September. Do not write it up as the full second half until later official readings exist.";
+  } else if (isArchive) {
+    arch.style.display = "block";
+    arch.textContent = lang === "zh"
+      ? "纵轴是档案分，基准=100，不是 LPI 百分数。全球 2025 年已经改用官方 GSCPI，两边单位不同，不能叠在一张图上比较。"
+      : "The vertical axis is an archive score, baseline=100, not an LPI percent. Global 2025 now uses official GSCPI. The units differ, so the two series cannot share a chart.";
   } else arch.style.display = "none";
 
-  document.getElementById("h1").textContent = lang==="zh"?"一、核心指标概览":"1. Key Metrics Overview";
-  document.getElementById("h2").textContent = lang==="zh"?"二、行业动态":"2. Industry Dynamics";
-  document.getElementById("h3").textContent = lang==="zh"?"三、市场表现":"3. Market Performance";
-  document.getElementById("h4").textContent = lang==="zh"?"四、热门议题":"4. Hot Topics";
-  document.getElementById("h5").textContent = lang==="zh"?"五、趋势与下阶段建议":"5. Trends and Next-stage Actions";
-  document.getElementById("h6").textContent = lang==="zh"?"六、行业细分与雷达图对比":"6. Segment Deep-dive & Radar Comparison";
-  document.getElementById("h7").textContent = lang==="zh"?"七、参考来源":"7. Sources";
+  document.getElementById("h2").textContent = lang==="zh"
+    ? t(lang, PERIOD_META[period].label) + "，三件要做的事"
+    : "Three moves for " + t(lang, PERIOD_META[period].label);
+  document.getElementById("h3").style.display = "none";
+  document.getElementById("h6").textContent = lang==="zh"?"中外能力结构对照":"China–Global capability structure";
+  document.getElementById("h7").textContent = lang==="zh"?"来源与口径":"Sources and vintage";
 
   const metrics = document.getElementById("metrics"); metrics.innerHTML = "";
-  getMetricCards(scope, period).forEach(c=>{
+  brief.cards.forEach(c=>{
     metrics.appendChild(el("div", {className:"stat "+(c.tone||"neutral")}, [el("div",{className:"v"},c.value), el("div",{className:"l"},t(lang,c.label))]));
   });
 
   const dyn = document.getElementById("dynamics"); dyn.innerHTML = "";
-  dyn.appendChild(table(lang==="zh"?["主题","本期观察","影响与含义"]:["Theme","What Happened","Implication"], rowsOf(lang, getDynamics(scope))));
+  dyn.appendChild(el("p", {className:"muted"}, lang==="zh"
+    ? "读完上面这条月度路径之后的动作。换时间，判断、图和这张表一起换。"
+    : "Actions after reading the monthly path above. The judgment, the chart, and this table change together."));
+  dyn.appendChild(table(lang==="zh"?["问题","这段时间的事实","动作"]:["Question","What happened in this period","Action"], rowsOf(lang, brief.moves)));
 
-  document.getElementById("chartTitle").textContent = scope==="cn"
+  document.getElementById("chartTitle").textContent = (scope==="cn"
     ? (lang==="zh"?"中国物流业景气指数（LPI）":"China Logistics Prosperity Index (LPI)")
-    : (lang==="zh"?"全球供应链压力指数（GSCPI）":"Global Supply Chain Pressure Index (GSCPI)");
+    : (lang==="zh"?"全球供应链压力指数（GSCPI）":"Global Supply Chain Pressure Index (GSCPI)")) + " · " + t(lang, PERIOD_META[period].range);
   document.getElementById("chartCaption").textContent = isArchive
-    ? (lang==="zh"?"X轴=月份；Y轴=趋势分值（基准=100）。该窗口用于档案式趋势浏览。":"X-axis = month; Y-axis = trend score (baseline=100). This window is for archive-style trend browsing.")
+    ? (lang==="zh"?"横轴：月份。纵轴：档案分（基准=100）。来源：本版占位，不是中物联月度值。":"Horizontal axis: month. Vertical axis: archive score (baseline=100). Source: placeholder in this edition, not a CFLP monthly print.")
     : scope==="cn"
-      ? (lang==="zh"?"X轴=月份；Y轴=LPI（%）。来源：中物联，窗口内可得月度值。":"X-axis = month; Y-axis = LPI (%). Source: CFLP monthly releases within the selected window.")
-      : (lang==="zh"?"X轴=月份；Y轴=GSCPI（点）。来源：纽约联储。":"X-axis = month; Y-axis = GSCPI (points). Source: Federal Reserve Bank of New York.");
-  renderLineChart(document.getElementById("lineChart"), chart.categories, chart.data, scope==="cn"?"LPI":"GSCPI");
-
-  const topics = document.getElementById("topics"); topics.innerHTML = "";
-  topics.appendChild(table(lang==="zh"?["议题","窗口内信号","建议动作"]:["Topic","Signal in Window","Recommended Action"], rowsOf(lang, getTopics(scope))));
-
-  const trends = document.getElementById("trends"); trends.innerHTML = "";
-  trends.appendChild(table(lang==="zh"?["方向","趋势判断","执行建议"]:["Direction","Trend Assessment","Execution Advice"], TRENDS[lang]));
+      ? (lang==="zh"?"横轴：月份。纵轴：LPI（%）。50 为荣枯线。1–5 月沿用上半年已引用读数；6 月由 7 月环比回推；7–9 月为 2026 年 8–10 月公开月报。":"Horizontal axis: month. Vertical axis: LPI (%). 50 is the expansion line. January–May keep the H1 citations; June is implied by the July change; July–September are the August–October 2026 releases.")
+      : (lang==="zh"?"横轴：月份。纵轴：标准差，0 为长期均值。来源：纽约联储 GSCPI，2026 年 10 月发布口径。历史值每次发布都会修订。":"Horizontal axis: month. Vertical axis: standard deviations, 0 = long-run average. Source: NY Fed GSCPI, October 2026 vintage. History is revised at every release.");
+  const axis = isArchive ? {yMin:96, yMax:106, color:"#2563eb"} : scope==="cn" ? {yMin:46, yMax:54, ref:50, refLabel: lang==="zh"?"荣枯线 50":"50", color:"#2563eb"} : {yMin:-0.4, yMax:2.1, ref:0, refLabel: lang==="zh"?"长期均值 0":"Average 0", color:"#ea580c"};
+  renderLineChart(document.getElementById("lineChart"), chart.categories, chart.data, scope==="cn"?(isArchive?(lang==="zh"?"档案分":"Archive score"):"LPI"):"GSCPI", axis);
 
   document.getElementById("segIntro").textContent = lang==="zh"
-    ? "点击品类查看细分结论，雷达图展示中国与全球在关键供应链能力上的相对对比。"
-    : "Switch segment tabs to view deep dives. The radar compares China vs. global relative capabilities on key supply-chain dimensions.";
+    ? "五个品类的相对成熟度。这不是上面那段时间的新数字，换时间分数不变。雷达 0–100，越高表示越成熟。"
+    : "Relative maturity across five segments. These are not new figures for the period above, and the scores stay put when the period changes. Radar 0–100; higher means more mature.";
   const pills = document.getElementById("segPills"); pills.innerHTML = "";
   Object.keys(SPECIALTY_CONFIG).forEach(key=>{
     pills.appendChild(el("button", {className:"pill"+(state.specialtyTab===key?" active":""), type:"button", onClick:()=>{state.specialtyTab=key; render();}}, t(lang, SPECIALTY_CONFIG[key].title)));
   });
-  const segStats = document.getElementById("segStats"); segStats.innerHTML = "";
+  document.getElementById("radarTitle").textContent = t(lang, specialty.title);
+  document.getElementById("segNote").textContent = t(lang, specialty.note);
+  const segFacts = document.getElementById("segFacts"); segFacts.innerHTML = "";
   specialty.stats.forEach(c=>{
-    segStats.appendChild(el("div", {className:"stat "+(c.tone||"neutral")}, [el("div",{className:"v"},c.value), el("div",{className:"l"},t(lang,c.label))]));
+    segFacts.appendChild(el("span", {}, c.value + " · " + t(lang, c.label)));
   });
   const segTable = document.getElementById("segTable"); segTable.innerHTML = "";
-  segTable.appendChild(table(lang==="zh"?["模块","阶段观察","建议动作"]:["Module","Observed Pattern","Recommended Action"], rowsOf(lang, specialty.rows)));
-  document.getElementById("radarTitle").textContent = lang==="zh"?"能力雷达图（中国 vs 全球）":"Capability Radar (China vs Global)";
-  document.getElementById("radarCaption").textContent = lang==="zh"
-    ? "图表说明：径向刻度为相对能力分值（0-100，越高代表相对成熟度越高）。"
-    : "Chart note: radial scale is relative capability score (0-100, higher means stronger maturity).";
+  segTable.appendChild(table(lang==="zh"?["模块","结构观察","长期做法"]:["Module","Structural pattern","Standing practice"], rowsOf(lang, specialty.rows)));
   renderRadar(document.getElementById("radar"), specialty.radar.cn, specialty.radar.global, lang);
-  document.getElementById("legendCn").textContent = lang==="zh"?"中国（蓝色实线）":"China (Blue Solid Line)";
-  document.getElementById("legendGl").textContent = lang==="zh"?"全球（橙色虚线）":"Global (Orange Dashed Line)";
-  document.getElementById("segNote").innerHTML = `<strong>${t(lang, specialty.title)}</strong><br>${t(lang, specialty.note)}`;
+  document.getElementById("legendCn").textContent = lang==="zh"?"中国 · 实线":"China · solid";
+  document.getElementById("legendGl").textContent = lang==="zh"?"全球 · 虚线":"Global · dashed";
 
   document.getElementById("sources").innerHTML = `<ol>
-    <li><a href="https://www.newyorkfed.org/research/policy/gscpi" target="_blank" rel="noopener">Federal Reserve Bank of New York - GSCPI</a></li>
-    <li><a href="https://www.wto.org/english/res_e/booksp_e/gtos0326_e.pdf" target="_blank" rel="noopener">WTO - Global Trade Outlook and Statistics (Mar 2026)</a></li>
-    <li><a href="https://www.sse.net.cn/index/singleIndex?indexType=scfi" target="_blank" rel="noopener">Shanghai Shipping Exchange - SCFI</a></li>
-    <li><a href="https://www.drewry.co.uk/supply-chain-advisors/supply-chain-expertise/world-container-index-assessed-by-drewry" target="_blank" rel="noopener">Drewry - World Container Index</a></li>
-    <li><a href="http://www.cflp.org.cn/" target="_blank" rel="noopener">China Federation of Logistics and Purchasing (LPI releases)</a></li>
-  </ol>`;
+    <li><a href="https://www.newyorkfed.org/research/policy/gscpi" target="_blank" rel="noopener">New York Fed GSCPI</a> — ${lang==="zh"?"9月 1.28 于 2026-10-06 公布，8月初值 1.06 修订为 1.20。":"September 1.28 released 2026-10-06; August revised from 1.06 to 1.20."}</li>
+    <li><a href="https://www.gov.cn/yaowen/liebiao/202610/content_7082976.htm" target="_blank" rel="noopener">2026-10-11 gov.cn</a> — ${lang==="zh"?"9月 LPI 51.5%。":"September LPI 51.5%."}</li>
+    <li><a href="http://sh.people.com.cn/n2/2026/1013/c134768-41720304.html" target="_blank" rel="noopener">${lang==="zh"?"人民日报 2026-10-13":"People's Daily, 2026-10-13"}</a></li>
+    <li><a href="https://finance.jrj.com.cn/2026/10/13094058690629.shtml" target="_blank" rel="noopener">${lang==="zh"?"中物联 9 月解读":"CFLP September commentary"}</a></li>
+    <li><a href="https://www.gov.cn/yaowen/liebiao/202608/content_7077587.htm" target="_blank" rel="noopener">${lang==="zh"?"7月 LPI 50.4%":"July LPI 50.4%"}</a> · <a href="https://www.chinanews.com.cn/cj/2026/09-05/10690932.shtml" target="_blank" rel="noopener">${lang==="zh"?"8月 LPI 50.9%":"August LPI 50.9%"}</a></li>
+  </ol>
+  <p class="muted">${lang==="zh"?"1–5月中国 LPI 沿用本报告上半年已引用的中物联读数。6月 50.6% 由 7月“较上月回落 0.2 个百分点”回推。2025年中国月度官方序列本版未核到。5月末 SCFI 与 WCI 没有刷新到 9 月，因此不再放进三季度卡片。":"January–May China LPI keeps the CFLP prints already cited in the H1 edition. June's 50.6% is implied by July's 0.2-point decline. A citable official China monthly series for 2025 was not found. Late-May SCFI and WCI were not refreshed through September, so they are no longer in the Q3 cards."}</p>`;
   document.getElementById("footer").textContent = lang==="zh"
     ? "HTML 预览版 · 数据与结构来自 report.canvas.tsx · 本地打开即可审阅，无需构建。"
     : "HTML preview · content and structure from report.canvas.tsx · open locally, no build step.";

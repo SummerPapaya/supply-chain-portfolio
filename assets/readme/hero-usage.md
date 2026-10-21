@@ -4,9 +4,9 @@
 
 动画源文件为 `hero-bilingual.svg`，静态备用版为 `hero-bilingual-static.svg`，渲染预览为 `hero-bilingual-preview.png`。中英文同时展示，两个 README 可使用同一张封面。
 
-The composition follows the portfolio's existing paper, ink, cobalt and teal palette. The five incoming research lanes correspond to Cursor x Grok 4.5, Kimi K3 Deep Research, WorkBuddy x Deepseek-V4-Pro, Gemini 3.6 Flash and Codex GPT-6 Astra. The footer explicitly counts two spin-off apps: VeloCortex Maritime and TariffLens. The globe is a schematic research motif, not a live map or quantitative chart.
+The composition follows the portfolio's existing paper, ink, cobalt and teal palette. The six incoming research lanes correspond to Cursor x Grok 4.5, Kimi K3 Deep Research, WorkBuddy x Deepseek-V4-Pro, Gemini 3.8 Flash, Codex GPT-6 Astra and Claude Code Opus 5.5. The footer counts six independent reports and explicitly two spin-off apps: VeloCortex Maritime and TariffLens. The globe is a schematic research motif, not a live map or quantitative chart.
 
-8-second loop: five research lanes converge, a radar sector scans, a confirmation ring appears, then the scene rests. Text remains stationary and readable. `prefers-reduced-motion: reduce` disables all animation. The SVG uses no scripts, external fonts, remote images or `foreignObject`.
+8-second loop: six research lanes converge, a radar sector scans, a confirmation ring appears, then the scene rests. Text remains stationary and readable. `prefers-reduced-motion: reduce` disables all animation. The SVG uses no scripts, external fonts, remote images or `foreignObject`.
 
 ## Preview / 预览
 
@@ -25,7 +25,7 @@ Suggested embed, relative to a README in the repository root:
 ```html
 <p align="center">
   <img src="assets/readme/hero-bilingual.svg" width="100%"
-       alt="全球供应链多模型洞察：同一命题、五种独立 AI 视角、每周雷达与研究衍生应用。Supply Chain Intelligence: one brief, five AI perspectives, Weekly Radar and research spin-offs.">
+       alt="全球供应链多模型洞察：同一命题、六种独立 AI 视角、每周雷达与研究衍生应用。Supply Chain Intelligence: one brief, six AI perspectives, Weekly Radar and research spin-offs.">
 </p>
 ```
 

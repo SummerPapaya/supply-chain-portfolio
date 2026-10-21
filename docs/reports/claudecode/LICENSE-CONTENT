@@ -1,0 +1,37 @@
+2026 供应链行业报告（1–9月）· Supply Chain Industry Report 2026 (Jan–Sep)
+Copyright (c) 2026 the authors of the 2026 Supply Chain Industry Report
+
+本报告的内容采用知识共享 署名-非商业性使用 4.0 国际许可协议（CC BY-NC 4.0）。
+The content of this report is licensed under the Creative Commons
+Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0).
+
+许可协议概要 · Summary:  https://creativecommons.org/licenses/by-nc/4.0/deed.zh-hans
+法律文本 · Legal code:    https://creativecommons.org/licenses/by-nc/4.0/legalcode
+
+适用范围 · What this covers
+- 报告正文与说明文字（src/data.js 中的中英文文本）
+  Report text and annotations (the Chinese and English copy in src/data.js)
+- 图表、整理后的表格与数据汇编（含 research/ 中的核验日志与派生数据）
+  Charts, compiled tables and data compilations (including the verification
+  log and derived data in research/)
+- 标题图 assets/hero.svg 的设计
+  The design of the hero image, assets/hero.svg
+- 生成的页面 supply-chain-report-2026.html 中的上述内容
+  The above content as it appears in the generated page,
+  supply-chain-report-2026.html
+
+不在本许可范围内 · Not covered
+- 第三方数据、指数与引文的权利归原始发布方（如国家统计局、海关总署、交通运输部、
+  中国物流与采购联合会、纽约联储、EIA、IMF、WTO、IATA、Drewry 等）。再分发或
+  商业使用前，请核对各来源的使用条款；Drewry WCI 等商业指数的再分发可能受限。
+  Third-party data, indices and quotations remain the property of their original
+  publishers (for example NBS, GACC, the Ministry of Transport, CFLP, the New
+  York Fed, EIA, IMF, WTO, IATA and Drewry). Check each source's terms before
+  redistributing or using them commercially; commercial indices such as the
+  Drewry WCI may restrict reuse.
+- 源代码另行采用 MIT 许可，见 LICENSE。
+  The source code is licensed separately under the MIT License; see LICENSE.
+
+署名示例 · Suggested attribution
+《2026 供应链行业报告（1–9月）》，CC BY-NC 4.0。
+"Supply Chain Industry Report 2026 (Jan–Sep)", licensed under CC BY-NC 4.0.

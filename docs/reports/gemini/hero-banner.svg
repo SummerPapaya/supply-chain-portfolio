@@ -149,7 +149,7 @@
       <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite" />
     </circle>
     <text x="32" y="49" font-family="system-ui, -apple-system, monospace" font-size="11" font-weight="700" fill="#94A3B8" letter-spacing="0.5">
-      ACTIVE TELEMETRY MUX • <tspan fill="#38BDF8">2026 H1 / Q1 / FY REPORT WINDOWS</tspan> • <tspan fill="#A78BFA">GEMINI 2.5 RAG</tspan>
+      ACTIVE TELEMETRY MUX • <tspan fill="#38BDF8">2026 Q3 / H1 / Q1 / FY REPORT WINDOWS</tspan> • <tspan fill="#A78BFA">GEMINI 3.8 FLASH</tspan>
     </text>
 
     <!-- Main Title -->
@@ -159,14 +159,14 @@
 
     <!-- Chinese Subheadline -->
     <text x="0" y="206" font-family="system-ui, -apple-system, 'Noto Sans CJK SC', 'IPAGothic', 'Microsoft YaHei', sans-serif" font-size="14" font-weight="600" fill="#CBD5E1">
-      2026年全球供应链与跨境物流报告 &amp; Gemini 2.5 智能分析工作台 · 多周期动态推演
+      2026年全球供应链与跨境物流报告 &amp; Gemini 3.8 Flash 智能分析工作台 · 多周期动态推演
     </text>
 
     <!-- Telemetry MUX Dashboard Card -->
     <rect x="0" y="225" width="570" height="135" rx="10" fill="#0F172A" stroke="#334155" stroke-width="1.5" opacity="0.95" filter="url(#shadow)" />
     <path d="M 0 260 L 570 260" stroke="#1E293B" stroke-width="1" />
     <text x="16" y="248" font-family="system-ui, -apple-system, monospace" font-size="11" font-weight="700" fill="#64748B" letter-spacing="1">
-      TELEMETRY MUX REAL-TIME STREAM • <tspan fill="#10B981">4s INTERVAL ACTIVE</tspan> • AS OF 2026-06-30
+      TELEMETRY MUX REAL-TIME STREAM • <tspan fill="#10B981">4s INTERVAL ACTIVE</tspan> • AS OF 2026-09-30
     </text>
 
     <!-- Grid 2x2 inside Dashboard Card -->
@@ -189,7 +189,7 @@
 
     <!-- Metric 4: Gemini AI -->
     <text x="290" y="335" font-family="system-ui, -apple-system, monospace" font-size="11" font-weight="600" fill="#64748B">AI DECISION ENGINE (RAG)</text>
-    <text x="290" y="352" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="800" fill="#8E75FF">Gemini 2.5 Grounded</text>
+    <text x="290" y="352" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="800" fill="#8E75FF">Gemini 3.8 Flash Grounded</text>
     <text x="290" y="368" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="700" fill="#DDD6FE">ESG Verified</text>
   </g>
 
@@ -215,9 +215,9 @@
     <rect x="540" y="0" width="115" height="28" rx="6" fill="#1E293B" stroke="#334155" stroke-width="1" />
     <text x="597" y="18" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="700" fill="#E2E8F0" text-anchor="middle">Express 4</text>
 
-    <!-- Badge 6: Gemini 2.5 Flash -->
+    <!-- Badge 6: Gemini 3.8 Flash -->
     <rect x="665" y="0" width="170" height="28" rx="6" fill="#1E293B" stroke="#8E75FF" stroke-width="1" />
-    <text x="750" y="18" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="700" fill="#8E75FF" text-anchor="middle">Gemini 2.5 Flash</text>
+    <text x="750" y="18" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="700" fill="#8E75FF" text-anchor="middle">Gemini 3.8 Flash</text>
 
     <!-- Badge 7: Recharts -->
     <rect x="845" y="0" width="125" height="28" rx="6" fill="#1E293B" stroke="#334155" stroke-width="1" />

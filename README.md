@@ -1,40 +1,41 @@
-![Supply Chain Intelligence — one brief, five AI perspectives, Weekly Radar and two spin-off apps](assets/readme/hero-bilingual.svg)
+![Supply Chain Intelligence — one brief, six AI perspectives, Weekly Radar and two spin-off apps](assets/readme/hero-bilingual.svg)
 
 **[中文版 README](README.zh-cn.md) · [中英双语封面](assets/readme/hero-bilingual.svg)**
 
 A continuously updated portfolio of AI multi-model supply-chain research: collecting and comparing independent outputs from different models and agents on the same brief, while tracking global supply-chain shifts in real time.
 
-![reports](https://img.shields.io/badge/reports-5-1a4fd6) ![spin-off app](https://img.shields.io/badge/spin--off%20app-2-0e7a6d) ![data sources](https://img.shields.io/badge/data%20sources-25%2B-0969da) ![license](https://img.shields.io/badge/license-MIT-1a7f37) ![window](https://img.shields.io/badge/window-2026%20H1-656d76)
+![reports](https://img.shields.io/badge/reports-6-1a4fd6) ![spin-off app](https://img.shields.io/badge/spin--off%20app-2-0e7a6d) ![data sources](https://img.shields.io/badge/data%20sources-25%2B-0969da) ![license](https://img.shields.io/badge/license-MIT-1a7f37) ![window](https://img.shields.io/badge/window-2026%20Q3-656d76)
 
 ## 📊 About
 
-This repository hosts a portfolio website that places five AI-generated supply-chain research reports side by side — each produced by a different model or agent working independently on the **same research brief**. The goal is to see how different AI minds approach the same question: what they emphasize, what they miss, and where they agree.
+This repository hosts a portfolio website that places six AI-generated supply-chain research reports side by side — each produced by a different model or agent working independently on the **same research brief**. The goal is to see how different AI minds approach the same question: what they emphasize, what they miss, and where they agree.
 
 Alongside the reports, the site includes a **weekly supply-chain radar** (cross-verified news, research, and trends) and two spin-off applications — [VeloCortex Maritime](#velocortex-maritime) and [TariffLens](#tarifflens), a tariff & trade-compliance reference — that turn the research findings into runnable product prototypes.
 
 ## ✨ Features
 
 - 📡 **Live Radar** — Weekly, cross-verified intelligence on shipping rates, tariffs, and supply-chain events — every item links to its original source.
-- 🔀 **Multi-Model Comparison** — Same brief, five independent AI tools. A horizontal comparison matrix highlights each model's lens, data sources, and signature trait.
-- 🔓 **Fully Open** — All six source repos are on GitHub. Every claim traces to a primary source — no fabrication, no silent data swaps.
+- 🔀 **Multi-Model Comparison** — Same brief, six independent AI tools. A horizontal comparison matrix highlights each model's lens, data sources, and signature trait.
+- 🔓 **Fully Open** — All eight source repos are on GitHub. Every claim traces to a primary source — no fabrication, no silent data swaps.
 
 ## 🔬 The Research Portfolio
 
-Five reports, five AI minds, one brief. Each report is a self-contained, renderable HTML dashboard you can open in a new tab.
+Six reports, six AI minds, one brief. Each report is a self-contained, renderable HTML dashboard you can open in a new tab.
 
 | Report | Model · Toolchain | Role | Signature Trait |
 | --- | --- | --- | --- |
 | **Cursor × Grok** | Grok 4.5 High Fast · Cursor Agent + Canvas | The Archivist-Editor | Journal-style decision support — same 5 questions every edition, directly comparable across issues. |
 | **Kimi Agent** | Kimi K3 Deep Research · Kimi Agent | The Feature Writer | Live market quotes + 24 tier-classified citations; explicitly labels fallback snapshots when feeds are down. |
 | **WorkBuddy** | Deepseek-V4-Pro · WorkBuddy Agent | The Research Controller | Sticky 3-axis control bar (lens / window / language); every KPI and chart updates instantly. |
-| **Gemini** | Gemini 3.6 Flash · Search Grounding | The Strategic Intelligence Officer | Full-stack workbench with AI Q&A that re-grounds to the selected reporting window; keys stay server-side. |
+| **Gemini** | Gemini 3.8 Flash · Search Grounding | The Strategic Intelligence Officer | Full-stack workbench with AI Q&A that re-grounds to the selected reporting window; keys stay server-side. |
 | **Codex** | GPT-6 Astra · OpenAI Codex | The Time-Window Guardian | States its temporal rules up front: flows aggregate but stocks don't, half-year ratios are not quarter averages, missing values are left blank rather than zero. |
+| **Claude Code** | Opus 5.5 · Claude Code | The Manifest Proofreader | The only report with a dedicated state for "not yet published": gaps read "Pending" rather than being estimated, and quarterly values derived from cumulative totals are marked "derived". |
 
 ## 🚢 Spin-off Apps
 
 ### VeloCortex Maritime
 
-Where the research ends, the product begins. **VeloCortex Maritime** is a global container-tracking command center built from the pain points that surfaced across all five reports — visibility gaps, demurrage-risk blind spots, and cold-chain failures.
+Where the research ends, the product begins. **VeloCortex Maritime** is a global container-tracking command center built from the pain points that surfaced across all six reports — visibility gaps, demurrage-risk blind spots, and cold-chain failures.
 
 Features: live AIS vessel tracking, port-congestion heatmaps, demurrage-risk prediction, cold-chain telemetry, and SheetJS export. Built with React 19 + Express, powered by Gemini AI inference on IoT telemetry.
 
@@ -60,7 +61,7 @@ python3 -m http.server 8000 --directory docs
 # → http://localhost:8000
 ```
 
-Each report's dashboard lives under `docs/reports/<name>/` and opens in a new tab from the portfolio homepage. The four self-contained single-file reports (cursorgrok / kimiagent / workbuddy / codex) work fully offline; the React-built Gemini report and the VeloCortex spin-off need to be opened from a local server. **TariffLens** is a separate, fully static site (no build step) deployed at `summercommences.com/tarifflens/`.
+Each report's dashboard lives under `docs/reports/<name>/` and opens in a new tab from the portfolio homepage. The five self-contained single-file reports (cursorgrok / kimiagent / workbuddy / codex / claudecode) work fully offline; the React-built Gemini report and the VeloCortex spin-off need to be opened from a local server. **TariffLens** is a separate, fully static site (no build step) deployed at `summercommences.com/tarifflens/`.
 
 ## 📁 Project Structure
 
@@ -73,6 +74,7 @@ docs/                        # GitHub Pages site root
 │   ├── kimiagent/           # Kimi Agent — single-file HTML + D3.js
 │   ├── workbuddy/           # WorkBuddy — single-page HTML + Chart.js
 │   ├── codex/               # Codex — offline bilingual HTML + hand-rolled SVG
+│   ├── claudecode/          # Claude Code — single-file bilingual HTML, Pending/derived data discipline
 │   ├── gemini/              # Gemini — React 19 build (static)
 │   └── velocortex/          # VeloCortex Maritime — React 19 build (static)
 │                             # (TariffLens is a separate repo — SummerPapaya/tarifflens — live at summercommences.com/tarifflens/)
@@ -88,7 +90,7 @@ README.md / README.zh-cn.md  # Bilingual portfolio documentation
 ## 🛠 Tech Stack
 
 - **Portfolio site** — Vanilla HTML/CSS/JS, zero dependencies, zero build step
-- **Cursor × Grok / Kimi / WorkBuddy / Codex reports** — Self-contained single-file HTML
+- **Cursor × Grok / Kimi / WorkBuddy / Codex / Claude Code reports** — Self-contained single-file HTML
 - **Gemini / VeloCortex apps** — React 19 + Vite, built to static assets
 - **TariffLens app** — Vanilla HTML/CSS/JS, zero dependencies, zero build (separate repo: SummerPapaya/tarifflens)
 - **Data sources** — GSCPI, Drewry WCI, SCFI, WTO, NY Fed, UNCTAD, China Customs, IATA, MIIT, NBS, SEMI, ACEA, and more (25+ institutions)
@@ -100,6 +102,6 @@ MIT License — see `LICENSE` for details. Report content is sourced from public
 ---
 
 <p align="center">
-  <em>Built as a living experiment: one brief, five AI minds, one open portfolio.</em><br>
+  <em>Built as a living experiment: one brief, six AI minds, one open portfolio.</em><br>
   <a href="https://github.com/SummerPapaya">github.com/SummerPapaya</a>
 </p>

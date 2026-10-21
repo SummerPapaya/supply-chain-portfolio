@@ -1,5 +1,7 @@
 # Report design and time-window logic / 报告设计与时间窗口
 
+2026-10-19本地迭代：`editorial.css` 与 `editorial.js` 增加双语阅读提要、证据速览、案例范围标签、渐进来源目录和基础可访问性支持。原统计值不变；CSV补齐期间起止与案例范围。抽查7项关键来源，未声称全部60项重审。复核权重、两轮问题及残余限制见 [QUALITY-REVIEW.md](./QUALITY-REVIEW.md)。
+
 本版依据报告数据独立设计。页面采用原生 HTML、SVG 和独立 report.css，使用系统字体，无外部图表依赖。用途：个人学习、非商业。
 
 This edition is independently designed from the report's data. It uses native HTML/SVG, report.css and system fonts, with no external chart dependency. For personal learning and noncommercial use.
@@ -9,8 +11,11 @@ This edition is independently designed from the report's data. It uses native HT
 - Q1：1—3月。主读数为本季发生额、期间比率或3月底存量。Q2、H1置于默认收起的跨期参考；不展示后续季度变化。
 - Q2：4—6月。主读数为本季发生额、期间比率或6月底存量。已核验Q1数据作为前期对照。H1另列跨期参考。
 - H1：1—6月。主读数为半年累计发生额、半年期间比率或6月底存量；Q1/Q2拆分解释半年节奏。
+- Q3阶段性观察：目标覆盖7—9月，披露尚不完整；默认窗口仍为H1。只有Q2、Q3均有完整且同口径的数据才展示Q2→Q3对照和变化。单月与跨期累计保持实际期间；暂无新证据的产业用简短状态及观察清单，不展示空白比较图。1—8月或1—9月累计仅作背景／差分输入；H1不包含Q3。
 
 Q1 foregrounds January–March; Q2 foregrounds April–June with Q1 comparison where available; H1 foregrounds January–June with supporting quarter detail. Other windows are explicitly labelled as references.
+
+H1 remains the default review. Q3 is an interim-observation view targeting July–September while disclosure is incomplete. Q2–Q3 comparisons and deltas require matching full-quarter observations for both periods. Monthly and cross-period cumulative evidence stays separate; sectors without new evidence use a concise status/watchlist instead of empty comparison charts. H1 excludes Q3. Only matching cumulative flows may be differenced; published ratios or monthly growth are never averaged into a quarterly result.
 
 ## 指标语义 / Metric semantics
 
@@ -31,3 +36,7 @@ A calendar guide explains containment. Each sector leads with its selected-perio
 ## 验证 / Verification
 
 研究来源核验日期仍为2026-09-06；本次属于展示与时间逻辑调整，不构成数据重新核验。原有38条来源、98条记录保留。离线回归检查144种组合、公式与CSV；浏览器检查18种筛选组合、八个诊断项、时间窗口语义和窄屏布局。打印控件检查不等于PDF逐页验收。
+
+2026-10-18本地Q3扩展：新增22条来源及38条记录，共60条来源、136条记录。旧版核验日期不变。新增来源逐项核对机构、统计期、单位与正文表格；公司公告副本明确标作同一上游来源。离线检查扩展至192种组合，浏览器覆盖24种市场／时间／语言组合。Q3的缺口、单月与跨期累计在CSV中以window_role及起止日期区分；CSV保留原始数与差分公式。
+
+The local Q3 extension was checked on 2026-10-18: 22 additional sources and 38 records (60 sources, 136 records overall). The historical verification date remains unchanged. New evidence is checked against publisher, period, unit and body tables; duplicate company filings are identified as the same upstream source. Offline coverage is 192 combinations; browser coverage is 24 market/period/language combinations. CSV distinguishes selected-window, subperiod and cross-period context with observation dates, retaining published inputs and calculation formulas.

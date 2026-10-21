@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 320" class="sch" role="img" aria-labelledby="sch-t sch-d">
+  <title id="sch-t">2026 供应链行业报告 · Supply Chain Industry Report 2026</title>
+  <desc id="sch-d">报告标题图。关键词：霍尔木兹、关税重置、AI 硬件、集运运价、供应链韧性、链博会。右侧为亚欧航线示意图（非地理比例），船点间距约与 IMF PortWatch 2026年1–9月日均通行船舶数成反比，数字为日均艘数。Keywords: Hormuz, tariff reset, AI hardware, freight rates, resilience, CISCE. The map is a schematic, not to scale; dot spacing is roughly inverse to average daily transits, Jan–Sep 2026 (IMF PortWatch).</desc>
+  <style>
+    /* 选择器全部挂在 .sch 下：内联进页面时不影响页面其他元素；颜色优先取页面主题变量，单独打开时用后备色 */
+    .sch { --h-paper: #edf1f4; --h-sheet: #fafbfc; --h-ink: #0f1c29; --h-ink2: #3c4956; --h-muted: #677583; --h-rule: #d3dae1; --h-s1: #2a78d6; --h-neg: #e34948; --h-warn: #b07400; --h-brand: #12324d; --h-accent: #b8431a; }
+    @media (prefers-color-scheme: dark) {
+      .sch { --h-paper: #0b131b; --h-sheet: #111b25; --h-ink: #e6ecf1; --h-ink2: #b1bdc8; --h-muted: #8593a1; --h-rule: #263542; --h-s1: #3987e5; --h-neg: #e66767; --h-warn: #f2b84b; --h-brand: #a8cbee; --h-accent: #f08a5d; }
+    }
+    .sch .bg { fill: var(--paper, var(--h-paper)); }
+    .sch .divider { stroke: var(--rule, var(--h-rule)); stroke-width: 1; }
+    .sch .eyebrow { fill: var(--accent, var(--h-accent)); font: 500 13px/1 "IBM Plex Mono", ui-monospace, Menlo, monospace; letter-spacing: 0.14em; }
+    .sch .t-zh { fill: var(--ink, var(--h-ink)); font: 700 46px/1 "Source Serif 4", Georgia, "Songti SC", "STSong", "Noto Serif CJK SC", "Source Han Serif SC", "Microsoft YaHei", serif; letter-spacing: 0.01em; }
+    .sch .t-en { fill: var(--ink-2, var(--h-ink2)); font: 600 24px/1 "Source Serif 4", Georgia, "Songti SC", "STSong", "Noto Serif CJK SC", "Source Han Serif SC", "Microsoft YaHei", serif; }
+    .sch .meta { fill: var(--muted, var(--h-muted)); font: 500 11px/1 "IBM Plex Mono", ui-monospace, Menlo, monospace; letter-spacing: 0.08em; }
+    .sch .chip rect { fill: var(--sheet, var(--h-sheet)); stroke: var(--rule, var(--h-rule)); stroke-width: 1; }
+    .sch .chip.hot rect { stroke: var(--neg, var(--h-neg)); }
+    .sch .chip text { fill: var(--ink, var(--h-ink)); font: 600 14px/1 "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", "Source Han Sans SC", sans-serif; }
+    .sch .chip tspan.en { fill: var(--muted, var(--h-muted)); font: 500 10.5px/1 "IBM Plex Mono", ui-monospace, Menlo, monospace; letter-spacing: 0.04em; }
+    .sch .note { fill: var(--muted, var(--h-muted)); font: 500 10px/1 "IBM Plex Mono", ui-monospace, Menlo, monospace; letter-spacing: 0.06em; }
+    .sch .grid line { stroke: var(--rule, var(--h-rule)); stroke-width: 1; opacity: 0.55; }
+    .sch .sea { fill: var(--muted, var(--h-muted)); font: italic 500 11px/1 "IBM Plex Mono", ui-monospace, Menlo, monospace; letter-spacing: 0.22em; opacity: 0.55; }
+    .sch .lane { fill: none; stroke: var(--rule, var(--h-rule)); stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
+    .sch .lane.hz { stroke: var(--neg, var(--h-neg)); stroke-width: 1.5; stroke-dasharray: 3 5; opacity: 0.7; }
+    .sch .flow { fill: none; stroke: var(--s1, var(--h-s1)); stroke-width: 4.5; stroke-linecap: round; animation: sch-flow 14s linear infinite; }
+    .sch .flow.hz { stroke: var(--neg, var(--h-neg)); animation: none; }
+    .sch .f10 { stroke-dasharray: 0 10; }
+    .sch .f24 { stroke-dasharray: 0 24; }
+    .sch .f60 { stroke-dasharray: 0 60; }
+    .sch .f120 { stroke-dasharray: 0 120; }
+    .sch .node { fill: var(--paper, var(--h-paper)); stroke: var(--ink, var(--h-ink)); stroke-width: 2; }
+    .sch .node.home { fill: var(--brand, var(--h-brand)); stroke: var(--paper, var(--h-paper)); stroke-width: 2.5; }
+    .sch .node.hz { stroke: var(--neg, var(--h-neg)); }
+    .sch .node.bm { stroke: var(--warn, var(--h-warn)); }
+    .sch .x line { stroke: var(--neg, var(--h-neg)); stroke-width: 2.5; stroke-linecap: round; }
+    .sch .pulse { fill: none; stroke-width: 2; transform-box: fill-box; transform-origin: center; animation: sch-pulse 2.6s ease-out infinite; }
+    .sch .pulse.hz { stroke: var(--neg, var(--h-neg)); }
+    .sch .pulse.bm { stroke: var(--warn, var(--h-warn)); animation-delay: 1.3s; }
+    .sch .lbl { fill: var(--ink, var(--h-ink)); font: 600 13px/1 "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", "Source Han Sans SC", sans-serif; }
+    .sch .lbl tspan.en { fill: var(--muted, var(--h-muted)); font: 500 10px/1 "IBM Plex Mono", ui-monospace, Menlo, monospace; letter-spacing: 0.06em; }
+    .sch .num { fill: var(--ink, var(--h-ink)); font: 600 12px/1 "IBM Plex Mono", ui-monospace, Menlo, monospace; }
+    .sch .num.hz { fill: var(--neg, var(--h-neg)); }
+    .sch .num tspan.d { font-weight: 500; }
+    @keyframes sch-flow { to { stroke-dashoffset: -240; } }
+    @keyframes sch-pulse { 0% { transform: scale(0.6); opacity: 0.9; } 100% { transform: scale(2.6); opacity: 0; } }
+    @media (prefers-reduced-motion: reduce) { .sch .flow, .sch .pulse { animation: none; } .sch .pulse { opacity: 0; } }
+  </style>
+
+  <rect class="bg" width="1200" height="320"/>
+
+  <!-- 左栏：报告名称、口径与关键词 -->
+  <g class="cover">
+    <text class="eyebrow" x="48" y="66">2026 · 1–9月 · JAN–SEP</text>
+    <text class="t-zh" x="48" y="124">2026 供应链行业报告</text>
+    <text class="t-en" x="48" y="160">Supply Chain Industry Report 2026</text>
+    <text class="meta" x="48" y="190">CHINA · GLOBAL VIEWS  |  Q1 · Q2 · Q3 · H1 · 9M  |  50 SOURCES</text>
+    <g class="chip hot"><rect x="48" y="208" width="128" height="27" rx="13.5"/><text x="60" y="226">霍尔木兹<tspan class="en" dx="7">HORMUZ</tspan></text></g>
+    <g class="chip"><rect x="186" y="208" width="166" height="27" rx="13.5"/><text x="198" y="226">关税重置<tspan class="en" dx="7">TARIFF RESET</tspan></text></g>
+    <g class="chip"><rect x="362" y="208" width="152" height="27" rx="13.5"/><text x="374" y="226">AI 硬件<tspan class="en" dx="7">AI HARDWARE</tspan></text></g>
+    <g class="chip"><rect x="48" y="244" width="172" height="27" rx="13.5"/><text x="60" y="262">集运运价<tspan class="en" dx="7">FREIGHT RATES</tspan></text></g>
+    <g class="chip"><rect x="230" y="244" width="168" height="27" rx="13.5"/><text x="242" y="262">供应链韧性<tspan class="en" dx="7">RESILIENCE</tspan></text></g>
+    <g class="chip"><rect x="408" y="244" width="108" height="27" rx="13.5"/><text x="420" y="262">链博会<tspan class="en" dx="7">CISCE</tspan></text></g>
+    <text class="note" x="48" y="298">MAP · IMF PORTWATCH · AVG DAILY TRANSITS, JAN–SEP 2026 · 示意图，非地理比例</text>
+  </g>
+  <line class="divider" x1="576" y1="40" x2="576" y2="280"/>
+
+  <!-- 右栏：亚欧航线示意（600×300 坐标系） -->
+  <g class="map" transform="translate(596 10)">
+    <g class="grid" aria-hidden="true">
+      <line x1="0" y1="50" x2="600" y2="50"/><line x1="0" y1="100" x2="600" y2="100"/><line x1="0" y1="150" x2="600" y2="150"/><line x1="0" y1="200" x2="600" y2="200"/><line x1="0" y1="250" x2="600" y2="250"/>
+      <line x1="50" y1="0" x2="50" y2="300"/><line x1="150" y1="0" x2="150" y2="300"/><line x1="250" y1="0" x2="250" y2="300"/><line x1="350" y1="0" x2="350" y2="300"/><line x1="450" y1="0" x2="450" y2="300"/><line x1="550" y1="0" x2="550" y2="300"/>
+    </g>
+    <text class="sea" x="396" y="262" aria-hidden="true">INDIAN OCEAN · 印度洋</text>
+    <text class="sea" x="22" y="150" text-anchor="middle" aria-hidden="true" transform="rotate(-90 22 150)">ATLANTIC · 大西洋</text>
+
+    <!-- 航道底线（自东向西）：东段 = 上海→马六甲→印度洋；苏伊士线；好望角线；霍尔木兹支线 -->
+    <path class="lane" d="M574,52 C560,100 542,160 504,186 S456,200 432,202"/>
+    <path class="lane" d="M432,202 C376,196 310,186 264,176 C246,148 232,124 218,100 C184,66 132,46 78,38"/>
+    <path class="lane" d="M432,202 C376,226 276,272 196,268 C124,264 66,242 52,200 C40,148 50,84 78,38"/>
+    <path class="lane hz" d="M432,202 C398,178 362,140 334,110 L310,88"/>
+
+    <!-- 船点：间距 10 / 24 / 60 / 120 对应日均约 224 / 91 / 41 / 20 艘 -->
+    <path class="flow f10" d="M574,52 C560,100 542,160 504,186 S456,200 432,202"/>
+    <path class="flow f60" d="M432,202 C376,196 310,186 264,176 C246,148 232,124 218,100 C184,66 132,46 78,38"/>
+    <path class="flow f24" d="M432,202 C376,226 276,272 196,268 C124,264 66,242 52,200 C40,148 50,84 78,38"/>
+    <path class="flow f120 hz" d="M432,202 C398,178 362,140 334,110 L310,88"/>
+
+    <!-- 节点 -->
+    <circle class="pulse hz" cx="334" cy="110" r="9"/>
+    <circle class="pulse bm" cx="264" cy="176" r="8"/>
+    <circle class="node home" cx="574" cy="52" r="7"/>
+    <circle class="node" cx="504" cy="186" r="5.5"/>
+    <circle class="node" cx="432" cy="202" r="3.5"/>
+    <circle class="node hz" cx="334" cy="110" r="6"/>
+    <g class="x" aria-hidden="true"><line x1="342" y1="102" x2="354" y2="114"/><line x1="354" y1="102" x2="342" y2="114"/></g>
+    <circle class="node bm" cx="264" cy="176" r="5.5"/>
+    <circle class="node" cx="218" cy="100" r="5.5"/>
+    <circle class="node" cx="196" cy="268" r="5.5"/>
+    <circle class="node" cx="78" cy="38" r="6"/>
+
+    <!-- 标注：中文地名 + 英文；数字为 2026年1–9月日均通行船舶数（IMF PortWatch） -->
+    <text class="lbl" x="562" y="38" text-anchor="end">上海 <tspan class="en">SHANGHAI</tspan></text>
+    <text class="lbl" x="512" y="214" text-anchor="middle">马六甲 <tspan class="en">MALACCA</tspan></text>
+    <text class="num" x="512" y="230" text-anchor="middle">224.2</text>
+    <text class="lbl" x="362" y="104">霍尔木兹 <tspan class="en">HORMUZ</tspan></text>
+    <text class="num hz" x="362" y="121">19.8 <tspan class="d">−78%</tspan></text>
+    <text class="lbl" x="252" y="200" text-anchor="end">曼德海峡 <tspan class="en">BAB EL-MANDEB</tspan></text>
+    <text class="num" x="252" y="216" text-anchor="end">33.6</text>
+    <text class="lbl" x="206" y="96" text-anchor="end">苏伊士 <tspan class="en">SUEZ</tspan></text>
+    <text class="num" x="206" y="112" text-anchor="end">40.7</text>
+    <text class="lbl" x="196" y="290" text-anchor="middle">好望角 <tspan class="en">CAPE</tspan></text>
+    <text class="num" x="242" y="290">90.8</text>
+    <text class="lbl" x="92" y="30">鹿特丹 <tspan class="en">ROTTERDAM</tspan></text>
+  </g>
+</svg>
