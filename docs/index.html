@@ -3024,7 +3024,8 @@
     })();
   })();
 </script>
-<!-- 内置词云数据快照（与 wordcloud-data.json 一致，保证离线/静态预览可渲染） -->
+<!-- 词频工作台依赖：d3（网络图力导向）与 d3-cloud（词云布局）；两个脚本自行同源 fetch
+     wordcloud-data.json / wordcloud-network.json —— index.html 内不内联任何词云数据。 -->
 <script defer src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/d3-cloud@1.2.7/build/d3.layout.cloud.min.js"></script>
 <script defer src="wordcloud.js"></script>

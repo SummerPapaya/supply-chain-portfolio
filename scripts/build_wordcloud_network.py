@@ -14,12 +14,16 @@
 #   docs/radar-archive/*.json，逐篇 tokenize，在「全量数据」上算真实共现。
 #
 # 前置：scripts/build_wordcloud.py（提供词表 / TF-IDF 权重 / 栏目色）
+# 分词规则（词性白名单 / 停用词 / 英文复数归并）与 build_wordcloud.py 共用
+#   scripts/wc_tokenize.py —— 要加减停用词改 scripts/stopwords_*.txt 即可，两处同时生效。
 # 输出：docs/wordcloud-network.json
 # 每周与雷达更新一同运行即可自动并入新一期。
-import json, re, pathlib, datetime, itertools
+import json, pathlib, datetime, itertools
 from collections import defaultdict
-import jieba
-import jieba.posseg as pseg
+
+from wc_tokenize import (  # 与 build_wordcloud.py 共用同一套分词规则
+    tok_zh as _tok_zh, tok_en as _tok_en, canon_en, load_stopwords,
+)
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DOCS = ROOT / "docs"
@@ -27,46 +31,19 @@ ARCHIVE = DOCS / "radar-archive"
 RADAR = DOCS / "radar-data.json"
 WC_DATA = DOCS / "wordcloud-data.json"
 NET_OUT = DOCS / "wordcloud-network.json"
-SW_ZH = ROOT / "scripts" / "stopwords_zh.txt"
-SW_EN = ROOT / "scripts" / "stopwords_en.txt"
 
 TOP = 48        # 取词表里前 N 个高影响力词构图（2026-10-27 由 40 上调，画面更饱满灵动）
 MIN_EDGE = 2    # 共现次数阈值（>= 才连线）
 MAX_DEG = 7     # 每节点最多保留的最强共现边数
 RESCUE = True   # 反孤岛：孤立词补回最强原始共现边（weight>=1）
 
-# ---- 与 build_wordcloud.py 完全一致的中文实词词表 ----
-ZH_POS_KEEP = {"n","nr","ns","nt","nz","nl","ng","vn","l","eng"}
-PUNCT = set("，。、；：！？（）《》【】“”‘’%0123456789.,:;!?()[]\"")
-DENY = {"supply","chain","chains","supplychain","logistics","logistic","供应链","物流","链条"}
-EN_RE = re.compile(r"[a-zA-Z][a-zA-Z0-9+#.\-]*")
-
-def load_sw(p):
-    if not p.exists():
-        return set()
-    return {l.strip() for l in p.read_text(encoding="utf-8").splitlines()
-            if l.strip() and not l.startswith("#")}
-
-SW_ZH_SET = load_sw(SW_ZH)
-SW_EN_SET = load_sw(SW_EN)
+SW_ZH, SW_EN = load_stopwords()
 
 def tok_zh(text):
-    out = []
-    for w, flag in pseg.cut(text):
-        w = w.strip()
-        if len(w) < 2 or w in SW_ZH_SET or w in DENY:
-            continue
-        if flag not in ZH_POS_KEEP or all(ch in PUNCT for ch in w):
-            continue
-        out.append(w)
-    return out
+    return _tok_zh(text, SW_ZH)
 
 def tok_en(text):
-    out = []
-    for w in EN_RE.findall(text.lower()):
-        if len(w) >= 2 and w not in SW_EN_SET and w not in DENY:
-            out.append(w)
-    return out
+    return _tok_en(text, SW_EN)
 
 # ---------- 1. 从 wordcloud-data.json 取权威词表 ----------
 if not WC_DATA.exists():
@@ -74,26 +51,19 @@ if not WC_DATA.exists():
 wc = json.loads(WC_DATA.read_text(encoding="utf-8"))
 N_PERIODS = wc.get("periods", 0)
 
-vocab = {}      # lang -> {word: {tfidf,count,size,cat}}
+# 节点字段只带前端真正用到的：tfidf(字号) / count(资讯条数) / cat(着色)。
+# size 是 build_wordcloud 给「词云字体」算的，网络图按 tfidf 自己算字号，不重复携带。
+vocab = {}      # lang -> {word: {tfidf,count,cat}}
 order = {}      # lang -> [word]（按 TF-IDF 降序，已截断到 TOP）
 for lang in ("zh", "en"):
     words = wc.get(lang, [])[:TOP]
-    vocab[lang] = {w["text"]: {k: w[k] for k in ("tfidf","count","size","cat")} for w in words}
+    vocab[lang] = {w["text"]: {k: w[k] for k in ("tfidf", "count", "cat")} for w in words}
     order[lang] = [w["text"] for w in words]
 
 # ---------- 2. 全量重扫雷达原文，统计共现 ----------
 files = [RADAR] + sorted(ARCHIVE.glob("*.json"))
 pair_w = {"zh": defaultdict(int), "en": defaultdict(int)}
-node_extra = {"zh": defaultdict(int), "en": defaultdict(int)}   # 真实参与共现的条目数
 scanned_files = 0
-
-def canon_en(w, v):
-    """英文复数归并：若 'costs' 不在词表但 'cost' 在，按 'cost' 计（与 build_wordcloud 一致）。"""
-    if w in v:
-        return w
-    if len(w) > 3 and w.endswith("s") and not w.endswith("ss") and w[:-1] in v:
-        return w[:-1]
-    return None
 
 for f in files:
     try:
@@ -115,8 +85,6 @@ for f in files:
                     present = {c for c in (canon_en(t, v) for t in set(tok_en(txt))) if c}
                 if len(present) < 2:
                     continue
-                for w in present:
-                    node_extra[lang][w] += 1
                 for a, b in itertools.combinations(sorted(present), 2):
                     pair_w[lang][(a, b)] += 1
 
@@ -160,6 +128,8 @@ def build_net(lang):
                 links.append({"source": w, "target": best_nb, "weight": best_wt})
                 linked.add(w); linked.add(best_nb)
                 rescued.append(w)
+    # 边按「权重降序 + 词面」定序：pair_w 是 dict，直接输出会随哈希顺序漂移（同 build_wordcloud）。
+    links.sort(key=lambda l: (-l["weight"], l["source"], l["target"]))
     # 保留全部 TOP 词作为节点（无连线的词仍显示，只是不画边），
     # 兼顾「词云要看全」与「网络看关系」两件事。
     nodes = [{"text": w, **vocab[lang][w]} for w in words]

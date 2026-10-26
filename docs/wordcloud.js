@@ -96,6 +96,8 @@
     if (!DATA) return;
     if (typeof d3 === "undefined" || !d3.layout || !d3.layout.cloud) return;
     var l = lang();
+    // d3.layout.cloud 会往 word 对象上写 x/y/rotate 等字段，直接喂原对象会污染 DATA，
+    // 切语言重渲时字号就不对了 —— currentWords() 的浅拷贝正是为此，这里不再二次拷贝。
     var words = currentWords();
     renderLegend(l);
 
@@ -107,9 +109,7 @@
 
     var layout = d3.layout.cloud()
       .size([W, H])
-      .words(words.map(function (d) {
-        return { text: d.text, size: d.size, cat: d.cat, count: d.count, items: d.items };
-      }))
+      .words(words)
       .padding(3)
       .rotate(function () { return 0; })
       .font(FONT)
@@ -197,8 +197,9 @@
     drawerWord.textContent = d.text + "  ·  " + d.count;
     var items = (d.items || []).map(function (it) {
       var title = l === "en" ? it.titleEn : it.titleZh;
-      var src = it.url ? '<a class="wc-src" href="' + it.url + '" target="_blank" rel="noopener">来源 / source ↗</a>' : "";
-      var arch = '<a class="wc-arch" href="radar-archive/' + it.date + '.json" target="_blank" rel="noopener">' + it.date + " ↗</a>";
+      // 链接样式统一由 .wc-item-meta a 提供，不再挂没有对应规则的 wc-src / wc-arch 钩子
+      var src = it.url ? '<a href="' + it.url + '" target="_blank" rel="noopener">来源 / source ↗</a>' : "";
+      var arch = '<a href="radar-archive/' + it.date + '.json" target="_blank" rel="noopener">' + it.date + " ↗</a>";
       return '<div class="wc-item"><span class="wc-dot" style="--cat:' + it.cat + '"></span>' +
         '<div class="wc-item-main"><div class="wc-item-title">' + escapeHtml(title) + "</div>" +
         '<div class="wc-item-meta">' + arch + src + "</div></div></div>";

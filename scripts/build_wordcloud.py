@@ -8,81 +8,28 @@
 #  - 停用词 / 主题词 denylist 持续扩充（见 scripts/stopwords_*.txt）。
 # 输出 docs/wordcloud-data.json（词云页面通过同源 fetch 读取，不再内联 index.html）。
 # 每周与雷达更新一同运行即可自动并入新一期。
-import json, re, glob, pathlib, datetime, math
+import json, pathlib, datetime, math
 from collections import defaultdict
-import jieba
-import jieba.posseg as pseg
+
+from wc_tokenize import (  # 与 build_wordcloud_network.py 共用同一套分词规则
+    tok_zh as _tok_zh, tok_en as _tok_en, load_stopwords,
+)
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DOCS = ROOT / "docs"
 ARCHIVE = DOCS / "radar-archive"
 RADAR = DOCS / "radar-data.json"
 DATA_OUT = DOCS / "wordcloud-data.json"
-SW_ZH = ROOT / "scripts" / "stopwords_zh.txt"
-SW_EN = ROOT / "scripts" / "stopwords_en.txt"
 
 TOP_N = 80  # 每语言保留前 N 个关键词
 
-# 中文仅保留这些词性的「核心实词」；其余（动词 v、形容词 a、副词 d、
-# 代词 r、介词 p、连词 c、助词 u、数词 m、量词 q 等）一律剔除。
-ZH_POS_KEEP = {
-    "n",   # 名词
-    "nr",  # 人名
-    "ns",  # 地名
-    "nt",  # 机构名
-    "nz",  # 其他专名
-    "nl",  # 名词性惯用语
-    "ng",  # 名词语素
-    "vn",  # 动名词
-    "l",   # 惯用语
-    "eng", # 中文文本里的英文 token（AI / GPT / US …）
-}
-
-PUNCT = set("，。、；：！？（）《》【】“”‘’%0123456789.,:;!?()[]\"")
-
-def load_sw(p):
-    if not p.exists():
-        return set()
-    out = set()
-    for line in p.read_text(encoding="utf-8").splitlines():
-        line = line.strip()
-        if not line or line.startswith("#"):
-            continue
-        out.add(line)
-    return out
-
-SW_ZH = load_sw(SW_ZH)
-SW_EN = load_sw(SW_EN)
-# 领域降权 / 主题词：每期都出现、信息量低
-DENY = {"supply", "chain", "chains", "supplychain", "logistics", "logistic",
-        "供应链", "物流", "链条"}
-
-EN_RE = re.compile(r"[a-zA-Z][a-zA-Z0-9+#.\-]*")
+SW_ZH, SW_EN = load_stopwords()
 
 def tok_zh(text):
-    out = []
-    for w, flag in pseg.cut(text):
-        w = w.strip()
-        if len(w) < 2:
-            continue
-        if w in SW_ZH or w in DENY:
-            continue
-        if flag not in ZH_POS_KEEP:
-            continue
-        if all(ch in PUNCT for ch in w):
-            continue
-        out.append(w)
-    return out
+    return _tok_zh(text, SW_ZH)
 
 def tok_en(text):
-    out = []
-    for w in EN_RE.findall(text.lower()):
-        if w in SW_EN or w in DENY:
-            continue
-        if len(w) < 2:
-            continue
-        out.append(w)
-    return out
+    return _tok_en(text, SW_EN)
 
 # global[lang][word] = {total: 出现的新闻条数, df: 出现的期数, cats, items}
 global_idx = {
@@ -165,7 +112,10 @@ def build(lang):
             continue
         score = a["total"] * idf(a["df"], N_PERIODS)
         scored.append((t, score, a))
-    scored.sort(key=lambda x: -x[1])
+    # 同分裁决（有含义、且可复现）：先比资讯条数、再比词面。
+    # 仅按分数排时，同分词的顺序随 set() 迭代顺序（哈希随机化）逐次漂移 —— 不仅每周 diff 有噪声，
+    # 还会让下游「取 Top-48」的边界词随机进出（本周可能是 A、下周同样数据变成 B）。
+    scored.sort(key=lambda x: (-x[1], -x[2]["total"], x[0]))
     top = scored[:TOP_N]
     if not top:
         return []
