@@ -935,7 +935,12 @@
     .brand-mark::after, .viz-route, .pulse, .brief-bar .live::before { animation: none; }
   }
   /* ===== 雷达词云（轻量嵌入） ===== */
-  #wordcloud .sec-head { margin-bottom: 12px; }
+  /* 词频区是「本周供应链雷达」板块下的子小节，不是独立板块：
+     上方表格(brefing)底部 + 本区顶部共两段 padding，按板块间距(44–80px×2)会显得过空，
+     这里两边各收紧一档，让小标题贴着表格走。 */
+  #briefing { padding-bottom: clamp(16px, 2.6vh, 30px); }
+  #wordcloud { padding-top: clamp(8px, 1.6vh, 18px); }
+  #wordcloud .sub-head { margin-top: 0; margin-bottom: 12px; }
   .wc-legend { display: flex; gap: 18px; flex-wrap: wrap; margin: 2px 0 18px; font-family: var(--font-mono); font-size: 11px; letter-spacing: .04em; color: var(--ink-soft); }
   .wc-leg { display: inline-flex; align-items: center; gap: 6px; }
   .wc-leg i { width: 9px; height: 9px; border-radius: 2px; background: var(--cat); display: inline-block; }
@@ -1120,8 +1125,8 @@
 
 <!-- ============ 雷达词频工作台（单入口卡 + 全屏模态双视图） ============ -->
 <section id="wordcloud" data-page-node-id="wcSection001">
-  <div class="sec-head reveal" data-page-node-id="wcHead001">
-    <h2 class="sec-title" data-i18n="wc-title" data-page-node-id="wcTitle001">雷达词频 · 跨周关键词</h2>
+  <div class="sub-head reveal" data-page-node-id="wcHead001">
+    <h3 class="sub-title" data-i18n="wc-title" data-page-node-id="wcTitle001">雷达词频 · 跨周关键词</h3>
     <span class="sec-note" data-page-node-id="wcNote001">CROSS-WEEK KEYWORDS · WORKSPACE</span>
   </div>
   <div class="wc-entry reveal reveal-d1" id="wcEntryCloud" data-page-node-id="wcEntryCloud001" role="button" tabindex="0" aria-label="打开词频工作台">
