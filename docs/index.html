@@ -919,16 +919,107 @@
   .foot-inner p { font-size: 12.5px; color: var(--ink-mute); }
   .foot-inner .mono { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .06em; }
 
-  /* ---------- 入场动效 ---------- */
-  .reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1); }
-  .reveal.in { opacity: 1; transform: none; }
+  /* ---------- 入场动效 ----------
+     渐进增强：内容默认可见，只有 <html class="js-ready">（脚本确实跑起来、
+     IntersectionObserver 可用）时才先把 .reveal 藏起来再淡入。
+     原因：在沙箱 iframe / 预览面板里脚本可能被拦或中途抛错（如 localStorage 抛
+     SecurityError），旧写法会让整页停在 opacity:0 —— 即「白屏只剩导航」。
+     js-ready 由 <head> 里的一小段内联脚本加上，任一未捕获错误或 2.5s 内没有元素
+     入场都会摘掉它，内容立刻回到可见。 */
+  html.js-ready .reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1); }
+  html.js-ready .reveal.in { opacity: 1; transform: none; }
   .reveal-d1 { transition-delay: .08s; } .reveal-d2 { transition-delay: .16s; }
   .reveal-d3 { transition-delay: .24s; } .reveal-d4 { transition-delay: .32s; }
   @media (prefers-reduced-motion: reduce) {
-    .reveal { opacity: 1; transform: none; transition: none; }
+    html.js-ready .reveal { opacity: 1; transform: none; transition: none; }
     .brand-mark::after, .viz-route, .pulse, .brief-bar .live::before { animation: none; }
   }
+  /* ===== 雷达词云（轻量嵌入） ===== */
+  #wordcloud .sec-head { margin-bottom: 12px; }
+  .wc-legend { display: flex; gap: 18px; flex-wrap: wrap; margin: 2px 0 18px; font-family: var(--font-mono); font-size: 11px; letter-spacing: .04em; color: var(--ink-soft); }
+  .wc-leg { display: inline-flex; align-items: center; gap: 6px; }
+  .wc-leg i { width: 9px; height: 9px; border-radius: 2px; background: var(--cat); display: inline-block; }
+  .wc-wrap { position: relative; flex: 1 1 auto; min-height: 0; display: flex; }
+  .wc-svg { width: 100%; height: 100%; min-height: 0; display: block; overflow: visible; }
+  .wc-word text { fill: var(--cat); transition: fill .3s, opacity .5s; transform-box: fill-box; transform-origin: center; }
+  .wc-word:hover text { transform: scale(1.14); filter: drop-shadow(0 0 6px rgba(var(--accent-rgb), .5)); }
+  .wc-hint { text-align: center; font-family: var(--font-mono); font-size: 11px; color: var(--ink-mute); margin-top: 10px; letter-spacing: .03em; }
+  .wc-drawer { position: fixed; top: 0; right: 0; height: 100%; width: 360px; max-width: 86vw; background: var(--card); color: var(--ink); box-shadow: -12px 0 40px rgba(0,0,0,.18); transform: translateX(100%); transition: transform .26s cubic-bezier(.4,0,.2,1); z-index: 80; padding: 22px 20px; overflow-y: auto; }
+  .wc-drawer.open { transform: translateX(0); }
+  .wc-drawer-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; gap: 12px; }
+  .wc-drawer-word { font-family: var(--font-mono); font-size: 13px; color: var(--accent); word-break: break-word; }
+  .wc-drawer-close { background: none; border: none; color: var(--ink-soft); font-size: 22px; line-height: 1; cursor: pointer; flex: 0 0 auto; }
+  .wc-drawer-body { display: flex; flex-direction: column; gap: 10px; }
+  .wc-item { display: flex; gap: 10px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); }
+  .wc-dot { width: 8px; height: 8px; border-radius: 2px; background: var(--cat); margin-top: 5px; flex: 0 0 auto; }
+  .wc-item-main { min-width: 0; }
+  .wc-item-title { font-size: 13px; line-height: 1.5; color: var(--ink); }
+  .wc-item-meta { margin-top: 6px; display: flex; gap: 12px; font-family: var(--font-mono); font-size: 10.5px; flex-wrap: wrap; }
+  .wc-item-meta a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(var(--accent-rgb), .4); }
+  .wc-item-meta a:hover { border-bottom-color: var(--accent); }
+  .wc-empty { color: var(--ink-mute); font-size: 13px; }
+  .wc-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.32); opacity: 0; pointer-events: none; transition: opacity .26s; z-index: 75; }
+  .wc-overlay.show { opacity: 1; pointer-events: auto; }
+  /* ---- 词云工作台：折叠入口卡 + 全屏模态 ---- */
+  /* ---- 词频工作台：单张折叠入口卡 + 全屏模态（模态内按钮切换 词云 / 共现网络）---- */
+  .wc-entry { position: relative; border: 1px solid var(--line); border-radius: 14px; background: var(--card); padding: 18px 20px 16px; cursor: pointer; transition: border-color .2s, transform .2s, box-shadow .2s; overflow: hidden; }
+  .wc-entry:hover { border-color: rgba(var(--accent-rgb), .55); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,.08); }
+  .wc-entry-title { font-size: 15px; font-weight: 700; color: var(--ink); display: flex; align-items: center; gap: 8px; }
+  .wc-entry-arrow { color: var(--accent); font-size: 13px; transition: transform .2s; }
+  .wc-entry:hover .wc-entry-arrow { transform: translate(2px, -2px); }
+  .wc-entry-note { margin-top: 5px; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .05em; color: var(--ink-mute); }
+  .wc-chips { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 7px 9px; min-height: 26px; }
+  .wc-chip { font-size: 12px; font-weight: 600; line-height: 1; padding: 5px 10px; border-radius: 999px; border: 1px solid var(--line); white-space: nowrap; }
+  .wc-entry-go { margin-top: 14px; font-family: var(--font-mono); font-size: 11px; letter-spacing: .05em; color: var(--accent); }
+  .wc-modal { position: fixed; inset: 0; z-index: 70; display: flex; align-items: center; justify-content: center; padding: 4vh 3vw; background: rgba(10,12,18,.45); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); opacity: 0; pointer-events: none; transition: opacity .24s; }
+  .wc-modal[hidden] { display: none; }
+  .wc-modal.open { opacity: 1; pointer-events: auto; }
+  .wc-modal-panel { width: min(1180px, 100%); height: min(84vh, 840px); background: var(--paper); color: var(--ink); border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 30px 80px rgba(0,0,0,.3); display: flex; flex-direction: column; overflow: hidden; transform: translateY(14px) scale(.985); transition: transform .24s; }
+  .wc-modal.open .wc-modal-panel { transform: none; }
+  .wc-modal-head { display: flex; align-items: center; gap: 12px; padding: 13px 18px; border-bottom: 1px solid var(--line); flex: 0 0 auto; }
+  .wc-modal-title { font-weight: 700; font-size: 15px; flex: 1 1 auto; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .wc-tabs { display: flex; gap: 6px; flex: 0 0 auto; }
+  .wc-tab { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .04em; padding: 6px 13px; border-radius: 999px; border: 1px solid var(--line); background: none; color: var(--ink-soft); cursor: pointer; transition: color .18s, border-color .18s, background .18s; }
+  .wc-tab.active { color: #fff; background: var(--accent); border-color: var(--accent); }
+  .wc-tab:not(.active):hover { color: var(--ink); border-color: rgba(var(--accent-rgb), .5); }
+  .wc-modal-close { background: none; border: 1px solid var(--line); border-radius: 999px; width: 30px; height: 30px; font-size: 16px; line-height: 1; color: var(--ink-soft); cursor: pointer; flex: 0 0 auto; }
+  .wc-modal-close:hover { color: var(--ink); border-color: var(--accent); }
+  .wc-pane { flex: 1 1 auto; min-height: 0; padding: 10px 18px 14px; display: none; flex-direction: column; }
+  .wc-pane.active { display: flex; }
+  .wc-pane .wc-legend, .wc-pane .wn-legend { flex: 0 0 auto; margin: 2px 0 8px; }
+  .wc-pane .wc-hint, .wc-pane .wn-info, .wc-pane .wn-hint { flex: 0 0 auto; }
+  @media (max-width: 640px) { .wc-modal { padding: 2.5vh 3vw; } .wc-modal-panel { height: 90vh; } }
+  /* ---- 共现网络词云 #wordnet（渲染于模态面板内）---- */
+  .wn-legend { display: flex; gap: 18px; flex-wrap: wrap; margin: 2px 0 14px; font-family: var(--font-mono); font-size: 11px; letter-spacing: .04em; color: var(--ink-soft); }
+  .wn-leg { display: inline-flex; align-items: center; gap: 6px; }
+  .wn-leg i { width: 9px; height: 9px; border-radius: 50%; background: var(--cat); display: inline-block; }
+  .wn-svg { width: 100%; flex: 1 1 auto; min-height: 0; display: block; touch-action: none; overflow: visible; }
+  .wn-node text { cursor: pointer; }
+  .wn-link { opacity: var(--o); }
+  .wn-node, .wn-link { transition: opacity .22s ease; }
+  #wnSvg.wn-focus .wn-node { opacity: .16; }
+  #wnSvg.wn-focus .wn-link { opacity: .05; }
+  #wnSvg.wn-focus .wn-node.wn-hl { opacity: 1; }
+  /* 高亮连线换 accent 色，与正文词色进一步区分 */
+  #wnSvg.wn-focus .wn-link.wn-hl { opacity: 1; stroke: var(--accent) !important; }
+  .wn-info { min-height: 17px; text-align: center; font-family: var(--font-mono); font-size: 11px; color: var(--accent); margin-top: 6px; letter-spacing: .03em; }
+  .wn-hint { text-align: center; font-family: var(--font-mono); font-size: 11px; color: var(--ink-mute); margin-top: 2px; letter-spacing: .03em; }
 </style>
+<script>
+/* 入场动效总开关（渐进增强，见 CSS .reveal 注释）。
+   浏览器不支持 IO 时压根不加 js-ready；脚本中途抛错或 2.5s 内没有任何元素
+   入场，也会立刻摘掉，内容恢复可见 —— 避免「脚本挂了 = 整页白屏」。 */
+(function () {
+  var d = document.documentElement;
+  if (typeof window.IntersectionObserver !== 'function') return;
+  d.classList.add('js-ready');
+  addEventListener('error', function (e) { if (e && e.error) d.classList.remove('js-ready'); });
+  addEventListener('unhandledrejection', function () { d.classList.remove('js-ready'); });
+  setTimeout(function () {
+    if (!document.querySelector('.reveal.in')) d.classList.remove('js-ready');
+  }, 2500);
+})();
+</script>
 </head>
 <body data-page-node-id="eVBB86XhFUkJalCQ2SpiM5">
 <div class="glow-bg" data-page-node-id="1Xg9h46oRi6TcDchQvP7ID"></div>
@@ -948,6 +1039,7 @@
       <a href="#reports" data-i18n="nav-reports" data-page-node-id="4NJjNuV0XHXhFJ7aq1Irnf">报告对比</a>
       <a href="#app" data-i18n="nav-app" data-page-node-id="DBXsFfzAs793hGLd2x29tn">衍生应用</a>
       <a href="#gaps" data-i18n="nav-gaps" data-page-node-id="htEhFkaHrBjAvbOZJISKHn">AI 补位</a>
+      <a href="#wordcloud" data-page-node-id="navWC">词频 <em>/ Frequency</em></a>
       <a href="learning/index.html" data-i18n="nav-learn" data-page-node-id="IDcKLK0hocIu6Euwm8waHg">持续学习</a>
       <a href="https://github.com/SummerPapaya/supply-chain-portfolio" target="_blank" rel="noopener" data-page-node-id="CFQXEFiT3rDoatBDgVBM4Z">GitHub ↗</a>
     </div>
@@ -973,6 +1065,7 @@
   <a href="#reports" data-page-node-id="navMReports"><span data-i18n="nav-reports" data-page-node-id="navMReportsT">报告对比</span><span class="arr" data-page-node-id="navMReportsA">→</span></a>
   <a href="#app" data-page-node-id="navMApp"><span data-i18n="nav-app" data-page-node-id="navMAppT">衍生应用</span><span class="arr" data-page-node-id="navMAppA">→</span></a>
   <a href="#gaps" data-page-node-id="navMGaps"><span data-i18n="nav-gaps" data-page-node-id="navMGapsT">AI 补位</span><span class="arr" data-page-node-id="navMGapsA">→</span></a>
+  <a href="#wordcloud" data-page-node-id="navMWC"><span data-page-node-id="navMWCT">词频</span><span class="arr" data-page-node-id="navMWCA">→</span></a>
   <a href="learning/index.html" data-page-node-id="navMLearn"><span data-i18n="nav-learn" data-page-node-id="navMLearnT">持续学习</span><span class="arr" data-page-node-id="navMLearnA">→</span></a>
   <a href="https://github.com/SummerPapaya/supply-chain-portfolio" target="_blank" rel="noopener" data-page-node-id="navMGitHub"><span data-page-node-id="navMGitHubT">GitHub</span><span class="arr" data-page-node-id="navMGitHubA">↗</span></a>
 </div>
@@ -1021,8 +1114,57 @@
       </span>
       <button class="brief-arch-back" id="archBack" type="button" data-i18n="brief-arch-back" data-page-node-id="ArchBack0001">返回最新一期</button>
     </div>
-    <div class="brief-grid" id="briefGrid" data-page-node-id="xXMNmDPivBoaOlJUDqcyWG"><div class="brief-loading" data-page-node-id="V0YxsvBTFJRwoNke6ZgcHu">加载雷达数据…</div></div>
+    <div class="brief-grid" id="briefGrid" data-page-node-id="xXMNmDPivBoaOlJUDqcyWG"><div class="brief-loading" data-page-node-id="V0YxsvBTFJRwoNke6ZgcHu">加载雷达数据…</div><noscript><div class="brief-loading">本区由页面脚本渲染，当前浏览器未执行脚本 —— 原始数据见 <a href="radar-data.json">radar-data.json</a>，往期见 radar-archive/。<br>This section is rendered by JavaScript, which is disabled here — raw data: <a href="radar-data.json">radar-data.json</a>.</div></noscript></div>
   </div>
+</section>
+
+<!-- ============ 雷达词频工作台（单入口卡 + 全屏模态双视图） ============ -->
+<section id="wordcloud" data-page-node-id="wcSection001">
+  <div class="sec-head reveal" data-page-node-id="wcHead001">
+    <h2 class="sec-title" data-i18n="wc-title" data-page-node-id="wcTitle001">雷达词频 · 跨周关键词</h2>
+    <span class="sec-note" data-page-node-id="wcNote001">CROSS-WEEK KEYWORDS · WORKSPACE</span>
+  </div>
+  <div class="wc-entry reveal reveal-d1" id="wcEntryCloud" data-page-node-id="wcEntryCloud001" role="button" tabindex="0" aria-label="打开词频工作台">
+    <div class="wc-entry-title" id="wcEntryCloudTitle">重点高频词 <span class="wc-entry-arrow">↗</span></div>
+    <div class="wc-entry-note" id="wcStatsCloud"><span id="wcStatsCloudMain">加载中…</span><span id="wcStatsNetExtra"></span></div>
+    <div class="wc-chips" id="wcChipsCloud"></div>
+    <div class="wc-entry-go" id="wcGoCloud">点击展开 →</div>
+  </div>
+
+  <div class="wc-modal" id="wcModal" data-page-node-id="wcModal001" hidden>
+    <div class="wc-modal-panel" role="dialog" aria-modal="true" aria-label="词频工作台">
+      <div class="wc-modal-head">
+        <div class="wc-modal-title" id="wcModalTitle">雷达词频 · 跨周关键词</div>
+        <div class="wc-tabs">
+          <button class="wc-tab active" id="wcTabCloud">词云</button>
+          <button class="wc-tab" id="wcTabNet">共现网络</button>
+        </div>
+        <button class="wc-modal-close" id="wcModalClose" aria-label="关闭">×</button>
+      </div>
+      <div class="wc-pane active" id="wcPaneCloud" data-page-node-id="wcPaneCloud001">
+        <div class="wc-legend" id="wcLegend" data-page-node-id="wcLeg001"></div>
+        <div class="wc-wrap">
+          <svg id="wordcloudSvg" class="wc-svg" data-page-node-id="wcSvg001" role="img" aria-label="雷达词云"></svg>
+        </div>
+        <div class="wc-hint" data-page-node-id="wcHint001">点击关键词查看关联新闻 · Click a word to see linked news</div>
+      </div>
+      <div class="wc-pane" id="wcPaneNet" data-page-node-id="wcPaneNet001">
+        <div class="wn-legend" id="wnLegend" data-page-node-id="wnLeg001"></div>
+        <svg id="wnSvg" class="wn-svg" data-page-node-id="wnSvg001" role="img" aria-label="关键词共现网络图 / keyword co-occurrence network"></svg>
+        <div class="wn-info" id="wnInfo" data-page-node-id="wnInfo001"></div>
+        <div class="wn-hint" id="wnHint" data-page-node-id="wnHint001">悬停查看关联词 · 可拖拽词语调整布局</div>
+      </div>
+    </div>
+  </div>
+
+  <aside id="wcDrawer" class="wc-drawer" data-page-node-id="wcDrawer001" hidden>
+    <div class="wc-drawer-head">
+      <span id="wcDrawerWord" class="wc-drawer-word"></span>
+      <button class="wc-drawer-close" id="wcDrawerClose" aria-label="关闭">×</button>
+    </div>
+    <div class="wc-drawer-body" id="wcDrawerBody"></div>
+  </aside>
+  <div class="wc-overlay" id="wcOverlay" data-page-node-id="wcOv001" hidden></div>
 </section>
 
 <!-- ============ 第二部分：报告对比 ============ -->
@@ -2198,21 +2340,31 @@
 </script>
 
 <script>
+  /* ================= 安全存储 =================
+     沙箱 iframe / 无痕模式 / 存储被策略禁用时，localStorage 的读写会抛
+     SecurityError。旧代码在顶层直接调用，一抛就把整段脚本打断（主题、i18n、
+     雷达、入场动效全不执行）→ 页面只剩导航。这里统一兜住。 */
+  const store = {
+    get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* 降级：仅在本次会话内生效 */ } }
+  };
+
   /* ================= 主题切换 ================= */
   const root = document.documentElement;
-  const savedTheme = localStorage.getItem('sc-theme');
+  const savedTheme = store.get('sc-theme');
   if (savedTheme) root.dataset.theme = savedTheme;
   else if (matchMedia('(prefers-color-scheme: dark)').matches) root.dataset.theme = 'dark';
   const themeBtn = document.getElementById('themeBtn');
   function syncThemeBtn() {
+    if (!themeBtn) return;
     const toDark = root.dataset.theme !== 'dark';
     themeBtn.setAttribute('aria-label', toDark ? '切换到暗色模式 / Switch to dark mode' : '切换到亮色模式 / Switch to light mode');
   }
   syncThemeBtn();
-  themeBtn.addEventListener('click', () => {
+  if (themeBtn) themeBtn.addEventListener('click', () => {
     const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
     root.dataset.theme = next;
-    localStorage.setItem('sc-theme', next);
+    store.set('sc-theme', next);
     syncThemeBtn();
   });
 
@@ -2294,6 +2446,7 @@
     'a1t': 'Warehouse automation & AI orchestration accelerate',
     'a1d': 'Gartner: 93% of companies plan cyber-physical automation investment within two years; 82% expand after their first robot deployment. Apps are shifting from point assistants to cross-system multi-agent orchestration — the lane VeloCortex below sits in.',
     'reports-title': 'Research & Application · Horizontal Comparison',
+    'wc-title': 'Keyword Frequency · Cross-Week Keywords',
     'matrix-hint': 'Swipe sideways for the full comparison table',
     'mh1': 'AI Agent / Project', 'mh2': 'Model · Toolchain', 'mh3': 'Format & Stack', 'mh4': 'Lens & Window', 'mh5': 'Signature Trait',     'mh6': 'Data Sources', 'mh7': 'Role',
     'm1c2': '<span class="model">Grok 4.5 High Fast</span><span class="stack">Cursor Agent + Canvas</span>',
@@ -2485,11 +2638,12 @@
     document.title = lang === 'en'
       ? 'Global Supply Chain Intelligence Through Multiple AI Models | Research Index'
       : 'AI 多模型视角下的全球供应链洞察研究 | Supply Chain AI Research Index';
-    langZh.classList.toggle('on', lang === 'zh-CN');
-    langEn.classList.toggle('on', lang === 'en');
-    localStorage.setItem('sc-lang', lang);
+    if (langZh) langZh.classList.toggle('on', lang === 'zh-CN');
+    if (langEn) langEn.classList.toggle('on', lang === 'en');
+    store.set('sc-lang', lang);
   }
-  document.getElementById('langBtn').addEventListener('click', () => {
+  const langBtnEl = document.getElementById('langBtn');
+  if (langBtnEl) langBtnEl.addEventListener('click', () => {
     applyLang(root.lang === 'en' ? 'zh-CN' : 'en');
   });
 
@@ -2672,7 +2826,7 @@
   // 否则：访客上次选了英文（localStorage 的 sc-lang = en）时，首次就以英文运行，
   // 中文原文永远不会被记录，此后点「中文」因 dataset.zh 为 null 而切不回来。
   document.querySelectorAll('[data-i18n]').forEach(el => { el.dataset.zh = el.innerHTML; });
-  applyLang(localStorage.getItem('sc-lang') || 'zh-CN');
+  applyLang(store.get('sc-lang') || 'zh-CN');
   /* 衍生应用卡片折叠：点展开按钮切换 is-collapsed，并同步 aria-expanded（按钮文案由 CSS 按 lang/状态驱动，不碰 I18N 字典） */
   document.querySelectorAll('.app-toggle').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -2688,15 +2842,20 @@
   const nav = document.getElementById('nav');
   addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 12), { passive: true });
 
-  /* ================= 入场 reveal ================= */
-  const io = new IntersectionObserver(entries => {
+  /* ================= 入场 reveal =================
+     threshold 用 0.05 而不是 0.12：在预览面板这种很矮的视口里，高于视口 8 倍
+     的超高元素永远达不到 12% 可见度，会一直停在 opacity:0。 */
+  const hasIO = typeof window.IntersectionObserver === 'function';
+  const io = hasIO ? new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  }, { threshold: 0.05 }) : null;
+  document.querySelectorAll('.reveal').forEach(el => io ? io.observe(el) : el.classList.add('in'));
 
   /* ================= 数字滚动 ================= */
   const counters = document.querySelectorAll('[data-count]');
-  const cio = new IntersectionObserver(entries => {
+  // 静态文案里写的是真值（无 JS 时也能读对），有 JS 才归零做滚动动画
+  counters.forEach(el => { el.textContent = '0'; });
+  const cio = hasIO ? new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (!e.isIntersecting) return;
       const el = e.target, target = +el.dataset.count, t0 = performance.now();
@@ -2707,8 +2866,8 @@
       })(t0);
       cio.unobserve(el);
     });
-  }, { threshold: 0.6 });
-  counters.forEach(el => cio.observe(el));
+  }, { threshold: 0.6 }) : null;
+  counters.forEach(el => cio ? cio.observe(el) : (el.textContent = el.dataset.count));
 
   /* ================= 鼠标磁吸背景（粒子网络） ================= */
   (function () {
@@ -2865,5 +3024,10 @@
     })();
   })();
 </script>
+<!-- 内置词云数据快照（与 wordcloud-data.json 一致，保证离线/静态预览可渲染） -->
+<script defer src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/d3-cloud@1.2.7/build/d3.layout.cloud.min.js"></script>
+<script defer src="wordcloud.js"></script>
+<script defer src="wordcloud-network.js"></script>
 </body>
 </html>
