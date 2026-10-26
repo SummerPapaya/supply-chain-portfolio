@@ -1,0 +1,269 @@
+# -*- coding: utf-8 -*-
+"""供应链雷达周更脚本（2026-10-26）
+
+标准：ee6be6d —— 权威来源 / 交叉验证 / 来源可溯 / 中英双语
+- 四栏固定顺序：重点新闻 → 热门议题 → 研究瞭望 → 应用风向
+- verified=True 仅用于 ≥2 家独立媒体佐证的条目
+- 同步两处：docs/radar-data.json 与 docs/index.html 内嵌 <script id="embeddedRadar">
+幂等：整份重建，重复执行结果一致。
+"""
+import json
+import re
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+DOCS = ROOT / "docs"
+JSON_PATH = DOCS / "radar-data.json"
+HTML_PATH = DOCS / "index.html"
+
+UPDATED_AT = "2026-10-26T18:00:00+08:00"
+
+COLORS = ["#e05656", "#f0a13a", "#5b8cff", "#35c2b0"]
+
+
+def S(label, url):
+    return {"label": label, "url": url}
+
+
+def IT(zh_t, en_t, zh_d, en_d, sources, verified):
+    return {
+        "title": {"zh": zh_t, "en": en_t},
+        "desc": {"zh": zh_d, "en": en_d},
+        "sources": sources,
+        "verified": verified,
+    }
+
+
+# ---------------- 重点新闻 / Key News ----------------
+KEY_NEWS = [
+    IT(
+        "Drewry WCI 连涨两周至 4,585 美元、创 15 周新高：亚欧停航由 2 班跳至 8 班，上海港等泊时间从 97 小时降到 38 小时",
+        "Drewry’s WCI rises a second week to $4,585, a 15-week high: Asia–Europe blankings jump from two to eight as Shanghai waiting time falls from 97 to 38 hours",
+        "德路里 10 月 22 日评估：世界集装箱运价指数（WCI）上涨 2% 至 4,585 美元/40 尺箱，为连续第二周上涨、也是 15 周以来最高读数。分航线：上海—鹿特丹涨 3% 至 3,632 美元、上海—热那亚涨 5% 至 4,152 美元（四条主干航线中涨幅最大）、上海—洛杉矶涨 2% 至 8,007 美元、上海—纽约涨 1% 至 10,166 美元。两条干线的运力信号出现分化：亚欧线下周已宣布停航由本周的 2 个增至 8 个，德路里判断运力收紧、预计运价小幅上行；跨太平洋则由 6 个降至 2 个、有效运力回流，但美国进口需求持续强劲，预计运价基本稳定。拥堵端明显缓解——上海港船舶等泊时间由第 38 周的 97 小时降至第 42 周的 38 小时。风险侧并未消除：第 42 周驶入波斯湾的集装箱船由前一周的 5 艘降至 2 艘，同期通过苏伊士运河的集装箱船由 54 艘微升至 55 艘。对照 10 月 15 日那期 4,485 美元的读数，本期涨幅由 3% 收窄至 2%，仍是承运人靠停航管理支撑的价格，而非需求端趋势反转。",
+        "Drewry’s 22 October assessment: the World Container Index (WCI) rose 2% to $4,585 per 40ft container, a second consecutive weekly gain and its highest reading in 15 weeks. By lane, Shanghai–Rotterdam gained 3% to $3,632, Shanghai–Genoa 5% to $4,152 (the largest percentage move among the four main headhauls), Shanghai–Los Angeles 2% to $8,007 and Shanghai–New York 1% to $10,166. Capacity signals now diverge between the two trunk trades: on Asia–Europe, announced blank sailings rise from two this week to eight next, which Drewry reads as tightening capacity and expects to push rates slightly higher; on the transpacific, blankings fall from six to two, returning effective capacity, though strong US import demand is expected to keep rates broadly stable. Congestion is easing materially, with vessel waiting time at Shanghai falling from 97 hours in week 38 to 38 hours in week 42. Risk has not disappeared: only two containerships entered the Persian Gulf in week 42, down from five a week earlier, while containership transits of the Suez Canal edged up from 54 to 55. Against the $4,485 reading of the 15 October issue, the increase narrowed from 3% to 2% — still a rate propped up by blank-sailing management rather than a demand-side reversal.",
+        [
+            S("Drewry（WCI 官方周评：+2% 至 4,585 美元、停航与等泊时间）", "https://www.drewry.co.uk/maritime-research-opinion-browser/world-container-index-assessed-by-drewry"),
+            S("Ship Universe（八条航线逐周对照与 15 周新高口径）", "https://www.shipuniverse.com/news/drewry-wci-hits-15-week-high-as-carriers-tighten-asia-europe-capacity"),
+            S("Tedarik Zinciri Portal（Drewry 数据独立转述）", "https://tzp.news/en/news/2026-10-23-drewry-dunya-konteyner-endeksi-15-haftanin-zirvesine-yukseldi"),
+            S("Denizde（土耳其航运媒体：波斯湾与苏伊士通行艘次）", "https://denizde.com.tr/en/haberler/konteyner-navlunlari-15-haftanin-zirvesine-yukseldi"),
+        ],
+        True,
+    ),
+    IT(
+        "巴拿马运河 2026 财年货运量创历史新高 5.21 亿吨：霍尔木兹受阻改写航线，但干旱把日通行压回 32 艘",
+        "Panama Canal posts a record 521m tons in FY2026 as the Hormuz closure reroutes trade, though drought pulls daily transits back to 32",
+        "巴拿马运河管理局 10 月 20 日公布 2026 财年（2025 年 10 月—2026 年 9 月）业绩：通行船舶 13,951 艘次、同比 +4.1%（上一财年 13,404 艘次），货运量 5.21 亿 PC/UMS 吨、同比 +6.5%（上一财年 4.892 亿吨），刷新 2022 财年 5.18 亿吨的原纪录；新巴拿马型船闸贡献全部吨位的 52.2%，其吨位同比 +8.2%；全年收入 B/.66 亿、同比 +16.6%（未经审计）。管理局局长 Ilya Espino de Marotta 把增量主要归因于中东战事导致霍尔木兹海峡关闭——受阻前该海峡承担全球约五分之一的原油与成品油运输，改道一度使运河日通行量从 36 艘提高到 41 艘。反向约束同样明确：今年巴拿马遭遇“异常强烈”的厄尔尼诺现象，降雨不足使运河赖以运作的两个淡水人工湖水位下降，本月早些时候日通行量已下调至 32 艘；不过运河在整个旱季维持了 50 英尺最大吃水。管理局同时宣布，鉴于节水措施见效且流域降雨接近常年水平，即刻恢复巴拿马型船闸的 Last-Minute Reservation 服务（无预约船舶可在舱位放出时补订）。该运河承担约 5% 的全球海上贸易量。须标注：日通行量 41 艘与 32 艘均为运河管理局/新华社口径的时点值，非全年均值。",
+        "The Panama Canal Authority announced FY2026 results (October 2025–September 2026) on 20 October: 13,951 vessel transits, up 4.1% from 13,404 a year earlier, and 521m PC/UMS tons, up 6.5% from 489.2m, beating the previous record of 518m tons set in FY2022. Neopanamax locks accounted for 52.2% of total tonnage, with tonnage through them rising 8.2% year on year, and total revenue reached B/.6.6bn, up 16.6% (unaudited). Administrator Ilya Espino de Marotta attributes much of the gain to the closure of the Strait of Hormuz amid the Middle East conflict — before the disruption the strait carried roughly a fifth of global crude and refined product flows, and the rerouting at one point lifted daily canal transits from 36 to 41. The constraint runs the other way too: Panama saw an “unusually strong” El Niño this year, and low rainfall drew down the two freshwater lakes the canal depends on, forcing daily transits back to 32 earlier this month; the waterway nonetheless held a 50-foot maximum draft through the dry season. With conservation measures working and watershed rainfall near average, the Authority also reinstated its Last-Minute Reservation service for Panamax locks with immediate effect, letting unbooked vessels take a slot if one is released. The canal carries about 5% of global seaborne trade. Caveat: the 41 and 32 daily-transit figures are point-in-time readings from the Authority and Xinhua, not annual averages.",
+        [
+            S("巴拿马运河管理局（FY2026 官方业绩：13,951 艘次 / 5.21 亿吨 / B/.66 亿）", "https://pancanal.com/en?p=56920"),
+            S("新华社（微特稿：日通行 36→41→32 艘与厄尔尼诺）", "https://news.qq.com/rain/a/20261021A0DUH900"),
+            S("央视新闻（2022 财年 5.18 亿吨原纪录对照）", "https://ysxw.cctv.cn/article.html?toc_style_id=feeds_default&item_id=2359651963303258555&channelId=1119"),
+            S("KWE Aperture & Focus Week 43（运河记录与 Last-Minute Reservation 恢复）", "https://www.kwe.com/updates/aperture/2026_43.html"),
+        ],
+        True,
+    ),
+    IT(
+        "黑海商船连遭袭击，北约增派巡逻机、雷达与无人机：10 月至少 7 起、约 30 名船员死亡或失踪",
+        "NATO sends extra patrol aircraft, radar and drones to the Black Sea after a run of merchant-ship attacks: at least seven in October, about 30 seafarers dead or missing",
+        "北约 10 月 20 日在布鲁塞尔召开北大西洋理事会讨论黑海安全后宣布，盟国已经或将向黑海增派海上巡逻机、雷达系统、爆炸物勘查小组、情报人员与无人机；北约军事发言人、美国陆军上校 Martin O’Donnell 称当务之急是“通过增设传感设备、强化数据共享提升态势感知”。背景是 10 月以来罗马尼亚与保加利亚近海接连发生商船遇袭：10 月 5 日粮船 Royad Mammadov 在罗马尼亚专属经济区沉没、2 名船员死亡；次日保加利亚 Byala 以东约 70 海里两船遇袭，Alfa Watan 沉没、10 人失踪，Able 号 18 名船员全部获救；10 月 13 日 HS Dignity 在 Krapets 附近沉没、11 人失踪，马耳他籍、乌克兰拥有的 Chelsea 3 在 Byala 外海被三架无人机击中、15 名船员全部撤离；10 月 14—15 日化学品船 Yara J 与 Wine Trader 在苏利纳运河附近起火，Wine Trader 7 名船员失踪；10 月 23 日科摩罗籍货船 Khoryv 在康斯坦察外约 13 海里被无人机击中后起火沉没，1 人死亡、3 人失踪、9 人获救。口径必须并列：路透社引用的军事分析人士判断俄罗斯最可能是实施方，但北约以及保加利亚、罗马尼亚均未正式归因，莫斯科也未承认责任；欧盟外交与安全政策高级代表卡拉斯称“疑似俄无人机十天内发动六次袭击”。另据罗马尼亚国防部，10 月 17 日罗空军 F-16 在领海上空击落两架无人机，防长称型号疑为 Geran-4。",
+        "After the North Atlantic Council met in Brussels on 20 October to discuss Black Sea security, NATO announced that allies have sent or will send additional maritime patrol aircraft, radar systems, explosive-exploitation teams, intelligence personnel and drones to the region; NATO military spokesperson US Army Colonel Martin O’Donnell said the immediate priority is improving situational awareness through extra sensors and stronger data sharing. The move follows a string of attacks on merchant ships off Romania and Bulgaria this month: on 5 October the grain carrier Royad Mammadov sank in Romania’s exclusive economic zone, killing two; the next day two vessels were hit about 70 nautical miles east of Byala, with the Alfa Watan sinking and ten crew missing while all 18 aboard the Able were rescued; on 13 October the HS Dignity sank near Krapets with 11 missing, and the Maltese-flagged, Ukrainian-owned Chelsea 3 was struck by three drones off Byala, all 15 crew evacuated; on 14–15 October the chemical tankers Yara J and Wine Trader caught fire near the Sulina Canal, with seven sailors missing from the Wine Trader; and on 23 October the Comoros-flagged Khoryv was hit by a drone about 13 nautical miles off Constanța, catching fire and sinking with one crew member dead, three missing and nine rescued. Both sides of the attribution must be stated: military analysts cited by Reuters identify Russia as the likely perpetrator, but neither NATO nor Bulgaria and Romania have formally attributed the attacks and Moscow has not acknowledged responsibility; EU High Representative Kaja Kallas said suspected Russian drones carried out six strikes in ten days. Separately, Romania’s defence ministry said F-16s shot down two drones over its territorial waters on 17 October, with the minister describing them as likely Geran-4 types.",
+        [
+            S("The Defense Post（北约增派清单与 10 月各起袭击）", "https://thedefensepost.com/2026/10/21/nato-black-sea-presence/"),
+            S("SAFETY4SEA（Reuters 信源：至少 23 名船员失踪或死亡）", "https://safety4sea.com/nato-to-boost-black-sea-surveillance-following-deadly-attacks/"),
+            S("参考消息（转法新社 10 月 20 日报道，含卡拉斯表态）", "https://www.toutiao.com/article/7699700674000011795"),
+            S("Defence Matters（Khoryv 沉没与 F-16 拦截、约 30 人伤亡口径）", "https://defencematters.eu/black-sea-drone-attacks-nato-maritime-defences"),
+        ],
+        True,
+    ),
+    IT(
+        "10 月 30 日欧洲与地中海 50 多个港口联合行动：意大利 8 港在列，涉事港口约占地中海集装箱吞吐量 40%",
+        "More than 50 European and Mediterranean ports to act jointly on 30 October: eight Italian ports listed, together handling around 40% of Mediterranean container throughput",
+        "由国际工会网络“Ports in Action”协调、定于 10 月 30 日的跨国港口行动，最新规模为 10 个国家、11 个工会组织、50 多个港口（意大利 USB 10 月 14 日公布；7 月 31 日倡议初期的口径为 40 多个港口）。10 月 15 日在罗马举行的新闻发布会公布意大利参与港口名单：安科纳、奇维塔韦基亚、热那亚、焦亚陶罗、利沃诺、拉文纳、萨莱诺、的里雅斯特共 8 个，覆盖进口出口装卸、地中海中转与内陆运输节点；其中热那亚是意大利重要商港，焦亚陶罗承担关键的集装箱中转功能，这批港口合计处理地中海约 40% 的集装箱吞吐量、约合 300 万 TEU。参与组织包括法国 CGT 港口与码头工会、希腊 ENEDEP、巴斯克地区 LAB、土耳其 Liman-İş、摩洛哥 ODT、意大利 USB 与 ORSA Porti，印度水运工人联合会亦表声援；希腊比雷埃夫斯码头工会 ENEDEP 已于 9 月 29 日会员大会投票加入，意味着中转干扰可能超出意大利范围。诉求不止工资：工会反对港口被用于运输武器弹药、反对港口军事化，并抵制自动化与劳动制度调整可能带来的岗位流失，同时要求加薪、改善劳动安全与养老金。外溢风险在陆侧——意大利 USB 运输部门已宣布把港口行动与全国总罢工挂钩，物流、货运与部分公共交通可能同步受影响。须标注边界：各地行动形式（罢工、示威或拒绝装卸）、持续时间与涉及环节由当地工会自行决定，法国 CGT 已宣布全国 24 小时罢工，其他国家是否同步停摆尚无定论。",
+        "Coordinated by the international union network “Ports in Action” for 30 October, the cross-border port action now spans 10 countries, 11 union organisations and more than 50 ports, according to Italy’s USB on 14 October — up from the 40-plus ports cited when the call was issued on 31 July. A press conference in Rome on 15 October named the eight Italian ports taking part: Ancona, Civitavecchia, Genoa, Gioia Tauro, Livorno, Ravenna, Salerno and Trieste, spanning import/export handling, Mediterranean transhipment and inland nodes. Genoa is Italy’s principal commercial port and Gioia Tauro a critical container transhipment hub; together the affected ports handle roughly 40% of Mediterranean container throughput, around 3m TEU. Participating bodies include France’s CGT Ports and Docks, Greece’s ENEDEP, the Basque Country’s LAB, Turkey’s Liman-İş, Morocco’s ODT, Italy’s USB and ORSA Porti, with India’s Water Transport Workers Federation expressing solidarity; ENEDEP, the dockworkers’ union at Piraeus, voted on 29 September to join, meaning transhipment disruption could extend beyond Italy. Demands go beyond pay: unions oppose the use of ports for weapons and military equipment, resist port militarisation and job losses from automation, and call for better wages, safety and pensions. The spillover risk is inland — USB’s transport division has tied the port action to a nationwide general strike, potentially affecting logistics, freight and parts of public transport. Caveats: the form (strike, demonstration or refusal to handle), duration and operations affected are decided locally; France’s CGT has announced a 24-hour national stoppage, but whether other countries shut down in step remains unconfirmed.",
+        [
+            S("Shipping Gazette（引 Ports Europe：40+ 港与意大利 8 港名单）", "https://www.shippingazette.com/news/9261000000222"),
+            S("中国贸促会浙江省委员会（10 国 11 工会 50 多港口与诉求拆解）", "https://www.ccpitzj.gov.cn/col/col1229557691/art/2026/art_edf64eb33fb64b7389bfb945e72d3692.html"),
+            S("新浪财经/船务资讯（引 Ports Europe：意大利 8 港与陆运外溢）", "https://www.toutiao.com/article/7698900538423591464"),
+            S("百运网（法国 27 港、意大利 10 港等分国别规模）", "https://m.by56.com/news/64048.html"),
+        ],
+        True,
+    ),
+]
+
+# ---------------- 热门议题 / Hot Topics ----------------
+HOT_TOPICS = [
+    IT(
+        "Alphaliner：远东—欧洲运力已有 63% 回到红海—苏伊士，但多数航线只“单程走运河”",
+        "Alphaliner: 63% of Far East–Europe capacity is back on Red Sea–Suez routings, though most loops transit the canal in one direction only",
+        "Alphaliner 10 月 21 日发布对十大承运人网络的调查（观测期 2026 年 9 月 15 日—10 月 15 日）：46 条远东—欧洲直达航线中有 24 条观测到红海通行，对应运力 550 万 TEU、占该航线总投放 870 万 TEU 的 63%。分区域看，远东—地中海约 70%、远东—北欧 58%。承运人层面：CMA CGM 在危机期间基本保留了苏伊士存在（单独约 130 万 TEU），MSC 8 月才恢复、现已有 11 条航线 220 万 TEU 走运河，Gemini（赫伯罗特 + 马士基）自 7 月起回摆、现为 176 万 TEU，海洋联盟 COSCO/OOCL 已恢复 6 条航线共 127 万 TEU。Premier Alliance 的 HMM、ONE 与阳明已宣布回归，落地后十大承运人中将只剩长荣与以色列籍 ZIM 未恢复。关键限定必须写明：63% 是“投放运力”口径，不等于每艘船双向都走运河——多数航线西行经曼德海峡与红海去欧洲、东行仍绕好望角，因此同一条服务的去程与回程时效并不对称，货主不能按“已回归”来推算到港时间。经济动因同样明确：新加坡低硫燃油（VLSFO）现货约 881 美元/吨、同比 +97%，绕行非洲的成本大幅抬升，走运河每个往返航次可省约两周。风险未消除：法国海军近期拦截了一架针对 CMA CGM Champs Elysées 的无人机。",
+        "In an analysis of the ten largest carrier networks published on 21 October (observed 15 September–15 October 2026), Alphaliner found Red Sea transits on 24 of 46 direct Far East–Europe services, representing 5.50m TEU of the 8.70m TEU deployed on the trade — 63%. By destination the split is about 70% on Far East–Mediterranean and 58% on Far East–North Europe. By carrier, CMA CGM retained some Suez presence through the crisis (about 1.3m TEU on its own), MSC only resumed in August but now sends 2.2m TEU across 11 loops through the waterway, the Gemini partners Hapag-Lloyd and Maersk began returning services in July and now account for 1.76m TEU, and the Ocean Alliance’s COSCO/OOCL has restored six services totalling 1.27m TEU. With Premier Alliance members HMM, ONE and Yang Ming having announced returns, only Evergreen and Israel’s ZIM would remain outside the top ten without a resumption. The critical caveat: 63% is a measure of deployed capacity, not a statement that every vessel transits the canal in both directions — most loops sail westbound through Bab el-Mandeb and the Red Sea but return east via the Cape of Good Hope, so transit times on a named service are asymmetric and shippers cannot infer arrival dates from the “returned” label. Economics are doing as much work as geopolitics: very-low-sulphur fuel oil is trading around $881/tonne on the Singapore spot market, up 97% year on year, making the Cape routing far costlier, while a Suez round trip saves roughly two weeks. Risk has not gone away — the French navy recently intercepted a drone targeting the CMA CGM Champs Elysées.",
+        [
+            S("World Ports（Alphaliner 数据与分航线拆分）", "https://www.worldports.org/red-sea-services-now-account-for-63-of-far-east-europe-container-capacity"),
+            S("The Loadstar（承运人逐家拆分与 VLSFO 881 美元/吨）", "https://theloadstar.com/nearly-two-thirds-of-far-east-europe-capacity-now-back-to-suez-canal/"),
+            S("SAFETY4SEA（Alphaliner 原文转述与 11/19 三周年对照）", "https://safety4sea.com/alphaliner-63-of-far-east-europe-capacity-deployed-on-services-using-red-sea-route/"),
+            S("CLECAT（欧洲货代协会通报：燃油与航程收益口径）", "https://www.clecat.org/news/newsletters/alphaliner-63-of-far-easteurope-container-capacity"),
+        ],
+        True,
+    ),
+    IT(
+        "莱茵河低水位把驳船货挤向铁路与公路：杜伊斯堡载重仅约三分之二，15%—30% 货量找不到替代运力",
+        "Low Rhine water pushes barge cargo onto rail and road: Duisburg loads at about two-thirds, with capacity short for 15%–30% of affected volumes",
+        "10 月中旬以来莱茵河水位持续异常偏低，集装箱驳船载重被压到正常水平的约三分之二（杜伊斯堡—鲁尔奥特一带，内河物流商 SeasC4U 的 Gunther Ginckels 口径），考布（Kaub）以上更为严重，部分驳船服务停航。传导比例很高：荷兰腹地约 35% 的集装箱运输走内河，因此哪怕只有一部分转模态，也会显著挤压本已紧张的铁路与公路。替代运力并不充裕——Ginckels 称莱茵—美因地区一家多式联运运营商的班列已订满数周，铁路受制于线路、车皮、机车与司机短缺，公路虽更灵活但同样紧张；找替代卡车最长要两周，订铁路运力可能要提前六周，受影响货量中约 15%—30% 找不到运力，即便水位恢复，船期也可能需要 10 天才回归正常。商业成本已量化：马士基 10 月 6 日修订低水位附加费，按杜伊斯堡—鲁尔奥特、考布、科隆三个测点分级，考布低于 1.51 米时 20 尺柜加收 50 欧元，跌至 0.41 米以下时 40 尺柜 1,490 欧元、45 尺柜 1,570 欧元，低于 0.21 米时 45 尺柜升至 2,045 欧元；并明确考布低于 81 厘米或杜伊斯堡—鲁尔奥特低于 181 厘米时不再保证装载。口径须并列：鹿特丹港务局答复 The Loadstar 称港口运行正常、内河运量同比大致稳定，影响主要体现在内陆；8 月考布水位曾降至 6 厘米，为该测点 1880 年有记录以来最低。另有消息称安特卫普与鹿特丹码头对驳船和班列实行“一进一出”，但两港尚未向媒体确认。",
+        "Persistently low water on the Rhine since mid-October has cut container barge loads to roughly two-thirds of normal around Duisburg-Ruhrort, according to Gunther Ginckels of inland logistics specialist SeasC4U, with worse constraints upstream and some services suspended above the Kaub gauge. The transmission ratio matters: around 35% of box movements in the Dutch hinterland travel by inland waterway, so even a partial modal shift puts heavy pressure on already-constrained rail and road. Replacement capacity is scarce — Ginckels reports one intermodal operator’s trains in the Rhine-Main region fully booked for weeks, with shortages of train paths, wagons, locomotives and drivers; road is more flexible but also tight, with replacement trucks taking up to two weeks to find and rail capacity up to six weeks’ notice, leaving capacity reportedly insufficient for 15%–30% of affected volumes. Even after water recovers, vessel schedules may take up to 10 days to normalise. Costs are now explicit: Maersk revised its low-water surcharge on 6 October, tiered by gauge at Duisburg-Ruhrort, Kaub and Cologne — €50 on a 20ft box below 1.51 metres at Kaub, rising to €1,490 for a 40ft and €1,570 for a 45ft below 0.41 metres, and €2,045 for a 45ft below 0.21 metres — while stating it cannot guarantee loading below 81 cm at Kaub or 181 cm at Duisburg-Ruhrort. The countervailing view must be stated: the Port of Rotterdam told The Loadstar it remains fully operational with inland waterway volumes reasonably stable year on year, with effects mainly visible further inland; Kaub fell to 6 cm in August, the lowest since records began in 1880. Terminals at Antwerp and Rotterdam are also said to have adopted a “one teu in, one teu out” rule, though neither port has confirmed it to the press.",
+        [
+            S("The Loadstar（载重三分之二、35% 内河占比与替代运力时限）", "https://theloadstar.com/low-rhine-water-level-driving-barge-cargo-to-capacity-strained-road-and-rail/"),
+            S("IN Supply（马士基费率表逐档拆解与口径校正）", "https://in-supply.co.uk/low-rhine-levels-restrict-european-barge-capacity/"),
+            S("Metro Global（考布 6 厘米历史低值与码头等待时间）", "https://www.metro.global/2026/10/14/german-port-strikes-averted-but-rhine-disruption-deepens/"),
+            S("维运网（马士基 10/6 公告中文拆解：三个测点与金额）", "https://www.weiyun001.com/newsIframe/26078"),
+        ],
+        True,
+    ),
+    IT(
+        "黄海南部连续 47 天实弹射击禁航：坐标落在连云港—盐城外海，个别物流自媒体“影响青岛港航道”的说法与坐标不符",
+        "Southern Yellow Sea closed for live-fire drills for 47 straight days: coordinates place the zone off Lianyungang–Yancheng, contradicting logistics blogs claiming Qingdao’s approaches are affected",
+        "连云港海事局 10 月 12—13 日发布航行警告（云航警 171/26，英文电文 LYG149/26）：自 10 月 15 日至 11 月 30 日，每日 0000 时至 2400 时，在 34-01.69N 120-22.15E、34-09.72N 120-20.85E、34-04.30N 120-31.52E 三点连线范围内进行实弹射击，禁止驶入，合计 47 天全天候封控。需要校正的口径：部分物流自媒体称该禁航区“直接影响青岛港进出航道、涉及青岛港货件需绕行”，但公开坐标位于北纬 34 度、东经 120 度附近，即连云港—盐城外海，与青岛港（约北纬 36 度）并不在同一海域，目前没有权威航警支持“青岛港航道受阻”的说法；可核实的影响范围应按坐标落实为连云港、盐城方向的部分近海航路。同期中国海事系统在渤海（秦皇岛）、黄海北部（大连）、东海（温州以东海域）与南海（湛江、三亚）亦发布多则航行警告，形成多海域并行演训。对供应链的可核验影响：该时段经此海域的商船需改走外侧航路，航程与船期要重新核算，10 月底至 11 月到港的货载应提前与船公司或货代确认最新船期；国内中转与内支线船舶尤其需要核对是否穿越该坐标范围。",
+        "China’s Lianyungang MSA issued a navigation warning on 12–13 October (Yun Hang Jing 171/26, English text LYG149/26): daily live-fire gunnery from 15 October to 30 November, 0000–2400 each day, within the area bounded by the lines joining 34-01.69N 120-22.15E, 34-09.72N 120-20.85E and 34-04.30N 120-31.52E, with entry prohibited — 47 consecutive days of round-the-clock closure. One claim needs correcting: several logistics blogs said the zone “directly affects Qingdao’s approach channel and requires vessels to divert”, but the published coordinates sit near 34°N 120°E, off Lianyungang–Yancheng, not in the same waters as Qingdao (around 36°N); no authoritative navigation warning supports a closure of Qingdao’s approaches, and the verifiable impact should be read as parts of the coastal routes off Lianyungang and Yancheng. In the same period China’s MSA issued further warnings covering the Bohai Sea (Qinhuangdao), the northern Yellow Sea (Dalian), the East China Sea (off Wenzhou) and the South China Sea (Zhanjiang and Sanya), pointing to parallel exercises across multiple sea areas. Verifiable supply-chain effect: merchant vessels routing through these waters need to pass outside the boundary, so distance and schedules must be recalculated, and cargo arriving late October through November should be re-confirmed with carriers or forwarders; domestic transhipment and feeder services in particular need to check whether their tracks cross the coordinate box.",
+        [
+            S("SeaLagom（云航警 171/26 航警原文、坐标与有效期）", "https://www.sealagom.com/coastal/160/message/44943/171-26-17126101511300000240034-0169n-120-2215e34-0972n-120-2085e34-0430n-120-3"),
+            S("观察者网（盐城海事局 10/13 航行警告，含完整坐标）", "https://www.163.com/dy/article/L97U0VSG051481US.html"),
+            S("日照日报（中国海事局：10/15—11/30 每日 0—24 时，连续 47 天）", "https://www.163.com/dy/article/L998ITP10553BGPW.html"),
+            S("凤凰网（多海域并行演训与 1,128 小时全时段封控）", "https://h5.ifeng.com/c/vivo/v002ThGsFLCKs-_bCjK8qF49quJpYHn9gel2cFx5KkxRDusk__"),
+        ],
+        True,
+    ),
+    IT(
+        "欧盟 11 月 1 日起对直邮包裹按行加收 2 欧元处理费：7 月取消低值豁免后，中欧空运吨量仍未回到去年同期",
+        "EU’s €2 per-line parcel handling fee takes effect 1 November, with China–Europe air volumes still below last year after July’s de minimis removal",
+        "欧盟自 11 月 1 日起对直邮入境包裹按“每一行”加收 2 欧元处理费，与此前 7 月取消低值商品免税豁免（de minimis）叠加，进一步改变跨境电商的入库经济性。已可观测的连锁反应：WorldACD 数据显示 9 月中国—欧洲空运吨量仍低于去年同期，而同期中国—美国吨量继续增长；香港国际机场 9 月货量同比 +6.3%、结束此前连续两个月的下滑，但机场管理局明确说明，对欧出货仍受欧盟 7 月取消低值包裹免税的拖累，反弹主要由东南亚与中国内地的转运及进口拉动。荷兰咨询机构 Holdwise 判断，11 月的新费用叠加 7 月已实施的关税，会让“批量进口 + 本地履约”对零售商更具吸引力，即货物形态从直邮小包转向海外仓备货。须标注边界：2 欧元为按行（per line）计收的口径，适用于直邮包裹，具体执行细则与豁免范围以欧盟及各成员国正式文本为准；不同货值包裹受影响差异极大，不宜折算成统一的成本涨幅比例。",
+        "The EU applies a €2 per-line handling fee to directly shipped inbound parcels from 1 November, compounding July’s removal of the de minimis duty exemption and further changing the economics of cross-border e-commerce fulfilment. The knock-on effects are already visible: WorldACD data show China–Europe air tonnage in September still below year-earlier levels while China–US volumes continued to grow, and Hong Kong International Airport saw cargo volumes rise 6.3% year on year in September, ending two consecutive monthly declines — though the Airport Authority explicitly attributes the continued weakness on European lanes to the EU’s July removal of the low-value parcel exemption, with the rebound driven by transhipment and imports from Southeast Asia and the Chinese mainland. Dutch advisory firm Holdwise argues that the new fee on top of July’s duties makes bulk import with local fulfilment more attractive to retailers, shifting volume from direct parcels to overseas stocking. Caveats: the €2 is charged per line and applies to directly shipped parcels; detailed implementation rules and exemptions rest with the EU’s and member states’ formal texts, and the impact varies so widely by parcel value that it should not be converted into a single percentage cost increase.",
+        [
+            S("Air Cargo Week（11 月 1 日生效倒计时与按行计收口径）", "https://aircargoweek.com/2026/10/20/"),
+            S("KWE Aperture & Focus Week 43（中国—欧洲吨量、香港机场与 Holdwise 判断）", "https://www.kwe.com/updates/aperture/2026_43.html"),
+            S("China Logistics Daily（WorldACD 数据复述与冬季运力调整）", "https://chinalogisticsdaily.com/briefing/2026-10-21"),
+        ],
+        True,
+    ),
+]
+
+# ---------------- 研究瞭望 / Research ----------------
+RESEARCH = [
+    IT(
+        "干散货与油轮同步回落，海岬型逆势反弹：BDI 收 2,660、好望角型 5TC 回到 34,380 美元/天，VLCC 日收益跌至 128.8 万美元",
+        "Dry bulk and tankers ease together while capesizes rebound: BDI closes at 2,660, capesize 5TC back to $34,380/day, VLCC daily earnings down to $1.288m",
+        "10 月 23 日波罗的海交易所收盘：BDI 2,660（当日 -33，10 月 21 日曾升至 2,680），海岬型指数 3,791、巴拿马型 2,109、超大灵便型 1,887、灵便型 1,020。结构分化明显：海岬型 5TC 期租均值回升至约 34,380—34,398 美元/天（10 月 21 日单日 +2,453 美元），C5 西澳—青岛由 11.25 一路走高至 14.16 美元/吨、较近期低点反弹近 3 美元，C3 巴西—中国升至 33.175 美元/吨；巴拿马型 P5TC 反向跌破 19,000 至 18,981 美元/天，大西洋运力超过货量补充是主因；超大灵便型 11TC 23,849 美元/天为各船型中最强，印尼—孟加拉煤炭约 31,000 美元/天、印尼—印度西岸/巴基斯坦约 27,000 美元/天。油轮自高位回落：VLCC TD3C（27 万吨中东湾—中国）跌 88 点至 WS1,208.13、日往返 TCE 约 128.79 万美元，TD34（阿曼湾—中国）跌 146 点至 WS620、65.66 万美元，TD15（西非—中国）跌 147 点至 WS556.13、55.09 万美元；苏伊士型 TD20 跌 170 点至 WS731.11、约 40.68 万美元。周度口径（同花顺，10 月 20—21 日）：BDI 2,593、周 -7.43%、月 -23.06%，BCI 3,522、周 -11.82%、月 -38.94%，BDTI 7,271、周 -9.10%、月 +48.42%。须注意：月跌幅显著大于周跌幅，说明 9 月以来的回撤尚未走完，海岬型的反弹能否延续取决于矿产商与运营商的持续询盘，目前只能称为“复苏但仍在巩固”，而非趋势反转。",
+        "Baltic Exchange close on 23 October: BDI 2,660 (−33 on the day, after 2,680 on 21 October), with the Capesize index at 3,791, Panamax 2,109, Supramax 1,887 and Handysize 1,020. The divergence is stark: capesize 5TC time-charter averages recovered to about USD 34,380–34,398/day (+USD 2,453 in a single session on 21 October), with C5 West Australia–Qingdao climbing from 11.25 to 14.16 USD/tonne — nearly USD 3 off the recent low — and C3 Brazil–China at 33.175 USD/tonne; Panamax P5TC moved the other way, breaking below USD 19,000 to 18,981/day as Atlantic tonnage outpaces cargo replenishment; Supramax 11TC at USD 23,849/day is the strongest segment, with Indonesia–Bangladesh coal around USD 31,000/day and Indonesia–West Coast India/Pakistan about USD 27,000/day. Tankers eased from highs: VLCC TD3C (270,000t Middle East Gulf–China) fell 88 points to WS1,208.13 for a round-trip TCE of about USD 1.2879m/day, TD34 (Gulf of Oman–China) dropped 146 points to WS620 (USD 656,587/day) and TD15 (West Africa–China) 147 points to WS556.13 (USD 550,946/day); Suezmax TD20 fell 170 points to WS731.11, about USD 406,769/day. Weekly readings (Tonghuashun, 20–21 October): BDI 2,593, −7.43% on the week and −23.06% on the month; BCI 3,522, −11.82% and −38.94%; BDTI 7,271, −9.10% on the week but +48.42% on the month. Note that monthly declines far exceed weekly ones, so the pullback since September is not over; the capesize move is best described as recovering but consolidating, contingent on sustained miner and operator enquiry rather than a trend reversal.",
+        [
+            S("TradeWinds（波罗的海指数与各船型 TCE 逐日数据）", "https://www.tradewindsnews.com/markets/"),
+            S("The Edge Malaysia（10/23 波罗的海交易所各航线逐条更新）", "https://test.theedgemalaysia.com/node/823074"),
+            S("Smartin News（10/24 收盘与各船型期租、区域航线拆分）", "https://smartin.news/pacific-supramax-holds-the-lead-as-capesize-recovery-slows"),
+            S("同花顺财经（BDI/BCI/BDTI 周度与月度涨跌幅）", "https://m.10jqka.com.cn/20261021/c680936389.shtml"),
+        ],
+        True,
+    ),
+    IT(
+        "空运旺季尚未兑现：WorldACD 第 41 周吨量环比连降三周、同比仍 +9%，波罗的海空运指数同比 +26.4% 且高于前两个旺季峰值",
+        "Air peak yet to land: WorldACD week 41 tonnage falls a third straight week though still +9% y/y, while the Baltic Air Freight Index is +26.4% y/y and above the last two peak seasons",
+        "WorldACD 10 月 19 日市场报告：第 41 周（10 月 5—11 日）全球计费重量环比 -1%，为连续第三周下降，主要受中国及部分亚洲市场 10 月初假期影响；但同比仍 +9%。价格端横盘：全球平均现货 3.55 美元/公斤，全市场（现货 + 合约）均价 3.13 美元/公斤；亚太始发现货环比 -3% 至 4.83 美元/公斤，第 40—41 两周合计吨量较前两周低 7%；中东与南亚始发环比 -2%，非洲现货逆势 +10%。与现货横盘相对的是指数与成本的上行：TAC Index 计算的波罗的海空运指数（BAI）截至 10 月 19 日的七日上涨 4.7%，同比 +26.4%，高于此前两个旺季的峰值；IATA 监测的航油价格截至 10 月 16 日同比 +113.7%，TAC 称这将“为航空公司承运货物的运价设置硬底”。区域扰动叠加：沙特机场设施近期遇袭影响客运航班，经中东衔接的空运动能存在不确定性。解读须谨慎：现货持平与 BAI 上行并不矛盾——BAI 含合约价且覆盖更多航线，航油成本抬升也尚未完全传导到现货；旺季是否兑现要看 11 月吨量与运价能否同步上行，目前只有两周数据，不足以确认趋势。",
+        "WorldACD’s 19 October market report: worldwide chargeable weight fell 1% week on week in week 41 (5–11 October), a third consecutive weekly decline, mainly reflecting the early-October holidays in China and other Asian markets; tonnage was nevertheless 9% above the same period last year. Prices were flat: the global average spot rate held at $3.55/kg and the full-market average (spot plus contract) at $3.13/kg. Asia-Pacific origin spot fell 3% week on week to $4.83/kg, with weeks 40–41 combined volumes 7% below the preceding two-week period; Middle East and South Asia origins fell 2%, while Africa spot bucked the trend with a 10% rise. Against that flat spot picture, indices and costs are moving up: the Baltic Air Freight Index compiled by TAC Index gained 4.7% in the seven days to 19 October and sat 26.4% above a year earlier, higher than the peaks of the last two peak seasons, while IATA’s jet fuel monitor showed prices up 113.7% year on year to 16 October — which TAC said would “put a hard floor under the rates at which airlines will carry cargo”. Regional disruption adds uncertainty, with recent attacks on Saudi airport infrastructure affecting passenger operations and thus belly capacity on Middle East connections. Read with care: flat spot and a rising BAI are not contradictory — the BAI includes contract rates and more lanes, and higher fuel costs have not fully passed through to spot; whether the peak lands depends on November tonnage and rates rising together, and two weeks of data are not enough to call a trend.",
+        [
+            S("Green Worldwide（Week 43 市场更新，引 WorldACD 10/19 报告）", "https://www.greenworldwide.com/freight-market-update-week-43-2026"),
+            S("Air Cargo Week（吨量连降三周、价格持平）", "https://aircargoweek.com/2026/10/20/"),
+            S("The American Truck（BAI +4.7%/+26.4%、IATA 航油 +113.7%）", "https://theamericantruck.com/blog/air-freight-pallet-cost"),
+            S("China Logistics Daily（WorldACD 数据中文复述）", "https://chinalogisticsdaily.com/briefing/2026-10-21"),
+        ],
+        True,
+    ),
+    IT(
+        "Gartner 首个 PIM 魔力象限：产品数据成为 AI 代理的燃料，16 家厂商 5 家入领导者，MCP 服务器正成为新接口",
+        "Gartner’s first PIM Magic Quadrant: product data as fuel for AI agents, five Leaders among 16 vendors, with MCP servers becoming the new interface",
+        "Gartner 于 10 月 12 日发布首个《产品信息管理（PIM）解决方案魔力象限》（作者 Jason Daigler、Greg Carlucci、Nicholas Mortensen），取代此前对该品类发布的 Market Guide，共评估 16 家厂商。领导者 5 家：Akeneo、inriver、Salesforce（通过 Informatica）、Stibo Systems、Syndigo；挑战者仅 Salsify 一家；远见者为 Bluestone PIM、Pimcore、Viamedici；apollon、Base.com、Centric Software、Equadis、insightsoftware、Pimberly、Plytix 为特定领域者。与供应链最相关的判断是代理式商务（agentic commerce）：AI 代理替用户搜索、比价乃至下单，要求产品数据不仅结构化、还要丰富到机器能够理解并采取行动；Gartner 因此建议买家在传统目录管理之外，评估 AI 驱动的富化、产品体验管理（PXM）与数字货架分析，并检查自身数据架构是否准备好服务内部与外部代理。接口层正在换轨：多家厂商已交付 Model Context Protocol（MCP）服务器，使 Claude、Copilot 等助手能直接读写 PIM 数据，Gartner 预期 MCP 与助手将逐步成为 PIM 的主要界面，但 token 成本、安全与权限问题尚未解决，客户要求成本透明与严格的角色权限控制。合规是明显短板：Gartner 评价各厂商对欧盟 ESPR 数字产品护照（DPP）等新规的准备度参差不齐，多数只提供灵活数据模型、把结构设计留给客户。须标注边界：魔力象限属 Gartner 意见、不构成事实陈述，Gartner 明确不为任何厂商背书；Akeneo 10 月 15 日发布的入选公告为厂商自述。",
+        "Gartner published its first Magic Quadrant for Product Information Management (PIM) Solutions on 12 October (authors Jason Daigler, Greg Carlucci and Nicholas Mortensen), replacing the Market Guide it previously issued for the category and assessing 16 vendors. Five are Leaders — Akeneo, inriver, Salesforce (through Informatica), Stibo Systems and Syndigo; Salsify is the sole Challenger; Bluestone PIM, Pimcore and Viamedici are Visionaries; and apollon, Base.com, Centric Software, Equadis, insightsoftware, Pimberly and Plytix are Niche Players. The judgement most relevant to supply chains is agentic commerce: AI agents that search, compare and ultimately buy on a customer’s behalf need product data that is not merely structured but rich enough for machines to interpret and act on, so Gartner advises buyers to look beyond classic catalogue management and weigh AI-driven enrichment, product experience management (PXM) and digital shelf analytics, and to check whether their data architecture is ready for internal and external agents. The interface layer is switching: several vendors now ship Model Context Protocol (MCP) servers letting assistants such as Anthropic’s Claude or Microsoft’s Copilot read and write PIM data directly, and Gartner expects MCP and assistants to become the primary interface over time — though token costs, security and permissions remain unsolved and clients are demanding cost transparency and robust role-based access control. Compliance is a weak spot: Gartner rates vendor readiness for evolving rules such as the EU’s ESPR digital product passport (DPP) as inconsistent, with many providers offering flexible data models and leaving customers to design their own structures. Caveats: a Magic Quadrant consists of Gartner opinions and should not be construed as statements of fact, and Gartner does not endorse any vendor; Akeneo’s 15 October announcement is a vendor statement.",
+        [
+            S("Security Storage und Channel Germany（Gartner 报告要点与四象限名单）", "https://security-storage-und-channel-germany.de/language/en/gartner-product-data-as-fuel-for-ai-agents"),
+            S("PIMvendors（各方定位、优势与注意事项逐家对照）", "https://pimvendors.com/knowledge-base/core/gartner-magic-quadrant-pim-2026"),
+            S("Akeneo 官方公告（10/15，含 Gartner 免责声明与作者、日期）", "https://www.akeneo.com/?p=69407"),
+        ],
+        True,
+    ),
+]
+
+# ---------------- 应用风向 / Apps & Adoption ----------------
+APPS = [
+    IT(
+        "退货机器人进入“闭环训练”：Sereact、NVIDIA、Nebius 与 CEVA、Zalando 把策略迭代周期从数周压到数天",
+        "Returns robots enter closed-loop training: Sereact, NVIDIA, Nebius, CEVA Logistics and Zalando compress policy cycles from weeks to days",
+        "10 月 21 日，Sereact 联合 NVIDIA、Nebius、CEVA Logistics 与 Zalando 发布面向 Cortex（“机器人大脑”）的闭环训练流水线，首个落地场景是 Zalando 在 CEVA 履约中心的退货处理。流程为：退货工位采集的真实作业数据（视频 + 运动学）进入 Nebius 对象存储，NVIDIA Isaac Lab 把它扩展为上千种仿真变体，Cosmos 世界模型再按服装状态、包装、材质与光照重新渲染，版本化数据集在 NVIDIA Blackwell GPU 上对 Cortex 做后训练；新策略先在留出变体上按 Sereact 设定的阈值打分，通过才进工位做真机测试，未通过则针对失败案例定向生成变体重训。整个回路由一个 AI 代理编排——它读取 NVIDIA Physical AI Data Factory 的开放、版本化指令文件与 Nebius Workbench 技能，在运行前预估 GPU 成本、启动各阶段、检查闸门，失败后决定补哪些案例；工程师只给出目标（如“验证秋季款策略”）并批准超过预算的运行。意义在于覆盖长尾：真机采集只覆盖已经过站的商品，而退货恰恰以不可预测状态（揉皱、套袋、掉标、换季）著称，此前每次迭代要数周且只能覆盖团队能人工摆出的情形。边界须标注：Sereact 称含 Zalando 参投后累计融资已超 1.45 亿美元，“从数周缩短到数天”为公司自述，未披露具体吞吐、成功率或客户成本节约，也无第三方审计。",
+        "On 21 October Sereact, with NVIDIA, Nebius, CEVA Logistics and Zalando, announced a closed training loop for Cortex, its robot brain, with the first deployment on Zalando returns handling at CEVA Logistics fulfilment centres. The pipeline: episodes captured at the returns stations (video plus kinematics) land in Nebius object storage; NVIDIA Isaac Lab expands them into thousands of simulated variants and NVIDIA Cosmos re-renders those across garment states, packaging, materials and lighting; the versioned dataset post-trains Cortex on NVIDIA Blackwell GPUs. New policies are scored on held-out variants against a threshold Sereact sets — passing ones go to the stations for real-world testing, failing ones trigger targeted variants for the cases they missed. An AI agent orchestrates the loop, reading NVIDIA’s open, versioned Physical AI Data Factory instruction files and Nebius Workbench skills: it previews GPU cost before each run, launches the stages, checks the gate and, after a failure, decides which cases to augment. Engineers state the goal — “validate the policy for the autumn assortment” — and approve runs above a cost limit. The point is long-tail coverage: real picks only cover items that have already passed a station, while returns arrive in unpredictable states (crumpled, bagged, untagged, seasonal), and each cycle previously took weeks and covered only cases a team could stage by hand. Caveats: Sereact says it has now raised over $145m including Zalando’s participation; “weeks to days” is the company’s own claim; no throughput, success-rate or customer savings figures have been disclosed, and nothing is third-party audited.",
+        [
+            S("Globe Newswire / Kauppalehti（10/21 官方通稿全文）", "https://www.kauppalehti.fi/lehdistotiedotteet/a/50059097-17d3-5b89-b46c-03e113e9169e"),
+            S("Container News（10/22 独立改写：闭环流程与各方分工）", "https://container-news.com/ceva-logistics-and-zalando-advance-ai-powered-warehouse-robotics"),
+            S("Yahoo Finance（同一通稿全文）", "https://finance.yahoo.com/technology/ai/articles/sereact-nvidia-nebius-ceva-logistics-113000918.html"),
+        ],
+        True,
+    ),
+    IT(
+        "物理 AI 走过试点期：Teradyne Robotics 与 Sereact 合作，欧洲已交付数百套双臂 UR 系统处理 Zalando 退货",
+        "Physical AI moves past pilot: Teradyne Robotics and Sereact have shipped hundreds of dual-arm UR systems across Europe for Zalando returns",
+        "10 月 21 日，Teradyne Robotics（Universal Robots 与 MiR 的母公司）与 Sereact 宣布合作，把 Sereact 的 Cortex 物理 AI 平台跑在 UR 协作臂上，用于退货处理、单件拣选、补货、配套等固定程序长期无法可靠覆盖的非结构化任务。规模口径：双方称已向欧洲客户现场交付数百套双臂 UR 系统，落地场景包括 CEVA Logistics 为 Zalando 运营的德国 Greven 与波兰 Świebodzin 履约中心，机器人在那里自主完成退货服装的识别、评估、折叠与分拣，这是向全欧扩展的第一阶段；Teradyne Robotics 首席商务官 Jacob Pascual Pape 给出的装机基数是 UR 全球超过 10 万台工业部署。技术栈可复核：Cortex 在 NVIDIA Isaac Sim 中用开放世界模型训练，经 Isaac Lab 强化学习后训练，在 Teradyne 硬件上做基准测试；现场推理跑 NVIDIA Jetson Thor，站点级开发与模型更新用 DGX Spark；双方在本周 NVIDIA GTC Berlin 2026 用两台 UR12e-1300 做退货处理演示，Cortex 一个模型覆盖退货、补货、分拣、订单导入、机床上下料、料箱合并、配套、包装与一般货物搬运，无需按 SKU 重新训练。Sereact 今年夏季在马萨诸塞州查尔斯顿设立美国总部以进入北美市场。边界须标注：双方未披露具体产能提升、处理速率或财务回报；Zalando 另直接投资了 Sereact 的 B 轮（累计 1.16 亿美元），相关表述属利益相关方口径。",
+        "On 21 October Teradyne Robotics — parent of Universal Robots and Mobile Industrial Robots — and Sereact announced a partnership running Sereact’s Cortex physical-AI platform on UR collaborative arms for unstructured tasks such as returns handling, piece picking, kitting and replenishment that fixed programming has never reliably managed. On scale, the companies say they have shipped hundreds of dual-arm UR systems to live customer sites across Europe, including CEVA Logistics fulfilment centres run for Zalando at Greven, Germany, and Świebodzin, Poland, where the robots autonomously identify, assess, fold and sort returned garments — the first phase of a wider European rollout. Teradyne Robotics chief commercial officer Jacob Pascual Pape cites an installed base of more than 100,000 industrial UR deployments worldwide. The stack is checkable: Cortex is trained in NVIDIA Isaac Sim with open world models, post-trained by reinforcement learning through Isaac Lab and benchmarked on Teradyne hardware; inference at the cell runs on NVIDIA Jetson Thor while DGX Spark handles site-level development and model updates. The pair are demonstrating the system this week at NVIDIA GTC Berlin 2026 with two UR12e-1300 arms on returns handling, and a single Cortex model covers returns, replenishment, sortation, order induction, machine tending, bin consolidation, kitting, packing and goods handling without per-SKU retraining. Sereact opened a US headquarters in Charlestown, Massachusetts this summer to serve North America. Caveats: no productivity gains, processing rates or financial returns have been disclosed, and Zalando has also invested directly in Sereact’s Series B (taking it to $116m), making its statements those of an interested party.",
+        [
+            S("Nextronics Times（合作细节、Greven/Świebodzin 与 NVIDIA 技术栈）", "https://www.nextronicstimes.com/technology/robotics/teradyne-robotics-sereact-expand-physical-ai-in-logistics"),
+            S("RobotToday（The Robot Report 转述：数百套双臂系统与北美扩张）", "https://robottoday.com/industry-briefing/teradyne-robotics-and-sereact-collaborate-to-enhance-physical-ai-in-retail-and-logistics/16755"),
+            S("Embodied AI Frontier（10 万台装机与 GTC Berlin 发布）", "https://embodiedaifrontier.com/articles/uJP0Hd.html"),
+            S("Singularity.Kiwi（Zalando 参投 B 轮 1.16 亿美元的交叉信息）", "https://singularity.kiwi/teradyne-sereact-zalando-returns-physical-ai-2026"),
+        ],
+        True,
+    ),
+    IT(
+        "德马科技与蚂蚁灵波合作，把具身基座模型拉上真实仓储流水线：首期攻坚海量包裹高速柔性分拣",
+        "Damon Technology and Ant Lingbo bring an embodied foundation model onto live warehouse lines, starting with high-speed flexible parcel sortation",
+        "10 月 20 日，德马科技（688360.SH）通过公司公众号发布消息，已与蚂蚁集团旗下具身智能企业上海蚂蚁灵波科技有限公司达成深度战略合作。分工明确：蚂蚁灵波提供自研 LingBot-VLA 2.0 具身基座模型及配套云端工具链，输出基于物理 AI 的三维空间感知、物体物理状态识别与动作生成能力；德马科技依托 OmniEgo 全管线数采体系与物流专属数采训练中心提供仓储现场真实工况数据集，并开放输送分拣、穿梭车、AMR 的完整硬件体系与系统集成能力，承担模型的现场适配、二次开发与真机验证，完成工程化闭环。首期落点选择“海量包裹高速柔性分拣”，直接针对异形件与混合 SKU 场景下识别稳定性不足、抓取适配困难、设备卡滞三类问题，在真实仓储流水线上完成调优与验证，检验具身机器人与现有仓储自动化装备的协同作业效能。公司称已展开大规模 EGO 数据采集，并正与多家世界 500 强企业开展具身机器人场景落地的 POC 测试，希望在年底形成一些实质性商业化成果。边界须标注：该合作目前以德马集团公众号为唯一原始出处（中国证券网与证券日报网均注明“根据德马集团公众号消息”），尚未披露具体吞吐、准确率或订单金额；“年底形成商业化成果”是公司预期表述而非已交付事实。",
+        "On 20 October Damon Technology (SSE: 688360) announced via its official WeChat account a deep strategic partnership with Shanghai Ant Lingbo Technology, the embodied-AI company under Ant Group. The division of labour is explicit: Ant Lingbo supplies its in-house LingBot-VLA 2.0 embodied foundation model and cloud toolchain, delivering physical-AI capabilities in 3D spatial perception, recognition of objects’ physical state and action generation; Damon contributes real operating-condition datasets from warehouse floors via its OmniEgo full-pipeline data-capture system and a logistics-specific training centre, and opens its complete hardware stack — conveying and sortation, shuttles and AMRs — plus system-integration capability, taking on on-site adaptation, secondary development and physical validation to close the engineering loop. The first phase targets high-speed flexible sortation of very large parcel volumes, addressing three named problems in mixed-SKU and irregular-parcel environments: unstable recognition, difficult grasp adaptation and equipment jams, tuned and validated on a live warehouse line to test how embodied robots work alongside existing automation. Damon says it has begun large-scale EGO data capture and is running embodied-robot POCs with several Fortune Global 500 companies, hoping to produce substantive commercial results by year-end. Caveats: the partnership rests on Damon’s own WeChat post as the sole primary source — both China Securities Journal’s CNS and Securities Daily note they are reporting “according to Damon Group’s WeChat account” — no throughput, accuracy or order value has been disclosed, and year-end commercial results are company expectation, not delivered fact.",
+        [
+            S("上海证券报·中国证券网（记者陈铭：分工与首期场景）", "https://www.cnstock.com/commonDetail/805864"),
+            S("证券日报网（10/20 发布、首期落点与 POC 口径）", "http://www.zqrb.cn/gscy/qiyexinxi/2026-10-21/A1792520803780.html"),
+            S("新浪财经（转上海证券报：LingBot-VLA 2.0 与 OmniEgo）", "https://www.toutiao.com/article/7698985439771853347/"),
+        ],
+        True,
+    ),
+]
+
+DATA = {
+    "updatedAt": UPDATED_AT,
+    "columns": [
+        {"cat": {"zh": "重点新闻", "en": "Key News"}, "color": COLORS[0], "items": KEY_NEWS},
+        {"cat": {"zh": "热门议题", "en": "Hot Topics"}, "color": COLORS[1], "items": HOT_TOPICS},
+        {"cat": {"zh": "研究瞭望", "en": "Research"}, "color": COLORS[2], "items": RESEARCH},
+        {"cat": {"zh": "应用风向", "en": "Apps & Adoption"}, "color": COLORS[3], "items": APPS},
+    ],
+}
+
+
+def main():
+    payload = json.dumps(DATA, ensure_ascii=False, indent=2)
+
+    # 1) 写 JSON
+    JSON_PATH.write_text(payload + "\n", encoding="utf-8")
+
+    # 2) 同步 index.html 内嵌快照
+    html = HTML_PATH.read_text(encoding="utf-8")
+    pattern = re.compile(
+        r'(<script id="embeddedRadar" type="application/json">)(.*?)(</script>)',
+        re.S,
+    )
+    if not pattern.search(html):
+        raise SystemExit("未找到 embeddedRadar 块，请检查 index.html")
+    html2, n = pattern.subn(lambda m: m.group(1) + "\n" + payload + "\n" + m.group(3), html, count=1)
+    HTML_PATH.write_text(html2, encoding="utf-8")
+
+    total = sum(len(c["items"]) for c in DATA["columns"])
+    verified = sum(1 for c in DATA["columns"] for i in c["items"] if i["verified"])
+    srcs = {s["label"] for c in DATA["columns"] for i in c["items"] for s in i["sources"]}
+    print(f"written: {JSON_PATH}")
+    print(f"synced : {HTML_PATH} (replaced {n} block)")
+    print(f"updatedAt: {UPDATED_AT}")
+    print(f"items: {total} | verified: {verified} | source labels: {len(srcs)}")
+
+
+if __name__ == "__main__":
+    main()

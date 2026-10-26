@@ -1,0 +1,447 @@
+{
+  "updatedAt": "2026-10-19T18:20:00+08:00",
+  "columns": [
+    {
+      "cat": {
+        "zh": "重点新闻",
+        "en": "Key News"
+      },
+      "color": "#e05656",
+      "items": [
+        {
+          "title": {
+            "zh": "Drewry WCI 反弹 3% 至 4,485 美元：亚欧终结 13 周连跌，但承运人 10 月 19 日 FAK 上调落地仍存疑",
+            "en": "Drewry’s WCI rebounds 3% to $4,485: Asia–Europe ends a 13-week slide, though carriers’ Oct 19 FAK push remains uncertain"
+          },
+          "desc": {
+            "zh": "德路里 10 月 15 日评估：世界集装箱运价指数（WCI）上涨 3% 至 4,485 美元/FEU，终结此前连续三周下跌，主要由亚欧线拉动。亚欧端，上海—鹿特丹涨 6% 至 3,522 美元/FEU、上海—热那亚涨 7% 至 3,945 美元/FEU，并在连续 13 周下跌后首次回升；跨太平洋端，上海—洛杉矶涨 3% 至 7,884 美元/FEU，上海—纽约跌 1% 至 10,075 美元/FEU。供给侧的反向信号同样明确：德路里《集装箱运力周报》显示下周亚欧线已宣布停航仅 2 个、低于本周的 6 个，跨太平洋 6 个与本周持平，意味着有效运力增加，叠加苏伊士通行恢复持续注入运力。承运人正试图以 FAK 推价——亚欧线 FAK 区间 4,500–4,800 美元/FEU，自 10 月 19 日起生效，但德路里明确判断“在运力增加的背景下能否成功落地仍不确定”，并预计下周运价整体企稳。与 10 月 5 日那期 4,351 美元的读数相比，本期为节后货流恢复叠加停航收缩带来的技术性反弹，而非趋势反转。",
+            "en": "Drewry’s 15 October assessment: the World Container Index (WCI) rose 3% to $4,485 per 40ft container, snapping three consecutive weekly declines and led by the Asia–Europe trade. On Asia–Europe, Shanghai–Rotterdam gained 6% to $3,522/FEU and Shanghai–Genoa 7% to $3,945/FEU, the first rise after 13 straight weekly falls; on the transpacific, Shanghai–Los Angeles edged up 3% to $7,884/FEU while Shanghai–New York slipped 1% to $10,075/FEU. The supply-side signal runs the other way: Drewry’s Container Capacity Insight shows only two blank sailings announced on Asia–Europe for next week against six this week, with six on the transpacific unchanged, meaning more effective capacity — compounded by capacity still being released as Suez transits resume. Carriers are trying to push through higher FAK rates of $4,500–4,800/FEU on Asia–Europe effective 19 October, but Drewry states outright that successful implementation “remains uncertain amid increased capacity” and expects broadly stable rates next week. Against the $4,351 reading of the 5 October issue, this is a post-Golden Week technical rebound on recovering cargo and fewer blankings rather than a trend reversal."
+          },
+          "sources": [
+            {
+              "label": "Drewry（WCI 官方周评：+3% 至 4,485 美元）",
+              "url": "https://www.drewry.co.uk/supply-chain-advisors/world-container-index-weekly-update/world-container-index-assessed-by-drewry"
+            },
+            {
+              "label": "Drewry（海事研究页：FAK 4,500–4,800 与停航数）",
+              "url": "https://www.drewry.co.uk/maritime-research-opinion-browser/world-container-index-assessed-by-drewry"
+            },
+            {
+              "label": "国际船舶网（德路里：WCI 上涨 3% 至 4,485 美元/FEU）",
+              "url": "https://www.eworldship.com/html/2026/container_market_1016/225170.html"
+            },
+            {
+              "label": "Scorizons（WCI 八条航线逐周对照表）",
+              "url": "https://scorizons.com/dashboard-drewry/"
+            }
+          ],
+          "verified": true
+        },
+        {
+          "title": {
+            "zh": "苏伊士通行首破中断前 50%：10 月前两周周均 75.3 万 TEU，走运河比例由 8% 跳升至 36%",
+            "en": "Suez transits pass half of pre-disruption levels for the first time: 753,000 TEU a week in early October, canal share jumping from 8% to 36%"
+          },
+          "desc": {
+            "zh": "BIMCO 10 月 14 日引克拉克森研究数据：2026 年 10 月前两周，每周通过苏伊士运河的集装箱船运力均值为 75.3 万 TEU，为 2023 年同期 145.7 万 TEU 的约 52%，这是胡塞武装 2023 年 11 月开始袭击红海商船以来，通行运力首次超过中断前水平的 50%。纵向对照更能说明回摆幅度：2023 年最后一周曾跌至 33 万 TEU，2024 年 2 月初至 2026 年年中周均仅 14.1 万 TEU（相当于 2023 年同期的 11%）。结构比例同步跳升——10 月前两周，经由“苏伊士或好望角”二选一的集装箱运力中有 36% 走运河，高于 2024 年至 2026 年年中 8% 的均值，但距袭击前 80% 的水平仍远。方向上也更均衡：三季度北向运力仅为南向的 75%，10 月初升至 81%。驱动来自航线改回：自 7 月初 Gemini（马士基 + 赫伯罗特）宣布 AE15/SE3 亚地线回摆以来，海洋联盟、Premier Alliance 与 MSC 陆续跟进，累计涉及 16 条班轮航线；运河管理局口径，三季度 13 万吨级以上集装箱船通行 166 艘、合计净吨 2,900 万吨，上年同期仅 16 艘、240 万净吨。",
+            "en": "BIMCO, citing Clarksons Research on 14 October: weekly container-ship capacity transiting the Suez Canal averaged 753,000 TEU in the first two weeks of October 2026 — about 52% of the 1.457m TEU recorded in the same period of 2023, and the first time transits have exceeded 50% of pre-disruption levels since the Houthis began attacking commercial shipping in the Red Sea in November 2023. The longitudinal comparison shows the scale of the swing: capacity fell to 330,000 TEU in the last week of 2023 and averaged just 141,000 TEU a week from early February 2024 to mid-2026, or 11% of the 2023 equivalent. The structural share jumped too: 36% of container capacity routed via either the canal or the Cape used the canal in early October, up from an average of 8% between 2024 and mid-2026 but still far below the 80% recorded before the attacks. Direction is more balanced as well, with northbound capacity rising from 75% of southbound in Q3 to 81% in early October. The driver is service reinstatement: since the Gemini Alliance (Maersk and Hapag-Lloyd) announced the return of its AE15/SE3 Asia–Mediterranean service in early July, Ocean Alliance and Premier Alliance members and MSC have followed, with routing changes now affecting 16 services. The Suez Canal Authority reports 166 container vessels above 130,000 tonnes transited in Q3 — 29m net tonnes, against 16 vessels and 2.4m net tonnes a year earlier."
+          },
+          "sources": [
+            {
+              "label": "BIMCO（Shipping Number of the Week 原文，引 Clarksons）",
+              "url": "https://cyprusshippingnews.com/2026/10/16/bimco-shipping-number-of-the-week-118/"
+            },
+            {
+              "label": "World Ports（BIMCO 引 Clarksons：75.3 万 TEU）",
+              "url": "https://www.worldports.org/suez-canal-container-ship-transits-exceed-half-of-pre-crisis-levels"
+            },
+            {
+              "label": "Maritime News（运河管理局三季度大船数据与 CMA CGM 恢复）",
+              "url": "https://www.maritimenews.com/suez-canal/suez-canal-container-traffic-recovery"
+            },
+            {
+              "label": "国际船舶网（MB Shipbrokers 72 艘周度通行与 Linerlytica 预测）",
+              "url": "https://www.eworldship.com/html/2026/ship_market_observation_1016/225183.html"
+            }
+          ],
+          "verified": true
+        },
+        {
+          "title": {
+            "zh": "全船型收益五连创历史新高：ClarkSea 指数涨 12% 至 84,951 美元/天，VLCC 日均突破 80 万美元",
+            "en": "Shipping earnings set a fifth straight record: the ClarkSea Index climbs 12% to $84,951 a day with VLCCs above $800,000"
+          },
+          "desc": {
+            "zh": "克拉克森研究：截至 10 月 9 日当周，跨板块收益基准 ClarkSea 指数上涨 12% 至 84,951 美元/天，连续第五周刷新历史纪录，比 2007 年 12 月 50,714 美元/天的上一轮超级周期峰值高出约 67.5%；2026 年均值同比高 70%、较十年趋势高 87%，三季度均值 46,384 美元/天本身已是季度纪录。五周阶梯为 9/11 的 56,567 → 9/18 的 64,569 → 9/25 的 66,421 → 10/2 的 75,658 → 10/9 的 84,951 美元/天。油轮是主引擎：VLCC 平均日收益周涨 21% 至 804,601 美元，苏伊士型涨 17% 至 724,398 美元，阿芙拉型一周暴涨 46% 至 393,951 美元；中东湾—亚洲 VLCC 现货已被评估至约 140 万美元/天。关键在于驱动并非货量下降而是“每船有效周转被拉长”——中东湾原油出口已大幅恢复，但大量货量改由穿梭油轮在阿曼湾做船对船转运，单次可占用船舶约 10 天。并非所有板块同步：好望角型日收益周跌 16% 至 31,130 美元，散货船整体跌 3% 至 22,319 美元，现代 LNG 船现货跌 19% 至 34,250 美元，是本轮繁荣中最明显的落后者。",
+            "en": "Clarksons Research: in the week ending 9 October the cross-sector ClarkSea earnings benchmark rose 12% to $84,951 per day — a fifth consecutive all-time high and roughly 67.5% above the $50,714/day peak of the previous supercycle in December 2007. The 2026 average runs 70% above year-earlier levels and 87% above the 10-year trend, with the Q3 average of $46,384/day itself a quarterly record. The five-week staircase: $56,567 (Sep 11) → $64,569 (Sep 18) → $66,421 (Sep 25) → $75,658 (Oct 2) → $84,951 (Oct 9). Tankers are the engine: average VLCC earnings rose 21% on the week to $804,601/day, Suezmaxes 17% to $724,398 and Aframaxes 46% to $393,951, with Middle East Gulf–Asia VLCC spot earnings assessed around $1.4m/day. Crucially the driver is not a fall in cargo but a fall in effective turnround: Gulf crude exports have recovered strongly, yet much of the volume now moves on shuttle tankers doing ship-to-ship transfers in the Gulf of Oman, a process that can occupy a vessel for up to 10 days. Not every segment is participating: capesize earnings fell 16% to $31,130/day, average bulk carrier earnings slipped 3% to $22,319, and modern LNG carrier spot earnings dropped 19% to $34,250 — the clearest laggard in the current boom."
+          },
+          "sources": [
+            {
+              "label": "World Ports（Clarksons SIN：84,951 美元/天五连纪录）",
+              "url": "https://www.worldports.org/clarksons-shipping-index-hits-fifth-straight-record-at-84951-a-day"
+            },
+            {
+              "label": "Ship Universe（五周纪录阶梯与船型对照表）",
+              "url": "https://www.shipuniverse.com/news/shipping-earnings-hit-fifth-consecutive-all-time-high-as-clarksea-surges-to-84951-a-day"
+            },
+            {
+              "label": "90POE（月度情报：ClarkSea 与 JPMorgan 测算）",
+              "url": "https://www.90poe.io/post/october-intelligence-briefing"
+            },
+            {
+              "label": "网易·航运星球（克拉克森周报中文转述）",
+              "url": "https://www.163.com/dy/article/L934H3OU0556MGC6.html"
+            }
+          ],
+          "verified": true
+        },
+        {
+          "title": {
+            "zh": "2026 北外滩国际航运论坛 10 月 20 日开幕：60 余场活动、成果总数超 60 项，水运“十五五”规划与 22 个人工智能场景同步落地",
+            "en": "2026 North Bund International Shipping Forum opens Oct 20: more than 60 events and 60-plus deliverables, alongside the 15th Five-Year Plan for water transport and 22 AI use cases"
+          },
+          "desc": {
+            "zh": "10 月 15 日上海市政府新闻发布会披露：2026 北外滩国际航运论坛将于 10 月 20—21 日在虹口北外滩世界会客厅举办，主题为“共同的挑战，共同的使命——共促全球航运韧性发展”，由上海市人民政府与交通运输部共同主办。规模为历届之最：2 个主论坛（国际海运、国际航空）+ 5 个主题论坛（海上交通安全、金融保险、数字智能、绿色低碳、司法仲裁），同期举办上海浦东国际航运周与全球海事论坛 2026 上海年度大会等，活动总数超过 60 场；线下参会约 4,000 人次、连同同期活动预计超 1.5 万人次，来自 50 多个国家和地区，国际海事组织秘书长出席致辞，开幕式外宾约 200 人。成果侧：开幕式将集中发布 8 项政府成果与 12 项绿色转型、高端服务成果，论坛期间成果总数超 60 项，包括上海港—汉堡港、上海港—墨尔本港两条绿色航运走廊文件、《全球港口绿色转型发展报告》与船载碳捕集系统白皮书。政策侧同步给出两份文件：交通运输部印发《水运发展“十五五”规划》（八项重点任务，含推进铁水联运硬联通软衔接、引导中长距离大宗散货“公转水”、推动人工智能规模化应用），并发布《水运领域人工智能应用场景指引》梳理 22 个急需场景（含港口危险货物储罐安全风险监测预警、内河通航建筑物智能安全运维）与《内河新能源船舶推广应用行动方案（2026—2030 年）》。",
+            "en": "A Shanghai municipal press briefing on 15 October set out the plan: the 2026 North Bund International Shipping Forum runs 20–21 October at the North Bund World Hall in Hongkou under the theme “Common Challenges, Common Mission — Advancing Resilient Global Shipping Development”, co-hosted by the Shanghai Municipal People’s Government and the Ministry of Transport. Scale is the largest yet: two main forums (international shipping and international aviation) plus five thematic forums (maritime safety, finance and insurance, digital intelligence, green and low-carbon, and judicial arbitration), alongside Shanghai Pudong International Shipping Week and the Global Maritime Forum’s 2026 Shanghai annual meeting, for more than 60 events in total. About 4,000 people attend in person and more than 15,000 including side events, from over 50 countries and regions, with the IMO Secretary-General speaking at the opening and roughly 200 foreign guests expected. On deliverables: the opening will release eight government results and 12 green-transition and high-end-service results, with more than 60 items released across the forum — including green shipping corridor documents for Shanghai–Hamburg and Shanghai–Melbourne, a Global Port Green Transition Development Report and a whitepaper on shipboard carbon capture. Two policy documents land in parallel: the Ministry of Transport’s 15th Five-Year Plan for Water Transport Development (eight priority tasks, including hard and soft connectivity for rail–sea intermodal, shifting medium- and long-haul bulk from road to water, and scaling AI application), plus Guidance on AI Use Cases in Water Transport identifying 22 priority scenarios such as monitoring and early warning for hazardous cargo tank farms in ports and intelligent safety operation of inland navigation structures, together with an action plan for inland new-energy vessels covering 2026–2030."
+          },
+          "sources": [
+            {
+              "label": "人民网上海（论坛规模与“十五五”水运规划）",
+              "url": "https://sh.people.com.cn/n2/2026/1015/c134768-41722822.html"
+            },
+            {
+              "label": "央视网新闻（22 个人工智能应用场景与内河新能源船舶方案）",
+              "url": "https://news.cctv.cn/2026/10/15/ARTILIYQu237on9mVg4IpP8t261015.shtml"
+            },
+            {
+              "label": "国际在线（60 余场活动与开幕成果）",
+              "url": "https://news.cri.cn/20261015/3a6a1d9a-73e4-4e0e-971c-0b32a2cc4278.html"
+            },
+            {
+              "label": "中国青年报（8 项政府成果 + 12 项成果、外宾约 200 人）",
+              "url": "https://news.qq.com/rain/a/20261015A0B85800"
+            }
+          ],
+          "verified": true
+        }
+      ]
+    },
+    {
+      "cat": {
+        "zh": "热门议题",
+        "en": "Hot Topics"
+      },
+      "color": "#f0a13a",
+      "items": [
+        {
+          "title": {
+            "zh": "巴拿马运河放宽限制：新巴拿马型吃水回到 49 英尺，10 月 15 日起日通行升至 33 个，但流域仍处缺水状态",
+            "en": "Panama Canal eases restrictions: Neopanamax draft back to 49 feet and 33 daily transits from Oct 15, though the watershed remains in deficit"
+          },
+          "desc": {
+            "zh": "巴拿马运河管理局（ACP）发布航行通告：基于加通湖当前与预测水位，自 10 月 15 日起新巴拿马型船闸日通行量增至 10 个，连同巴拿马型船闸合计 33 个/日；同时新巴拿马型最大许可吃水即刻生效上调至 14.94 米（49.0 英尺），此前为 14.78 米（48.5 英尺）。这是对今年早期限航的部分回撤：9 月 2 日起吃水曾被砍到 48 英尺、新巴拿马型日槽位减至 9 个，原定进一步降至 47.5 英尺的计划已推迟；旧巴拿马型船闸维持 23 个/日、最大吃水 39.5 英尺。加通湖水位 9 月初约 84 英尺，9 月中旬 84.5 英尺、目前 84.7 英尺，管理局预计 10 月基本持稳、11 月可能再升约 1 英尺。三条约束必须并列：一是 33 个/日仍低于常年约 36 个的常态；二是 ACP 明确“流域缺水仍在”，过闸预订系统仍是锁定过闸日期的唯一方式，无预订船舶可能面临无限期延误；三是今年 1—9 月已有 69 艘集装箱船等待超 100 小时才过闸，而 2025 年同期仅 13 艘（MarineTraffic 数据）。管理局同时公布 2027 财年预算：预计收入 55.6 亿美元、向国库直接贡献 36.1 亿美元，高吃水船通行 10,750 艘次，投资 3.413 亿美元，其中 8,200 万美元用于 Río Indio 水资源管理项目。",
+            "en": "The Panama Canal Authority issued an advisory to shipping: based on current and projected Gatun Lake levels, Neopanamax lock transits rise to 10 per day from 15 October, for a combined 33 daily slots across both lock systems, while the maximum authorised Neopanamax draft increases with immediate effect to 14.94 metres (49.0 feet) from 14.78 metres (48.5 feet). This partly reverses restrictions imposed earlier this year: the draft was cut to 48 feet from 2 September with Neopanamax slots reduced to nine a day, and a planned further cut to 47.5 feet was postponed; the older Panamax locks stay at 23 daily transits with a maximum draft of 39.5 feet. Gatun Lake stood at about 84 feet in early September, 84.5 feet mid-month and 84.7 feet now, with the Authority projecting broadly stable levels through October and up to a further foot in November. Three constraints belong alongside: 33 slots a day remains below the canal’s usual average of about 36; the Authority states the watershed deficit persists, so the Transit Reservation System remains the only way to guarantee a transit date and vessels without bookings may face indefinite delays; and 69 container ships waited more than 100 hours to transit between January and late September 2026 against 13 in the same period of 2025, per MarineTraffic data. The Authority also published its FY2027 budget proposal: revenue of $5.56bn, a direct treasury contribution of $3.61bn, 10,750 high-draft vessel transits and $341.3m of investment, including $82m for the Río Indio water-management project."
+          },
+          "sources": [
+            {
+              "label": "Dry Cargo International（巴拿马运河管理局航行通告原文）",
+              "url": "https://www.drycargomag.com/panama-canal-announces-increase-in-draft-and-daily-transit"
+            },
+            {
+              "label": "Maritime News（33 个日槽位与 69 艘超 100 小时等待）",
+              "url": "https://www.maritimenews.com/panama-canal/panama-canal-raises-transits-draft-limit"
+            },
+            {
+              "label": "Vessel Hunter（加通湖水位与 2027 财年预算）",
+              "url": "https://vesselhunter.io/news/panama-canal-neopanamax-draught-49-feet-33-daily-transits"
+            },
+            {
+              "label": "新华社（ACP 声明：日通行增至 10 个、合计 33 个）",
+              "url": "https://presoffministry.gov.mm/en/news/46621"
+            }
+          ],
+          "verified": true
+        },
+        {
+          "title": {
+            "zh": "美国考虑给“影子船队”开闸：被制裁油轮可承运“合法石油”，须 OFAC 逐案批准，业界普遍判断压价效果有限",
+            "en": "Washington weighs a shadow-fleet release: sanctioned tankers could carry “legal oil” with case-by-case OFAC approval — but the industry sees limited rate relief"
+          },
+          "desc": {
+            "zh": "路透社 10 月 14—15 日报道：特朗普政府正考虑允许部分此前因运输俄罗斯、伊朗、委内瑞拉石油而被列入黑名单的油轮，承运本身不受美国制裁的原油与成品油（“合法石油”），每项使用须向美国财政部申请许可，俄油与伊油仍被排除；目标是增加可用油轮运力、压低已创纪录的运费，并让更多原油与成品油运出海湾。背景是运价已高到削弱美国原油在亚洲的竞争力：美国能源部长赖特本周在利雅得世界石油大会视频致辞中确认政府正在讨论此事（据 Energy Aspects）。截至 10 月 15 日尚无通用许可或最终政策出台。反向证据必须同时列出：Energy Aspects 在客户报告中指出，多数因涉俄或涉委被制裁的油轮过去三个月一直在运营，解除制裁“不太可能在一夜之间为主流船队增加有意义的运力”，最多让少量油轮投入霍尔木兹往返航线；海运业消息人士补充，船舶保险人仍须遵守欧盟与英国法规，而这两方均无意放松自身列名，因此不会出现运价普遍回落。劳合社日报独立分析给出同一结论：只有一小部分被制裁吨位可能具备商业可行性，年龄、所有权与监管约束仍是硬门槛，运价回落主要反映情绪与成交放缓而非基本面转向。程序上还需注意，OFAC 对任何实体的除名均需逐案审查；此举此前数日美国刚临时解除对俄柴油的制裁，已引发乌克兰、部分欧洲国家与美国参议院共和党人的批评。",
+            "en": "Reuters reported on 14–15 October that the Trump administration is considering allowing some tankers previously blacklisted for carrying Russian, Iranian or Venezuelan oil to move crude and refined products that are not themselves under US sanctions — “legal oil” — with each use requiring US Treasury permission and Russian and Iranian cargoes still excluded. The goal is to expand available tanker capacity, cool record freight rates and move more crude and products out of the Gulf. The backdrop is rates high enough to undercut US crude in Asia: Energy Secretary Chris Wright confirmed in a video address to the World Petroleum Congress in Riyadh that the administration is discussing the move, according to Energy Aspects. As of 15 October no general licence or final policy has been issued. The counter-evidence belongs in the same paragraph: Energy Aspects told clients that most tankers sanctioned over Russian or Venezuelan links have been actively trading over the past three months, so lifting sanctions is “unlikely to add meaningful mainstream fleet capacity overnight” and might free only a small number of vessels for certain Hormuz shuttle runs; maritime industry sources add that ship insurers remain bound by EU and UK rules, neither of which is expected to ease its own designations, so a broad easing of rates is unlikely. Lloyd’s List reaches the same conclusion independently: only a fraction of sanctioned tonnage is likely to prove commercially viable, with age, ownership and regulatory constraints as hard thresholds, and the rate retreat reflects sentiment and slower activity rather than a fundamental turn. On process, OFAC conducts a case-by-case review before removing sanctions on any entity; the move follows by days a temporary lifting of sanctions on Russian diesel that drew criticism from Ukraine, several European governments and Republican senators."
+          },
+          "sources": [
+            {
+              "label": "Reuters（原文：美国考虑解除部分影子船队制裁）",
+              "url": "https://www.bairdmaritime.com/shipping/tankers/record-tanker-rates-could-see-us-roll-back-sanctions-on-shadow-fleet"
+            },
+            {
+              "label": "Lloyd’s List（独立分析：可回归运力有限）",
+              "url": "https://www.lloydslist.com/LL1158725/Tanker-rates-retreat-amid-slower-activity-and-shadow-fleet-uncertainty"
+            },
+            {
+              "label": "汇通网（中文要点回顾：Energy Aspects 与保险约束）",
+              "url": "https://oil.fx678.com/news/202610151446212067"
+            },
+            {
+              "label": "Ship Universe（机制拆解：美国许可仅解除一层约束）",
+              "url": "https://www.shipuniverse.com/news/u-s-considers-letting-sanctioned-shadow-fleet-tankers-carry-legal-oil"
+            }
+          ],
+          "verified": true
+        },
+        {
+          "title": {
+            "zh": "高盛测算运费已重构原油价差：全球原油平均运输费升至 30 美元/桶（一年前 4 美元），中东航线 35 美元",
+            "en": "Goldman Sachs: freight has re-priced crude spreads — average global crude transport cost at $30 a barrel against $4 a year ago, $35 on Middle East routes"
+          },
+          "desc": {
+            "zh": "高盛 10 月 13 日报告：尽管油轮遇袭不断升级，中东石油供应仍具韧性，但飙升的航运与保险成本正在把原油价差撕开。测算显示，全球原油平均运输费已从一年前的约 4 美元/桶升至约 30 美元/桶，中东航线更高达约 35 美元/桶。高盛分析师明确指出：“尽管红海袭击导致船舶改道增加、伊朗船队遭封锁，这些因素加剧了航运市场紧张，但我们认为船对船转运才是运费上涨的主要推手。”装货地点差异被显著放大：霍尔木兹海峡外侧富查伊拉港装载的穆尔班原油，相对波斯湾内装载的巴士拉原油的溢价，已从 2 月的约 2 美元/桶飙升至约 43 美元/桶。基准价差同步走阔：即期布伦特较可比 WTI 溢价 40 美元/桶、较迪拜原油溢价 24 美元/桶；布伦特基差升至 27%，反映欧洲与地中海炼厂更偏好运输距离短、受航运中断敞口小的油种。传导到采购行为上：运输成本上升正促使炼油商倾向采购离目的地更近的品种以规避长途运费，这进一步扩大了实货市场的区域价差。需要标出的口径边界：30 与 35 美元/桶为高盛单家机构估算，并非交易所结算价；43 美元的品级溢价同样出自高盛数据，跨机构比较时应注明来源。",
+            "en": "Goldman Sachs on 13 October: Middle East oil supply has remained resilient despite escalating tanker attacks, but surging shipping and insurance costs are tearing crude spreads apart. The bank estimates average global crude freight has risen to about $30 a barrel from roughly $4 a year ago, with Middle East routes at about $35 a barrel. Its analysts are explicit: “While increased redirection amid Red Sea attacks and the blockade of the Iranian fleet contribute to the freight market squeeze, we think ship-to-ship transfers are the main driver of the freight rates rally.” Load-location differences have widened sharply: the premium for Murban crude loaded at Fujairah, outside the Strait of Hormuz, over Basrah crude loaded inside the Persian Gulf has risen to about $43 a barrel from around $2 in February. Benchmark spreads have widened in step: dated Brent now trades at a $40-a-barrel premium to comparable WTI and $24 over Dubai, with the Brent basis up to 27%, reflecting European and Mediterranean refiners’ preference for grades that are closer and less exposed to shipping disruption. The channel to behaviour matters: higher transport costs are pushing refiners to favour grades sourced nearer their destinations to avoid long-haul rates, widening regional differentials further in physical crude markets. One caveat to flag: the $30 and $35 per barrel figures are Goldman Sachs’ own estimates rather than exchange-settled prices, and the $43 grade premium likewise comes from Goldman data, so the source should be named in any cross-institution comparison."
+          },
+          "sources": [
+            {
+              "label": "Dow Jones Newswires / Morningstar（高盛报告英文原文）",
+              "url": "https://www.morningstar.com/news/dow-jones/202610131232/surging-middle-east-shipping-costs-widen-global-oil-price-gaps-goldman-says"
+            },
+            {
+              "label": "格隆汇 / 新浪财经（中文要点：30 与 35 美元/桶）",
+              "url": "https://cj.sina.com.cn/articles/view/5115326071/130e5ae77020032i98"
+            },
+            {
+              "label": "观点网（穆尔班—巴士拉溢价 2→43 美元）",
+              "url": "https://www.guandian.hk/article/20261013/10027543.html"
+            },
+            {
+              "label": "金十数据（每日投行观点梳理，逐条对照）",
+              "url": "https://xnews.jin10.com/details/232444"
+            }
+          ],
+          "verified": true
+        },
+        {
+          "title": {
+            "zh": "IMO 净零框架进入 12 天三会决战：11/23—12/4 决定通过、改稿还是再延，最早也要 2028 年 4 月才生效",
+            "en": "The IMO Net-Zero Framework enters a 12-day, three-session endgame: Nov 23–Dec 4 decides adoption, rewrite or another deferral, with entry into force no earlier than April 2028"
+          },
+          "desc": {
+            "zh": "国际海事组织净零框架（全球船用燃料标准 + 温室气体定价）至今仍未通过：草案 2025 年 4 月 MEPC 83 获批，2025 年 10 月特别会议以 57 票赞成休会、49 票主张继续而推迟一年，2026 年 4—5 月 MEPC 84 仍未表决、改设闭会间工作组，9 月 ISWG-GHG 22 亦未形成一致文本。按 IMO 自身会议日程，决战压缩在 12 天内三段：ISWG-GHG 23（11 月 23—27 日）→ MEPC 85（11 月 30 日—12 月 3 日）→ 2025 年 10 月休会的特别会议复会（12 月 4 日，须经 MEPC 85 确认）决定是否通过。可核实的边界条件：MARPOL 附则修正案须经出席并投票缔约方三分之二多数通过；框架拟适用于 5,000 总吨以上国际航行船舶，覆盖约 85% 的国际航运二氧化碳排放；即便 12 月通过，按 MARPOL 规则也要 16 个月后生效，即不早于 2028 年 4 月，首个合规年为 2028 年。三种结果并存——按原稿通过、大幅改写后通过、或再次推迟并面临全球规则碎片化为区域规则的风险。对货主的现实含义：目前框架下无任何费用可收，2026 年运单不应出现“IMO 碳费”；欧洲航线的排放成本来自 EU ETS 与 FuelEU Maritime，其中 2026 年是航运 EU ETS 首个 100% 覆盖年度，并首次把甲烷（CH4）与氧化亚氮（N2O）纳入，2025 年排放量 70% 的配额清缴截止日（9 月 30 日）已过，未清缴者每缺一个配额罚 100 欧元且次年仍需补缴。",
+            "en": "The IMO Net-Zero Framework — a global marine fuel standard combined with GHG pricing — is still not adopted. The draft was approved at MEPC 83 in April 2025; the October 2025 extraordinary session adjourned for a year on a 57–49 vote; MEPC 84 in April–May 2026 again took no adoption decision and instead set up an intersessional working group; and ISWG-GHG 22 in September ended without agreed text. Per the IMO’s own meeting schedule, the endgame is compressed into three sessions across 12 days: ISWG-GHG 23 (23–27 November), MEPC 85 (30 November–3 December) and the resumption on 4 December of the extraordinary session adjourned in October 2025, subject to confirmation by MEPC 85. The verifiable boundary conditions: amendments to a MARPOL annex require a two-thirds majority of parties present and voting; the framework is drafted to apply to ocean-going ships above 5,000 gross tonnage, covering roughly 85% of international shipping CO2; and even if adopted in December it would enter force 16 months later under MARPOL rules — no earlier than April 2028 — with 2028 as the first compliance year. Three outcomes remain live: adoption substantially as drafted, adoption of a significantly altered version, or another deferral carrying the risk that a global approach fragments into regional rules. The practical read for shippers: nothing is payable under the framework today, so no 2026 freight invoice should carry an “IMO carbon” charge; emissions costs on Europe lanes come from the EU ETS and FuelEU Maritime, where 2026 is the first year of 100% EU ETS coverage for shipping and the first to include methane (CH4) and nitrous oxide (N2O) alongside CO2, while the 30 September deadline to surrender allowances covering 70% of verified 2025 emissions has passed, with a €100 penalty per missing allowance on top of covering the shortfall the following year."
+          },
+          "sources": [
+            {
+              "label": "CargoLinked（逐条核对 IMO 会议日程与投票门槛）",
+              "url": "https://cargolinked.com/blog/imo-net-zero-framework-october-2026-what-shippers-should-know"
+            },
+            {
+              "label": "90POE（月度情报：三会时间表与 EU ETS 100% 覆盖）",
+              "url": "https://www.90poe.io/post/october-intelligence-briefing"
+            },
+            {
+              "label": "HelmOps（5,000 总吨门槛与 12 月 4 日复会）",
+              "url": "https://helmops.com/en/blog/imo-cii-eexi-superyacht-2026"
+            },
+            {
+              "label": "Ocean Economist（MEPC 84 → MEPC 85 → 特别会议路径）",
+              "url": "https://oceaneconomist.com/articles/imo-mepc84-net-zero-framework-talks"
+            }
+          ],
+          "verified": true
+        }
+      ]
+    },
+    {
+      "cat": {
+        "zh": "研究瞭望",
+        "en": "Research"
+      },
+      "color": "#5b8cff",
+      "items": [
+        {
+          "title": {
+            "zh": "回摆到底释放多少运力：BIMCO 测算改道曾推高全球需求约 10%，Linerlytica 与德路里给出 2027 年时点",
+            "en": "How much capacity does the Suez return release? BIMCO puts the diversion premium at about 10% of global demand, with Linerlytica and Drewry timing full recovery to 2027"
+          },
+          "desc": {
+            "zh": "“回摆 = 释放运力”需要量化，本周有三家机构给出可对照的口径。BIMCO 首席航运分析师 Niels Rasmussen：绕行好望角曾使全球集装箱船运力需求增加约 10%，这部分增量“正在快速回落”；但他同时提示，可重新部署的船舶主要是船东自有或锁定长期租约的主力大船，承运人更倾向于保留其营运而非终止租约，因此更直接的影响可能先体现在期租市场转弱，而非即期运力过剩。时点预测分歧明确：Linerlytica 认为随着 4,000 TEU 以上船周通行量逼近 50 艘，2027 年第一季度具备全面回归的现实基础，ONE 与 HMM 将是下一批（FE1 东南亚—北欧线首航由 8,110 TEU 的 ONE Continuity 执行，预计 11 月 9 日完成首次西行过运河），之后仅剩长荣、阳明与以星尚未改回；德路里的修正基准情形则是苏伊士通行量到 2027 年 2 月恢复到绕行前水平的 80%。两条反向风险必须并列：一是南红海安全形势在航线恢复的同时仍在恶化，承运人按航线逐条评估；二是亚洲港口拥堵已吸收一部分潜在过剩运力，使回摆对供需与运价的完整影响尚未显现。",
+            "en": "The claim that returning to Suez releases capacity needs numbers, and three houses published comparable figures this week. BIMCO chief shipping analyst Niels Rasmussen: diversions around the Cape of Good Hope had increased global container ship demand by about 10%, and that increase “is now reducing quickly” — but he cautions that the vessels available for redeployment are mainly large mainline ships owned by carriers or committed under long-term charters, which operators prefer to keep trading rather than redeliver, so the more immediate effect may show up as a weaker time-charter market rather than immediate spot oversupply. Timing calls differ: Linerlytica argues that with weekly transits of ships above 4,000 TEU approaching 50, a full return in Q1 2027 has a realistic basis, with ONE and HMM next (their FE1 Southeast Asia–North Europe service switching to Suez with the 8,110 TEU ONE Continuity expected to make its first westbound transit on 9 November), leaving Evergreen, Yang Ming and ZIM as the only major holdouts; Drewry’s revised base case has Suez transits reaching 80% of pre-diversion levels by February 2027. Two offsetting risks belong alongside: security conditions in the southern Red Sea have deteriorated even as services resume, with carriers assessing route by route, and congestion at Asian ports has absorbed part of the potential surplus, so the full effect on supply, demand and rates has yet to show."
+          },
+          "sources": [
+            {
+              "label": "BIMCO（Shipping Number of the Week：+10% 与期租传导）",
+              "url": "https://cyprusshippingnews.com/2026/10/16/bimco-shipping-number-of-the-week-118/"
+            },
+            {
+              "label": "国际船舶网（Linerlytica 2027Q1 与 ONE/HMM 首航时点）",
+              "url": "https://www.eworldship.com/html/2026/ship_market_observation_1016/225183.html"
+            },
+            {
+              "label": "90POE（德路里基准情形：2027 年 2 月恢复至 80%）",
+              "url": "https://www.90poe.io/post/october-intelligence-briefing"
+            },
+            {
+              "label": "El Estrecho Digital（BIMCO：回摆效应与亚洲港口拥堵叠加）",
+              "url": "https://www.elestrechodigital.com/en/2026/10/14/the-capacity-of-the-container-ships-that-transit-through-suez-exceeds-50-of-the-levels-prior-to-the-red-sea-crisis"
+            }
+          ],
+          "verified": true
+        },
+        {
+          "title": {
+            "zh": "空运旺季尚未兑现：WorldACD 第 41 周吨量同比 +9%、运价同比 +29%，运力同比仅 +1%，海湾方向较 2 月底仍低 20%",
+            "en": "No Q4 air-cargo peak yet: WorldACD week 41 shows tonnages +9% and rates +29% year on year, capacity only +1%, with Gulf capacity still 20% below late February"
+          },
+          "desc": {
+            "zh": "WorldACD 市场数据第 41 周（10 月 5—11 日）：全球平均现货运价持平于 3.55 美元/公斤，全市场运价（现货 + 合约）稳定于 3.13 美元/公斤；但货量已连续第三周小幅回落，主因中国国庆中秋假期，其次为中国台湾与韩国的国定假日。同比维度仍强：全球吨量 +9%，与 9 月收官时的同比增幅一致；全市场运价同比 +29%，其中现货同比 +34%。运力是硬约束：第 41 周全球总运力环比再降 1%（连续第二周收缩），亚太与中东南亚分别环比 -3%，同比仅 +1%（全货机与客机腹舱增幅相近）；海湾市场在第 40 周环比 +4% 后第 41 周全部回吐（-4%），较 2 月底（美以对伊动武前一周，第 7 周）低 20%，主因胡塞武装对沙特多个机场（含利雅得哈立德国王国际机场）的袭击造成新一轮中断。成本端：航油价格同比 +111%（IATA/Platts 口径），并推高燃油附加费。另一组独立指数口径可交叉参照：TAC Index 波罗的海空运指数 10 月 12 日当周全球 BAI00 环比 -2.1%、同比仍 +24.3%，上海出港 BAI80 环比 -2.1%、同比 +20.5%，法兰克福出港 BAI20 环比 +3.0%、同比 +47.7%。判断需保留的边界：同比基数受去年同期美国关税政策剧变与 de minimis 豁免取消扰动，跨年比较并不干净。",
+            "en": "WorldACD Market Data for week 41 (5–11 October): average global spot rates were flat at $3.55/kg with full-market rates (spot plus contract) stable at $3.13/kg, while volumes fell for a third consecutive week, mainly on China’s Golden Week mid-autumn holiday and, to a lesser extent, national holidays in Taiwan and South Korea. The year-on-year picture remains strong: global tonnages +9%, matching September’s closing growth rate, with full-market rates +29% YoY including spot +34%. Capacity is the binding constraint: total worldwide capacity contracted a further 1% week on week — a second consecutive weekly decline — led by -3% each from Asia Pacific and Middle East & South Asia, and was up only about 1% year on year, with freighter and bellyhold capacity rising by similar amounts. Gulf markets gave back all of week 40’s +4% with a -4% weekly drop, leaving capacity 20% below late February (week 7, just before the US and Israeli strikes on Iran), driven by renewed disruption from Houthi attacks on several Saudi airports including Riyadh’s King Khalid International. On cost, jet fuel prices are up 111% year on year on IATA/Platts data, feeding through to fuel surcharges. A separate index offers a cross-check: TAC Index put the global Baltic Air Freight Index (BAI00) down 2.1% week on week in the seven days to 12 October but still 24.3% higher year on year, with Shanghai outbound BAI80 -2.1% on the week and +20.5% YoY and Frankfurt outbound BAI20 +3.0% on the week and +47.7% YoY. One caveat to keep: the year-earlier base is distorted by last year’s rapid shifts in US tariff policy and the end of US de minimis exemptions, so year-on-year comparisons are not clean."
+          },
+          "sources": [
+            {
+              "label": "Asian Aviation（WorldACD 第 41 周：3.55 美元/公斤与海湾运力 -20%）",
+              "url": "https://asianaviation.com/posts/worldacd-air-cargo-rates-hold-steady-as-demand-dips-due-to-early-october-holidays"
+            },
+            {
+              "label": "STAT Times（TAC Index BAI00 -2.1% / 同比 +24.3%、IATA 航油 +111.2%）",
+              "url": "https://www.stattimes.com/amp/latest-news/global-air-freight-rates-dip-21-as-peak-season-approaches-1360915"
+            },
+            {
+              "label": "Sunny Worldwide Logistics（引 Air Cargo News / TAC：10 月 13 日数据）",
+              "url": "https://www.air-shipment.com/new/airfreight-rates-hold-firm-after-golden-week-tac-index.html"
+            },
+            {
+              "label": "中文市场综述（TAC 10 月 5 日 BAI00 环比 +5.0%、同比 +25.5%）",
+              "url": "https://www.toutiao.com/a7697192359913685555"
+            }
+          ],
+          "verified": true
+        },
+        {
+          "title": {
+            "zh": "干散货与油轮彻底分道：BDI 连跌七个交易日至 2,801 点，较 9 月 4 日峰值低约 23%，好望角型日收益跌破 3.3 万美元",
+            "en": "Dry bulk and tankers part company: the BDI falls for a seventh session to 2,801, about 23% below its Sept 4 peak, with capesize earnings under $33,000 a day"
+          },
+          "desc": {
+            "zh": "在同一份克拉克森周报里，干散货是唯一走弱的大类。波罗的海干散货指数（BDI）10 月 13 日跌 51 点至 2,801 点，为 8 月 20 日以来最低，较 9 月 4 日 3,628 点的峰值低约 23%；波罗的海好望角型指数跌至 3,994 点（7 月底以来最低），好望角型平均日收益由 10 月 9 日的 35,860 美元降至 32,719 美元，克拉克森另一口径为周环比 -16% 至 31,130 美元/天。原因指向中国铁矿石需求转弱、港口库存偏高，以及可用好望角型运力供给增加；巴拿马型与超灵便型则相对坚挺、小幅走高。另一独立读数也给出同向印证：某日度航运简报显示 BDI 已进一步跌至 2,545 点、好望角型指数 3,322 点。更值得记录的对比是板块背离——同期 ClarkSea 指数创历史新高、SCFI 处于 3,664 点（同比高约 215%），说明本轮高运价并非全面繁荣，而是能源与集装箱链条的运输效率损失定价；小型船 Segment 之间的分化（巴拿马型/超灵便型坚挺 vs 好望角型走弱）同样提示这不是一次统一的需求收缩。四季度方向取决于中国铁矿石询盘在假期后能否以足够规模回归以吸纳可用好望角型运力。",
+            "en": "Dry bulk is the one major segment moving the other way inside the same Clarksons weekly. The Baltic Dry Index fell 51 points on 13 October to 2,801 — its lowest since 20 August and about 23% below the 3,628 peak reached on 4 September — while the Baltic Capesize Index dropped to 3,994, its weakest since late July, with average capesize earnings sliding to $32,719 a day from $35,860 on 9 October; Clarksons’ separate assessment puts capesize down 16% on the week at $31,130/day. The causes cited are softer Chinese iron ore demand, elevated port inventories and a growing supply of available capesize tonnage, with panamax and supramax rates holding up better and edging higher. A separate daily briefing corroborates the direction, showing the BDI at 2,545 and the Capesize index at 3,322. The more useful record is the divergence: in the same week the ClarkSea Index set an all-time high and the SCFI stood at 3,664, about 215% above a year earlier, which shows current freight strength is not a broad boom but the pricing of transport-efficiency losses in energy and container chains. The split within dry bulk — panamax and supramax firm while capesize weakens — likewise argues against a uniform demand contraction. Fourth-quarter direction depends largely on whether fresh Chinese iron ore enquiries return after the holidays in sufficient volume to absorb the available capesize fleet."
+          },
+          "sources": [
+            {
+              "label": "90POE（月度情报：BDI 2,801 与好望角型 32,719 美元）",
+              "url": "https://www.90poe.io/post/october-intelligence-briefing"
+            },
+            {
+              "label": "AAJS（日度航运简报：BDI 2,545、SCFI 3,664）",
+              "url": "https://aajs.com/?p=14627/"
+            },
+            {
+              "label": "World Ports（Clarksons：好望角型 -16% 至 31,130 美元/天）",
+              "url": "https://www.worldports.org/clarksons-shipping-index-hits-fifth-straight-record-at-84951-a-day"
+            },
+            {
+              "label": "Ship Universe（散货船整体 22,319 美元/天、-3% 周环比）",
+              "url": "https://www.shipuniverse.com/news/shipping-earnings-hit-fifth-consecutive-all-time-high-as-clarksea-surges-to-84951-a-day"
+            }
+          ],
+          "verified": true
+        }
+      ]
+    },
+    {
+      "cat": {
+        "zh": "应用风向",
+        "en": "Apps & Adoption"
+      },
+      "color": "#35c2b0",
+      "items": [
+        {
+          "title": {
+            "zh": "极智嘉 1,600 余台机器人落地 LPP 波兰两座履约中心：140 万个高位存储货位，实测运营效率 99%",
+            "en": "Geekplus puts more than 1,600 robots into two LPP fulfilment centres in Poland: 1.4m high-bay storage locations and measured operating efficiency of 99%"
+          },
+          "desc": {
+            "zh": "10 月 13 日，港股上市的仓储机器人企业极智嘉披露，公司深化与欧洲时尚集团 LPP 旗下内部物流服务商 LPP Logistics 的合作，超 1,600 台机器人已落地 LPP 在波兰的两座履约中心。方案参数：可提供 140 万个自动化高位存储货位，实测运营效率达 99%，具备柔性与可扩展能力，支持随业务规模增长分步扩容，以适配时尚行业海量 SKU 管理与品类快速迭代，兼顾日常订单与旺季爆单两种场景。这是典型的复购信号而非首单——基于前期项目成效，LPP Logistics 把合作范围从一座拓展到两座履约中心，公司称有望把单点经验转化为可复制、可推广的标准化部署模式。需求侧规模可查：据 LPP 官网披露，其电商仓 2025 年处理订单量达 6,000 万笔，业务覆盖 35 个市场。市场容量口径来自第三方研究机构：Grand View Research 数据显示，欧洲仓储自动化市场规模预计由 2023 年的 49.24 亿美元增至 2030 年的 153.51 亿美元，2024—2030 年复合年增长率约 18.8%。需要标注的口径：1,600 台为累计部署量、99% 为企业自述的实测运营效率，均非第三方审计口径；LPP 亦未公开该项目具体的单件履约成本或投资回收期。",
+            "en": "On 13 October, Hong Kong-listed warehouse robotics firm Geekplus disclosed that it has deepened its cooperation with LPP Logistics, the in-house logistics provider of European fashion group LPP, with more than 1,600 robots now deployed across two LPP fulfilment centres in Poland. Solution parameters: 1.4m automated high-bay storage locations, measured operating efficiency of 99%, and a flexible, scalable design that supports phased expansion as volumes grow — intended to suit fashion’s very large SKU counts and fast category turnover across both everyday orders and peak-season surges. This is a repeat order rather than a first deployment: on the strength of the earlier project, LPP Logistics widened cooperation from one fulfilment centre to two, which the company says should turn a single-site success into a replicable, standardised deployment model. Demand-side scale is verifiable: LPP’s own disclosures put its e-commerce warehouse at 60m orders handled in 2025 across 35 markets. Market sizing comes from a third party: Grand View Research expects the European warehouse automation market to grow from $4.924bn in 2023 to $15.351bn by 2030, a CAGR of about 18.8% over 2024–2030. Caveats to state: the 1,600 figure is cumulative deployment and the 99% efficiency is the company’s own measured figure, neither third-party audited, and LPP has not published unit fulfilment cost or payback for the project."
+          },
+          "sources": [
+            {
+              "label": "环球网（超 1,600 台机器人与 140 万货位）",
+              "url": "https://www.toutiao.com/article/7696088713545171496"
+            },
+            {
+              "label": "上海证券报·中国证券网（极智嘉披露与欧洲复制策略）",
+              "url": "https://www.cnstock.com/commonDetail/801914"
+            },
+            {
+              "label": "新浪财经（同一披露的独立报道）",
+              "url": "https://finance.sina.com.cn/roll/2026-10-14/doc-inivcxxp7306251.shtml"
+            },
+            {
+              "label": "新浪网（LPP 电商仓 6,000 万订单 / 35 个市场）",
+              "url": "https://k.sina.com.cn/article_5115326071_130e5ae77001032ij4.html"
+            }
+          ],
+          "verified": true
+        },
+        {
+          "title": {
+            "zh": "仓库里的代理权限有了刻度：Logistics Reply 发布 LEA AI Agent Authority Model，四档成熟度 × 五档权限",
+            "en": "Agent authority in the warehouse gets a scale: Logistics Reply launches the LEA AI Agent Authority Model — four maturity stages by five authority levels"
+          },
+          "desc": {
+            "zh": "Logistics Reply（Reply 集团旗下供应链执行与仓储管理公司）发布 LEA AI Agent Authority Model，与 LEA Reply Dynamic Intelligence 一同交付，核心主张是“按任务给权限，而不是给最大自主权”——能做一件事本身并不构成被允许做这件事的理由。框架由两个维度交叉构成：组织侧 AI 成熟度四档（从早期采用到成熟），代理侧权限五档——Inform（告知）、Recommend（建议）、Act（执行）、Coordinate（协调）、Governed Autonomy（受治理的自主），权限可随运营证据与信任积累逐级扩展。落地侧自 2026 年 10 月 5 日起提供 5 个预制代理，各有独立的数据契约与集成方式，无需定制开发：Out of Stock Agent 区分真实缺货与暂时性问题；Labor Distribution Agent 识别瓶颈、估算满足截单时间所需工时并给出人力再分配建议；ABC Rebalancer Agent 按动销数据重算 ABC 分类并生成重分类报告，经审批后把更新后的类别回写到 WMS 物料主数据；Dock Scheduling Agent 以自然语言对话让计划方与承运商检索并预订月台时段；Lost & Found Agent 在任务超时触发，可调用摄像头评估现场、识别延误原因（例如有物件挡住 AMR 通行路径）。这一条与本站既有判断一致：真正难的不是代理能不能做，而是“由谁签字、谁复核、哪些异常必须升级”。需标注的口径：官方稿未披露具体客户装机量、导入成本或可衡量的绩效改善。",
+            "en": "Logistics Reply, the Reply group company specialising in supply chain execution and warehouse management, has unveiled the LEA AI Agent Authority Model, delivered alongside LEA Reply Dynamic Intelligence, with a simple proposition: give agents the authority appropriate to each task, not maximum autonomy — the ability to act does not by itself justify permission to do so. The framework crosses two dimensions: four stages of organisational AI maturity, from early adoption to mature, and five contextual authority levels — Inform, Recommend, Act, Coordinate and Governed Autonomy — with authority extendable as operational evidence and trust accumulate. Five pre-built agents have been available since 5 October 2026, each with its own data contract and integration approach and requiring no custom development: the Out of Stock Agent distinguishes genuine shortages from temporary issues; the Labor Distribution Agent identifies bottlenecks, estimates the effort needed to meet cut-off times and recommends workforce reallocation; the ABC Rebalancer Agent recalculates ABC classification from movement data and generates a reclassification report, writing updated classes back to the WMS item master only after approval; the Dock Scheduling Agent lets planners and carriers search and book dock-door slots by natural-language dialogue; and the Lost & Found Agent triggers when a task runs late, using camera input to assess the environment and identify delay causes such as an object blocking an AMR route. This matches the position taken elsewhere on this site: the hard part is not whether an agent can act but who signs off, who verifies, and which exceptions must escalate. Caveat: the announcement discloses no customer installation counts, implementation costs or measured performance improvement."
+          },
+          "sources": [
+            {
+              "label": "Reply 官方新闻室（框架原文与五个代理定义）",
+              "url": "https://www.reply.com/en/newsroom/news/logistics-reply-introduces-the-lea-ai-agent-authority-model"
+            },
+            {
+              "label": "LOGISTRA（德：成熟度与权限两维度拆解）",
+              "url": "https://logistra.de/en/news/ai-agents-warehouse-logistics-reply-links-autonomy-task-and-risk-518615.html"
+            },
+            {
+              "label": "Technische Logistik（德：ABC Rebalancer 回写主数据的审批环节）",
+              "url": "https://www.technische-logistik.net/en/news/logistics-reply-introduces-ai-model-controlled-deployment-agents-warehouse-27141.html"
+            },
+            {
+              "label": "Supply & Demand Chain Executive（英文首发报道）",
+              "url": "https://www.sdcexec.com/warehousing/automation/news/22975888/logistics-reply-logistics-reply-brings-governed-agentic-ai-into-warehouse-execution"
+            }
+          ],
+          "verified": true
+        },
+        {
+          "title": {
+            "zh": "FourKites 改卖“结果”：承诺十年内让 AI 代理替客户完成 10 亿小时运营工作，网络图覆盖 176 国",
+            "en": "FourKites switches to selling outcomes: a commitment that its AI agents will complete one billion hours of operational work for customers over a decade, on a network spanning 176 countries"
+          },
+          "desc": {
+            "zh": "10 月 14 日，FourKites 发布 Outcome-as-a-Service for Supply Chain，把销售、交付与度量方式整体改为围绕客户被考核的业务结果：新公司使命承诺在未来十年用 AI 代理为客户完成 10 亿小时的运营工作。逻辑起点是工具冗余——典型《财富》2000 强供应链跑着 10 到 15 套各自优化单一职能的系统，很少能与高管背负的成本、服务与收入指标打通；新模型反过来从客户被考核的数字出发（如 OTIF 准时足量交付率、加急运费支出、服务成本），再倒推出所需的 AI 代理、工作流与数据。支撑其“敢承诺结果”的是网络外部性：FourKites 网络图连接 1,600 多个品牌、50 万以上承运商、360 万个设施，覆盖 176 个国家；公司判断大多数企业 AI 只训练于自身四壁之内的数据，而决定结果能否达成的信号（某条线路的承运商表现、港口或收货月台的现场状况）都在企业系统之外。工程侧配套：过去一年把内部各职能改造为 AI 原生，软件研发全生命周期自动化，发布节奏由双周改为每日；新版 fourkites.ai 以 70 多个“结果”页面取代传统产品目录，并配备代理式顾问 Owen。边界须标注：10 亿小时为公司自设的十年承诺而非已交付量，1,600+ 品牌 / 50 万+ 承运商 / 360 万设施均为公司口径；日处理事件量与上述数字均未经第三方审计。",
+            "en": "On 14 October FourKites launched Outcome-as-a-Service for Supply Chain, rebuilding how it sells, delivers and measures around the business results customers are accountable for, with a new company mission committing its AI agents to complete one billion hours of operational work for customers over the next decade. The starting logic is tool redundancy: a typical Fortune 2000 supply chain runs on 10 to 15 separate systems each optimising one function, and few can be tied to the cost, service and revenue mandates executives carry; the new model works backwards from the number a customer is on the hook for — on-time-in-full performance, expedited freight spend or cost to serve — to the AI agents, workflows and data needed to move it. What underwrites the commitment is network externality: the FourKites network graph links more than 1,600 brands, over 500,000 carriers and 3.6m facilities across 176 countries, on the argument that most enterprise AI is trained on a single company’s internal data while the signals that decide whether an outcome is met — carrier performance on a lane, conditions at a port or receiving dock — sit outside any one firm’s systems. On the engineering side, the company rebuilt internal functions to operate AI-natively over the past year, automated the software development lifecycle end to end and moved from biweekly to daily releases; the new fourkites.ai replaces the traditional product catalogue with pages for more than 70 outcomes, plus Owen, an agentic outcome advisor. Caveats: one billion hours is a self-set ten-year commitment rather than delivered volume, the 1,600+ brands, 500,000+ carriers and 3.6m facilities are company figures, and neither these nor the daily event volumes are third-party audited."
+          },
+          "sources": [
+            {
+              "label": "FourKites 官方新闻稿（10 亿小时使命与网络图口径）",
+              "url": "https://www.fourkites.ai/press/fourkites-launches-outcome-as-a-service-for-supply-chain"
+            },
+            {
+              "label": "Business Wire / Yahoo Finance（同一发布的通稿全文）",
+              "url": "https://finance.yahoo.com/technology/ai/articles/fourkites-launches-outcome-supply-chain-120000637.html"
+            },
+            {
+              "label": "Machine Maker（独立改写：70+ 结果页面与 Owen 顾问）",
+              "url": "https://themachinemaker.com/news/fourkites-introduces-outcome-as-a-service-model-to-automate-supply-chain-operations/"
+            },
+            {
+              "label": "Supply Chain Informs（发布要点与 CEO 表述）",
+              "url": "https://www.supplychaininforms.com/press-issues/outcome-as-a-service-for-supply-chain-initiated-by-fourkites"
+            }
+          ],
+          "verified": true
+        }
+      ]
+    }
+  ]
+}
