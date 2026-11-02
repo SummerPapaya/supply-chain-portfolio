@@ -260,3 +260,86 @@ east
 rather
 plus
 still
+# 方位词补齐（2026-11-02）：east 早已剔除，north/west/middle 却残留成半截词；
+# "Middle East"/"North Europe"/"West Mediterranean" 的语义由被修饰的地名承载。
+north
+south
+west
+southeast
+northeast
+southwest
+northwest
+middle
+# 元话语 / 新闻套话（2026-11-02）：中文表已剔「报道/称/指出」，英文口径对齐
+caveat
+reported
+published
+reporting
+figure
+count
+# 泛型统计 / 单位词（2026-11-02）：average(47 hits)、point(21) 无区分度
+average
+point
+# 尾部泛型虚词（2026-11-02）：套话搭配，无实义
+way
+past
+part
+side
+run
+full
+them
+because
+come
+higher
+existing
+# 屈折变体补齐（2026-11-02）：上组单数的复数/过去式/进行时，原始英文未归一，
+# 会绕过停用词过滤以复数形式复活（如 points/figures）。扫描全 14 期英文原文产出，
+# 已排除误判（notes/noted ↔ not 非屈折）。
+points
+runs
+parts
+counts
+figures
+puts
+falls
+caveats
+moves
+reports
+working
+ones
+others
+timing
+owned
+sides
+falling
+keeps
+updated
+keeping
+counted
+sees
+averaged
+saying
+averages
+works
+having
+uses
+backed
+updates
+continuing
+effects
+supplies
+continues
+news
+seconds
+singles
+pointing
+theirs
+nearing
+downing
+seeing
+remaining
+included
+marketed
+counting
+remained
+showing
