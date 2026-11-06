@@ -1,0 +1,172 @@
+{
+  "columns": {
+    "orders": {
+      "order_id": "order_id",
+      "customer_id": "customer_id",
+      "status": "order_status",
+      "purchase_ts": "order_purchase_timestamp",
+      "approved_ts": "order_approved_at",
+      "carrier_ts": "order_delivered_carrier_date",
+      "delivered_ts": "order_delivered_customer_date",
+      "estimated_ts": "order_estimated_delivery_date"
+    },
+    "items": {
+      "order_id": "order_id",
+      "item_seq": "order_item_id",
+      "product_id": "product_id",
+      "seller_id": "seller_id",
+      "shipping_limit_ts": "shipping_limit_date",
+      "price": "price",
+      "freight": "freight_value"
+    },
+    "customers": {
+      "customer_id": "customer_id",
+      "unique_id": "customer_unique_id",
+      "zip": "customer_zip_code_prefix",
+      "city": "customer_city",
+      "state": "customer_state"
+    },
+    "products": {
+      "product_id": "product_id",
+      "category": "product_category_name",
+      "weight_g": "product_weight_g"
+    },
+    "sellers": {
+      "seller_id": "seller_id",
+      "zip": "seller_zip_code_prefix",
+      "city": "seller_city",
+      "state": "seller_state"
+    },
+    "reviews": {
+      "order_id": "order_id",
+      "score": "review_score",
+      "created_ts": "review_creation_date"
+    },
+    "payments": {
+      "order_id": "order_id",
+      "type": "payment_type",
+      "value": "payment_value"
+    },
+    "category": {
+      "raw": "product_category_name",
+      "english": "product_category_name_english"
+    }
+  },
+  "files": {
+    "orders": "olist_orders_dataset.csv",
+    "items": "olist_order_items_dataset.csv",
+    "customers": "olist_customers_dataset.csv",
+    "products": "olist_products_dataset.csv",
+    "sellers": "olist_sellers_dataset.csv",
+    "reviews": "olist_order_reviews_dataset.csv",
+    "payments": "olist_order_payments_dataset.csv",
+    "category": "product_category_name_translation.csv"
+  },
+  "factFields": [
+    "m",
+    "ss",
+    "cs",
+    "cat",
+    "price",
+    "freight",
+    "n",
+    "w",
+    "a",
+    "h",
+    "t",
+    "T",
+    "K",
+    "rv",
+    "st",
+    "flag"
+  ],
+  "flags": [
+    {
+      "key": "no_items",
+      "bit": 1,
+      "label": "订单无商品行 / has no item lines"
+    },
+    {
+      "key": "no_delivered",
+      "bit": 2,
+      "label": "已送达但缺送达日期 / delivered with missing delivery date"
+    },
+    {
+      "key": "bad_order",
+      "bit": 4,
+      "label": "日期倒置 / date inversion"
+    },
+    {
+      "key": "neg_handoff",
+      "bit": 8,
+      "label": "交接时长为负 / negative handoff duration"
+    },
+    {
+      "key": "neg_transit",
+      "bit": 16,
+      "label": "在途时长为负 / negative transit duration"
+    },
+    {
+      "key": "no_category",
+      "bit": 32,
+      "label": "品类缺失或未翻译 / missing or untranslated category"
+    },
+    {
+      "key": "no_review",
+      "bit": 64,
+      "label": "无评价 / no review"
+    },
+    {
+      "key": "zero_freight",
+      "bit": 128,
+      "label": "运费为零 / zero freight"
+    }
+  ],
+  "params": {
+    "date_format": "%Y-%m-%d %H:%M:%S",
+    "calendar_day_basis": true,
+    "wilson_z": 1.96,
+    "min_group_n": 100,
+    "pareto_targets": [
+      50,
+      80
+    ],
+    "promise_scenarios": [
+      7,
+      10,
+      12,
+      15,
+      18,
+      21,
+      24,
+      28
+    ],
+    "partial_month_min_orders": 100,
+    "freight_bands": [
+      0,
+      5,
+      10,
+      15,
+      20,
+      30,
+      1000000000
+    ],
+    "item_bands": [
+      1,
+      2,
+      3,
+      5,
+      1000000000
+    ]
+  },
+  "source": {
+    "name_zh": "Olist 巴西电商公开数据集（Brazilian E-Commerce Public Dataset by Olist）",
+    "name_en": "Brazilian E-Commerce Public Dataset by Olist",
+    "publisher": "Olist / Kaggle",
+    "dataset_url": "https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce",
+    "license": "CC BY-NC-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "note_zh": "真实匿名商业订单流水；署名、非商业使用、相同方式共享。本看板仅作研究与作品集展示，衍生聚合数据同样遵循该许可；企业商用须替换为自有数据。",
+    "note_en": "Real anonymised commercial order records; attribution, non-commercial and share-alike apply. This dashboard is research / portfolio use only; derived aggregates carry the same licence. Replace with your own data for commercial use."
+  }
+}

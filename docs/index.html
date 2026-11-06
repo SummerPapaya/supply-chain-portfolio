@@ -104,6 +104,11 @@
     --psi-neg: #a63d33;
     --psi-gap: #cfc9bd;
     --psi-shadow: #101418;
+    /* M4 方法实验室配图：窗口 chrome 复用 psi-* 纸墨 token，仅新增四色 */
+    --m4-tag: #5b4fc4;
+    --m4-a: #2f6f8f;
+    --m4-b: #b4831e;
+    --m4-c: #a63d33;
   }
   html[data-theme="dark"] {
     --paper: #0a0d11;
@@ -175,6 +180,11 @@
     --psi-neg: #e0756a;
     --psi-gap: #3a4450;
     --psi-shadow: #000000;
+    /* M4 方法实验室配图（深色） */
+    --m4-tag: #8f83ff;
+    --m4-a: #63a8cf;
+    --m4-b: #e0b35a;
+    --m4-c: #e0756a;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -851,7 +861,8 @@
   .app-card.is-collapsed .app-left > ul,
   .app-card.is-collapsed .app-left > .app-cost,
   .app-card.is-collapsed .app-left > .app-cost-note { display: none; }
-  /* 进销存守恒验算台：部署确认前暂不展示（commit & push 并由用户确认后再移除 is-pending） */
+  /* 暂不展示的衍生应用卡（PSI 守恒台 / M4 方法实验室）：部署确认前隐藏，
+     commit & push 并由用户确认后再移除对应卡片的 is-pending 类 */
   .app-card.is-pending { display: none; }
   .viz-grid-line { stroke: var(--viz-grid); stroke-width: 1; }
   .viz-land { fill: var(--viz-land); }
@@ -934,13 +945,73 @@
     html.js-ready .reveal { opacity: 1; transform: none; transition: none; }
     .brand-mark::after, .viz-route, .pulse, .brief-bar .live::before { animation: none; }
   }
-  /* ===== 雷达词云（轻量嵌入） ===== */
-  /* 词频区是「本周供应链雷达」板块下的子小节，不是独立板块：
-     上方表格(brefing)底部 + 本区顶部共两段 padding，按板块间距(44–80px×2)会显得过空，
-     这里两边各收紧一档，让小标题贴着表格走。 */
+  /* ===== 往期雷达回顾：一个子话题 + 单项 tab（每个 tab 只呈现一项内容） ===== */
   #briefing { padding-bottom: clamp(16px, 2.6vh, 30px); }
-  #wordcloud { padding-top: clamp(8px, 1.6vh, 18px); }
-  #wordcloud .sub-head { margin-top: 0; margin-bottom: 12px; }
+  #radar-review { padding-top: clamp(8px, 1.6vh, 18px); scroll-margin-top: 76px; }
+  #radar-review .sub-head { margin-top: 0; margin-bottom: 10px; }
+  .rv-meta { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; font-size: 12px; color: var(--ink-soft); margin: 0 0 13px; }
+  .rv-badge { display: inline-block; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .04em; color: var(--accent); background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; }
+  .rv-badge.rv-live { border-color: rgba(var(--accent-rgb), .35); }
+  .rv-badge.rv-stale { color: #b07a2c; border-color: #b07a2c; background: transparent; }
+  .rv-tabs { display: flex; gap: 5px; flex-wrap: wrap; border-bottom: 1px solid var(--line); padding-bottom: 9px; margin: 0 0 15px; }
+  .rv-tab { border: 1px solid transparent; background: transparent; color: var(--ink-soft); font-family: inherit; font-size: 12.5px; padding: 7px 14px; border-radius: 8px; cursor: pointer; transition: background .2s, color .2s; }
+  .rv-tab:hover { color: var(--ink); border-color: var(--line); }
+  .rv-tab.active { background: var(--paper); border-color: var(--line); color: var(--accent); font-weight: 600; }
+  .rv-pane { display: none; }
+  .rv-pane.active { display: block; }
+  /* tab 内的 .reveal 不走 IntersectionObserver：pane 在 display:none 时不会被观察到，
+     切到该 tab 后可能一直停在 opacity:0。这里让子话题内卡片恒可见，避免「切过去是空白」。 */
+  html.js-ready #radar-review .reveal { opacity: 1; transform: none; }
+  .rv-card, .rr-card { border: 1px solid var(--line); border-radius: 14px; background: var(--card); padding: 18px 20px 16px; }
+  .rv-card-h { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+  .rv-card-h h4 { font-size: 14px; font-weight: 700; margin: 0; color: var(--ink); }
+  .rv-card-h span { font-family: var(--font-mono); font-size: 10.5px; color: var(--ink-mute); }
+  .rv-cloud-box { position: relative; background: var(--paper); border-radius: 10px; padding: 6px; height: 400px; overflow: hidden; }
+  #rvCloudSvg { width: 100%; height: 100%; display: block; }
+  .rv-word text { transition: opacity .3s, transform .2s; transform-box: fill-box; transform-origin: center; cursor: pointer; }
+  .rv-word:hover text { transform: scale(1.12); filter: drop-shadow(0 2px 6px rgba(0,0,0,.18)); }
+  .rv-cloud-note { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; font-size: 11px; color: var(--ink-mute); margin: 9px 0 12px; }
+  .rv-legend { display: flex; gap: 14px; flex-wrap: wrap; font-family: var(--font-mono); font-size: 10.5px; color: var(--ink-soft); margin: 0 0 10px; }
+  .rv-legend i { width: 9px; height: 9px; border-radius: 2px; display: inline-block; margin-right: 5px; }
+  .rv-leg-sw { display: inline-flex; align-items: center; flex-wrap: nowrap; gap: 6px; }
+  .rv-leg-sw i { margin-right: 0; }
+  .rv-drawer { position: absolute; right: 8px; top: 8px; bottom: 8px; width: min(330px, 62%); background: var(--card); border: 1px solid var(--accent); border-radius: 10px; box-shadow: -12px 0 32px rgba(0,0,0,.12); z-index: 6; display: flex; flex-direction: column; overflow: hidden; }
+  .rv-drawer[hidden] { display: none; }
+  .rv-drawer-h { display: flex; align-items: center; gap: 8px; padding: 9px 11px; border-bottom: 1px solid var(--line); font-size: 12.5px; font-weight: 700; color: var(--accent); }
+  .rv-drawer-h button { margin-left: auto; border: 1px solid var(--line); background: none; border-radius: 999px; width: 24px; height: 24px; line-height: 1; color: var(--ink-soft); cursor: pointer; }
+  .rv-drawer-b { overflow: auto; padding: 9px 11px 12px; font-size: 11.5px; line-height: 1.7; }
+  .rv-drawer-b a { display: block; color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); padding: 7px 0; }
+  .rv-drawer-b a:hover { color: var(--accent); }
+  .rv-drawer-b small { display: block; font-family: var(--font-mono); color: var(--ink-mute); font-size: 10px; }
+  .rv-pb { border: 1px solid var(--line); border-radius: 10px; background: var(--paper); padding: 11px 13px; margin-bottom: 10px; }
+  .rv-pb-h { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: 12.5px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+  .rv-pb-h i { font-family: var(--font-mono); font-style: normal; font-size: 10.5px; color: var(--accent); background: var(--card); border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; }
+  .rv-pb-h em { font-style: normal; font-size: 11px; font-weight: 400; color: var(--ink-mute); }
+  .rv-pb p { margin: 4px 0; font-size: 11.5px; line-height: 1.7; color: var(--ink-soft); }
+  .rv-pb p b { color: var(--ink); font-weight: 600; }
+  .rr-lead { font-size: 13.5px; line-height: 1.75; color: var(--ink); }
+  .rr-stats { display: grid; grid-template-columns: repeat(6, minmax(0,1fr)); gap: 10px; margin: 16px 0 14px; }
+  .rr-stat { border: 1px solid var(--line); border-radius: 10px; background: var(--paper); padding: 9px 10px; min-width: 0; }
+  .rr-stat b { display: block; font-family: var(--font-mono); font-size: 19px; line-height: 1.1; color: var(--accent); }
+  .rr-stat span { display: block; margin-top: 4px; font-size: 11px; color: var(--ink-soft); }
+  .rr-bars { display: flex; flex-direction: column; gap: 7px; margin: 4px 0 12px; }
+  .rr-row { display: grid; grid-template-columns: 88px 1fr 42px; align-items: center; gap: 10px; }
+  .rr-lab { font-size: 11.5px; color: var(--ink-soft); white-space: nowrap; }
+  .rr-track { display: block; height: 9px; border-radius: 999px; background: var(--line); overflow: hidden; }
+  .rr-fill { display: block; height: 100%; border-radius: 999px; }
+  .rr-val { font-family: var(--font-mono); font-size: 11px; color: var(--ink-soft); text-align: right; }
+  .rr-find { font-size: 12.5px; line-height: 1.7; color: var(--ink); border-left: 2px solid var(--accent); padding-left: 12px; margin: 12px 0; }
+  .rr-note { font-size: 11.5px; line-height: 1.7; color: var(--ink-mute); }
+  .rr-bias { font-size: 11.5px; line-height: 1.75; color: var(--ink-mute); background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 9px 11px; margin: 0 0 12px; }
+  .rr-bias b { color: var(--ink); font-weight: 600; }
+  .rr-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+  .rr-actions .btn { text-decoration: none; }
+  .rv-chain { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 9px 12px; margin-top: 14px; font-size: 11px; color: var(--ink-soft); }
+  .rv-chain code { font-family: var(--font-mono); font-size: 10.5px; }
+  /* 词云按容器实际尺寸动态排布（字号是绝对 px，不等比缩小），窄屏改为减词数而非裁切 */
+  @media (max-width: 768px) { .rr-stats { grid-template-columns: repeat(3, minmax(0,1fr)); } .rv-cloud-box { height: 330px; } }
+  @media (max-width: 480px) { .rr-stats { grid-template-columns: repeat(2, minmax(0,1fr)); } .rr-card, .rv-card { padding: 15px 14px 14px; } .rr-row { grid-template-columns: 64px 1fr 34px; gap: 7px; } .rv-cloud-box { height: 265px; } .rv-tab { padding: 6px 11px; font-size: 12px; } }
+  @media print { .rv-drawer { display: none !important; } .rv-tabs { display: none !important; } }
   .wc-legend { display: flex; gap: 18px; flex-wrap: wrap; margin: 2px 0 18px; font-family: var(--font-mono); font-size: 11px; letter-spacing: .04em; color: var(--ink-soft); }
   .wc-leg { display: inline-flex; align-items: center; gap: 6px; }
   .wc-leg i { width: 9px; height: 9px; border-radius: 2px; background: var(--cat); display: inline-block; }
@@ -1044,7 +1115,7 @@
       <a href="#reports" data-i18n="nav-reports" data-page-node-id="4NJjNuV0XHXhFJ7aq1Irnf">报告对比</a>
       <a href="#app" data-i18n="nav-app" data-page-node-id="DBXsFfzAs793hGLd2x29tn">衍生应用</a>
       <a href="#gaps" data-i18n="nav-gaps" data-page-node-id="htEhFkaHrBjAvbOZJISKHn">AI 补位</a>
-      <a href="#wordcloud" data-page-node-id="navWC">词频 <em>/ Frequency</em></a>
+      <a href="#radar-review" data-i18n="nav-review" data-page-node-id="navRV">往期回顾 <em>/ Review</em></a>
       <a href="learning/index.html" data-i18n="nav-learn" data-page-node-id="IDcKLK0hocIu6Euwm8waHg">持续学习</a>
       <a href="https://github.com/SummerPapaya/supply-chain-portfolio" target="_blank" rel="noopener" data-page-node-id="CFQXEFiT3rDoatBDgVBM4Z">GitHub ↗</a>
     </div>
@@ -1070,7 +1141,7 @@
   <a href="#reports" data-page-node-id="navMReports"><span data-i18n="nav-reports" data-page-node-id="navMReportsT">报告对比</span><span class="arr" data-page-node-id="navMReportsA">→</span></a>
   <a href="#app" data-page-node-id="navMApp"><span data-i18n="nav-app" data-page-node-id="navMAppT">衍生应用</span><span class="arr" data-page-node-id="navMAppA">→</span></a>
   <a href="#gaps" data-page-node-id="navMGaps"><span data-i18n="nav-gaps" data-page-node-id="navMGapsT">AI 补位</span><span class="arr" data-page-node-id="navMGapsA">→</span></a>
-  <a href="#wordcloud" data-page-node-id="navMWC"><span data-page-node-id="navMWCT">词频</span><span class="arr" data-page-node-id="navMWCA">→</span></a>
+  <a href="#radar-review" data-page-node-id="navMRV"><span data-i18n="nav-review-m" data-page-node-id="navMRVT">往期回顾</span><span class="arr" data-page-node-id="navMRVA">→</span></a>
   <a href="learning/index.html" data-page-node-id="navMLearn"><span data-i18n="nav-learn" data-page-node-id="navMLearnT">持续学习</span><span class="arr" data-page-node-id="navMLearnA">→</span></a>
   <a href="https://github.com/SummerPapaya/supply-chain-portfolio" target="_blank" rel="noopener" data-page-node-id="navMGitHub"><span data-page-node-id="navMGitHubT">GitHub</span><span class="arr" data-page-node-id="navMGitHubA">↗</span></a>
 </div>
@@ -1085,7 +1156,7 @@
   </p>
   <div class="hero-stats reveal reveal-d3" data-page-node-id="7IE7fqtq6P9NrgZ3aABJ65">
     <div class="stat" data-page-node-id="YnJADmNGOMtsthV6Dg8Wwd"><div class="num" data-count="6" data-page-node-id="CGxlgz8IJif1ms5HJ4RUhb">0</div><div class="lbl" data-i18n="stat1" data-page-node-id="0gT8W1y4NwfWprXrZBrrMK">独立研究报告</div></div>
-    <div class="stat" data-page-node-id="DzrO0FvUulX8iAOPazpEqm"><div class="num" data-count="2" data-page-node-id="8fsuHUJnuVDb07ZHizKFLF">2</div><div class="lbl" data-i18n="stat2" data-page-node-id="yEvEJ2ivcRueU7P1BAgjgk">衍生应用</div></div>
+    <div class="stat" data-page-node-id="DzrO0FvUulX8iAOPazpEqm"><div class="num" data-count="3" data-page-node-id="8fsuHUJnuVDb07ZHizKFLF">3</div><div class="lbl" data-i18n="stat2" data-page-node-id="yEvEJ2ivcRueU7P1BAgjgk">衍生应用</div></div>
     <div class="stat" data-page-node-id="Z5Uec7IgY2VQostWDnkuA5"><div class="num" data-page-node-id="omrlUhBMIo7amZenuAuKH5"><i data-page-node-id="lwYMCd5ZwTfCiTdFqFKlwZ">25</i>+</div><div class="lbl" data-i18n="stat3" data-page-node-id="eDIEgPTBrjIzdegK0ktHZA">机构数据源（WTO / Drewry / NY Fed…）</div></div>
     <div class="stat" data-page-node-id="tuNHpaBFqX8nSmg9CKKp57"><div class="num" data-page-node-id="R4y3cxix4wMdquCbKXqgxm">2026<i data-page-node-id="dgXTWVQl9IdpgiNt2sLDoq">Q3</i></div><div class="lbl" data-i18n="stat4" data-page-node-id="yFfBXe5Yl6951jhC9r2ogH">当前研究窗口</div></div>
   </div>
@@ -1123,19 +1194,96 @@
   </div>
 </section>
 
-<!-- ============ 雷达词频工作台（单入口卡 + 全屏模态双视图） ============ -->
-<section id="wordcloud" data-page-node-id="wcSection001">
-  <div class="sub-head reveal" data-page-node-id="wcHead001">
-    <h3 class="sub-title" data-i18n="wc-title" data-page-node-id="wcTitle001">雷达词频 · 跨周关键词</h3>
-    <span class="sec-note" data-page-node-id="wcNote001">CROSS-WEEK KEYWORDS · WORKSPACE</span>
+<!-- ============ 往期雷达回顾：轻合并，一个 tab 只呈现一项内容 ============ -->
+<section id="radar-review" data-page-node-id="rvSection001">
+  <div class="sub-head reveal" data-page-node-id="rvHead001">
+    <h3 class="sub-title" data-i18n="rv-title" data-page-node-id="rvTitle001">往期雷达回顾</h3>
+    <span class="sec-note" data-page-node-id="rvNote001">RADAR ARCHIVE · REVIEW</span>
   </div>
-  <div class="wc-entry reveal reveal-d1" id="wcEntryCloud" data-page-node-id="wcEntryCloud001" role="button" tabindex="0" aria-label="打开词频工作台">
+  <div class="rv-meta" data-page-node-id="rvMeta001">
+    <span data-i18n="rv-meta">同一份雷达归档的不同视角；每期雷达更新后，本区与词云、归纳台一起重建。</span>
+    <span class="rv-badge" id="rvWindow">14 期 · 2026-08-13 — 2026-11-02</span>
+    <span class="rv-badge rv-live" id="rvLive" data-i18n="rv-live">随周更同步</span>
+  </div>
+  <div class="rv-tabs" id="rvTabs" role="tablist" aria-label="往期雷达回顾视图" data-page-node-id="rvTabs001">
+    <button class="rv-tab active" type="button" id="rvTabCloud" data-rv-tab="cloud" role="tab" aria-selected="true" aria-controls="rvPaneCloud"><span data-i18n="rv-tab-cloud">词频词云</span></button>
+    <button class="rv-tab" type="button" id="rvTabSignal" data-rv-tab="signal" role="tab" aria-selected="false" aria-controls="rvPaneSignal"><span data-i18n="rv-tab-signal">结构信号</span></button>
+    <button class="rv-tab" type="button" id="rvTabPlaybook" data-rv-tab="playbook" role="tab" aria-selected="false" aria-controls="rvPanePlaybook"><span data-i18n="rv-tab-playbook">核查剧本</span></button>
+  </div>
+
+  <!-- tab 1：只呈现词云（内联精简视图） -->
+  <div class="rv-pane active" id="rvPaneCloud" role="tabpanel" aria-labelledby="rvTabCloud" data-page-node-id="rvPaneCloud001">
+    <div class="rv-card reveal reveal-d1">
+      <div class="rv-card-h"><h4 data-i18n="rv-cloud-h">雷达词频 · 跨周关键词</h4><span id="rvCloudSub" data-i18n="rv-cloud-sub">内联全量词云 / 80 词</span></div>
+      <div class="rv-legend" id="rvLegend" data-page-node-id="rvLeg001"></div>
+      <div class="rv-cloud-box" id="rvCloudBox" data-page-node-id="rvCloudBox001">
+        <svg id="rvCloudSvg" role="img" aria-label="往期雷达精简词云"></svg>
+        <div class="rv-drawer" id="rvDrawer" hidden>
+          <div class="rv-drawer-h"><span id="rvDrawerWord"></span><button type="button" id="rvDrawerClose" aria-label="关闭">×</button></div>
+          <div class="rv-drawer-b" id="rvDrawerBody"></div>
+        </div>
+      </div>
+      <div class="rv-cloud-note"><span id="rvCloudNote" data-i18n="rv-cloud-note">中文 TF-IDF · 每期雷达为一个文档 · 字号按容器自适应</span><span data-i18n="rv-cloud-tip">点击关键词查看关联新闻</span></div>
+      <div class="rr-actions">
+        <button class="btn btn-primary" type="button" id="rvOpenWorkspace" data-page-node-id="rvBtnFull"><span data-i18n="rv-btn-full">展开完整工作台（共现网络 + 逐词关联新闻）</span> <span class="arr">↗</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- tab 2：只呈现结构信号 -->
+  <div class="rv-pane" id="rvPaneSignal" role="tabpanel" aria-labelledby="rvTabSignal" data-page-node-id="rvPaneSignal001">
+    <div class="rr-card reveal reveal-d1" data-page-node-id="rrCard001">
+      <div class="rr-lead" data-i18n="rr-lead" data-page-node-id="rrLead001">本节把 <b data-rv="periods">14</b> 期归档（<span data-rv="windowFrom">2026-08-13</span> — <span data-rv="windowTo">2026-11-02</span>）合并成一张跨期视图：<b data-rv="signals">182</b> 条信号按 SCOR 五段与六类风险重新标注，以前 4 期滚动基线标出异动，并沉淀 <b data-rv="playbooks">19</b> 条可勾选的核查剧本。它是往期雷达资源的归纳与索引，不新增情报、不冒充实时。</div>
+      <div class="rr-stats" data-page-node-id="rrStats001">
+        <div class="rr-stat"><b data-rv="periods">14</b><span data-i18n="rr-s1">期归档</span></div>
+        <div class="rr-stat"><b data-rv="signals">182</b><span data-i18n="rr-s2">条信号</span></div>
+        <div class="rr-stat"><b data-rv="sources">538</b><span data-i18n="rr-s3">条来源</span></div>
+        <div class="rr-stat"><b data-rv="verified">139</b><span data-i18n="rr-s4">条已核验</span></div>
+        <div class="rr-stat"><b data-rv="stages">5</b><span data-i18n="rr-s5">个 SCOR 环节</span></div>
+        <div class="rr-stat"><b data-rv="playbooks">19</b><span data-i18n="rr-s6">条核查剧本</span></div>
+      </div>
+      <div class="rr-bars" aria-label="SCOR 五段命中条数" data-page-node-id="rrBars001">
+        <div class="rr-row"><span class="rr-lab" data-i18n="rr-st-plan">计划</span><span class="rr-track"><span class="rr-fill" data-rv-bar="stPlan" style="width:24.8%;background:#5b6ab0"></span></span><span class="rr-val" data-rv="stPlan">36</span></div>
+        <div class="rr-row"><span class="rr-lab" data-i18n="rr-st-source">采购</span><span class="rr-track"><span class="rr-fill" data-rv-bar="stSource" style="width:35.9%;background:#b07a2c"></span></span><span class="rr-val" data-rv="stSource">52</span></div>
+        <div class="rr-row"><span class="rr-lab" data-i18n="rr-st-make">生产</span><span class="rr-track"><span class="rr-fill" data-rv-bar="stMake" style="width:29.0%;background:#2f7d6a"></span></span><span class="rr-val" data-rv="stMake">42</span></div>
+        <div class="rr-row"><span class="rr-lab" data-i18n="rr-st-deliver">交付</span><span class="rr-track"><span class="rr-fill" data-rv-bar="stDeliver" style="width:100%;background:#2b5d78"></span></span><span class="rr-val" data-rv="stDeliver">145</span></div>
+        <div class="rr-row"><span class="rr-lab" data-i18n="rr-st-return">逆向</span><span class="rr-track"><span class="rr-fill" data-rv-bar="stReturn" style="width:4.8%;background:#9a5a76"></span></span><span class="rr-val" data-rv="stReturn">7</span></div>
+      </div>
+      <div class="rr-bias" data-i18n="rr-bias" data-page-node-id="rrBias001"><b>为什么 <b data-rv="stDeliver">145</b> 明显高于其他段 · 口径核查</b><br>① 词典宽度：交付 <b data-rv="lexDeliver">124</b> 词，计划 <b data-rv="lexPlan">34</b> / 采购 <b data-rv="lexSource">68</b> / 生产 <b data-rv="lexMake">32</b> / 逆向 <b data-rv="lexReturn">17</b>。<br>② 等宽裁剪：交付中文词表裁到与生产相同的 20 词仍命中 <b data-rv="trim">85</b> 条，生产 20 词仅 <b data-rv="makeFull">20</b> 条。<br>③ 交付命中里 <b data-rv="exclusive">78</b> 条独占、<b data-rv="shared">67</b> 条与其他段共现；五段合计 <b data-rv="stageTotal">282</b> 次命中落在 <b data-rv="signals">182</b> 条信号上。<br>结论：<b data-rv="periods">14</b> 期语料以航运 / 运价 / 航路为主是主因（<b data-rv="atLeast60">13</b> 期交付命中率 ≥60%、<b data-rv="title">121</b> 条为标题级命中），词典宽度与多标签只是放大项；量的是报道覆盖密度，不是企业风险分布。完整口径核查见归纳台「方法与局限」。</div>
+      <div class="rr-find" data-i18n="rr-find" data-page-node-id="rrFind001">跨期归纳：六类风险里「数字化与 AI」<b data-rv="riskDigital">116</b> 条、「运价与成本」<b data-rv="riskCost">87</b> 条、「通道与连续性」<b data-rv="riskFlow">82</b> 条居前；交付段 <b data-rv="stDeliver">145</b> 条远高于其余四段，与语料的航运偏置一致，不能读作企业风险分布。</div>
+      <div class="rr-note" data-i18n="rr-note" data-page-node-id="rrCaveat001">口径与局限：五段 / 六风险为多标签计数，合计大于 <b data-rv="signals">182</b> 条；<b data-rv="duplicates">9</b> 条跨期重复、<b data-rv="unclassified">6</b> 条未分类、<b data-rv="caveats">14</b> 条局限与三组量化口径核查在归纳台内默认展开。以上数字取自 <span data-rv="windowFrom">2026-08-13</span> — <span data-rv="windowTo">2026-11-02</span> 的 <b data-rv="periods">14</b> 期归档窗口，随每周雷达周更重建；量的是报道覆盖密度，不是企业风险值。</div>
+      <div class="rr-actions" data-page-node-id="rrActions001">
+        <a class="btn btn-primary" href="reports/chainscope/index.html" target="_blank" rel="noopener" data-page-node-id="rrBtnDeck"><span data-i18n="rr-btn-open">打开归纳台</span> <span class="arr">↗</span></a>
+        <a class="btn btn-ghost" href="reports/chainscope/signal-data.json" target="_blank" rel="noopener" data-page-node-id="rrBtnData"><span data-i18n="rr-btn-data">查看归纳数据（JSON）</span> <span class="arr">↗</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- tab 3：只呈现核查剧本 -->
+  <div class="rv-pane" id="rvPanePlaybook" role="tabpanel" aria-labelledby="rvTabPlaybook" data-page-node-id="rvPanePlaybook001">
+    <div class="rr-card reveal reveal-d1">
+      <div class="rr-lead" data-i18n="rv-pb-lead">从往期雷达归纳出的核查剧本，按「信号 → 动作 → 触发条件 → 所需字段」列出。这里展示前 6 条，完整 <b data-rv="playbooks">19</b> 条、勾选状态与 CSV 导出在归纳台内。</div>
+      <div id="rvPlaybooks" data-page-node-id="rvPbList001"><div class="rr-note" data-i18n="rv-pb-loading">读取归纳数据…</div></div>
+      <div class="rr-actions"><a class="btn btn-primary" href="reports/chainscope/index.html" target="_blank" rel="noopener"><span data-i18n="rv-pb-all">打开归纳台查看全部剧本</span> <span class="arr">↗</span></a></div>
+    </div>
+  </div>
+
+  <div class="rv-chain" data-page-node-id="rvChain001">
+    <span data-i18n="rv-chain-label">数据链</span>
+    <code>radar-data.json + radar-archive/*.json</code><span>→</span>
+    <code>build_wordcloud*.py · build_chainscope.py</code><span>→</span>
+    <code>wordcloud-data.json · wordcloud-network.json · signal-data.json</code><span>→</span>
+    <b data-i18n="rv-chain-end" style="font-weight:600">本子话题</b>
+    <span data-i18n="rv-chain-note" style="margin-left:auto">周更一次，三份同步重建并对齐 periods</span>
+  </div>
+
+  <!-- 全量工作台：原模态 / 抽屉 / 遮罩原样保留，仅把入口卡隐藏供按钮触发 -->
+  <div class="wc-entry reveal reveal-d1" id="wcEntryCloud" data-page-node-id="wcEntryCloud001" role="button" tabindex="0" aria-label="打开词频工作台" style="display:none">
     <div class="wc-entry-title" id="wcEntryCloudTitle">重点高频词 <span class="wc-entry-arrow">↗</span></div>
     <div class="wc-entry-note" id="wcStatsCloud"><span id="wcStatsCloudMain">加载中…</span><span id="wcStatsNetExtra"></span></div>
     <div class="wc-chips" id="wcChipsCloud"></div>
     <div class="wc-entry-go" id="wcGoCloud">点击展开 →</div>
   </div>
-
   <div class="wc-modal" id="wcModal" data-page-node-id="wcModal001" hidden>
     <div class="wc-modal-panel" role="dialog" aria-modal="true" aria-label="词频工作台">
       <div class="wc-modal-head">
@@ -1761,6 +1909,216 @@
         </g>
         <text x="46" y="278" font-size="6.5" style="fill:var(--psi-ink-soft)" font-family="'JetBrains Mono',monospace" data-page-node-id="PsiFoot">psi-seed.json · Mendeley DOI 10.17632/27x8mjm8k4.1 · CC BY 4.0 · integer arithmetic</text>
       </svg>
+    </div>
+  </div>
+
+  <div class="app-card reveal reveal-d4 is-pending" data-page-node-id="M4CardNode">
+    <div class="app-head">
+      <span class="card-tool" style="--card-accent:var(--m4-tag)" data-page-node-id="M4ToolNode">METHOD LAB · FORECASTING</span>
+      <h3 data-i18n="app4-h3" data-page-node-id="M4H3Node">预测方法实验室</h3>
+      <div class="card-en" data-page-node-id="M4EnNode">m4-method-lab</div>
+    </div>
+    <div class="app-left" data-page-node-id="M4LeftNode">
+      <p data-i18n="app4-p" data-page-node-id="M4PNode">把「预测模型到底行不行、差多少、为什么差」做成三台可以当场重算的仪器：多级 GSM 与牛鞭在浏览器里跑合成仿真，pilot 的负结果照原样摆在第一屏，公开数据集上把缺货删失前后各算一遍。三个模块只讲方法与差距——按本站红线，不出补货量、不出建议下单量。</p>
+      <button type="button" class="app-toggle" aria-expanded="false"></button>
+      <ul data-page-node-id="M4UlNode">
+        <li data-i18n="app4-l1" data-page-node-id="M4L1Node">模块 A · 多级 GSM 与牛鞭（合成数据，种子 20260930）：终端需求 → 产地 → 区域 → 门店四级订单振幅逐级放大 1.14× → 1.83× → 3.68×，仿真守恒率 0.9628；页面重算与原型脚本输出逐项对账（7 项全 ✓），不靠截图讲故事</li>
+        <li data-i18n="app4-l2" data-page-node-id="M4L2Node">模块 B · pilot 负结果：AI hybrid 模型 MAPE 16.68% vs Naive lag-7 基线 12.42%，落后 4.26pp——不调参凑数，配六维差距登记（切分 / 度量 / 基线强度 / 数据 / 特征消融 / 部署口径）；序列数据不公开，页面明示</li>
+        <li data-i18n="app4-l3" data-page-node-id="M4L3Node">模块 C · 缺货删失前后对照（FreshRetailNet-50K 公开数据集）：19.88% 的营业小时处于缺货，只看观测销量会系统性低估 13.05%；恢复后 WPE 42.12% → 37.81%、偏差 −21.52% → −4.19%（n=202,770 个全天有货日）</li>
+        <li data-i18n="app4-l4" data-page-node-id="M4L4Node">诚实块是一等交付物：13.05% 依赖「缺货与需求无关」的强假设、逐序列-日恢复量中位为 0（低估集中在少数序列-日）、8,277× 量级的物理仿真版 bug 已弃用并写明——每个模块的局限都摆在台面上，不塞脚注</li>
+      </ul>
+      <div class="app-cost" data-page-node-id="M4CostNode">
+        <div class="app-cost-row is-free" data-page-node-id="M4CostFree">
+          <span class="app-cost-tag" data-i18n="app4-c1h" data-page-node-id="M4C1h">已接入 · 免费</span>
+          <span class="app-cost-txt" data-i18n="app4-c1" data-page-node-id="M4C1">FreshRetailNet-50K 公开数据集（统计已内嵌，页面零请求零密钥）· 合成仿真无外部数据 · 单文件 HTML，纯静态托管即可运行</span>
+        </div>
+        <div class="app-cost-row is-paid" data-page-node-id="M4CostPaid">
+          <span class="app-cost-tag" data-i18n="app4-c2h" data-page-node-id="M4C2h">需接入 · 视数据源</span>
+          <span class="app-cost-txt" data-i18n="app4-c2" data-page-node-id="M4C2">换成企业真实序列时，瓶颈在数据治理：缺货标注口径、时段切分、退货语义；pilot 序列当前不公开，模块 B 的数字无法在他处复现，页面已明示</span>
+        </div>
+      </div>
+      <div class="app-cost-note" data-i18n="app4-cnote" data-page-node-id="M4Cnote">这台实验室的价值不在哪个模型赢没赢，而在 4.26pp 的落后被放在第一屏、连同六维差距登记一起——多数演示只放赢的那一半。</div>
+      <div class="card-actions" data-page-node-id="M4Actions">
+        <a class="btn btn-primary" href="reports/m4/index.html" target="_blank" rel="noopener" data-page-node-id="M4BtnApp"><span data-i18n="btn-app" data-page-node-id="M4BtnAppTxt">打开应用</span> <span class="arr" data-page-node-id="M4BtnAppArr">↗</span></a>
+        <a class="btn btn-ghost" href="https://huggingface.co/datasets/Dingdong-Inc/FreshRetailNet-50K" target="_blank" rel="noopener" data-page-node-id="M4BtnData"><span data-i18n="btn-data" data-page-node-id="M4BtnDataTxt">数据出处 · CC BY 4.0</span> <span class="arr" data-page-node-id="M4BtnDataArr">↗</span></a>
+      </div>
+    </div>
+    <div class="app-fig" aria-hidden="true" data-page-node-id="M4FigNode">
+      <svg viewBox="0 0 460 320" fill="none" data-page-node-id="M4Svg">
+        <defs>
+          <filter id="m4WinShadow" x="-8%" y="-8%" width="116%" height="122%">
+            <feDropShadow dx="0" dy="4" stdDeviation="7" style="flood-color:var(--psi-shadow)" flood-opacity="0.22"/>
+          </filter>
+        </defs>
+        <text x="12" y="18" font-size="9.5" style="fill:var(--m4-tag)" font-family="'JetBrains Mono',monospace" letter-spacing="2" data-page-node-id="M4Tag">M4 · METHOD LAB · FORECASTING &amp; CENSORING</text>
+
+        <rect x="30" y="32" width="400" height="260" rx="10" style="fill:var(--psi-win);stroke:var(--psi-win-stroke)" filter="url(#m4WinShadow)" data-page-node-id="M4Win"/>
+
+        <!-- A 面板：同一需求信号沿上游逐级放大（四行分面，振幅比 = 1 : 1.14 : 1.83 : 3.68） -->
+        <text x="46" y="56" font-size="7" style="fill:var(--psi-ink-soft)" font-family="'JetBrains Mono',monospace" letter-spacing="0.8" data-page-node-id="M4ALbl">A · ORDER AMPLITUDE GROWS UPSTREAM</text>
+        <g stroke="var(--psi-line)" stroke-width="0.7" data-page-node-id="M4ABase">
+          <path d="M56 72 H244"/>
+          <path d="M56 102 H244"/>
+          <path d="M56 132 H244"/>
+          <path d="M56 162 H244"/>
+        </g>
+        <path stroke="var(--m4-a)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M56.0 69.9 C57.0 69.7 60.0 69.0 62.1 68.9 C64.1 68.7 66.1 68.8 68.1 69.0 C70.2 69.2 72.2 69.6 74.2 70.0 C76.2 70.3 78.2 70.8 80.3 71.1 C82.3 71.5 84.3 71.8 86.3 72.0 C88.3 72.2 90.4 72.3 92.4 72.5 C94.4 72.6 96.4 72.7 98.5 72.8 C100.5 72.9 102.5 73.0 104.5 73.2 C106.5 73.3 108.6 73.5 110.6 73.7 C112.6 73.8 114.6 74.0 116.6 74.1 C118.7 74.2 120.7 74.2 122.7 74.1 C124.7 74.0 126.8 73.9 128.8 73.6 C130.8 73.3 132.8 72.9 134.8 72.5 C136.9 72.0 138.9 71.5 140.9 70.9 C142.9 70.4 144.9 69.8 147.0 69.4 C149.0 69.0 151.0 68.6 153.0 68.5 C155.1 68.3 157.1 68.4 159.1 68.6 C161.1 68.8 163.1 69.3 165.2 69.9 C167.2 70.5 169.2 71.3 171.2 71.9 C173.2 72.6 175.3 73.4 177.3 73.9 C179.3 74.4 181.3 74.8 183.4 75.0 C185.4 75.1 187.4 75.0 189.4 74.9 C191.4 74.7 193.5 74.3 195.5 74.0 C197.5 73.7 199.5 73.3 201.5 73.0 C203.6 72.7 205.6 72.4 207.6 72.2 C209.6 72.0 211.7 72.0 213.7 71.9 C215.7 71.7 217.7 71.7 219.7 71.6 C221.8 71.4 223.8 71.3 225.8 71.1 C227.8 70.9 229.8 70.6 231.9 70.4 C233.9 70.1 235.9 69.8 237.9 69.7 C240.0 69.6 243.0 69.5 244.0 69.5" data-page-node-id="M4L1"/>
+        <path stroke="var(--m4-b)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M56.0 99.5 C57.0 99.3 60.0 98.4 62.1 98.3 C64.1 98.2 66.1 98.3 68.1 98.6 C70.2 98.8 72.2 99.4 74.2 99.8 C76.2 100.2 78.2 100.7 80.3 101.1 C82.3 101.5 84.3 101.7 86.3 102.0 C88.3 102.2 90.4 102.3 92.4 102.4 C94.4 102.6 96.4 102.7 98.5 102.8 C100.5 103.0 102.5 103.2 104.5 103.4 C106.5 103.6 108.6 103.9 110.6 104.0 C112.6 104.2 114.6 104.4 116.6 104.5 C118.7 104.5 120.7 104.5 122.7 104.4 C124.7 104.3 126.8 104.0 128.8 103.7 C130.8 103.4 132.8 103.0 134.8 102.5 C136.9 102.0 138.9 101.4 140.9 100.8 C142.9 100.3 144.9 99.6 147.0 99.2 C149.0 98.7 151.0 98.2 153.0 98.0 C155.1 97.8 157.1 97.8 159.1 98.1 C161.1 98.3 163.1 98.9 165.2 99.5 C167.2 100.1 169.2 101.1 171.2 101.9 C173.2 102.7 175.3 103.6 177.3 104.2 C179.3 104.8 181.3 105.3 183.4 105.5 C185.4 105.7 187.4 105.6 189.4 105.3 C191.4 105.1 193.5 104.6 195.5 104.2 C197.5 103.8 199.5 103.3 201.5 103.0 C203.6 102.6 205.6 102.4 207.6 102.2 C209.6 102.0 211.7 102.0 213.7 101.9 C215.7 101.8 217.7 101.8 219.7 101.6 C221.8 101.5 223.8 101.2 225.8 101.0 C227.8 100.7 229.8 100.3 231.9 100.0 C233.9 99.7 235.9 99.4 237.9 99.3 C240.0 99.1 243.0 99.2 244.0 99.1" data-page-node-id="M4L2"/>
+        <path stroke="var(--m4-c)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M56.0 127.7 C57.0 127.4 60.0 126.1 62.1 125.9 C64.1 125.7 66.1 126.1 68.1 126.6 C70.2 127.0 72.2 128.0 74.2 128.7 C76.2 129.4 78.2 130.2 80.3 130.7 C82.3 131.2 84.3 131.6 86.3 131.9 C88.3 132.2 90.4 132.3 92.4 132.5 C94.4 132.7 96.4 132.9 98.5 133.2 C100.5 133.5 102.5 133.9 104.5 134.3 C106.5 134.7 108.6 135.2 110.6 135.5 C112.6 135.8 114.6 136.0 116.6 136.1 C118.7 136.1 120.7 136.0 122.7 135.8 C124.7 135.5 126.8 135.1 128.8 134.5 C130.8 134.0 132.8 133.4 134.8 132.6 C136.9 131.9 138.9 131.1 140.9 130.2 C142.9 129.4 144.9 128.4 147.0 127.7 C149.0 126.9 151.0 126.1 153.0 125.7 C155.1 125.4 157.1 125.2 159.1 125.6 C161.1 125.9 163.1 126.7 165.2 127.8 C167.2 128.8 169.2 130.4 171.2 131.7 C173.2 133.0 175.3 134.7 177.3 135.7 C179.3 136.7 181.3 137.5 183.4 137.8 C185.4 138.1 187.4 137.8 189.4 137.4 C191.4 137.0 193.5 136.1 195.5 135.4 C197.5 134.7 199.5 133.9 201.5 133.4 C203.6 132.8 205.6 132.5 207.6 132.3 C209.6 132.0 211.7 132.1 213.7 132.0 C215.7 131.9 217.7 131.9 219.7 131.6 C221.8 131.3 223.8 130.9 225.8 130.4 C227.8 129.9 229.8 129.2 231.9 128.7 C233.9 128.2 235.9 127.6 237.9 127.4 C240.0 127.2 243.0 127.4 244.0 127.4" data-page-node-id="M4L3"/>
+        <path stroke="var(--psi-neg)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M56.0 153.1 C57.0 152.5 60.0 149.7 62.1 149.4 C64.1 149.1 66.1 150.1 68.1 151.1 C70.2 152.2 72.2 154.2 74.2 155.7 C76.2 157.1 78.2 158.7 80.3 159.7 C82.3 160.7 84.3 161.2 86.3 161.7 C88.3 162.2 90.4 162.2 92.4 162.6 C94.4 163.0 96.4 163.4 98.5 164.1 C100.5 164.8 102.5 165.8 104.5 166.7 C106.5 167.6 108.6 168.7 110.6 169.4 C112.6 170.0 114.6 170.5 116.6 170.5 C118.7 170.5 120.7 170.0 122.7 169.4 C124.7 168.8 126.8 167.8 128.8 166.7 C130.8 165.7 132.8 164.4 134.8 163.1 C136.9 161.7 138.9 160.2 140.9 158.6 C142.9 157.1 144.9 155.2 147.0 153.7 C149.0 152.2 151.0 150.4 153.0 149.6 C155.1 148.8 157.1 148.3 159.1 148.9 C161.1 149.5 163.1 151.0 165.2 153.1 C167.2 155.1 169.2 158.5 171.2 161.2 C173.2 164.0 175.3 167.5 177.3 169.6 C179.3 171.7 181.3 173.5 183.4 174.1 C185.4 174.7 187.4 174.0 189.4 173.1 C191.4 172.2 193.5 170.1 195.5 168.6 C197.5 167.2 199.5 165.4 201.5 164.3 C203.6 163.3 205.6 162.8 207.6 162.4 C209.6 162.1 211.7 162.4 213.7 162.3 C215.7 162.2 217.7 162.2 219.7 161.6 C221.8 161.0 223.8 160.0 225.8 158.9 C227.8 157.8 229.8 156.1 231.9 155.0 C233.9 154.0 235.9 152.8 237.9 152.4 C240.0 152.0 243.0 152.6 244.0 152.7" data-page-node-id="M4L4"/>
+        <g font-family="'JetBrains Mono',monospace" font-size="6.5" style="fill:var(--psi-ink-soft)" data-page-node-id="M4ALeg">
+          <path d="M252 72 h9" stroke="var(--m4-a)" stroke-width="1.4" stroke-linecap="round"/>
+          <text x="266" y="74.5">terminal</text>
+          <path d="M252 102 h9" stroke="var(--m4-b)" stroke-width="1.4" stroke-linecap="round"/>
+          <text x="266" y="104.5">FS · 1.14×</text>
+          <path d="M252 132 h9" stroke="var(--m4-c)" stroke-width="1.4" stroke-linecap="round"/>
+          <text x="266" y="134.5">RDC · 1.83×</text>
+          <path d="M252 162 h9" stroke="var(--psi-neg)" stroke-width="1.6" stroke-linecap="round"/>
+          <text x="266" y="164.5" font-weight="600" style="fill:var(--psi-ink)">DC · 3.68×</text>
+        </g>
+        <!-- B 面板：pilot 双柱对照 -->
+        <text x="320" y="56" font-size="7" style="fill:var(--psi-ink-soft)" font-family="'JetBrains Mono',monospace" letter-spacing="0.8" data-page-node-id="M4BLbl">B · PILOT MAPE</text>
+        <text x="345" y="74" text-anchor="middle" font-size="8" font-weight="600" style="fill:var(--psi-ink)" font-family="'JetBrains Mono',monospace" data-page-node-id="M4B1">16.68%</text>
+        <rect x="330" y="80" width="30" height="66" rx="2" style="fill:var(--m4-c)" data-page-node-id="M4B1Bar"/>
+        <text x="397" y="90" text-anchor="middle" font-size="8" font-weight="600" style="fill:var(--psi-ink)" font-family="'JetBrains Mono',monospace" data-page-node-id="M4B2">12.42%</text>
+        <rect x="382" y="96" width="30" height="50" rx="2" style="fill:var(--m4-a)" data-page-node-id="M4B2Bar"/>
+        <path d="M320 146 H414" stroke="var(--psi-line)" stroke-width="1" data-page-node-id="M4BAxis"/>
+        <g font-family="'JetBrains Mono',monospace" font-size="6.5" style="fill:var(--psi-ink-soft)" data-page-node-id="M4BSub">
+          <text x="345" y="157" text-anchor="middle">AI hybrid</text>
+          <text x="397" y="157" text-anchor="middle">naive lag-7</text>
+        </g>
+        <text x="363" y="172" text-anchor="middle" font-size="7.5" font-weight="600" style="fill:var(--m4-c)" font-family="'JetBrains Mono',monospace" data-page-node-id="M4BGap">−4.26pp</text>
+
+        <!-- C 面板：缺货 = 删失，不是零需求 -->
+        <text x="46" y="192" font-size="7" style="fill:var(--psi-ink-soft)" font-family="'JetBrains Mono',monospace" letter-spacing="0.8" data-page-node-id="M4CLbl">C · STOCKOUT HOURS ARE CENSORED, NOT ZERO</text>
+        <g font-family="'JetBrains Mono',monospace" font-size="6.5" style="fill:var(--psi-ink-soft)" data-page-node-id="M4CRowLbl">
+          <text x="46" y="213">OBSERVED</text>
+          <text x="46" y="239">RECOVERED</text>
+        </g>
+        <g data-page-node-id="M4Cells1">
+          <rect x="100" y="206" width="18" height="14" rx="1.5" style="fill:var(--psi-panel);stroke:var(--psi-line)"/>
+          <rect x="120" y="206" width="18" height="14" rx="1.5" style="fill:var(--psi-panel);stroke:var(--psi-line)"/>
+          <rect x="140" y="206" width="18" height="14" rx="1.5" style="fill:var(--psi-panel);stroke:var(--psi-line)"/>
+          <rect x="160" y="206" width="18" height="14" rx="1.5" style="fill:var(--m4-c)"/>
+          <rect x="180" y="206" width="18" height="14" rx="1.5" style="fill:var(--m4-c)"/>
+          <rect x="200" y="206" width="18" height="14" rx="1.5" style="fill:var(--psi-panel);stroke:var(--psi-line)"/>
+          <rect x="220" y="206" width="18" height="14" rx="1.5" style="fill:var(--psi-panel);stroke:var(--psi-line)"/>
+          <rect x="240" y="206" width="18" height="14" rx="1.5" style="fill:var(--psi-panel);stroke:var(--psi-line)"/>
+          <rect x="260" y="206" width="18" height="14" rx="1.5" style="fill:var(--psi-panel);stroke:var(--psi-line)"/>
+          <rect x="280" y="206" width="18" height="14" rx="1.5" style="fill:var(--m4-c)"/>
+          <rect x="300" y="206" width="18" height="14" rx="1.5" style="fill:var(--psi-panel);stroke:var(--psi-line)"/>
+          <rect x="320" y="206" width="18" height="14" rx="1.5" style="fill:var(--psi-panel);stroke:var(--psi-line)"/>
+          <rect x="340" y="206" width="18" height="14" rx="1.5" style="fill:var(--psi-panel);stroke:var(--psi-line)"/>
+          <rect x="360" y="206" width="18" height="14" rx="1.5" style="fill:var(--m4-c)"/>
+          <rect x="380" y="206" width="18" height="14" rx="1.5" style="fill:var(--psi-panel);stroke:var(--psi-line)"/>
+        </g>
+        <g data-page-node-id="M4Cells2">
+          <rect x="100" y="232" width="18" height="14" rx="1.5" style="fill:var(--psi-panel);stroke:var(--psi-line)"/>
+          <rect x="120" y="232" width="18" height="14" rx="1.5" style="fill:var(--psi-panel);stroke:var(--psi-line)"/>
+          <rect x="140" y="232" width="18" height="14" rx="1.5" style="fill:var(--psi-panel);stroke:var(--psi-line)"/>
+          <rect x="160" y="232" width="18" height="14" rx="1.5" style="fill:var(--m4-b);fill-opacity:.28" stroke="var(--m4-b)" stroke-dasharray="2 2"/>
+          <rect x="180" y="232" width="18" height="14" rx="1.5" style="fill:var(--m4-b);fill-opacity:.28" stroke="var(--m4-b)" stroke-dasharray="2 2"/>
+          <rect x="200" y="232" width="18" height="14" rx="1.5" style="fill:var(--psi-panel);stroke:var(--psi-line)"/>
+          <rect x="220" y="232" width="18" height="14" rx="1.5" style="fill:var(--psi-panel);stroke:var(--psi-line)"/>
+          <rect x="240" y="232" width="18" height="14" rx="1.5" style="fill:var(--psi-panel);stroke:var(--psi-line)"/>
+          <rect x="260" y="232" width="18" height="14" rx="1.5" style="fill:var(--psi-panel);stroke:var(--psi-line)"/>
+          <rect x="280" y="232" width="18" height="14" rx="1.5" style="fill:var(--m4-b);fill-opacity:.28" stroke="var(--m4-b)" stroke-dasharray="2 2"/>
+          <rect x="300" y="232" width="18" height="14" rx="1.5" style="fill:var(--psi-panel);stroke:var(--psi-line)"/>
+          <rect x="320" y="232" width="18" height="14" rx="1.5" style="fill:var(--psi-panel);stroke:var(--psi-line)"/>
+          <rect x="340" y="232" width="18" height="14" rx="1.5" style="fill:var(--psi-panel);stroke:var(--psi-line)"/>
+          <rect x="360" y="232" width="18" height="14" rx="1.5" style="fill:var(--m4-b);fill-opacity:.28" stroke="var(--m4-b)" stroke-dasharray="2 2"/>
+          <rect x="380" y="232" width="18" height="14" rx="1.5" style="fill:var(--psi-panel);stroke:var(--psi-line)"/>
+        </g>
+        <g font-family="'JetBrains Mono',monospace" font-size="6.5" style="fill:var(--psi-ink-soft)" data-page-node-id="M4CLeg">
+          <rect x="46" y="256" width="6" height="6" rx="1" style="fill:var(--m4-c)"/>
+          <text x="56" y="261.5">stockout hour</text>
+          <rect x="128" y="256" width="6" height="6" rx="1" style="fill:var(--m4-b);fill-opacity:.28" stroke="var(--m4-b)" stroke-dasharray="2 2"/>
+          <text x="138" y="261.5">hidden demand restored</text>
+          <text x="414" y="261.5" text-anchor="end">19.88% stockout · underestimation 13.05%</text>
+        </g>
+        <text x="46" y="280" font-size="6.5" style="fill:var(--psi-ink-soft)" font-family="'JetBrains Mono',monospace" data-page-node-id="M4CFoot">WPE 42.1% → 37.8% · BIAS −21.5% → −4.2% · n = 202,770 fully-stocked days</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="app-card reveal reveal-d4 is-collapsed" data-page-node-id="FlCardNode">
+    <div class="app-head">
+      <span class="card-tool" style="--card-accent:var(--accent)" data-page-node-id="FlToolNode">FLOWLENS · REAL ORDER DATA</span>
+      <h3 data-i18n="app6-h3" data-page-node-id="FlH3Node">履约与承诺归因台</h3>
+      <div class="card-en" data-page-node-id="FlEnNode">flowlens</div>
+    </div>
+    <div class="app-left" data-page-node-id="FlLeftNode">
+      <p data-i18n="app6-p" data-page-node-id="FlPNode">用 Olist 公开数据集 99,441 笔真实订单做一台可在业务中复用的分析看板：9 张关系表按公开 join 规则落成一张订单级事实表，拆解下单 → 审批 → 交承运 → 送达的四段周期，把「按时率」拆成承诺缓冲与实际履约两件事，再用确定性规则筛出需要核查的线路与数据质量缺口。全部指标在浏览器内重新聚合，零外部请求、无 LLM、不冒充实时。</p>
+      <button type="button" class="app-toggle" aria-expanded="false"></button>
+      <ul data-page-node-id="FlUlNode">
+        <li data-i18n="app6-l1" data-page-node-id="FlL1Node">数字化：99,441 笔订单 / 112,650 行订单项 / 3,095 位卖家 / 27 个客户州；1:N 明细先聚合再 join，行数膨胀由构建期 C1 自检拦截；月度双轴趋势、四段周期分布、409 条「卖家州 → 客户州」线路、品类 / 运费率 / 订单行数切片</li>
+        <li data-i18n="app6-l2" data-page-node-id="FlL2Node">智能化（确定性、非模型）：承诺窗口 what-if 情景（把承诺改成 K 天后按时率怎么变）、Wilson 95% 下界 + 最小样本量的显著异常筛查、延迟订单帕累托归因；5 MB 事实表在浏览器内重新聚合，与构建产物逐字段对账</li>
+        <li data-i18n="app6-l3" data-page-node-id="FlL3Node">业务实践：43 条可勾选的核查任务（22 条显著线路 + 9 项数据质量缺口 + 12 条按 SCOR 分工拟定的标准剧本），每条写明「查哪张表 / 问哪个角色 / 核哪个字段 / 触发条件」，导出 CSV 或打印成任务单</li>
+        <li data-i18n="app6-l4" data-page-node-id="FlL4Node">结论照实：93.22% 按时率对应承诺缓冲中位 24 天、实际周期中位 10 天——KPI 主要由宽松承诺贡献；承诺收紧到 7 天时按时率只剩 31.81%。后期延迟率上升与承诺收紧同时发生，本数据无法分辨因果；15 条局限默认展开</li>
+        <li data-i18n="app6-l5" data-page-node-id="FlL5Node">可复用性：字段映射是单一事实来源，换企业 OMS / WMS / TMS 导出只需改映射、重跑构建链、检查 C1–C12 与浏览器断言；页面写明五步接入路径与字段清单。红线照旧：不出最优库存 / 建议下单量 / 建议承诺天数，不承诺降本时效</li>
+      </ul>
+      <div class="app-cost" data-page-node-id="FlCostNode">
+        <div class="app-cost-row is-free" data-page-node-id="FlCostFree">
+          <span class="app-cost-tag" data-i18n="app6-c1h" data-page-node-id="FlC1h">已接入 · 免费</span>
+          <span class="app-cost-txt" data-i18n="app6-c1" data-page-node-id="FlC1">Olist 巴西电商公开数据集（Kaggle / CC BY-NC-SA 4.0，真实匿名商业订单）· 单文件 HTML + 同源 facts.csv / aggregate.json，纯静态托管、零密钥、零外部请求</span>
+        </div>
+        <div class="app-cost-row is-paid" data-page-node-id="FlCostPaid">
+          <span class="app-cost-tag" data-i18n="app6-c2h" data-page-node-id="FlC2h">需接入 · 视数据源</span>
+          <span class="app-cost-txt" data-i18n="app6-c2" data-page-node-id="FlC2">换成企业真实流水时，瓶颈在数据治理：订单主键唯一性、1:N 表先聚合、承诺日与时区口径、SLA 规则版本、显著性阈值校准；该许可禁止商用，企业落地必须替换为自有数据</span>
+        </div>
+      </div>
+      <div class="app-cost-note" data-i18n="app6-cnote" data-page-node-id="FlCnote">它的价值不在把订单画成趋势线，而在把「93.22% 按时率 = 24 天承诺缓冲 − 10 天实际周期」放在首屏——多数看板会把这个 KPI 直接当成履约能力，而不去拆分母口径。</div>
+      <div class="card-actions" data-page-node-id="FlActions">
+        <a class="btn btn-primary" href="reports/flowlens/index.html" target="_blank" rel="noopener" data-page-node-id="FlBtnApp"><span data-i18n="btn-app" data-page-node-id="FlBtnAppTxt">打开应用</span> <span class="arr" data-page-node-id="FlBtnAppArr">↗</span></a>
+        <a class="btn btn-ghost" href="reports/flowlens/field-map.json" target="_blank" rel="noopener" data-page-node-id="FlBtnData"><span data-i18n="app6-btndata" data-page-node-id="FlBtnDataTxt">查看数据与字段映射（JSON）</span> <span class="arr" data-page-node-id="FlBtnDataArr">↗</span></a>
+      </div>
+    </div>
+    <div class="app-fig" aria-hidden="true" data-page-node-id="FlFigNode">
+        <svg viewBox="0 0 460 320" fill="none" data-page-node-id="FlSvg">
+          <defs><filter id="flWinShadow" x="-8%" y="-8%" width="116%" height="122%">
+            <feDropShadow dx="0" dy="4" stdDeviation="7" style="flood-color:var(--psi-shadow)" flood-opacity="0.22"/>
+          </filter></defs>
+          <text x="12" y="18" font-size="9.5" style="fill:var(--accent)" font-family="'JetBrains Mono',monospace" letter-spacing="2" data-page-node-id="FlTag">FLOWLENS · ORDER-TO-DELIVERY ANALYTICS</text>
+          <rect x="30" y="32" width="400" height="260" rx="10" style="fill:var(--psi-win);stroke:var(--psi-win-stroke)" filter="url(#flWinShadow)" data-page-node-id="FlWin"/>
+          <text x="46" y="52" font-size="7" style="fill:var(--psi-ink-soft)" font-family="monospace" letter-spacing="0.8">SCHEMATIC · PROMISE BUFFER VS ACTUAL CYCLE</text>
+          <path d="M46 60 H414" style="stroke:var(--psi-line)" stroke-width="0.8"/>
+          <text x="46" y="78" font-size="7" style="fill:var(--psi-ink)" font-family="monospace">PROMISE</text>
+          <rect x="106" y="70" width="280" height="9" rx="2" style="fill:#3b7ea1;fill-opacity:.80"/>
+          <text x="396" y="78" font-size="7" style="fill:var(--psi-ink-soft)" font-family="monospace">BUFFER</text>
+          <text x="46" y="98" font-size="7" style="fill:var(--psi-ink)" font-family="monospace">ACTUAL</text>
+          <rect x="106" y="90" width="116" height="9" rx="2" style="fill:#3d9179;fill-opacity:.85"/>
+          <path d="M228 94 H386" style="stroke:#c2554e;stroke-opacity:.75" stroke-width="1" stroke-dasharray="3 3"/>
+          <text x="292" y="112" text-anchor="middle" font-size="6.5" style="fill:#c2554e" font-family="monospace">← SLACK CREATES THE KPI →</text>
+          <path d="M46 122 H414" style="stroke:var(--psi-line)" stroke-width="0.8"/>
+          <text x="46" y="136" font-size="7" style="fill:var(--psi-ink-soft)" font-family="monospace" letter-spacing="0.8">4-SEGMENT CYCLE · RELATIVE DURATION (P50)</text>
+          <g data-page-node-id="FlSeg1">
+            <rect x="46" y="146" width="26" height="14" rx="2" style="fill:#6b78bd;fill-opacity:.82"/>
+            <text x="46" y="172" font-size="6" style="fill:var(--psi-ink-soft)" font-family="monospace">PURCHASE</text>
+          </g>
+          <g data-page-node-id="FlSeg2">
+            <rect x="88" y="146" width="8" height="14" rx="2" style="fill:#6b78bd;fill-opacity:.82"/>
+            <text x="88" y="172" font-size="6" style="fill:var(--psi-ink-soft)" font-family="monospace">APPROVE</text>
+          </g>
+          <g data-page-node-id="FlSeg3">
+            <rect x="112" y="146" width="30" height="14" rx="2" style="fill:#c08a34;fill-opacity:.82"/>
+            <text x="112" y="172" font-size="6" style="fill:var(--psi-ink-soft)" font-family="monospace">HANDOFF</text>
+          </g>
+          <g data-page-node-id="FlSeg4">
+            <rect x="158" y="146" width="118" height="14" rx="2" style="fill:#3b7ea1;fill-opacity:.82"/>
+            <text x="158" y="172" font-size="6" style="fill:var(--psi-ink-soft)" font-family="monospace">TRANSIT</text>
+          </g>
+          <path d="M46 182 H414" style="stroke:var(--psi-line)" stroke-width="0.8"/>
+          <text x="46" y="196" font-size="7" style="fill:var(--psi-ink-soft)" font-family="monospace" letter-spacing="0.7">WHAT-IF · ON-TIME RATE UNDER A K-DAY PROMISE</text>
+          <rect x="46" y="202" width="368" height="42" rx="2" style="fill:var(--psi-panel);stroke:var(--psi-line)"/>
+          <path d="M52 238 L86 232 L120 224 L154 216 L188 210 L222 207 L256 205 L290 204 L324 203 L358 203 L408 203" style="stroke:#3b7ea1" stroke-width="1.8" fill="none"/>
+          <path d="M46 220 H414" style="stroke:#c2554e;stroke-opacity:.6" stroke-width="0.8" stroke-dasharray="2 2"/>
+          <circle cx="120" cy="224" r="2.4" style="fill:#c2554e"/>
+          <text x="46" y="258" font-size="6.5" style="fill:var(--psi-ink-soft)" font-family="monospace">LANE SCREENING · WILSON LOWER BOUND · 43 CHECKS · CSV / PRINT</text>
+          <rect x="46" y="264" width="368" height="4" rx="2" style="fill:var(--psi-panel);stroke:var(--psi-line)"/>
+          <rect x="46" y="264" width="96" height="4" rx="2" style="fill:var(--accent);fill-opacity:.72"/>
+          <text x="46" y="280" font-size="6.5" style="fill:var(--psi-ink-soft)" font-family="monospace">DETERMINISTIC · NO LLM · RECOMPUTED IN BROWSER</text>
+          <text x="414" y="280" text-anchor="end" font-size="6.5" style="fill:var(--psi-ink-soft)" font-family="monospace">OLIST · CC BY-NC-SA 4.0</text>
+        </svg>
     </div>
   </div>
   </div>
@@ -2459,7 +2817,6 @@
     'a1t': 'Warehouse automation & AI orchestration accelerate',
     'a1d': 'Gartner: 93% of companies plan cyber-physical automation investment within two years; 82% expand after their first robot deployment. Apps are shifting from point assistants to cross-system multi-agent orchestration — the lane VeloCortex below sits in.',
     'reports-title': 'Research & Application · Horizontal Comparison',
-    'wc-title': 'Keyword Frequency · Cross-Week Keywords',
     'matrix-hint': 'Swipe sideways for the full comparison table',
     'mh1': 'AI Agent / Project', 'mh2': 'Model · Toolchain', 'mh3': 'Format & Stack', 'mh4': 'Lens & Window', 'mh5': 'Signature Trait',     'mh6': 'Data Sources', 'mh7': 'Role',
     'm1c2': '<span class="model">Grok 4.5 High Fast</span><span class="stack">Cursor Agent + Canvas</span>',
@@ -2581,6 +2938,51 @@
     'app3-c2h': 'Needs integration',
     'app3-c2': 'Swapping in real ERP/WMS transaction data — what it costs depends on the data source — the bottleneck is data governance rather than compute: aligning SKU definitions, separating returns from transfer documents, attributing count variances; and the three assertion suites (A1–A16, F1–F12 and V-A–V-E) have to be rewritten as a set, or the conservation rate stops meaning anything on a different dataset.',
     'app3-cnote': 'The value of this instrument is not the 78.62% figure but the 5.22% row being called out explicitly and left un-swept — most reconciliation tools drop the difference into an “other adjustments” line.',
+    'app4-h3': 'Forecasting Method Lab',
+    'app4-p': 'Turns “is this forecasting model any good, by how much, and why” into three instruments you can re-run on the spot: a multi-echelon GSM & bullwhip simulation on synthetic data, the pilot’s negative result shown as it is, and a before/after pass over a public dataset’s stockout censoring. All three modules cover method and gap only — per this site’s red lines, no replenishment quantity and no suggested order size is ever produced.',
+    'app4-l1': 'Module A · Multi-echelon GSM & bullwhip (synthetic, seed 20260930): terminal demand → factory → region → store orders amplify step by step at 1.14× → 1.83× → 3.68×, with a 0.9628 simulation conservation ratio; the page recomputes and reconciles item by item against the prototype script (7/7 ✓) rather than telling the story through screenshots',
+    'app4-l2': 'Module B · The pilot’s negative result: the AI hybrid model scores MAPE 16.68% against a Naive lag-7 baseline of 12.42% — trailing by 4.26pp; no parameter tuning to salvage the number, paired with a six-dimension gap register (splitting / metric / baseline strength / data / feature ablation / deployment framing); the series is not public, and the page says so',
+    'app4-l3': 'Module C · Stockout censoring before/after (public FreshRetailNet-50K): 19.88% of trading hours are stocked out, and reading observed sales alone underestimates demand by 13.05%; after recovery WPE improves 42.12% → 37.81% and bias −21.52% → −4.19% (n=202,770 fully-stocked days)',
+    'app4-l4': 'Honesty blocks are first-class deliverables: the 13.05% rests on the strong assumption that stockout is independent of demand, the per-series-day median recovery is 0 (the bias concentrates in a minority), and the 8,277×-magnitude physical-simulation bug is retired and written up — every module’s limitations sit on the front page, not in a footnote',
+    'app4-c1h': 'Connected · free',
+    'app4-c1': 'FreshRetailNet-50K public dataset (stats embedded, zero requests, zero keys) · the synthetic simulation needs no external data · single-file HTML, runs on a purely static host',
+    'app4-c2h': 'Needs integration · data-source dependent',
+    'app4-c2': 'Swapping in real company series, the bottleneck is data governance: stockout annotation conventions, hour bucketing, returns semantics; the pilot series is not public, so Module B’s numbers cannot be reproduced elsewhere — and the page states this explicitly',
+    'app4-cnote': 'The value of this lab is not whether some model won, but that the 4.26pp deficit sits on the first screen together with its six-dimension gap register — most demos show only the half that wins.',
+    'rr-lead': 'This section merges <b data-rv="periods">14</b> archived issues (<span data-rv="windowFrom">2026-08-13</span> – <span data-rv="windowTo">2026-11-02</span>) into one cross-period view: <b data-rv="signals">182</b> signals re-tagged across the five SCOR stages and six risk classes, anomalies flagged against a rolling four-issue baseline, and <b data-rv="playbooks">19</b> selectable verification playbooks. It is a synthesis and index of past radar material — no new intelligence, never presented as live.',
+    'rr-s1': 'Issues', 'rr-s2': 'Signals', 'rr-s3': 'Sources', 'rr-s4': 'Verified', 'rr-s5': 'SCOR stages', 'rr-s6': 'Playbooks',
+    'rr-st-plan': 'Plan', 'rr-st-source': 'Source', 'rr-st-make': 'Make', 'rr-st-deliver': 'Deliver', 'rr-st-return': 'Return',
+    'rr-find': 'Cross-period finding: among the six risk classes, Digital & AI (<b data-rv="riskDigital">116</b>), Freight & Cost (<b data-rv="riskCost">87</b>) and Corridor Continuity (<b data-rv="riskFlow">82</b>) lead; Deliver carries <b data-rv="stDeliver">145</b> hits, far above the other four stages, consistent with the shipping-heavy corpus — it is not a distribution of enterprise risk.',
+    'rr-bias': '<b>Why <b data-rv="stDeliver">145</b> is far above the other stages · definitions audit</b><br>(1) Lexicon width: Deliver <b data-rv="lexDeliver">124</b> terms versus Plan <b data-rv="lexPlan">34</b> / Source <b data-rv="lexSource">68</b> / Make <b data-rv="lexMake">32</b> / Return <b data-rv="lexReturn">17</b>.<br>(2) Equal-width trim: cutting Deliver’s Chinese lexicon to Make’s 20 terms still yields <b data-rv="trim">85</b> hits, while Make’s 20 terms yield <b data-rv="makeFull">20</b>.<br>(3) Of Deliver’s hits, <b data-rv="exclusive">78</b> are exclusive and <b data-rv="shared">67</b> co-occur, with <b data-rv="stageTotal">282</b> stage hits across <b data-rv="signals">182</b> signals.<br>Conclusion: the <b data-rv="periods">14</b>-issue corpus is dominated by shipping, rates and lanes (Deliver exceeds 60% in <b data-rv="atLeast60">13</b> issues; <b data-rv="title">121</b> hits come from titles), while lexicon width and multi-label counting only amplify it. These are coverage counts, not an enterprise risk distribution. The full audit sits in the deck’s Method and limits.',
+    'rr-note': 'Definitions and limits: stage and risk tags are multi-label, so their totals exceed <b data-rv="signals">182</b> signals; <b data-rv="duplicates">9</b> duplicates across issues, <b data-rv="unclassified">6</b> unclassified items, <b data-rv="caveats">14</b> limitations and three quantified bias checks are expanded by default inside the recap deck. Figures cover the <span data-rv="windowFrom">2026-08-13</span> – <span data-rv="windowTo">2026-11-02</span> archive window of <b data-rv="periods">14</b> issues and are rebuilt with each weekly radar update. They measure reporting coverage density, not enterprise risk.',
+    'rr-btn-open': 'Open recap deck', 'rr-btn-data': 'View recap data (JSON)',
+    'rv-title': 'Radar Archive Review',
+    'nav-review': 'Past review <em>/ Review</em>', 'nav-review-m': 'Past review',
+    'rv-meta': 'Different views of the same radar archive; this section, the word cloud and the recap deck are rebuilt together after every weekly issue.',
+    'rv-live': 'Synced with the weekly radar',
+    'rv-tab-cloud': 'Keyword cloud', 'rv-tab-signal': 'Structural signals', 'rv-tab-playbook': 'Verification playbooks',
+    'rv-cloud-h': 'Radar keywords · Cross-week', 'rv-cloud-sub': 'inline cloud · full 80 words',
+    'rv-cloud-note': 'TF-IDF · each radar issue is one document · size adapts to container',
+    'rv-cloud-tip': 'Click a word to see linked news',
+    'rv-btn-full': 'Open full workspace (network + linked news per word)',
+    'rv-pb-lead': 'Verification playbooks distilled from the radar archive, each listing signal → action → trigger → required fields. The first 6 are shown here; all <b data-rv="playbooks">19</b>, with checkboxes and CSV export, live in the recap deck.',
+    'rv-pb-loading': 'Loading recap data…', 'rv-pb-all': 'Open recap deck for all playbooks',
+    'rv-pb-signal': 'Signal', 'rv-pb-action': 'Action', 'rv-pb-trigger': 'Trigger', 'rv-pb-fields': 'Fields',
+    'rv-chain-label': 'Data chain', 'rv-chain-end': 'this section',
+    'rv-chain-note': 'One weekly run rebuilds all three JSONs and aligns periods',
+    'app6-h3': 'Order-to-Delivery Analytics',
+    'app6-p': 'A reusable analytics dashboard built on 99,441 real orders from the public Olist dataset. Nine relational tables collapse into one order-level fact table under published join rules; the purchase → approval → carrier handoff → delivery cycle is decomposed, the on-time rate is split into promise buffer versus actual fulfilment, and deterministic rules screen lanes and data-quality gaps. Every metric is re-aggregated in the browser. Zero external requests, no LLM, never presented as live.',
+    'app6-l1': 'Digitisation: 99,441 orders / 112,650 order lines / 3,095 sellers / 27 customer states; 1:N detail tables are aggregated before joining and build check C1 blocks row inflation; monthly dual-axis trend, four-segment cycle distributions, 409 seller-state → customer-state lanes, plus category / freight-ratio / order-line slices',
+    'app6-l2': 'Intelligence (deterministic, not a model): a promise-window what-if scenario (how the on-time rate changes under a K-day promise), significant-lane screening via Wilson 95% lower bound plus a minimum sample, and Pareto attribution of late orders; a 5 MB fact table is re-aggregated in the browser and reconciled field by field with the build output',
+    'app6-l3': 'Business practice: 43 selectable verification tasks (22 significant lanes + 9 data-quality gaps + 12 stage-specific playbooks), each stating which table to check, which role to ask, which field to reconcile and the trigger condition; export CSV or print as a working task list',
+    'app6-l4': 'Measured, unvarnished results: a 93.22% on-time rate sits on a 24-day median promise buffer against a 10-day median actual cycle — the KPI is mostly created by slack promises; tighten the window to 7 days and on-time falls to 31.81%. The late-rate rise coincides with tightening promises and the dataset cannot separate cause from effect; 15 limitations expanded by default',
+    'app6-l5': 'Reusability: the field map is the single source of truth. Point it at company OMS / WMS / TMS exports, change the mapping, re-run the build chain and check C1–C12 plus the in-browser assertions; the page states a five-step integration path and the required fields. Red lines unchanged: no optimal inventory, suggested order quantity or recommended promise window, no promised savings or lead times',
+    'app6-c1h': 'Connected · free',
+    'app6-c1': 'Olist Brazilian E-Commerce Public Dataset (Kaggle / CC BY-NC-SA 4.0, real anonymised commercial orders) · single-file HTML + same-origin facts.csv / aggregate.json, purely static hosting, zero keys, zero external requests',
+    'app6-c2h': 'Needs integration · data-source dependent',
+    'app6-c2': 'With real company transactions the bottleneck is data governance: order-key uniqueness, aggregating 1:N tables first, promised-date and timezone conventions, SLA-rule versions, significance-threshold calibration. The licence forbids commercial use, so production deployment requires replacing the source with your own data',
+    'app6-cnote': 'Its value is not plotting orders over time but putting “93.22% on-time = 24-day promise buffer − 10-day actual cycle” on the first screen — most dashboards read that KPI as fulfilment capability without ever opening up the denominator.',
+    'app6-btndata': 'View data & field map (JSON)',
     'btn-data': 'Data source · CC BY 4.0',
     'btn-dash': 'View Dashboard', 'btn-gh': 'View on GitHub', 'btn-app': 'Launch App',
     'gaps-title': 'Where AI Fills In · Top 7 Workflow Gaps',
@@ -3043,5 +3445,6 @@
 <script defer src="https://cdn.jsdelivr.net/npm/d3-cloud@1.2.7/build/d3.layout.cloud.min.js"></script>
 <script defer src="wordcloud.js"></script>
 <script defer src="wordcloud-network.js"></script>
+<script defer src="radar-review.js"></script>
 </body>
 </html>

@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>往期雷达归纳 · 端到端战略信号台 | Radar Recap Signal Deck</title>
+<meta name="description" content="以 14 期供应链雷达为唯一数据源，把 end-to-end 供应链外部信号映射到 SCOR 五段与六类风险，做确定性标注、滚动基线异动检测与可导出的业务核查行动单。纯静态、零外部请求、无 LLM、浏览器内可复算。">
+<link rel="icon" href="../../favicon.svg">
+<script>
+/* 渐进增强：.reveal 的 opacity:0 只允许挂在 html.js-ready 下。
+   IO 不可用 / 脚本异常 / 超时无入场，三重摘除，保证任何情况下不白屏。 */
+(function(){
+  try { if ('IntersectionObserver' in window) document.documentElement.classList.add('js-ready'); }
+  catch(e) {}
+  window.__csFail = function(){
+    document.documentElement.classList.remove('js-ready');
+    var b = document.getElementById('cs-error');
+    if (b) b.hidden = false;
+  };
+  window.addEventListener('error', window.__csFail);
+  window.addEventListener('unhandledrejection', window.__csFail);
+  window.__csTimer = setTimeout(function(){ if (!window.__csBooted) window.__csFail(); }, 3000);
+})();
+</script>
+<style>
+:root, html[data-theme="light"]{
+  --bg:#f6f7f9; --card:#fff; --ink:#1e252c; --ink2:#4b5865; --ink3:#84909b;
+  --line:#e2e7ec; --line2:#ccd5dd; --grid:#edf0f3; --chip:#f1f4f6;
+  --accent:#2b5d78; --accent-soft:#eaf1f5; --accent-ink:#fff;
+  --ok:#2f7d6a; --warn:#a8792a; --bad:#b3453f; --shadow:0 1px 2px rgba(30,37,44,.04);
+}
+html[data-theme="dark"]{
+  --bg:#0e1318; --card:#151c23; --ink:#e8edf2; --ink2:#aeb9c4; --ink3:#788591;
+  --line:#26313b; --line2:#36434f; --grid:#1d2730; --chip:#1c262f;
+  --accent:#79aecd; --accent-soft:#1a2b36; --accent-ink:#0e1318;
+  --ok:#5fb99c; --warn:#d4a44e; --bad:#dd7d75; --shadow:none;
+}
+*{box-sizing:border-box}
+html,body{margin:0;max-width:100%}
+body{background:var(--bg);color:var(--ink);font:13.5px/1.62 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;-webkit-font-smoothing:antialiased}
+[hidden]{display:none!important}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+button,input,select{font:inherit}
+.mono,code,.num{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"JetBrains Mono",monospace}
+.wrap{max-width:1240px;margin:0 auto;padding:22px 20px 64px}
+
+/* ── 渐进增强入场 ── */
+html.js-ready .reveal{opacity:0;transform:translateY(8px);transition:opacity .42s ease,transform .42s ease}
+html.js-ready .reveal.in{opacity:1;transform:none}
+
+/* ── 顶栏：品牌中英双语常驻 ── */
+.appbar{display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:6px}
+.appbar .btl{display:flex;align-items:baseline;gap:11px;flex-wrap:wrap}
+.appbar .zh{font-size:21px;font-weight:700;letter-spacing:.4px;line-height:1.3}
+.appbar .en{font-size:12.4px;font-weight:600;letter-spacing:.6px;color:var(--ink2)}
+.appbar .appact{margin-left:auto;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.tbtn,.back{font-size:12px;color:var(--ink2);background:var(--card);border:1px solid var(--line2);
+  border-radius:7px;padding:6px 11px;cursor:pointer;transition:.15s}
+.tbtn:hover,.back:hover{color:var(--ink);border-color:var(--accent)}
+.back{text-decoration:none}
+.bsub{font-size:12.6px;color:var(--ink2);margin:0 0 14px}
+.badge{display:inline-block;font-family:ui-monospace,Menlo,monospace;font-size:10.5px;font-weight:700;
+  letter-spacing:.05em;padding:2px 7px;border-radius:4px;border:1px solid var(--line2);color:var(--ink3);margin-right:8px}
+.badge.static{border-color:var(--warn);color:var(--warn)}
+
+/* ── 元数据条 ── */
+.top{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:13px 16px;margin-bottom:13px}
+.top .r1{display:flex;flex-wrap:wrap;gap:6px 15px;align-items:baseline;font-size:12.6px;color:var(--ink2)}
+.top .r1 b{color:var(--ink);font-weight:600}
+.top .r2{margin-top:9px;padding-top:9px;border-top:1px solid var(--line);font-size:12.4px;color:var(--ink2)}
+.top .sep{color:var(--line2)}
+
+/* ── KPI 条 ── */
+.kpi-strip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1px;background:var(--line);
+  border:1px solid var(--line);border-radius:9px;overflow:hidden;margin-bottom:14px}
+.kpi{background:var(--card);padding:13px 16px;min-width:0}
+.kpi .lab{font-size:11.4px;color:var(--ink3);letter-spacing:.03em;white-space:normal;overflow-wrap:anywhere}
+.kpi .v{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:26px;font-weight:600;
+  line-height:1.25;color:var(--ink);margin-top:3px;overflow-wrap:anywhere}
+.kpi .v.str{font-size:19px}
+.kpi .sub{font-size:11px;color:var(--ink3);overflow-wrap:anywhere}
+
+/* ── tabs ── */
+#tabs{display:flex;gap:22px;margin-bottom:0;position:sticky;top:0;z-index:12;
+  background:var(--bg);border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:thin}
+#tabs::-webkit-scrollbar{height:3px}
+#tabs::-webkit-scrollbar-thumb{background:var(--line2)}
+#tabs button{flex:none;font:inherit;font-size:13px;font-weight:600;color:var(--ink3);background:transparent;
+  border:none;border-bottom:2px solid transparent;padding:10px 1px 9px;cursor:pointer;margin-bottom:-1px;white-space:nowrap}
+#tabs button:hover{color:var(--ink)}
+#tabs button.on{color:var(--accent);border-bottom-color:var(--accent)}
+#tabs button .no{opacity:.6;font-size:11px;margin-right:5px;font-family:ui-monospace,Menlo,monospace}
+.viewbar{margin:12px 0 16px;padding:9px 13px;background:var(--accent-soft);border-left:3px solid var(--accent);
+  border-radius:0 6px 6px 0;font-size:12.4px;color:var(--ink2)}
+
+/* ── 通用块 ── */
+h2{font-size:15.5px;margin:20px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line);
+  display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+h2 .hint{font-size:11.8px;font-weight:400;color:var(--ink3)}
+h3{font-size:13.4px;margin:16px 0 8px}
+p{font-size:12.9px;color:var(--ink2);margin:6px 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:14px 16px;margin-bottom:12px}
+.note{background:var(--chip);border-radius:6px;padding:10px 13px;font-size:12.3px;color:var(--ink2);margin:10px 0}
+.note.warn{border-left:3px solid var(--warn)}
+.zpane[hidden]{display:none}
+
+/* ── SCOR 流程带 ── */
+.flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:14px}
+.flow-card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:9px;
+  padding:13px 13px 11px;cursor:pointer;transition:.16s;min-width:0}
+.flow-card:hover{border-color:var(--accent);box-shadow:0 6px 18px -12px var(--accent)}
+.flow-card.on{border-color:var(--accent);background:var(--accent-soft)}
+.flow-card .seq{font-family:ui-monospace,Menlo,monospace;font-size:10.5px;color:var(--ink3);letter-spacing:.08em}
+.flow-card .nm{font-size:15px;font-weight:700;margin:3px 0 0;display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
+.flow-card .nm small{font-size:10.5px;font-weight:500;color:var(--ink3);letter-spacing:.04em}
+.flow-card .now{font-family:ui-monospace,Menlo,monospace;font-size:27px;font-weight:600;line-height:1.2;margin:7px 0 1px}
+.flow-card .cap{font-size:10.8px;color:var(--ink3)}
+.flow-card .spark{margin:8px 0 5px;line-height:0}
+.flow-card .spark svg{width:100%;height:30px;overflow:visible}
+.flow-card .delta{font-size:11.2px;color:var(--ink2);display:flex;justify-content:space-between;gap:6px}
+.flow-card .delta b{font-family:ui-monospace,Menlo,monospace;font-weight:600}
+.up{color:var(--bad)!important}.down{color:var(--ok)!important}.flat{color:var(--ink3)!important}
+.flow-card .bar{height:3px;background:var(--line);border-radius:2px;margin-top:8px;overflow:hidden}
+.flow-card .bar i{display:block;height:100%;border-radius:2px}
+.flow-card::after{content:"›";position:absolute;right:-9px;top:46%;font-size:19px;color:var(--line2);z-index:2}
+.flow-card:last-child::after{display:none}
+
+/* ── 双栏 ── */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cols-3{display:grid;grid-template-columns:1.15fr 1fr;gap:12px}
+
+/* ── 异动 / 分布 ── */
+.anom{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);font-size:12.3px}
+.anom:last-child{border-bottom:none}
+.anom .dot{width:8px;height:8px;border-radius:50%;flex:none}
+.anom .k{flex:1;min-width:0;color:var(--ink)}
+.anom .m{font-family:ui-monospace,Menlo,monospace;color:var(--ink2);font-size:11.6px;white-space:nowrap}
+.anom .z{font-family:ui-monospace,Menlo,monospace;font-size:11.6px;font-weight:600;min-width:52px;text-align:right}
+.catrow{display:flex;align-items:center;gap:9px;margin:7px 0;font-size:12.2px}
+.catrow .nm{width:76px;flex:none;color:var(--ink2)}
+.catrow .track{flex:1;height:7px;background:var(--line);border-radius:4px;overflow:hidden}
+.catrow .track i{display:block;height:100%}
+.catrow .v{width:34px;text-align:right;font-family:ui-monospace,Menlo,monospace;color:var(--ink)}
+.enable-band{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--card);
+  border:1px solid var(--line);border-left:3px solid #7a52a8;border-radius:0 9px 9px 0;padding:12px 16px;margin-bottom:12px}
+.enable-band .big{font-family:ui-monospace,Menlo,monospace;font-size:25px;font-weight:600}
+.enable-band .txt{font-size:12.3px;color:var(--ink2);flex:1;min-width:180px}
+
+/* ── 图表 ── */
+.chartbox{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:14px 16px;margin-bottom:12px;overflow:hidden}
+.chartbox svg{width:100%;height:auto;display:block}
+.scrollx{overflow-x:auto;scrollbar-width:thin}
+.scrollx::-webkit-scrollbar{height:4px}
+.scrollx::-webkit-scrollbar-thumb{background:var(--line2)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 15px;margin-top:9px;font-size:11.7px;color:var(--ink2)}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.legend i{width:9px;height:9px;border-radius:2px;display:inline-block}
+.controls{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin-bottom:12px}
+.seg{display:inline-flex;border:1px solid var(--line2);border-radius:7px;overflow:hidden;background:var(--card)}
+.seg button{font-size:11.9px;padding:6px 11px;border:none;background:transparent;color:var(--ink2);cursor:pointer;white-space:nowrap}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button.on{background:var(--accent);color:var(--accent-ink);font-weight:600}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:11.6px;padding:4px 9px;border-radius:14px;
+  border:1px solid var(--line2);background:var(--card);color:var(--ink2);cursor:pointer;white-space:nowrap}
+.chip:hover{border-color:var(--accent)}
+.chip.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.chip.mini{cursor:default;font-size:10.6px;padding:2px 7px;border-radius:4px;background:var(--chip);border-color:var(--line)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.field{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--ink2)}
+.field select,.field input{font-size:12px;padding:6px 9px;border:1px solid var(--line2);border-radius:6px;
+  background:var(--card);color:var(--ink);max-width:100%}
+.field input[type=search]{min-width:170px;width:210px}
+.switch{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--ink2);cursor:pointer}
+.switch input{accent-color:var(--accent);width:15px;height:15px}
+
+/* ── 信号列表 ── */
+.sig{border:1px solid var(--line);border-radius:8px;background:var(--card);padding:11px 13px;margin-bottom:8px}
+.sig .r1{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;font-size:11.4px;color:var(--ink3)}
+.sig .r1 .dt{font-family:ui-monospace,Menlo,monospace}
+.sig .r1 .cat{font-weight:600}
+.sig .r1 .v{color:var(--ok)}
+.sig .r1 .dup{color:var(--warn)}
+.sig .tt{font-size:13.2px;font-weight:600;color:var(--ink);margin:5px 0 6px;line-height:1.5}
+.sig .tt a{color:inherit;text-decoration:none}
+.sig .tt a:hover{color:var(--accent);text-decoration:underline}
+.sig .tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px}
+.sig .hits{display:flex;flex-wrap:wrap;gap:4px;align-items:center;font-size:11px;color:var(--ink3)}
+.sig .hits b{font-weight:500;color:var(--ink3)}
+.empty{padding:28px;text-align:center;color:var(--ink3);font-size:12.8px}
+.more{display:block;margin:12px auto 0;padding:8px 18px;font-size:12.4px;background:var(--card);
+  border:1px solid var(--line2);border-radius:7px;color:var(--ink2);cursor:pointer}
+.more:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ── 行动剧本 ── */
+.pb-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:12px;
+  position:sticky;top:44px;z-index:8;background:var(--bg);padding:8px 0;border-bottom:1px solid var(--line)}
+.pb-actions .cnt{font-size:12.3px;color:var(--ink2);margin-right:auto}
+.btn{font-size:12.2px;padding:7px 13px;border-radius:7px;cursor:pointer;border:1px solid var(--line2);
+  background:var(--card);color:var(--ink2)}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}
+.pb{border:1px solid var(--line);border-radius:8px;background:var(--card);padding:12px 14px;margin-bottom:9px;
+  display:grid;grid-template-columns:26px 1fr;gap:11px;break-inside:avoid}
+.pb.is-selected{border-color:var(--accent);background:var(--accent-soft)}
+.pb input[type=checkbox]{width:15px;height:15px;accent-color:var(--accent);margin-top:3px;cursor:pointer}
+.pb .hd{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;margin-bottom:7px}
+.pb .hd .id{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;font-weight:700;color:var(--accent)}
+.pb .hd .ttl{font-size:13.2px;font-weight:600;color:var(--ink)}
+.pb .hd .own{font-size:11.3px;color:var(--ink3);margin-left:auto}
+.pb .tag{font-size:10.4px;padding:2px 7px;border-radius:4px;color:#fff;font-weight:600}
+.pb .row{display:grid;grid-template-columns:70px 1fr;gap:9px;font-size:12.2px;color:var(--ink2);margin-top:5px;line-height:1.55}
+.pb .row .lb{color:var(--ink3);font-size:11.4px}
+.pb .row .fld{font-family:ui-monospace,Menlo,monospace;font-size:11.1px;color:var(--ink2);word-break:break-word}
+
+/* ── 方法 / 局限 ── */
+details.peekbox{border:1px solid var(--line);border-radius:8px;background:var(--card);padding:0 14px;margin-bottom:9px}
+details.peekbox summary{cursor:pointer;padding:11px 0;font-size:12.8px;font-weight:600;color:var(--ink);list-style:none}
+details.peekbox summary::-webkit-details-marker{display:none}
+details.peekbox summary::before{content:"▸ ";color:var(--accent)}
+details.peekbox[open] summary::before{content:"▾ "}
+details.peekbox .bd{padding:0 0 13px;font-size:12.2px;color:var(--ink2)}
+.lim{display:grid;grid-template-columns:24px 1fr;gap:9px;padding:9px 0;border-bottom:1px solid var(--line);font-size:12.3px;color:var(--ink2);line-height:1.6}
+.lim:last-child{border-bottom:none}
+.lim .no{font-family:ui-monospace,Menlo,monospace;color:var(--bad);font-weight:700;font-size:11.5px}
+.rules-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:9px}
+.rulebox{border:1px solid var(--line);border-radius:7px;padding:9px 11px;background:var(--chip)}
+.rulebox .h{font-size:11.8px;font-weight:700;margin-bottom:5px}
+.rulebox .w{font-size:11px;color:var(--ink2);line-height:1.65;word-break:break-word;font-family:ui-monospace,Menlo,monospace}
+.assert{font-family:ui-monospace,Menlo,monospace;font-size:12.4px;padding:9px 12px;border-radius:6px;
+  background:var(--chip);border-left:3px solid var(--ok);color:var(--ink2)}
+.assert.bad{border-left-color:var(--bad)}
+.termrow{display:grid;grid-template-columns:150px 1fr;gap:10px;font-size:12.1px;color:var(--ink2);padding:6px 0;border-bottom:1px dashed var(--line)}
+.termrow:last-child{border-bottom:none}
+.biasbox{margin-bottom:10px}
+.bias-sub{font-size:11.2px;color:var(--ink3);line-height:1.6;margin-bottom:10px}
+.bias-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(196px,1fr));gap:9px}
+.bias-cell{border:1px solid var(--line);border-radius:7px;padding:9px 10px;background:var(--chip);min-width:0}
+.bias-t{font-size:11.7px;font-weight:600;color:var(--ink);margin-bottom:7px}
+.bias-r{display:grid;grid-template-columns:46px 1fr 30px;gap:6px;align-items:center;font-size:11px;color:var(--ink2);margin:3px 0}
+.bias-bar{height:7px;border-radius:99px;background:var(--line2);overflow:hidden}
+.bias-bar i{display:block;height:100%;border-radius:99px}
+.bias-v{font-family:ui-monospace,Menlo,monospace;color:var(--ink);text-align:right}
+.bias-kv{font-family:ui-monospace,Menlo,monospace;font-size:11.6px;color:var(--ink);line-height:1.85}
+.bias-c{font-size:11px;color:var(--ink3);line-height:1.6;margin-top:7px}
+.bias-concl{font-size:12px;color:var(--ink2);line-height:1.65;border-left:3px solid var(--accent);padding-left:10px;margin-top:11px}
+@media(max-width:480px){.bias-grid{grid-template-columns:1fr}}
+.termrow b{color:var(--ink);font-weight:600}
+.redline{display:flex;flex-wrap:wrap;gap:6px}
+.redline span{font-size:11.5px;padding:4px 9px;border:1px solid var(--line2);border-radius:5px;color:var(--ink2);background:var(--card)}
+
+footer{margin-top:26px;padding-top:14px;border-top:1px solid var(--line);font-size:11.7px;color:var(--ink3);line-height:1.8}
+#cs-error{margin-bottom:12px;padding:11px 14px;border:1px solid var(--bad);border-radius:8px;
+  background:var(--card);color:var(--bad);font-size:12.5px}
+
+/* ── 响应式 ── */
+@media(max-width:1020px){
+  .flow{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .flow-card:nth-child(3)::after{display:none}
+  .cols,.cols-3{grid-template-columns:1fr}
+  .kpi-strip{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:640px){
+  .wrap{padding:16px 13px 48px}
+  .appbar .zh{font-size:18px}
+  .appbar .appact{margin-left:0;width:100%}
+  .flow{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .flow-card::after{display:none}
+  .flow-card .now{font-size:23px}
+  .kpi-strip{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .kpi .v{font-size:22px}
+  .pb{grid-template-columns:22px 1fr;gap:8px}
+  .pb .row{grid-template-columns:1fr;gap:1px}
+  .pb .row .lb{font-size:10.8px}
+  .termrow{grid-template-columns:1fr;gap:2px}
+  .field input[type=search]{width:100%;min-width:0}
+  .pb-actions{position:static}
+}
+@media print{
+  body{background:#fff;color:#000}
+  .appbar .appact,#tabs,.viewbar,.kpi-strip,.top,.controls,.pb-actions,footer,
+  #z-overview,#z-trend,#z-signals,#z-method{display:none!important}
+  .wrap{max-width:none;padding:0}
+  body.printing .pb:not(.is-selected){display:none!important}
+  .pb,.card{break-inside:avoid;border:1px solid #bbb}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div id="cs-error" hidden>
+  <b>数据加载失败 / Data load failed.</b> 页面骨架仍可用，但图表需要同源的 <code>signal-data.json</code>。请确认通过 HTTP 打开（而非 file://），然后重试。
+  <button class="btn" id="btnRetry" style="margin-left:8px">重试 / Retry</button>
+</div>
+
+<header class="appbar">
+  <div class="btl"><span class="zh">往期雷达归纳 · 战略信号台</span><span class="en">Radar Recap · Signal Deck</span></div>
+  <div class="appact">
+    <button type="button" class="tbtn" id="btnLang">EN</button>
+    <button type="button" class="tbtn" id="btnTheme">深色</button>
+    <a class="back" href="../../index.html#radar-review" id="btnBack" data-i18n="back">← 返回往期雷达回顾</a>
+  </div>
+</header>
+<div class="bsub" id="bsub" data-i18n="sub">往期雷达回顾的数据与方法依据 · 把端到端供应链的外部信号结构化：SCOR 五段 × 六类风险，确定性标注 + 滚动基线异动 + 可导出的业务核查行动单</div>
+
+<section class="top" id="metaBar"></section>
+<div class="kpi-strip" id="kpiStrip"></div>
+
+<nav id="tabs">
+  <button type="button" data-tab="overview" class="on" data-i18n="tab1"><span class="no">01</span>全链路鸟瞰</button>
+  <button type="button" data-tab="trend" data-i18n="tab2"><span class="no">02</span>趋势与热力</button>
+  <button type="button" data-tab="signals" data-i18n="tab3"><span class="no">03</span>信号明细</button>
+  <button type="button" data-tab="playbook" data-i18n="tab4"><span class="no">04</span>行动剧本</button>
+  <button type="button" data-tab="method" data-i18n="tab5"><span class="no">05</span>方法与局限</button>
+</nav>
+<div class="viewbar" id="viewbar"></div>
+
+<main>
+  <section class="zpane" id="z-overview"></section>
+  <section class="zpane" id="z-trend" hidden></section>
+  <section class="zpane" id="z-signals" hidden></section>
+  <section class="zpane" id="z-playbook" hidden></section>
+  <section class="zpane" id="z-method" hidden></section>
+</main>
+
+<footer id="footer"></footer>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+/* ───────────────────────── 基础 ───────────────────────── */
+var DATA=null, V=null;
+var LANG='zh-CN', THEME='light', TAB='overview';
+var SK=['plan','source','make','deliver','return'], RK=['geo','flow','cost','trade','demand','digital'];
+var CK=['key','hot','watch','apply'];
+var ST={excludeDup:false, basis:'n', stage:'', risk:'', cat:'', period:'', q:'', sel:{}, limit:40, pbRisk:''};
+
+var EN={
+  sub:'Data and method appendix for the Radar Review · Turning external end-to-end supply-chain signals into structure: five SCOR stages × six risk classes, deterministic tagging + rolling-baseline anomalies + an exportable business verification list',
+  back:'← Radar Review',
+  tab1:'Overview', tab2:'Trend & Heat', tab3:'Signals', tab4:'Playbooks', tab5:'Method & Limits'
+};
+/* i18n 硬约束：dataset.zh 必须先于任何 applyLang() 快照 */
+var ZNODE=document.querySelectorAll('[data-i18n]');
+for(var zi=0;zi<ZNODE.length;zi++){ ZNODE[zi].dataset.zhHtml=ZNODE[zi].innerHTML; }
+
+function D(zh,en){ return LANG==='zh-CN'?zh:en; }
+function tx(o){ return (o&&(o[LANG==='zh-CN'?'zh':'en']))||''; }
+function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function fmt(n){ return (n==null?'—':String(n)); }
+function store(){
+  return {
+    get:function(k,d){ try{ var v=localStorage.getItem(k); return v===null?d:v; }catch(e){ return d; } },
+    set:function(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+  };
+}
+var S=store();
+
+function applyLang(){
+  document.documentElement.lang=LANG;
+  for(var i=0;i<ZNODE.length;i++){
+    var el=ZNODE[i], key=el.dataset.i18n;
+    if(LANG==='zh-CN'){ el.innerHTML=el.dataset.zhHtml; }
+    else if(EN[key]){
+      var no=el.querySelector('.no');
+      el.innerHTML=(no?no.outerHTML:'')+EN[key];
+    }
+  }
+  document.getElementById('btnLang').textContent = LANG==='zh-CN'?'EN':'中';
+  document.getElementById('btnTheme').textContent = THEME==='light'?D('深色','Dark'):D('浅色','Light');
+  document.title = LANG==='zh-CN'
+    ? '往期雷达归纳 · 端到端战略信号台 | Radar Recap Signal Deck'
+    : 'Radar Recap Signal Deck | 往期雷达归纳 · 端到端战略信号台';
+}
+function setTheme(t){
+  THEME=t; document.documentElement.setAttribute('data-theme',t); S.set('sc-theme',t);
+  applyLang(); if(DATA){ renderCharts(); }
+}
+function setLang(l){ LANG=l; S.set('sc-lang',l); applyLang(); if(DATA){ renderAll(); } }
+
+/* ───────────────────────── 浏览器内复算（与构建脚本同算法） ───────────────────────── */
+function blank(keys){ var o={}; for(var i=0;i<keys.length;i++)o[keys[i]]={n:0,w:0}; return o; }
+function recompute(exd){
+  var sigs=DATA.signals.filter(function(s){ return !(exd&&s.dup); });
+  var dates=DATA.periods.map(function(p){return p.date;});
+  var idx={}; dates.forEach(function(d,i){idx[d]=i;});
+  var ps=dates.map(function(d){
+    return {date:d,total:0,sources:0,verified:0,dup:0,byStage:blank(SK),byRisk:blank(RK),byCat:blank(CK),enable:0,unclassified:0};
+  });
+  sigs.forEach(function(s){
+    var p=ps[idx[s.date]]; if(!p)return;
+    p.total++; p.sources+=s.ns; p.verified+=s.v; p.dup+=s.dup; p.enable+=s.en;
+    if(!s.st.length)p.unclassified++;
+    s.st.forEach(function(k){p.byStage[k].n++;p.byStage[k].w+=s.w;});
+    s.rk.forEach(function(k){p.byRisk[k].n++;p.byRisk[k].w+=s.w;});
+    if(p.byCat[s.cat]){p.byCat[s.cat].n++;p.byCat[s.cat].w+=s.w;}
+  });
+  var stages=SK.map(function(k,i){
+    var tr=ps.map(function(p){return p.byStage[k].n;}), wt=ps.map(function(p){return p.byStage[k].w;});
+    return Object.assign({},DATA.stages[i],{n:tr.reduce(function(a,b){return a+b;},0),w:wt.reduce(function(a,b){return a+b;},0),trend:tr,wtrend:wt});
+  });
+  var risks=RK.map(function(k,i){
+    var tr=ps.map(function(p){return p.byRisk[k].n;}), wt=ps.map(function(p){return p.byRisk[k].w;});
+    return Object.assign({},DATA.risks[i],{n:tr.reduce(function(a,b){return a+b;},0),w:wt.reduce(function(a,b){return a+b;},0),trend:tr,wtrend:wt});
+  });
+  var an=[];
+  if(ps.length>=DATA.meta.baselineWindow+1){
+    var cur=ps[ps.length-1], base=ps.slice(-DATA.meta.baselineWindow-1,-1);
+    [['stage',SK,DATA.stages],['risk',RK,DATA.risks]].forEach(function(g){
+      var dim=g[0], keys=g[1], meta=g[2];
+      keys.forEach(function(k,m){
+        var series=base.map(function(p){return p[dim==='stage'?'byStage':'byRisk'][k].n;});
+        var mean=series.reduce(function(a,b){return a+b;},0)/series.length;
+        var sd=Math.sqrt(series.reduce(function(a,b){return a+(b-mean)*(b-mean);},0)/series.length);
+        var now=cur[dim==='stage'?'byStage':'byRisk'][k].n;
+        an.push({dim:dim,key:k,zh:meta[m].zh,en:meta[m].en,color:meta[m].color,
+          now:now,mean:Math.round(mean*100)/100,sd:Math.round(sd*100)/100,
+          z:sd>0?Math.round((now-mean)/sd*100)/100:0,
+          ratio:mean>0?Math.round(now/mean*100)/100:null,
+          dir:now>mean?'up':(now<mean?'down':'flat'),series:series});
+      });
+    });
+    an.sort(function(a,b){return Math.abs(b.z)-Math.abs(a.z);});
+    an=an.slice(0,8);
+  }
+  return {periods:ps,stages:stages,risks:risks,anomalies:an,
+    enableTrend:ps.map(function(p){return p.enable;}), sigs:sigs};
+}
+function assertions(){
+  var n=0,ok=0,V0=ST.excludeDup?recompute(false):V;
+  function eq(a,b){ n++; if(a===b)ok++; }
+  DATA.periods.forEach(function(p,i){
+    var q=V0.periods[i];
+    ['total','sources','verified','dup','enable','unclassified'].forEach(function(k){eq(p[k],q[k]);});
+    SK.forEach(function(k){eq(p.byStage[k].n,q.byStage[k].n);eq(p.byStage[k].w,q.byStage[k].w);});
+    RK.forEach(function(k){eq(p.byRisk[k].n,q.byRisk[k].n);eq(p.byRisk[k].w,q.byRisk[k].w);});
+  });
+  DATA.stages.forEach(function(s,i){eq(s.n,V0.stages[i].n);eq(s.w,V0.stages[i].w);});
+  DATA.risks.forEach(function(r,i){eq(r.n,V0.risks[i].n);eq(r.w,V0.risks[i].w);});
+  DATA.anomalies.forEach(function(a,i){
+    var b=V0.anomalies[i]; if(!b){eq(1,0);return;}
+    eq(a.z,b.z);eq(a.now,b.now);eq(a.dir,b.dir);
+  });
+  if(DATA.biasAudit){
+    var B=DATA.biasAudit;
+    var dl=DATA.signals.filter(function(x){return x.st.indexOf('deliver')>=0;});
+    eq(dl.length,B.overlap.total);
+    eq(dl.filter(function(x){return x.st.length===1;}).length,B.overlap.exclusive);
+    eq(dl.length-B.overlap.exclusive,B.overlap.shared);
+    eq(DATA.stages.reduce(function(a,x){return a+x.n;},0),B.overlap.stageTotal);
+    eq(DATA.signals.length,B.overlap.signals);
+    eq(DATA.caveats.length,B.caveatCount);
+    DATA.stages.forEach(function(x){
+      var t=DATA.rules.stages[x.key]||{zh:[],en:[]};
+      eq((t.zh||[]).length,B.lexicon[x.key].zh);
+      eq((t.en||[]).length,B.lexicon[x.key].en);
+      eq((t.zh||[]).length+(t.en||[]).length,B.lexicon[x.key].total);
+    });
+    eq(DATA.periods.filter(function(p){return p.total>0&&p.byStage.deliver.n/p.total>=0.6;}).length,B.periods.atLeast60);
+    eq(DATA.periods.filter(function(p){return p.total>0&&p.byStage.deliver.n/p.total>=0.9;}).length,B.periods.atLeast90);
+    eq(DATA.periods.length,B.periods.total);
+  }
+  return {n:n,ok:ok};
+}
+
+/* ── 口径核查：为什么 Deliver 段命中远高于其他段 ── */
+function biasHtml(){
+  var B=DATA.biasAudit; if(!B)return '';
+  var L=B.lexicon,E=B.equalWidth,O=B.overlap,Og=B.origin,P=B.periods,zh=(LANG==='zh-CN');
+  var mx=0; DATA.stages.forEach(function(x){if(L[x.key].total>mx)mx=L[x.key].total;});
+  var bars=DATA.stages.map(function(x){
+    var t=L[x.key],w=Math.round(t.total/mx*100);
+    return '<div class="bias-r"><span>'+esc(zh?x.zh:x.en)+'</span>'
+      +'<span class="bias-bar"><i style="width:'+w+'%;background:'+x.color+'"></i></span>'
+      +'<span class="bias-v">'+t.total+'</span></div>';
+  }).join('');
+  var cell1='<div class="bias-cell"><div class="bias-t">'+D('① 词典宽度不等','1 · Uneven lexicon width')+'</div>'
+    +bars
+    +'<div class="bias-c">'+esc(D('交付 '+L.deliver.total+' 词，是生产 '+L.make.total+' 词的 '+(L.deliver.total/L.make.total).toFixed(1)+' 倍；词表越宽越容易命中，五段命中数不是同口径的重要性排序。',
+      'Deliver has '+L.deliver.total+' terms, '+(L.deliver.total/L.make.total).toFixed(1)+'× Make’s '+L.make.total+'; wider lexicons hit more often, so stage counts are not a like-for-like importance ranking.'))+'</div></div>';
+  var cell2='<div class="bias-cell"><div class="bias-t">'+D('② 等宽裁剪对照','2 · Equal-width trim')+'</div>'
+    +'<div class="bias-kv">'+esc(D('交付 '+E.width+' 词 → '+E.deliverTrim+' 条','Deliver '+E.width+' terms → '+E.deliverTrim+' hits'))+'<br>'
+    +esc(D('生产 '+E.width+' 词 → '+E.makeFull+' 条','Make '+E.width+' terms → '+E.makeFull+' hits'))+'<br>'
+    +esc(D('每词产出 '+L.deliver.perWord.toFixed(2)+' vs '+L.make.perWord.toFixed(2),'Per-term '+L.deliver.perWord.toFixed(2)+' vs '+L.make.perWord.toFixed(2)))+'</div>'
+    +'<div class="bias-c">'+esc(D('只用中文词表、沿用同一套匹配规则；拉到同等宽度后差距仍在，说明语料偏置是主因。该组在构建期计算。',
+      'Chinese-only lexicons, same matching rule; the gap survives equal width, so the corpus bias is the main driver. Build-time only.'))+'</div></div>';
+  var cell3='<div class="bias-cell"><div class="bias-t">'+D('③ 独占 / 共现','3 · Exclusive / shared')+'</div>'
+    +'<div class="bias-kv">'+esc(D(O.total+' = '+O.exclusive+' 独占 + '+O.shared+' 共现',O.total+' = '+O.exclusive+' exclusive + '+O.shared+' shared'))+'<br>'
+    +esc(D('五段合计 '+O.stageTotal+' 次 / '+O.signals+' 条','5 stages: '+O.stageTotal+' hits / '+O.signals+' signals'))+'<br>'
+    +esc(D('平均每条 '+O.avgLabels.toFixed(2)+' 段','Average '+O.avgLabels.toFixed(2)+' stages per signal'))+'</div>'
+    +'<div class="bias-c">'+esc(D(O.total+' 是覆盖条数，不是独占分类；不可相加求总，也不可当占比分母或风险值。',
+      O.total+' is a coverage count, not an exclusive classification; do not sum subtotals or use it as a denominator or risk value.'))+'</div></div>';
+  var concl=D('结论：'+P.total+' 期里有 '+P.atLeast60+' 期交付命中率 ≥60%（'+P.atLeast90+' 期 ≥90%），'+Og.title+' 条为标题级命中、'+Og.descOnly+' 条仅由描述命中；语料以航运 / 运价 / 航路为主是主因，词典宽度与多标签是放大项。'+O.total+' 量的是报道覆盖密度，不是企业风险值。',
+    'Conclusion: Deliver exceeds 60% of signals in '+P.atLeast60+' of '+P.total+' issues (≥90% in '+P.atLeast90+'); '+Og.title+' hits come from titles and '+Og.descOnly+' from descriptions alone. The shipping / rates / lanes bias of the corpus is the main driver, amplified by lexicon width and multi-label counting. '+O.total+' measures coverage density, not enterprise risk.');
+  return '<h2>'+D('为什么「交付」是 '+O.total+' 条 · 口径核查','Why Deliver shows '+O.total+' hits · a definitions audit')+'</h2>'
+    +'<div class="card biasbox">'
+      +'<div class="bias-sub">'+esc(D('三组数字全部由规则词典与 14 期语料推导，默认展开、不折叠。','All three groups are derived from the lexicon and the 14-issue corpus; expanded by default, never collapsed.'))
+      +'<br>'+esc(tx(B.recompute))+'</div>'
+      +'<div class="bias-grid">'+cell1+cell2+cell3+'</div>'
+      +'<div class="bias-concl">'+esc(concl)+'</div>'
+    +'</div>';
+}
+
+/* ───────────────────────── 图形原语 ───────────────────────── */
+function spark(series,color){
+  if(!series||!series.length)return '';
+  var mx=Math.max.apply(null,series), mn=Math.min.apply(null,series), rg=(mx-mn)||1;
+  var W=120,H=30,pad=3;
+  var pts=series.map(function(v,i){
+    return [pad+i*(W-2*pad)/(series.length-1), H-pad-((v-mn)/rg)*(H-2*pad)];
+  });
+  var line=pts.map(function(p,i){return (i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1);}).join(' ');
+  var area=line+' L'+pts[pts.length-1][0].toFixed(1)+' '+H+' L'+pts[0][0].toFixed(1)+' '+H+' Z';
+  var last=pts[pts.length-1];
+  return '<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" aria-hidden="true">'
+    +'<path d="'+area+'" fill="'+color+'" fill-opacity="0.10"/>'
+    +'<path d="'+line+'" fill="none" stroke="'+color+'" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>'
+    +'<circle cx="'+last[0].toFixed(1)+'" cy="'+last[1].toFixed(1)+'" r="2.2" fill="'+color+'"/></svg>';
+}
+function stacked(){
+  var W=1000,H=250,L=44,R=12,T=14,B=34;
+  var n=V.periods.length, step=(W-L-R)/n, mx=0;
+  V.periods.forEach(function(p){ var t=0; SK.forEach(function(k){t+=p.byStage[k][ST.basis];}); if(t>mx)mx=t; });
+  mx=mx||1;
+  var py=function(v){return (H-B-v/mx*(H-T-B)).toFixed(1);};
+  var base=[], out=[];
+  for(var i=0;i<n;i++)base.push(0);
+  V.stages.forEach(function(s,si){
+    var tv=[],bv=[],cx=[];
+    for(var i=0;i<n;i++){
+      var v=V.periods[i].byStage[s.key][ST.basis];
+      tv.push(base[i]+v); bv.push(base[i]); cx.push(L+i*step+step/2);
+      base[i]+=v;
+    }
+    // 上/下边界共用同一组 x（正序 / 逆序），确保层与层严丝合缝、不留撕裂白块
+    var d='M'+cx[0].toFixed(1)+' '+py(tv[0]);
+    for(var i=1;i<n;i++)d+=' L'+cx[i].toFixed(1)+' '+py(tv[i]);
+    for(var i=n-1;i>=0;i--)d+=' L'+cx[i].toFixed(1)+' '+py(bv[i]);
+    d+=' Z';
+    out.push('<path d="'+d+'" fill="'+s.color+'" fill-opacity="0.78" stroke="'+s.color+'" stroke-width="0.6"/>');
+  });
+  var g='';
+  for(var k=0;k<=4;k++){
+    var y=T+k*(H-T-B)/4, val=Math.round(mx*(1-k/4));
+    g+='<line x1="'+L+'" y1="'+y+'" x2="'+(W-R)+'" y2="'+y+'" stroke="'+(THEME==='dark'?'#2a3742':'#e4e9ed')+'" stroke-width="1"/>'
+      +'<text x="'+(L-8)+'" y="'+(y+4)+'" text-anchor="end" font-size="10" fill="'+(THEME==='dark'?'#8794a0':'#84909b')+'" font-family="monospace">'+val+'</text>';
+  }
+  V.periods.forEach(function(p,i){
+    if(i%2===0||i===n-1){
+      g+='<text x="'+(L+i*step+step/2).toFixed(1)+'" y="'+(H-B+16)+'" text-anchor="middle" font-size="9.5" fill="'+(THEME==='dark'?'#8794a0':'#84909b')+'" font-family="monospace">'+p.date.slice(5)+'</text>';
+    }
+    var parts=SK.map(function(k){return V.stages[SK.indexOf(k)][LANG==='zh-CN'?'zh':'en']+' '+V.periods[i].byStage[k][ST.basis];});
+    g+='<rect x="'+(L+i*step).toFixed(1)+'" y="'+T+'" width="'+step.toFixed(1)+'" height="'+(H-T-B)+'" fill="transparent"><title>'+esc(p.date+' · '+parts.join(' / '))+'</title></rect>';
+  });
+  return '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(D('14 期 SCOR 环节堆叠面积图','Stacked SCOR stage area chart across 14 issues'))+'">'+g+out.join('')+'</svg>';
+}
+function heat(){
+  var W=1000,cellW=57,cellH=25,L=150,T=26,B=28,H=T+RK.length*cellH+B;
+  var mx=0; V.periods.forEach(function(p){RK.forEach(function(k){if(p.byRisk[k].n>mx)mx=p.byRisk[k].n;});}); mx=mx||1;
+  var g='', grid=THEME==='dark'?'#8794a0':'#84909b';
+  V.risks.forEach(function(r,ri){
+    var y=T+ri*cellH;
+    g+='<text x="'+(L-10)+'" y="'+(y+cellH/2+4)+'" text-anchor="end" font-size="11" fill="'+grid+'">'+esc(LANG==='zh-CN'?r.zh:r.en)+'</text>';
+    V.periods.forEach(function(p,pi){
+      var v=p.byRisk[r.key].n, x=L+pi*cellW, a=0.08+0.88*(v/mx);
+      g+='<rect x="'+(x+1)+'" y="'+(y+1)+'" width="'+(cellW-3)+'" height="'+(cellH-3)+'" rx="2" fill="'+r.color+'" fill-opacity="'+a.toFixed(3)+'" style="cursor:pointer" data-hcell="'+pi+'|'+r.key+'"><title>'+esc(p.date+' · '+(LANG==='zh-CN'?r.zh:r.en)+' · '+v)+'</title></rect>';
+      if(v>0)g+='<text x="'+(x+(cellW-3)/2+1)+'" y="'+(y+cellH/2+4)+'" text-anchor="middle" font-size="10" font-family="monospace" fill="'+(a>0.55?'#fff':(THEME==='dark'?'#c8d2dc':'#3b4650'))+'" pointer-events="none">'+v+'</text>';
+    });
+  });
+  V.periods.forEach(function(p,pi){
+    if(pi%2===0||pi===V.periods.length-1)
+      g+='<text x="'+(L+pi*cellW+(cellW-3)/2)+'" y="'+(T+RK.length*cellH+17)+'" text-anchor="middle" font-size="9.5" fill="'+grid+'" font-family="monospace">'+p.date.slice(5)+'</text>';
+  });
+  return '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(D('6 类风险 × 14 期热力图','6 risks × 14 issues heatmap'))+'">'+g+'</svg>';
+}
+
+/* ───────────────────────── 各视图渲染 ───────────────────────── */
+function renderMeta(){
+  var m=DATA.meta, age=Math.max(0,Math.round((Date.now()-new Date(m.generatedAt).getTime())/86400000));
+  document.getElementById('metaBar').innerHTML=
+    '<div class="r1"><span class="badge static">'+D('静态快照 · 非实时','STATIC SNAPSHOT · NOT LIVE')+'</span>'
+    +'<span>'+D('数据源','Source')+'：<b>'+esc(tx(m.source))+'</b></span><span class="sep">|</span>'
+    +'<span>'+D('覆盖','Window')+'：<b>'+m.from+' → '+m.to+'</b>（'+m.periods+' '+D('期','issues')+'）</span><span class="sep">|</span>'
+    +'<span>'+D('构建时间','Built')+'：<b>'+esc(m.generatedAt.slice(0,16).replace('T',' '))+'</b></span>'
+    +'<span class="sep">|</span><span>'+D('数据龄','Age')+'：<b>'+age+'d</b></span></div>'
+    +'<div class="r2">'+esc(tx(m.algorithm))+' · '+esc(tx(m.weightRule))+'</div>';
+}
+function renderKPI(){
+  var m=DATA.meta, last=V.periods[V.periods.length-1];
+  var items=[
+    [D('雷达期数','Issues'),m.periods,D('每周一期，逐期归档','One issue per week, archived')],
+    [D('结构化信号','Signals'),V.sigs.length,D('含 '+m.duplicates+' 条跨期重复','incl. '+m.duplicates+' cross-period repeats')],
+    [D('来源链接','Source links'),V.periods.reduce(function(a,p){return a+p.sources;},0),D('逐条可点击溯源','Traceable per signal')],
+    [D('已核验条目','Verified'),V.periods.reduce(function(a,p){return a+p.verified;},0),D('雷达交叉核验标记','Radar cross-check flag')],
+    [D('数字化使能','Digital enablement'),V.enableTrend.reduce(function(a,b){return a+b;},0),D('横切层，不计入主链五段','Cross-cutting, outside the five stages')]
+  ];
+  var keys=['periods','signals','sources','verified','enable'];
+  document.getElementById('kpiStrip').innerHTML=items.map(function(it,i){
+    return '<div class="kpi" data-k="'+keys[i]+'"><div class="lab">'+it[0]+'</div><div class="v" data-v="'+keys[i]+'">'+it[1]+'</div><div class="sub">'+it[2]+'</div></div>';
+  }).join('');
+}
+function renderOverview(){
+  var last=V.periods[V.periods.length-1], B=DATA.meta.baselineWindow;
+  var maxN=Math.max.apply(null,V.stages.map(function(s){return s.n;}))||1;
+  var cards=V.stages.map(function(s,i){
+    var tr=s.trend.slice(), now=tr[tr.length-1], base=tr.slice(-B-1,-1);
+    var mean=base.reduce(function(a,b){return a+b;},0)/(base.length||1);
+    var dlt=now-mean, cls=dlt>0?'up':(dlt<0?'down':'flat');
+    var arrow=dlt>0?'↑':(dlt<0?'↓':'→');
+    return '<div class="flow-card reveal'+(ST.stage===s.key?' on':'')+'" data-flow="'+s.key+'">'
+      +'<div class="seq">SCOR · 0'+(i+1)+'</div>'
+      +'<div class="nm">'+esc(LANG==='zh-CN'?s.zh:s.en)+'<small>'+esc(LANG==='zh-CN'?s.en:s.zh)+'</small></div>'
+      +'<div class="now" style="color:'+s.color+'">'+last.byStage[s.key][ST.basis]+'</div>'
+      +'<div class="cap">'+D('本期条数','signals this issue')+' · '+D('全期累计','all-time')+' '+s.n+'</div>'
+      +'<div class="spark">'+spark(s[ST.basis==='n'?'trend':'wtrend'],s.color)+'</div>'
+      +'<div class="delta"><span>'+D('前 '+B+' 期均值','prev '+B+' mean')+' <b>'+mean.toFixed(2)+'</b></span>'
+      +'<span class="'+cls+'"><b>'+arrow+' '+(dlt>0?'+':'')+dlt.toFixed(2)+'</b></span></div>'
+      +'<div class="bar"><i style="width:'+(s.n/maxN*100).toFixed(1)+'%;background:'+s.color+'"></i></div>'
+      +'<div class="cap" style="margin-top:6px">'+esc(LANG==='zh-CN'?s.zhDesc:s.enDesc)+'</div>'
+      +'</div>';
+  }).join('');
+  var enTotal=V.enableTrend.reduce(function(a,b){return a+b;},0), enPct=(enTotal/(V.sigs.length||1)*100).toFixed(1);
+  var anoms=V.anomalies.slice(0,6).map(function(a){
+    return '<div class="anom"><span class="dot" style="background:'+a.color+'"></span>'
+      +'<span class="k">'+(a.dim==='stage'?D('环节','Stage'):D('风险','Risk'))+' · <b>'+esc(LANG==='zh-CN'?a.zh:a.en)+'</b></span>'
+      +'<span class="m">'+a.now+' vs '+a.mean+'</span>'
+      +'<span class="z '+(a.dir==='up'?'up':(a.dir==='down'?'down':'flat'))+'">z '+(a.z>0?'+':'')+a.z+'</span></div>';
+  }).join('');
+  var cats=DATA.cats.map(function(c){
+    var v=last.byCat[c.key]?last.byCat[c.key].n:0;
+    var mx=Math.max.apply(null,DATA.cats.map(function(x){return last.byCat[x.key]?last.byCat[x.key].n:0;}))||1;
+    return '<div class="catrow"><span class="nm">'+esc(LANG==='zh-CN'?c.zh:c.en)+'</span>'
+      +'<span class="track"><i style="width:'+(v/mx*100).toFixed(1)+'%;background:'+c.color+'"></i></span>'
+      +'<span class="v">'+v+'</span></div>';
+  }).join('');
+  document.getElementById('z-overview').innerHTML=
+    '<h2>'+D('端到端链路 · SCOR 五段','End-to-end chain · five SCOR stages')
+      +'<span class="hint">'+D('点击任一段可下钻到该环节的信号明细','Click a stage to drill into its signals')+'</span></h2>'
+    +'<div class="flow">'+cards+'</div>'
+    +'<div class="enable-band"><div class="big" style="color:#7a52a8">'+enTotal+'</div>'
+      +'<div class="txt"><b>'+D('数字化使能覆盖','Digital enablement coverage')+' '+enPct+'%</b> — '
+      +esc(D('命中 AI / 自动化 / 数字孪生 / 数据平台等横切关键词的信号条数。它是语料主题占比，不等于企业数字化成熟度。',
+              'Signals hitting cross-cutting AI / automation / digital-twin / data-platform terms. This is corpus topic share, not a measure of enterprise digital maturity.'))+'</div>'
+      +'<div style="min-width:150px;line-height:0">'+spark(V.enableTrend,'#7a52a8')+'</div></div>'
+    +'<div class="cols-3">'
+      +'<div class="card"><h3 style="margin-top:0">'+D('本期异动榜','Anomalies this issue')
+        +'<span class="hint" style="font-size:11.4px;color:var(--ink3);font-weight:400"> · '+D('前 '+B+' 期滚动基线，z 值仅作筛查提示','rolling '+B+'-issue baseline; z is a screening hint only')+'</span></h3>'+anoms+'</div>'
+      +'<div class="card"><h3 style="margin-top:0">'+D('本期栏目分布','This issue by column')+'</h3>'+cats
+        +'<p style="margin-top:10px;font-size:11.7px">'+esc(D('栏目是雷达的编辑分类，与 SCOR 环节是两套独立维度，不可互相换算。','Radar columns are an editorial taxonomy, independent of SCOR stages — the two must not be converted into each other.'))+'</p></div>'
+    +'</div>';
+  document.querySelectorAll('[data-flow]').forEach(function(el){
+    el.addEventListener('click',function(){
+      var k=el.dataset.flow; ST.stage=(ST.stage===k?'':k); ST.limit=40;
+      setTab('signals'); renderSignals(); renderOverview();
+    });
+  });
+  observeReveal();
+}
+function renderTrend(){
+  var m=DATA.meta;
+  var l1=V.stages.map(function(s){return '<span><i style="background:'+s.color+'"></i>'+esc(LANG==='zh-CN'?s.zh:s.en)+'</span>';}).join('');
+  var l2=V.risks.map(function(r){return '<span><i style="background:'+r.color+'"></i>'+esc(LANG==='zh-CN'?r.zh:r.en)+'</span>';}).join('');
+  document.getElementById('z-trend').innerHTML=
+    '<div class="controls">'
+      +'<div class="seg"><button type="button" data-basis="n" class="'+(ST.basis==='n'?'on':'')+'">'+D('按条数 n','Count n')+'</button>'
+      +'<button type="button" data-basis="w" class="'+(ST.basis==='w'?'on':'')+'">'+D('按来源加权 w','Weighted w')+'</button></div>'
+      +'<label class="switch"><input type="checkbox" id="dedupTrend" '+(ST.excludeDup?'checked':'')+'>'+D('排除跨期重复','Exclude cross-period duplicates')+'</label>'
+      +'<span style="font-size:11.7px;color:var(--ink3)">'+esc(tx(m.weightRule))+'</span></div>'
+    +'<div class="chartbox"><h3 style="margin-top:0">'+D('14 期 × SCOR 五段 · 堆叠面积','14 issues × five SCOR stages · stacked area')
+      +'<span class="hint" style="font-size:11.4px;color:var(--ink3);font-weight:400"> · '+D('悬停查看逐期分项，点击热力格子可下钻','Hover for per-issue values; click a heat cell to drill down')+'</span></h3>'
+      +'<div class="scrollx">'+stacked()+'</div><div class="legend">'+l1+'</div></div>'
+    +'<div class="chartbox"><h3 style="margin-top:0">'+D('6 类风险 × 14 期 · 热力图','6 risk classes × 14 issues · heatmap')+'</h3>'
+      +'<div class="scrollx">'+heat()+'</div><div class="legend">'+l2+'</div>'
+      +'<p style="font-size:11.7px;margin-top:9px">'+esc(D('颜色深浅 = 当期该风险命中条数；同一条信号可命中多类，行列不可相加求总。','Shade = signals hitting that risk in that issue; one signal may hit several classes, so rows and columns must not be summed.'))+'</p></div>';
+  document.querySelectorAll('[data-basis]').forEach(function(b){b.addEventListener('click',function(){
+    ST.basis=b.dataset.basis; renderTrend(); renderOverview(); renderKPI();
+  });});
+  document.getElementById('dedupTrend').addEventListener('change',function(e){
+    ST.excludeDup=e.target.checked; V=recompute(ST.excludeDup);
+    renderAll();
+  });
+  document.querySelectorAll('[data-hcell]').forEach(function(c){c.addEventListener('click',function(){
+    var p=c.getAttribute('data-hcell').split('|');
+    ST.period=V.periods[+p[0]].date; ST.risk=p[1]; ST.limit=40;
+    setTab('signals'); renderSignals();
+  });});
+}
+function filtered(){
+  var q=ST.q.trim().toLowerCase();
+  return V.sigs.filter(function(s){
+    if(ST.period&&s.date!==ST.period)return false;
+    if(ST.stage&&s.st.indexOf(ST.stage)<0)return false;
+    if(ST.risk&&s.rk.indexOf(ST.risk)<0)return false;
+    if(ST.cat&&s.cat!==ST.cat)return false;
+    if(q&&(s.t.zh+' '+s.t.en).toLowerCase().indexOf(q)<0)return false;
+    return true;
+  });
+}
+function hitChips(s){
+  var out=[], seen={};
+  Object.keys(s.hits||{}).forEach(function(k){
+    (s.hits[k]||[]).forEach(function(w){ if(!seen[w]&&out.length<9){seen[w]=1;out.push(w);} });
+  });
+  return out.map(function(w){return '<span class="chip mini">'+esc(w)+'</span>';}).join('');
+}
+function renderSignals(){
+  var all=filtered(), show=all.slice(0,ST.limit);
+  var stageChips='<span class="chip'+(ST.stage?'':' on')+'" data-sstage="">'+D('全部环节','All stages')+'</span>'+
+    V.stages.map(function(s){return '<span class="chip'+(ST.stage===s.key?' on':'')+'" data-sstage="'+s.key+'">'+esc(LANG==='zh-CN'?s.zh:s.en)+'</span>';}).join('');
+  var riskChips='<span class="chip'+(ST.risk?'':' on')+'" data-srisk="">'+D('全部风险','All risks')+'</span>'+
+    V.risks.map(function(r){return '<span class="chip'+(ST.risk===r.key?' on':'')+'" data-srisk="'+r.key+'">'+esc(LANG==='zh-CN'?r.zh:r.en)+'</span>';}).join('');
+  var catChips='<span class="chip'+(ST.cat?'':' on')+'" data-scat="">'+D('全部栏目','All columns')+'</span>'+
+    DATA.cats.map(function(c){return '<span class="chip'+(ST.cat===c.key?' on':'')+'" data-scat="'+c.key+'">'+esc(LANG==='zh-CN'?c.zh:c.en)+'</span>';}).join('');
+  var periodOpts='<option value="">'+D('全部期次','All issues')+'</option>'+
+    V.periods.map(function(p){return '<option value="'+p.date+'"'+(ST.period===p.date?' selected':'')+'>'+p.date+'</option>';}).join('');
+  var list=show.map(function(s){
+    var cat=DATA.cats.filter(function(c){return c.key===s.cat;})[0]||{zh:'其他',en:'Other',color:'#888'};
+    var stg=s.st.map(function(k){var x=V.stages.filter(function(a){return a.key===k;})[0];return x?'<span class="chip mini" style="border-color:'+x.color+';color:'+x.color+'">'+esc(LANG==='zh-CN'?x.zh:x.en)+'</span>':'';}).join('');
+    var rsk=s.rk.map(function(k){var x=V.risks.filter(function(a){return a.key===k;})[0];return x?'<span class="chip mini" style="border-color:'+x.color+';color:'+x.color+'">'+esc(LANG==='zh-CN'?x.zh:x.en)+'</span>':'';}).join('');
+    var title=esc(tx(s.t));
+    return '<div class="sig"><div class="r1"><span class="dt">'+s.date+'</span>'
+      +'<span class="cat" style="color:'+cat.color+'">'+esc(LANG==='zh-CN'?cat.zh:cat.en)+'</span>'
+      +'<span>'+s.ns+' '+D('个来源','sources')+'</span>'
+      +(s.v?'<span class="v">✓ '+D('已核验','verified')+'</span>':'')
+      +(s.dup?'<span class="dup">↺ '+D('跨期重复','cross-period repeat')+'</span>':'')
+      +(s.en?'<span style="color:#7a52a8">◇ '+D('数字化使能','digital enablement')+'</span>':'')
+      +(s.url?'<a href="'+esc(s.url)+'" target="_blank" rel="noopener">'+D('打开首要来源 ↗','open primary source ↗')+'</a>':'')
+      +'</div><div class="tt">'+(s.url?'<a href="'+esc(s.url)+'" target="_blank" rel="noopener">'+title+'</a>':title)+'</div>'
+      +'<div class="tags">'+(stg||'<span class="chip mini">'+D('未分类','unclassified')+'</span>')+rsk+'</div>'
+      +'<div class="hits"><b>'+D('规则命中','Rule hits')+'：</b>'+(hitChips(s)||'<span>'+D('无','none')+'</span>')+'</div></div>';
+  }).join('');
+  document.getElementById('z-signals').innerHTML=
+    '<div class="card"><div class="controls" style="margin-bottom:9px">'
+      +'<label class="field">'+D('期次','Issue')+' <select id="fPeriod">'+periodOpts+'</select></label>'
+      +'<label class="field"><input type="search" id="fSearch" placeholder="'+esc(D('搜索标题（中/英）','Search titles (zh/en)'))+'" value="'+esc(ST.q)+'"></label>'
+      +'<label class="switch"><input type="checkbox" id="dedupSig" '+(ST.excludeDup?'checked':'')+'>'+D('排除跨期重复','Exclude duplicates')+'</label>'
+      +'<button type="button" class="btn" id="fClear">'+D('清空筛选','Clear filters')+'</button></div>'
+      +'<div class="chips" style="margin-bottom:6px">'+stageChips+'</div>'
+      +'<div class="chips" style="margin-bottom:6px">'+riskChips+'</div>'
+      +'<div class="chips">'+catChips+'</div></div>'
+    +'<h2>'+D('信号明细','Signal detail')+'<span class="hint">'+D('当前 ','Showing ')+'<b id="sigCount">'+all.length+'</b> / '+V.sigs.length+D(' 条（含多标签，逐条可核对命中词与首要来源）',' signals (multi-label; hit terms and primary source verifiable per row)')+'</span></h2>'
+    +(list||'<div class="empty">'+D('没有符合条件的信号，请放宽筛选。','No signals match — relax the filters.')+'</div>')
+    +(all.length>ST.limit?'<button type="button" class="more" id="btnMore">'+D('加载更多','Load more')+'（'+show.length+' / '+all.length+'）</button>':'');
+  function bind(sel,attr,key){
+    document.querySelectorAll(sel).forEach(function(el){el.addEventListener('click',function(){
+      ST[key]=el.getAttribute(attr); ST.limit=40; renderSignals();
+    });});
+  }
+  bind('[data-sstage]','data-sstage','stage'); bind('[data-srisk]','data-srisk','risk'); bind('[data-scat]','data-scat','cat');
+  document.getElementById('fPeriod').addEventListener('change',function(e){ST.period=e.target.value;ST.limit=40;renderSignals();});
+  document.getElementById('fSearch').addEventListener('input',function(e){ST.q=e.target.value;ST.limit=40;window.__csFocusSearch=true;renderSignals();});
+  document.getElementById('dedupSig').addEventListener('change',function(e){ST.excludeDup=e.target.checked;V=recompute(ST.excludeDup);renderAll();});
+  document.getElementById('fClear').addEventListener('click',function(){ST.stage='';ST.risk='';ST.cat='';ST.period='';ST.q='';ST.limit=40;renderSignals();});
+  var more=document.getElementById('btnMore'); if(more)more.addEventListener('click',function(){ST.limit+=40;renderSignals();});
+  if(window.__csFocusSearch){var fs=document.getElementById('fSearch');if(fs){fs.focus();try{fs.setSelectionRange(fs.value.length,fs.value.length);}catch(e){}}window.__csFocusSearch=false;}
+}
+function renderPlaybook(){
+  var pbs=DATA.playbooks.filter(function(p){return !ST.pbRisk||p.risk===ST.pbRisk;});
+  var selCount=Object.keys(ST.sel).filter(function(k){return ST.sel[k];}).length;
+  var body=pbs.map(function(p){
+    var st=V.stages.filter(function(s){return s.key===p.stage;})[0]||{zh:p.stage,en:p.stage,color:'#888'};
+    var rk=V.risks.filter(function(r){return r.key===p.risk;})[0]||{zh:p.risk,en:p.risk,color:'#888'};
+    var on=!!ST.sel[p.id];
+    return '<div class="pb'+(on?' is-selected':'')+'" data-pbid="'+p.id+'">'
+      +'<input type="checkbox" data-pbcheck="'+p.id+'" '+(on?'checked':'')+' aria-label="'+esc(p.id)+'">'
+      +'<div><div class="hd"><span class="id">'+p.id+'</span>'
+        +'<span class="tag" style="background:'+st.color+'">'+esc(LANG==='zh-CN'?st.zh:st.en)+'</span>'
+        +'<span class="tag" style="background:'+rk.color+'">'+esc(LANG==='zh-CN'?rk.zh:rk.en)+'</span>'
+        +'<span class="own">'+esc(tx(p.owner))+'</span></div>'
+      +'<div class="row"><span class="lb">'+D('风险信号','Signal')+'</span><span>'+esc(tx(p.signal))+'</span></div>'
+      +'<div class="row"><span class="lb">'+D('核查动作','Action')+'</span><span>'+esc(tx(p.action))+'</span></div>'
+      +'<div class="row"><span class="lb">'+D('触发条件','Trigger')+'</span><span>'+esc(tx(p.trigger))+'</span></div>'
+      +'<div class="row"><span class="lb">'+D('所需字段','Fields')+'</span><span class="fld">'+esc(tx(p.fields))+'</span></div>'
+      +'</div></div>';
+  }).join('');
+  var riskChips='<span class="chip'+(ST.pbRisk?'':' on')+'" data-pbrisk="">'+D('全部风险','All risks')+'</span>'+
+    V.risks.map(function(r){return '<span class="chip'+(ST.pbRisk===r.key?' on':'')+'" data-pbrisk="'+r.key+'">'+esc(LANG==='zh-CN'?r.zh:r.en)+'</span>';}).join('');
+  document.getElementById('z-playbook').innerHTML=
+    '<div class="note warn"><b>'+D('边界说明','Boundary')+'：</b>'+esc(tx(DATA.playbookNote))+'</div>'
+    +'<div class="note"><b>'+D('窗口口径','Window convention')+'：</b>'+esc(tx(DATA.windowNote))+'</div>'
+    +'<div class="pb-actions"><span class="cnt" id="pbCount">'+D('已选','Selected')+' <b>'+selCount+'</b> / '+DATA.playbooks.length+' '+D('项核查动作','checks')+'</span>'
+      +'<button type="button" class="btn" id="btnClear">'+D('清空','Clear')+'</button>'
+      +'<button type="button" class="btn" id="btnPrint">'+D('打印行动单','Print list')+'</button>'
+      +'<button type="button" class="btn primary" id="btnExport">'+D('导出 CSV','Export CSV')+'</button></div>'
+    +'<div class="chips" style="margin-bottom:12px">'+riskChips+'</div>'
+    +'<h2 style="margin-top:0">'+D('业务核查剧本','Business verification playbooks')
+      +'<span class="hint">'+D('由供应链专家团按 SCOR 环节分工拟定 · 只触发核查，不产出下单量','Drafted by the supply-chain expert team per SCOR stage · triggers verification only, never order quantities')+'</span></h2>'
+    +body;
+  document.querySelectorAll('[data-pbcheck]').forEach(function(c){c.addEventListener('change',function(e){
+    ST.sel[e.target.getAttribute('data-pbcheck')]=e.target.checked; renderPlaybook();
+  });});
+  document.querySelectorAll('[data-pbrisk]').forEach(function(c){c.addEventListener('click',function(){
+    ST.pbRisk=c.getAttribute('data-pbrisk'); renderPlaybook();
+  });});
+  document.getElementById('btnClear').addEventListener('click',function(){ST.sel={};renderPlaybook();});
+  document.getElementById('btnExport').addEventListener('click',exportCSV);
+  document.getElementById('btnPrint').addEventListener('click',function(){
+    setTab('playbook'); document.body.classList.add('printing');
+    setTimeout(function(){window.print();},60);
+    setTimeout(function(){document.body.classList.remove('printing');},900);
+  });
+}
+function exportCSV(){
+  var chosen=DATA.playbooks.filter(function(p){return ST.sel[p.id];});
+  if(!chosen.length){ alert(D('请先勾选至少一条核查动作。','Select at least one check first.')); return; }
+  var head=[D('编号','ID'),D('SCOR 环节','SCOR stage'),D('风险类型','Risk class'),D('责任角色','Owner'),
+            D('风险信号','Signal'),D('核查动作','Action'),D('触发条件','Trigger'),D('所需字段','Fields')];
+  var rows=chosen.map(function(p){
+    var st=V.stages.filter(function(s){return s.key===p.stage;})[0]||{zh:p.stage,en:p.stage};
+    var rk=V.risks.filter(function(r){return r.key===p.risk;})[0]||{zh:p.risk,en:p.risk};
+    return [p.id,tx(st),tx(rk),tx(p.owner),tx(p.signal),tx(p.action),tx(p.trigger),tx(p.fields)];
+  });
+  var csv='\ufeff'+[head].concat(rows).map(function(r){
+    return r.map(function(c){return '"'+String(c==null?'':c).replace(/"/g,'""')+'"';}).join(',');
+  }).join('\r\n');
+  var blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  var url=URL.createObjectURL(blob), a=document.createElement('a');
+  a.href=url; a.download='chainscope-action-list-'+DATA.meta.to+'.csv';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(function(){URL.revokeObjectURL(url);},1000);
+}
+function renderMethod(){
+  var a=assertions(), okAll=(a.n===a.ok);
+  var ruleBoxes=V.stages.concat([DATA.enable]).map(function(s){
+    var t=DATA.rules.stages[s.key]||{zh:[],en:[]};
+    return '<div class="rulebox"><div class="h" style="color:'+s.color+'">'+esc(LANG==='zh-CN'?s.zh:s.en)+'</div>'
+      +'<div class="w">ZH: '+esc((t.zh||[]).join(' / '))+'</div>'
+      +'<div class="w" style="margin-top:4px">EN: '+esc((t.en||[]).join(' / '))+'</div></div>';
+  }).join('');
+  var riskBoxes=V.risks.map(function(r){
+    var t=DATA.rules.risks['risk_'+r.key]||{zh:[],en:[]};
+    return '<div class="rulebox"><div class="h" style="color:'+r.color+'">'+esc(LANG==='zh-CN'?r.zh:r.en)+'</div>'
+      +'<div class="w">ZH: '+esc((t.zh||[]).join(' / '))+'</div>'
+      +'<div class="w" style="margin-top:4px">EN: '+esc((t.en||[]).join(' / '))+'</div></div>';
+  }).join('');
+  var lims=DATA.caveats.map(function(c,i){
+    return '<div class="lim"><span class="no">'+String(i+1).padStart(2,'0')+'</span><span>'+esc(tx(c))+'</span></div>';
+  }).join('');
+  var terms=[
+    [D('法规生效日 / 证书有效期','Regulatory effective date / certificate validity'),
+     D('前者属关税与法规语境（S1），后者属准入证照语境（S5），两者不合并。','The former belongs to tariff/regulation (S1), the latter to admission certificates (S5); they are kept separate.')],
+    [D('在途单 / 运单号 / 采购订单号 / 在产工单号','In-transit order / shipment ID / purchase order / production order'),
+     D('分别对应订舱、运输、采购与生产四类单据，产品内不使用裸「订单号」。','They refer to booking, transport, purchasing and production documents; the bare term order ID is never used.')],
+    [D('预测偏差 / 产能爬坡偏差','Forecast variance / capacity ramp-up variance'),
+     D('Plan 侧仅保留需求预测偏差；Make 侧改写为数据口径可比性核查，不含同名触发条件。','Plan keeps demand-forecast variance only; Make was rewritten as a data-definition comparability check, with no same-named trigger.')],
+    [D('原产地 / 产地','Country of origin / production site'),
+     D('前者属 HS 归类与报关语境，后者属制造布局语境，不统一命名。','The former is an HS-classification/customs term, the latter a manufacturing-footprint term; naming is not merged.')]
+  ].map(function(t){return '<div class="termrow"><b>'+t[0]+'</b><span>'+t[1]+'</span></div>';}).join('');
+  document.getElementById('z-method').innerHTML=
+    '<h2 style="margin-top:0">'+D('算法与口径','Algorithm & definitions')+'</h2>'
+    +'<div class="card"><p>'+esc(tx(DATA.meta.algorithm))+'</p>'
+      +'<p>'+esc(tx(DATA.meta.weightRule))+'</p>'
+      +'<p>'+D('匹配细节','Matching detail')+'：'+D('中文按子串、英文按词边界；标题命中即计，描述需命中 ≥','Chinese by substring, English by word boundary; a title hit counts immediately, a description needs at least ')
+      +DATA.meta.descMinHits+D(' 个不同词且只取前 ',' distinct terms within the first ')+DATA.meta.descChars+D(' 字。',' characters.')+'</p>'
+      +'<p>'+D('异动公式','Anomaly formula')+'：z = (当期值 − 前 '+DATA.meta.baselineWindow+' 期均值) / 总体标准差；标准差为 0 时 z 记 0。</p></div>'
+    +'<h2>'+D('浏览器内复算对账','In-browser recomputation')+'</h2>'
+    +'<div class="assert'+(okAll?'':' bad')+'">'+D('当前口径','Current basis')+'：'+(ST.excludeDup?D('排除跨期重复（断言对默认口径复算）','Exclude duplicates (assertions recompute on the default basis)'):D('默认口径','Default basis'))
+      +' · '+a.ok+' / '+a.n+' '+(okAll?'✓ '+D('逐项一致：页面把 '+DATA.meta.signals+' 条信号重新聚合后与构建产物逐字段比对，不依赖截图',' identical: the page re-aggregates all '+DATA.meta.signals+' signals and compares field by field with the build output'):'✗ '+D('存在不一致','mismatch found'))+'</div>'
+    +biasHtml()
+    +'<h2>'+D('局限（一等交付物 · 默认展开）','Limitations (first-class deliverable · always expanded)')+'</h2>'
+    +'<div class="card">'+lims+'</div>'
+    +'<h2>'+D('规则词典全文','Full lexicon')+'</h2>'
+    +'<details class="peekbox" open><summary>'+D('SCOR 环节 + 数字化使能 · 关键词','SCOR stages + digital enablement · terms')+'</summary><div class="bd"><div class="rules-grid">'+ruleBoxes+'</div></div></details>'
+    +'<details class="peekbox"><summary>'+D('六类风险 · 关键词','Six risk classes · terms')+'</summary><div class="bd"><div class="rules-grid">'+riskBoxes+'</div></div></details>'
+    +'<details class="peekbox"><summary>'+D('术语与字段字典消歧','Term and field disambiguation')+'</summary><div class="bd">'+terms+'</div></details>'
+    +'<h2>'+D('业务接入路径','Business integration path')+'</h2>'
+    +'<div class="card"><p>'+esc(D('① 用企业 ERP / WMS 导出替换雷达语料，字段至少覆盖：单据号、物料编码、供应商编码、日期、环节、来源系统；② 按企业口径重写规则词典与环节映射；③ 重设滚动窗口与异动基线；④ 把行动剧本的字段名映射到真实表字段并校准触发阈值；⑤ 由业务方确认核查结论后才进入决策流程。以上五步全部需要企业侧数据治理，不是前端算力问题。',
+      '1) Replace the Radar corpus with ERP/WMS exports covering at least document ID, part ID, supplier ID, date, stage and source system; 2) rewrite the lexicon and stage mapping to company definitions; 3) reset the rolling window and anomaly baseline; 4) map playbook field names to real table columns and calibrate triggers; 5) have the business owner confirm verification findings before any decision. All five steps are data-governance work, not a front-end compute problem.'))+'</p></div>'
+    +'<h2>'+D('红线','Red lines')+'</h2>'
+    +'<div class="redline">'
+      +[D('不出最优库存','No optimal inventory'),D('不出建议下单量','No suggested order quantity'),D('不冒充实时','Never presented as live'),
+        D('零外部请求','Zero external requests'),D('不引入 LLM','No LLM'),D('不跨数据源传值','No cross-source value passing'),
+        D('负结果照实呈现','Negative results shown as-is'),D('决策权归业务方','Decisions stay with the business')]
+        .map(function(x){return '<span>'+x+'</span>';}).join('')+'</div>';
+}
+function renderCharts(){ renderOverview(); renderTrend(); }
+function renderAll(){
+  renderMeta(); renderKPI(); renderOverview(); renderTrend(); renderSignals(); renderPlaybook(); renderMethod(); renderFooter(); renderViewbar();
+}
+function renderViewbar(){
+  var t={
+    overview:D('全链路鸟瞰：按 SCOR 五段看本期信号密度、14 期走势与滚动基线异动。数字是「报道覆盖密度」，不是企业实际风险值。','Overview: signal density across five SCOR stages, 14-issue trends and rolling-baseline anomalies. Figures are coverage density, not actual enterprise risk.'),
+    trend:D('趋势与热力：可切换条数 / 来源加权口径、排除跨期重复；点击热力格子直接下钻到该期该风险的原始信号。','Trend & heat: switch count / weighted basis, exclude cross-period repeats; click a heat cell to drill into the original signals.'),
+    signals:D('信号明细：每条雷达新闻的环节、风险、命中词与首要来源逐条可核对。多标签是常态，不是重复计数错误。','Signals: stage, risk, hit terms and primary source are verifiable per row. Multi-label hits are expected, not a double-counting bug.'),
+    playbook:D('行动剧本：勾选后导出 CSV 或打印，作为业务核查清单使用。剧本只触发核查，不产出补货量、下单量或承诺值。','Playbooks: select checks and export CSV or print. They trigger verification only — no replenishment, order quantities or promised figures.'),
+    method:D('方法与局限：算法、口径、浏览器内复算对账、规则词典全文与 '+DATA.caveats.length+' 条局限全部默认摊开，不塞脚注。','Method & limits: algorithm, definitions, in-browser reconciliation, full lexicon and '+DATA.caveats.length+' limitations, all expanded by default.')
+  };
+  document.getElementById('viewbar').textContent=t[TAB];
+}
+function renderFooter(){
+  document.getElementById('footer').innerHTML=
+    '<div>'+D('数据源','Source')+'：'+esc(tx(DATA.meta.source))+' · '+DATA.meta.periods+' '+D('期','issues')+' / '+DATA.meta.signals+' '+D('条','signals')+' / '+DATA.meta.sources+' '+D('个来源链接','source links')+'</div>'
+    +'<div>'+D('构建产物','Build output')+'：docs/reports/chainscope/signal-data.json · '+esc(DATA.meta.generatedAt)+' · '+D('构建脚本','build script')+'：scripts/build_chainscope.py + chainscope_rules.py + chainscope_playbooks.py</div>'
+    +'<div>'+D('纯静态 · 同源 fetch · 零外部请求 · 无密钥 · 无 LLM · 浏览器内可复算','Purely static · same-origin fetch · zero external requests · no keys · no LLM · recomputable in-browser')
+      +' · <a href="../../index.html#radar-review">'+D('返回作品集「往期雷达回顾」','Back to the portfolio radar review')+'</a></div>';
+}
+
+/* ───────────────────────── 交互骨架 ───────────────────────── */
+var TABS=['overview','trend','signals','playbook','method'];
+function setTab(k){
+  TAB=k;
+  TABS.forEach(function(x){ document.getElementById('z-'+x).hidden=(x!==k); });
+  document.querySelectorAll('#tabs button').forEach(function(b){ b.classList.toggle('on',b.dataset.tab===k); });
+  renderViewbar();
+}
+function observeReveal(){
+  if(!('IntersectionObserver' in window)){ document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in');}); return; }
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);} });
+  },{threshold:.05});
+  document.querySelectorAll('.reveal:not(.in)').forEach(function(el){io.observe(el);});
+}
+function boot(){
+  fetch('signal-data.json?t='+Date.now(),{cache:'no-store'})
+    .then(function(r){ if(!r.ok)throw new Error('HTTP '+r.status); return r.json(); })
+    .then(function(d){
+      DATA=d; V=recompute(ST.excludeDup);
+      window.__csBooted=true; clearTimeout(window.__csTimer);
+      document.getElementById('cs-error').hidden=true;
+      LANG=S.get('sc-lang','zh-CN'); if(LANG!=='zh-CN'&&LANG!=='en')LANG='zh-CN';
+      THEME=S.get('sc-theme','light'); if(THEME!=='light'&&THEME!=='dark')THEME='light';
+      document.documentElement.setAttribute('data-theme',THEME);
+      applyLang(); renderAll(); observeReveal(); setTab('overview');
+    })
+    .catch(function(err){
+      window.__csBooted=true; clearTimeout(window.__csTimer);
+      window.__csFail();
+      var b=document.getElementById('cs-error');
+      b.innerHTML='<b>'+esc(D('数据加载失败','Data load failed'))+'：'+esc(err.message)+'</b> — '
+        +esc(D('请通过 HTTP 打开本页面（GitHub Pages 或本地静态服务），确认同目录存在 signal-data.json，然后重试。','Open this page over HTTP (GitHub Pages or a local static server), confirm signal-data.json is in the same directory, then retry.'))
+        +' <button class="btn" id="btnRetry2" style="margin-left:8px">'+esc(D('重试','Retry'))+'</button>';
+      var r=document.getElementById('btnRetry2'); if(r)r.addEventListener('click',boot);
+    });
+}
+document.getElementById('btnLang').addEventListener('click',function(){setLang(LANG==='zh-CN'?'en':'zh-CN');});
+document.getElementById('btnTheme').addEventListener('click',function(){setTheme(THEME==='light'?'dark':'light');});
+document.getElementById('btnRetry').addEventListener('click',boot);
+document.querySelectorAll('#tabs button').forEach(function(b){b.addEventListener('click',function(){setTab(b.dataset.tab);});});
+boot();
+})();
+</script>
+</body>
+</html>
