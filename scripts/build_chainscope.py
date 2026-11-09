@@ -142,8 +142,8 @@ CAVEATS = [
         "en": "Lexicon matching has no semantic understanding: negations, irony, historical retrospectives and hypotheticals may all be counted. Hit terms are expandable on every signal, so classifier output needs human spot-checks.",
     },
     {
-        "zh": "异动检测只有 14 期样本、基线仅 4 期；小样本下总体标准差不稳定，z 值只作筛查提示，不是统计显著性检验，也不构成趋势预测。",
-        "en": "Anomaly detection has only 14 issues and a 4-issue baseline. Population SD is unstable at this sample size; z-scores are screening hints, not significance tests or trend forecasts.",
+        "zh": "异动检测只有 {periods_n} 期样本、基线仅 4 期；小样本下总体标准差不稳定，z 值只作筛查提示，不是统计显著性检验，也不构成趋势预测。",
+        "en": "Anomaly detection has only {periods_n} issues and a 4-issue baseline. Population SD is unstable at this sample size; z-scores are screening hints, not significance tests or trend forecasts.",
     },
     {
         "zh": "早期若干期存在跨期重复标题（见元数据「重复条数」）。默认保留原始编辑口径不去重；页面提供「排除跨期重复」开关，切换后所有统计随之改变，两种口径不可混用。",
@@ -456,7 +456,11 @@ def main():
     }
 
     audit = build_bias_audit(items_all, signals, stage_summary, periods, len(CAVEATS) + 3)
-    caveats = CAVEATS + bias_caveats(audit)
+    periods_n = len(periods)
+    caveats = [
+        {k: v.format(periods_n=periods_n) if "{periods_n}" in v else v for k, v in c.items()}
+        for c in CAVEATS
+    ] + bias_caveats(audit)
 
     payload = {
         "meta": meta,

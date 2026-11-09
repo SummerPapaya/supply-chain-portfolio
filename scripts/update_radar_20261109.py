@@ -1,0 +1,273 @@
+# -*- coding: utf-8 -*-
+"""供应链雷达周更脚本（2026-11-09）
+
+标准：ee6be6d —— 权威来源 / 交叉验证 / 来源可溯 / 中英双语
+- 四栏固定顺序：重点新闻 → 热门议题 → 研究瞭望 → 应用风向
+- verified=True 仅用于 ≥2 家独立媒体（或独立研究机构）佐证的条目
+- 同步两处：docs/radar-data.json 与 docs/index.html 内嵌 <script id="embeddedRadar">
+幂等：整份重建，重复执行结果一致。
+
+本期收录区间：2026-11-03 ~ 2026-11-09
+本期单源条目（verified=False，如实标注）：
+  - 热门议题「曼德海峡通行盘点」：主数据源自 UKMTO/JMIC 行业通报，经分析平台转引，未获主流媒体独立复核；胡塞 10 月通行量为单方口径
+  - 研究瞭望「NBER 生产率归因」：NBER WP 34836 与 Wharton-GBK 调查的详细数字目前仅见单一分析平台的系统转述
+  - 应用风向「灵初智能 × 李宁」：企业通稿，未见独立媒体复核
+选题已避开上期重复（霍尔木兹吸附式袭船、WCI 4,429、USTR 301 冻结、守夜人罢工授权、准班率 50.6%、
+苏伊士回摆 146→276 艘、WorldACD 空运、中欧班列 14 万列、Gartner CIO 13%/3%、Gartner 30% 重新雇回、
+HBR/BCG 采用高原、GXO Digit 扩仓、CeMAT 展前预告、京东物流独立站方案）。
+"""
+import json
+import re
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+DOCS = ROOT / "docs"
+JSON_PATH = DOCS / "radar-data.json"
+HTML_PATH = DOCS / "index.html"
+
+UPDATED_AT = "2026-11-09T16:00:00+08:00"
+
+COLORS = ["#e05656", "#f0a13a", "#5b8cff", "#35c2b0"]
+
+
+def S(label, url):
+    return {"label": label, "url": url}
+
+
+def IT(zh_t, en_t, zh_d, en_d, sources, verified):
+    return {
+        "title": {"zh": zh_t, "en": en_t},
+        "desc": {"zh": zh_d, "en": en_d},
+        "sources": sources,
+        "verified": verified,
+    }
+
+
+# ---------------- 重点新闻 / Key News ----------------
+KEY_NEWS = [
+    IT(
+        "波斯湾油轮 MT Velos Sapphire 疑遭无人机袭击、一名菲律宾船员身亡：IMO 理事会闭幕谴责红海与曼德海峡袭船，UKMTO 年内已录 155 起美伊冲突相关事件",
+        "Tanker MT Velos Sapphire hit by suspected drone in the Persian Gulf, killing a Filipino seafarer: IMO Council condemns Red Sea and Bab al-Mandab attacks as UKMTO logs 155 US–Iran conflict-related incidents this year",
+        "菲律宾海外劳工部（DMW）11 月 8 日通报：11 月 5 日，悬挂马绍尔群岛旗的成品油轮 MT Velos Sapphire 在波斯湾发生爆炸，初步报告指向疑似无人机袭击，一名菲律宾籍船员死亡，船上另 21 名菲律宾船员无恙；事发时该轮正驶往巴林锡特拉，爆炸原因尚未查明，未报告污染或环境损害，船方与中介机构已向遇难者家属提供协助。同一周，国际海事组织（IMO）第 138 届理事会会议 11 月 6 日在伦敦闭幕，重申重要国际海峡与航运通道必须保持开放与安全、所有船员无论国籍都应受到保护，并强烈谴责发生在红海、曼德海峡针对商船和船员的袭击；秘书长多明格斯在闭幕讲话中证实了 11 月 5 日油轮遇袭与菲律宾船员死亡，表示将与有关各方密切沟通、研究进一步措施。风险规模有了官方计数：英国海上贸易行动办公室（UKMTO）11 月 6 日发布的周报显示，今年以来其自愿报告区域内已记录 155 起与美国和伊朗冲突有关的海上安全事件。须标注边界：袭击原因仍在调查，DMW 与 IMO 均使用“疑似/未经证实”表述，未作归因；本期不采信任何单方定性。",
+        "The Philippine Department of Migrant Workers (DMW) reported on 8 November that an explosion aboard the Marshall Islands-flagged oil products tanker MT Velos Sapphire in the Persian Gulf on 5 November, initially reported as a possible drone attack, killed one Filipino seafarer, with the other 21 Filipino crew members unharmed; the vessel was sailing towards Sitrah, Bahrain, the cause of the blast remains unverified, and no pollution or environmental damage has been reported. The manning agency has informed the family and the shipowner has offered support. In the same week, the International Maritime Organization’s 138th Council session closed in London on 6 November, reiterating that vital international straits and shipping lanes must remain open and safe and that all seafarers must be protected regardless of nationality, and strongly condemning attacks on merchant ships and crews in the Red Sea and Bab al-Mandab; Secretary-General Dominguez confirmed in his closing remarks the 5 November tanker attack that killed a Filipino crew member and said the organization would keep in close contact with all parties and study further measures. The scale of the risk now has an official count: the UK Maritime Trade Operations office (UKMTO) reported in its weekly bulletin of 6 November that 155 maritime security incidents related to the US–Iran conflict have been recorded in its voluntary reporting area so far this year. Boundaries must be flagged: the cause is still under investigation, both the DMW and the IMO use “suspected/unverified” wording and make no attribution, and this issue endorses no unilateral characterization.",
+        [
+            S("The Star（11-08 引菲律宾 DMW：MT Velos Sapphire、21 名同胞无恙、驶往巴林锡特拉）", "https://www.thestar.com.my/aseanplus/aseanplus-news/2026/11/08/filipino-seafarer-killed-in-suspected-drone-attack-on-persian-gulf-tanker"),
+            S("央视新闻（11-06 IMO 第 138 届理事会闭幕：谴责红海与曼德海峡袭船、11-5 油轮遇袭菲籍船员死亡）", "https://news.qq.com/rain/a/20261106A0DZ2V00"),
+            S("澎湃新闻（11-06 UKMTO 周报：年内 155 起美伊冲突相关海上安全事件）", "https://m.thepaper.cn/newsDetail_forward_34425361"),
+            S("Philippine Daily Inquirer（11-08 DMW 通报与善后口径）", "https://plus.inquirer.net/news/persian-gulf-drone-strike-kills-filipino-seafarer"),
+        ],
+        True,
+    ),
+    IT(
+        "中方同步再踩一脚“暂停 pedals”：11 月 10 日起两个月内继续暂停 24% 对美加征关税、保留 10%，美船特港费与调查暂停延至 2027 年 1 月 10 日",
+        "China extends its pauses in step: the 24% additional tariff on US imports stays suspended for two more months from 10 November (10% remains), and special port fees on US ships plus the shipping probe are paused until 10 January 2027",
+        "为落实中美两国元首华盛顿会晤成果共识，国务院关税税则委员会 11 月 9 日发布公告：自 2026 年 11 月 10 日 13 时 01 分起，调整税委会公告 2025 年第 4 号规定的对美加征关税措施，在 2 个月内继续暂停实施 24% 的对美加征关税税率，保留 10% 的税率；公告同时注明，中方注意到美方多次表示拟通过 301 关税替代已被判决失效的《国际紧急经济权力法》（IEEPA）项下关税，将继续密切关注并视情适时调整反制措施。同日，交通运输部经国务院批准宣布：将 2025 年 11 月首次宣布暂停一年的对美船舶特港费征收及航运造船产业链安全影响调查，延长暂停至 2027 年 1 月 10 日——涉及 2025 年发布的征收特港费公告、实施办法与启动调查三份文件；该安排与美方对华海事物流造船 301 调查措施的暂停同步（美方现行暂停 11 月 9 日到期、拟延至 2027 年 1 月 9 日，见上期）。须标注边界：本次是“继续暂停”而非取消，10% 税率照征；两项暂停均设到期日，2027 年 1 月之后的走向取决于后续磋商；美方“301 替代 IEEPA”的具体路径尚未落地。",
+        "To implement the outcomes and consensus of the Washington meeting between the two heads of state, China’s Customs Tariff Commission of the State Council announced on 9 November that, from 1:01 p.m. on 10 November 2026, it will adjust the additional tariffs on US-origin goods set out in its Announcement No. 4 of 2025, continuing to suspend the 24% additional tariff for two months while keeping the 10% tariff in place; the announcement also notes that China has observed the US side’s repeated statements that it intends to replace tariffs under the International Emergency Economic Powers Act (IEEPA), invalidated by judicial rulings, with Section 301 tariffs, and will closely follow subsequent measures and adjust countermeasures as appropriate. The same day, the Ministry of Transport, with State Council approval, announced that the one-year suspension first declared in November 2025 of special port fees on US ships and of the investigation into impacts on the shipping and shipbuilding industrial and supply chains will be extended to 10 January 2027, covering the three 2025 documents — the fee announcement, the implementation measures and the investigation launch; the move is synchronized with the US suspension of its Section 301 maritime actions (the US pause expires 9 November and is proposed to run to 9 January 2027, as covered last issue). Boundaries: these are extensions of suspensions, not cancellations, and the 10% tariff still applies; both pauses carry end dates, and the path beyond January 2027 depends on further consultations; the US “301 instead of IEEPA” route has yet to be implemented.",
+        [
+            S("光明网（11-09 税委会公告全文：24% 继续暂停、10% 保留、13:01 起生效）", "https://m.gmw.cn/2026-11/09/content_1304584164.htm"),
+            S("新华社英文（11-09 交通部：美船特港费与调查暂停延至 2027-01-10）", "https://english.news.cn/20261109/5377b179e1584b9c8802b79d4362ee78/c.html"),
+            S("The Straits Times（引路透：两项暂停两个月、华盛顿峰会成果与 600 亿美元互降关税方案背景）", "https://www.straitstimes.com/asia/east-asia/china-extends-suspensions-of-24-tariff-on-us-goods-port-fees-on-us-ships-for-two-months"),
+            S("央视网（11-09 公告全文与 IEEPA/301 表述）", "https://big5.cctv.com/gate/big5/news.cctv.cn/2026/11/09/ARTIBuHgSlq2t6FF1oJj0rDb261109.shtml"),
+        ],
+        True,
+    ),
+    IT(
+        "德路里 WCI 小跌 1% 至 4,389 美元、11 月宣涨全线证伪：马士基第 46 周开舱 3,000 美元连降两周、阳明低至 2,400 刷新最低 FAK，欧线集运期货单周挫 12.89%",
+        "Drewry WCI slips 1% to $4,389 and the November rate hikes are falsified across the board: Maersk’s week-46 opening offers fall to $3,000 for a second straight week, Yang Ming hits $2,400 as the lowest FAK, and the EU route futures shed 12.89% in a week",
+        "德路里 11 月 5 日评估：世界集装箱运价指数（WCI）环比下跌 1% 至 4,389 美元/FEU（同比仍高 124%），跨太平洋与亚欧同步走低——上海—纽约跌 3% 至 9,303 美元、上海—洛杉矶持平 7,539 美元、上海—鹿特丹跌 2% 至 3,615 美元、上海—热那亚持平 4,166 美元。跌价背景是拥堵缓解叠加需求走软：上海港船舶平均等待时间回落至 35 小时；跨太平洋下周空班由 5 个降至 3 个、亚欧由 8 个降至 5 个，有效运力回升。更关键的是 11 月上半月涨价被市场证伪：船司曾宣涨 11 月 1 日 FAK 至约 4,500（北欧）/5,000（地中海）美元，而马士基第 45 周上海—鹿特丹开舱仅 3,200 美元、较宣涨目标低约 800 美元，第 46 周（11 月 9—15 日）进一步降至约 3,000 美元、连续第二周下调；阳明部分航次低至 2,400 美元、刷新最低 FAK 报价；达飞报 3,400 美元。船司随即再宣涨 11 月下半月（马士基 4,000、达飞 4,600、MSC 4,600 美元/FEU），德路里判断运力充裕下落地存疑、预计下周运价持稳。衍生品市场已先行定价：集运指数（欧线）期货主力合约单周下跌 12.89%，11 月 9 日再跌逾 3%。须标注：Xeneta 提示苏伊士回摆已释放 60 万 TEU 运力（详见热门议题），与德路里“有效运力增加”口径互为印证；The Loadstar 补充称货代预期 11 月 15 日新一轮涨价在需求平淡下同样难落地。",
+        "Drewry’s 5 November assessment puts the World Container Index (WCI) down 1% week on week at $4,389 per FEU (still 124% higher year on year), with both the transpacific and Asia–Europe lower: Shanghai–New York fell 3% to $9,303, Shanghai–Los Angeles held at $7,539, Shanghai–Rotterdam fell 2% to $3,615 and Shanghai–Genoa was flat at $4,166. The decline reflects easing congestion on soft demand: average vessel waiting times at Shanghai fell back to 35 hours, and announced blank sailings fell to 3 next week from 5 on the transpacific and to 5 from 8 on Asia–Europe, raising effective capacity. More decisive, the first-half-of-November increases have been falsified by the market: carriers had announced FAK rises from 1 November to about $4,500 (North Europe) and $5,000 (Mediterranean), yet Maersk’s week-45 Shanghai–Rotterdam opening offers came in at only $3,200 — about $800 below its own target — and fell further to about $3,000 in week 46 (9–15 November), a second consecutive weekly cut; some Yang Ming sailings are quoted as low as $2,400, the lowest FAK seen, with CMA CGM at $3,400. Carriers have announced fresh increases for the second half of November (Maersk $4,000, CMA CGM and MSC $4,600 per FEU), though Drewry doubts they will stick amid ample capacity and expects flat rates next week. Derivatives markets have priced it first: the EU container futures front-month fell 12.89% over the week and more than 3% again on 9 November. Caveats: Xeneta’s finding that the Suez return has already released 600,000 teu (see Hot Topics) corroborates Drewry’s “effective capacity rising” reading; The Loadstar adds that forwarders expect the 15 November round to fail on flat demand as well.",
+        [
+            S("国际船舶网 / eWorldship（11-06 德路里周评：WCI -1% 至 4,389、上海等待 35 小时、空班 3/5）", "https://www.eworldship.com/html/2026/container_market_1106/225813.html"),
+            S("Daily Cargo News（11-05 WCI 逐航线读数）", "https://www.thedcn.com.au/news/world-container-index-5-november-2026"),
+            S("Breakbulk News（同比 +124%、苏伊士回摆的欧洲港口扎堆风险）", "https://breakbulk.news/container-rates-slip-to-4389-as-suez-return-raises-european-congestion-risk"),
+            S("同花顺投顾（11-09：马士基 W46 开舱 3,000 连降两周、阳明 2,400 刷新最低、EC 主力单周 -12.89%）", "https://t.10jqka.com.cn/pid_720751245.shtml"),
+            S("The Loadstar（FAK 落空复盘与 11-15 再宣涨前景）", "https://theloadstar.com/calmer-waters-for-container-spot-rates-but-fragile-middle-east-a-threat/"),
+        ],
+        True,
+    ),
+    IT(
+        "美西“守夜人”罢工威胁第三次延期：PMA 与 ILWU Local 26 把谈判期限延至 11 月 20 日，联邦调解继续、风险未解除",
+        "US west coast watchmen strike threat postponed a third time: PMA and ILWU Local 26 extend the bargaining deadline to 20 November with federal mediation continuing and the risk unresolved",
+        "路透社 11 月 7 日报道：代表洛杉矶、长滩两港雇主的太平洋海事协会（PMA）与代表约 250 名码头保安（守夜人）的国际码头与仓库工会第 26 分会（ILWU Local 26）同意把谈判期限延长至 11 月 20 日，再度避开美国最繁忙集装箱港口群的潜在罢工。时间线：罢工授权原定 11 月 1 日生效，先延至 11 月 4 日 17 时，再延至 11 月 6 日午夜，本次延至 11 月 20 日，期间双方将在联邦调解与调解服务局（FMCS）协助下继续谈判，尚无协议达成的公告。影响面与上期口径一致：守夜人约占两港 ILWU 员工的 2%，但其所在码头承担长滩港约 85%、洛杉矶港约 33% 的货量，PMA 已警告其他工种可能尊重纠察线，一旦停工将波及船舶装卸、堆场与闸口作业；彭博（经 gCaptain/Port Journal 转载）与新浪财经均确认了延至 11 月 20 日的安排。须标注：截至本期发稿罢工未发生、协议也未达成，“两周窗口”只是把不确定性后移，11 月 20 日前后的进展仍需跟踪；该争议与覆盖 29 港约 2.2 万名工人的西海岸主协议（2028 年到期）相互独立。",
+        "Reuters reported on 7 November that the Pacific Maritime Association (PMA), representing employers at the ports of Los Angeles and Long Beach, and International Longshore and Warehouse Union Local 26, representing about 250 marine watchmen, agreed to extend their bargaining deadline to 20 November, again averting a potential strike at the busiest US container port complex. The timeline: strike authorisation was originally set to take effect on 1 November, then extended to 4 November at 5 p.m., then to midnight on 6 November, and now to 20 November, with talks continuing under the assistance of the Federal Mediation and Conciliation Service and no agreement announced. The exposure matches last issue’s figures: watchmen are about 2% of the ILWU workforce at the two ports, but their terminals handle roughly 85% of Long Beach cargo and 33% at Los Angeles, and the PMA has warned that other classifications may honour picket lines, so a walkout would hit vessel operations, container yards and truck gates; Bloomberg (via gCaptain/Port Journal) and Sina Finance both confirmed the 20 November extension. Boundaries: as of this issue no strike has occurred and no deal has been reached — the two-week window merely defers the uncertainty, and developments around 20 November need tracking; the dispute is separate from the coastwide longshore agreement covering about 22,000 workers at 29 ports, which runs to 2028.",
+        [
+            S("路透社（11-07，经 Taylorville Daily News 转载：延至 11-20、9 月两港货量创纪录）", "https://www.taylorvilledailynews.com/employers-watchmen-at-california-ports-extend-contract-talks/"),
+            S("Bloomberg / gCaptain（11-07，经 Port Journal 转载：第三次延期与谈判安排）", "https://theportjournal.com/article/la-port-strike-threat-deferred-again-as-labor-talks-drag-on"),
+            S("新浪财经·格隆汇（11-07 中文口径：250 名安保人员、85%/33% 货量）", "https://finance.sina.cn/2026-11-07/detail-inixwxpy4725240.d.html"),
+            S("Patch（11-05：第二次延期至 11-6 午夜的节点记录）", "https://patch.com/california/longbeach-ca/long-beach-port-strike-delayed-again-midnight-deadline-looms"),
+        ],
+        True,
+    ),
+]
+
+# ---------------- 热门议题 / Hot Topics ----------------
+HOT_TOPICS = [
+    IT(
+        "苏伊士回摆再进一步：双子星 ME1 改道红海 11 月 4 日首航、长荣 2024 年 1 月来首次重返，上周 53 艘过境同比 +130%，Xeneta 称已释放 60 万 TEU、2027 年现货或跌约 30%",
+        "The Suez swing advances again: Gemini’s ME1 diverts through the Red Sea with a first sailing on 4 November, Evergreen returns for the first time since January 2024, 53 boxeships transited last week (+130% year on year), and Xeneta counts 600,000 teu of capacity already released with spot rates seen down about 30% in 2027",
+        "承运人层面的复航进入“结构性改道”阶段：马士基与赫伯罗特 11 月 2 日公告对双子星网络 ME1 航线作结构性调整，由绕行好望角改为经红海、苏伊士运河通行（挂港蒙德拉—那瓦舍瓦—塞拉莱—苏伊士—丹吉尔—鹿特丹—威廉港—汉堡—伦敦—阿尔赫西拉斯—丹吉尔—苏伊士—塞拉莱—蒙德拉），西行首船 Atlanta Express（644W）11 月 4 日自塞拉莱启航、东行首船 Savannah Express（644E）11 月 13 日自丹吉尔启航；同日地中海航运确认欧澳航线恢复双向经苏伊士，长荣宣布 11 月 12 日起以 7,024 TEU 的 Ever Superb 自青岛重启中国—红海航线（2024 年 1 月以来首次），阳明 12 月起以 11,714 TEU 的 YM Trust 恢复亚洲—地中海 MD1。总量口径：上周 53 艘集装箱船双向通过苏伊士、较 2025 年同期增加 130%，此前一周 62 艘创年内新高，约 60% 的亚欧运力已回归苏伊士。运力与价格的结构性影响首次被量化：Xeneta 测算 10 月承运人投向红海的周运力为 467,297 TEU——约为 2023 年 8 月危机前水平的 50%，但较 2026 年 8 月底已翻倍，绕行好望角吸收的运力已释放 60 万 TEU，并预计若全面回归，2027 年即期运价可能较年均水平下跌约 30%（需求 +4%、运力 +6.8%）；首席分析师 Peter Sand 同步警告中东局势“一触即发、纸牌屋随时塌”。德路里提示托运人侧的镜像风险：苏伊士与好望角船舶集中到港可能造成欧洲港口拥堵。",
+        "Carrier-level return to Suez has entered the structural re-routing stage: Maersk and Hapag-Lloyd announced on 2 November a structural change to the Gemini ME1 service from the Cape of Good Hope to via the Red Sea and Suez (port rotation Mundra–Nhava Sheva–Salalah–Suez–Tangier–Rotterdam–Wilhelmshaven–Hamburg–London–Algeciras–Tangier–Suez–Salalah–Mundra), with westbound first sailing Atlanta Express (644W) departing Salalah on 4 November and eastbound Savannah Express (644E) departing Tangier on 13 November; the same day MSC confirmed its Europe–Australia service is back through Suez in both directions, Evergreen said it would restart its China–Red Sea service on 12 November with the 7,024 teu Ever Superb from Qingdao — its first return since January 2024 — and Yang Ming will restore its Asia–Mediterranean MD1 from December with the 11,714 teu YM Trust. On volumes: 53 containerships transited the canal in both directions last week, up 130% year on year, after the previous week’s 62 set this year’s high, and about 60% of Asia–Europe capacity is back on Suez. The structural capacity-and-price impact has now been quantified: Xeneta puts October carriers’ weekly Red Sea commitment at 467,297 teu — about 50% of the pre-crisis level of August 2023 but roughly double the end of August 2026 — says 600,000 teu absorbed by Cape diversions has already been released, and expects spot rates to fall some 30% below annual averages in 2027 on a full return (demand +4%, capacity +6.8%); chief analyst Peter Sand simultaneously warns the Middle East situation is fragile and “the house of cards comes falling down” if it ignites. Drewry flags the shipper-side mirror risk: bunching of arrivals from Suez and Cape routings could congest European ports.",
+        [
+            S("The Loadstar（Xeneta：600,000 teu 释放、467,297 teu/周 = 危机前 50%、2027 现货 -30%、Peter Sand“纸牌屋”警告）", "https://theloadstar.com/calmer-waters-for-container-spot-rates-but-fragile-middle-east-a-threat/"),
+            S("鼎辰国际物流（11 月观察：ME1 结构性改道与首航时点、Ever Superb、YM Trust、53 艘 +130%）", "http://topchains.com.cn/xinwen/490.html"),
+            S("国际船舶网 / eWorldship（60% 亚欧运力走苏伊士、53 艘过境与拥堵镜像风险）", "https://www.eworldship.com/html/2026/container_market_1106/225813.html"),
+            S("同花顺期货通（11-03 研报汇总：下半月宣涨 4,000/4,600 美元与复航节奏对运价的压制）", "https://goodsfu.10jqka.com.cn/20261103/c681401435.shtml"),
+        ],
+        True,
+    ),
+    IT(
+        "《华尔街日报》曝光胡塞“邮件审批”通行制：HOCC 通常 24 小时内回复、发放 7 天许可并要求全程开启 AIS——中国集装箱船“中成畅领”号通关邮件成为一手样本",
+        "The Wall Street Journal exposes the Houthis’ email-based transit clearance: the HOCC typically replies within 24 hours, issues 7-day permits and requires AIS kept on throughout — the clearance emails of Chinese boxship Zhong Cheng Chang Ling are the first-hand sample",
+        "《华尔街日报》11 月 6 日披露的一组通信邮件显示，伊朗支持的也门胡塞武装已在事实上建立曼德海峡的“通行许可”制度：船方在进入水域前向胡塞 2024 年初设立的“人道主义行动协调中心”（HOCC）发邮件提交船名、船员国籍与航程计划，并声明船东、管理人、租家与船员同以色列、美国、英国没有关联；若获回复，通常在 24 小时内发放为期 7 天的通行许可。文件样本是中国集装箱船“中成畅领”号（Zhong Cheng Chang Ling）：2026 年 8 月 16 日提交申请，9 月 7 日获书面许可，附带一套“行政式”指令——AIS 全程开启、甚高频 16 频道值守、沿国际航线行驶、避开 AIS 关闭船只与军舰、发现可疑活动立即报告、变更目的地须通报，邮件还附 HOCC 热线并“邀请”订阅电子通告。背景与边界须并列：胡塞 7 月 20 日宣布对沙特海上禁运，声明沙特关联船舶不在安全通行保证之列；国际海事机构明确建议船方不要向 HOCC 注册（华盛顿已把胡塞列為恐怖组织），许多船公司仍拒绝接触该渠道——许可既不构成沙特港口靠泊授权，也不被战争险保单承认为风险缓释，胡塞方面亦曾袭击过与冲突无关的船只，7 天有效期可能短于航程；胡塞自称 10 月有 1,083 艘船过境，该数字未经独立证实。",
+        "A set of correspondence published by The Wall Street Journal on 6 November shows that the Iran-backed Houthis have in effect established a transit-permit regime for Bab al-Mandab: before entering the water, shipmasters email the group’s Humanitarian Operations Coordination Centre (HOCC), set up in early 2024, with vessel details, crew nationality and voyage plans, declaring that owner, manager, charterer and crew have no links to Israel, the United States or the United Kingdom; when it replies at all, the centre typically answers within 24 hours with a permit valid for seven days. The documented case is the Chinese container ship Zhong Cheng Chang Ling: the master applied on 16 August 2026 and received a written permit on 7 September carrying administrative-style instructions — keep the AIS transmitting throughout, maintain a VHF channel 16 watch, follow international routes, avoid vessels with AIS switched off and warships, report suspicious activity at once, notify the Houthis of any destination change — plus the HOCC hotline and an invitation to subscribe to its email alerts. Background and boundaries must be stated side by side: the Houthis declared a maritime embargo against Saudi Arabia on 20 July and say Saudi-linked ships are excluded from safe-passage assurances; international maritime authorities explicitly advise owners not to register with the HOCC (Washington designates the Houthis a terrorist organisation), and many carriers still refuse the channel — a permit neither authorises a Saudi port call nor counts as war-risk mitigation, the group has attacked vessels with no conflict links before, the seven-day window can expire mid-voyage, and the Houthis’ claim of 1,083 ships crossing in October is not independently confirmed.",
+        [
+            S("华尔街日报（11-06 原始报道，经网易订阅全文转引：中成畅领号邮件、HOCC 机制与指令清单）", "https://dy.163.com/article/LB7EC48H05566I55.html"),
+            S("Ground News（11-06 多源聚合：WSJ/Reuters/IBTimes 口径对照、24 小时回复与 7 天许可）", "https://ground.news/article/shipping-firms-email-houthis-to-cross-red-sea-safely-wait-for-24-hours-this-is-why"),
+            S("GCC Freight（11-07 机制拆解：许可不授权沙特挂靠、不被保单承认、胡塞单方口径风险）", "https://gcc-freight.com/en/blog/houthi-transit-permits-bab-el-mandeb"),
+        ],
+        True,
+    ),
+    IT(
+        "第九届进博会集中签约观察：中国石化 413 亿美元、中国石油 38 份协议超 188 亿美元、中粮超百亿美元，技术装备类拟成交 155.2 亿美元同比 +17.6%",
+        "CIIE signing round-up: Sinopec at $41.3bn, CNPC with 38 agreements above $18.8bn, COFCO above $10bn, and intended deals in technical equipment at $15.52bn, up 17.6% year on year",
+        "第八届中国国际进口博览会（11 月 5—10 日，上海）进入集中签约阶段（以下为会议期间披露的意向与协议口径，非最终结算）：央企交易团迎来密集签约——中国石油交易分团与 35 家合作伙伴签署 38 份采购协议，来源覆盖 16 个国家和地区，涉及油气资源、高端装备与绿色低碳，金额超 188 亿美元；中国石化与来自 18 个国家和地区的 37 家合作伙伴签约，涉及 14 大类 29 种产品，金额达 413 亿美元；中国中化与近 20 个国家和地区的 30 余家伙伴签约超 128 亿美元；中粮集团整体签约金额超百亿美元，采购网络覆盖北美、南美、大洋洲主要农产品产区及哈萨克斯坦、阿根廷等共建“一带一路”国家，并首次实现巴西、南非玉米散船输华、首次引进阿根廷小麦等多个“从 0 到 1”通道。结构与供应链信号：技术装备类商品拟成交 155.2 亿美元、同比增长 17.6%，占比由上届 8.6% 升至 10.7%；央企原油、矿产品等能源资源意向成交超 1,200 亿美元，其中天然气拟成交 88.1 亿美元、同比 +44%。中粮还联合中国食品土畜进出口商会、中国中检与 ADM、邦吉、嘉吉、路易达孚等发布《共建韧性农粮供应链联合倡议》，提出开放合作、资源共享、稳定预期、质量可信四方面主张。须标注：进博会成交均为意向/协议口径，媒体间部分企业数字存在“单届 vs 累计”的口径差（如中国石油另见“累计 267 家供应商、超 1,636 亿美元”的说法），本期仅采用明确标注单届签约的数字。",
+        "The 8th China International Import Expo (5–10 November, Shanghai) has entered its concentrated signing phase (the figures below are intentions and agreements disclosed during the event, not final settlements): the central-SOE delegation saw dense signings — CNPC’s trading delegation signed 38 procurement agreements with 35 partners from 16 countries and regions covering oil and gas resources, high-end equipment and green energy, worth over $18.8bn; Sinopec signed with 37 partners from 18 countries and regions across 14 categories and 29 product types for $41.3bn; Sinochem signed with more than 30 partners from nearly 20 countries for over $12.8bn; and COFCO’s overall signings exceeded $10bn, with sourcing networks across North America, South America and Oceania plus Belt-and-Road suppliers such as Kazakhstan and Argentina, and first-ever channels including Brazilian and South African maize shipped in bulk to China and Argentine wheat imports. Structural and supply-chain signals: intended deals in technical equipment reached $15.52bn, up 17.6% year on year, lifting its share from 8.6% to 10.7%; central SOEs’ intended energy purchases — crude oil, minerals and more — exceeded $120bn, with natural gas at $8.81bn, up 44%. COFCO also joined the China Chamber of Commerce of Foodstuffs and Native Produce, China Certification & Inspection and ADM, Bunge, Cargill and Louis Dreyfus in issuing a joint initiative on resilient agri-food supply chains built on open cooperation, resource sharing, stable expectations and trustworthy quality. Caveats: CIIE figures are intention/agreement counts, and some company numbers differ between media on a “single-session versus cumulative” basis (CNPC is also cited at 267 suppliers and over $163.6bn cumulative); this issue only uses figures explicitly labelled as current-session signings.",
+        [
+            S("中工网（11-08：中石油 38 份/188 亿、中石化 413 亿、中化 128 亿、兵器 401 亿元、中粮超百亿）", "https://www.workercn.cn/c/2026-11-08/8936033.shtml"),
+            S("上海证券报（11-09：技术装备 155.2 亿 +17.6%、能源意向超 1,200 亿、天然气 88.1 亿 +44%）", "https://paper.cnstock.com/html/2026-11/09/content_2288431.htm"),
+            S("农民日报 / 进博会官网（11-07：中粮超百亿美元与农粮供应链韧性联合倡议）", "https://www.ciie.org/zbh/cn/2024/medium-item1/other/20261107/65766.html"),
+        ],
+        True,
+    ),
+]
+
+# ---------------- 研究瞭望 / Research ----------------
+RESEARCH = [
+    IT(
+        "麦肯锡 State of AI 2026（1,719 名受访者、97 国）：采用继续铺开而 EBIT 影响原地踏步——44% 规模化、仅 37% 见到任何盈利影响、高绩效者稳定在约 6%，32% 大型组织开始“自建替代采购”",
+        "McKinsey’s State of AI 2026 (1,719 respondents, 97 countries): adoption keeps spreading while EBIT impact stands still — 44% scaling, only 37% reporting any earnings impact, high performers steady at about 6%, and 32% of large organisations now build instead of buy",
+        "麦肯锡 2026 年 8 月执行的 State of AI 调查（1,719 名受访者、覆盖 97 国）延续并放大了此前的“剪刀差”形状：近九成受访者所在组织已在至少一个业务职能常态化使用 AI，56% 在三个及以上职能使用；AI 在企业内规模化的比例由上一轮的 38% 升至 44%，大型企业的规模化智能体（agent）部署一年内由 27% 跳升至 40%，而小型企业停在 22%——呈“双速分化”。但盈利端纹丝不动：在以 AI 为工作工具的用户中 80% 自报个人生产力提升，可只有 37% 的组织报告 AI 对 EBIT 有任何影响（与一年前基本持平）；麦肯锡口径下的“高绩效者”（至少 5% 的 EBIT 归因于 AI 且影响显著）稳定在约 6%，即 94% 的组织无法展示盈利影响。最具结构性的发现是“自建替代购买”：32% 的大型组织因内部智能体编码工具已经造出了方案而跳过原计划的软件采购——这对企业软件采购与咨询模式都是直接信号。须标注：以上数字全部来自受访者自报，而非审计财务；不同调查对“影响”“规模化”“高绩效”的定义不一致，跨调查不可直接比较；本条经多家独立转述交叉核对（1,719/97 国、80%/37%/6%、32%、27%→40%、44% 各口径一致），原始报告以麦肯锡官网发布为准。",
+        "McKinsey’s State of AI survey, fielded in August 2026 with 1,719 respondents across 97 countries, extends and amplifies the scissors shape first documented earlier: nearly nine in ten respondents’ organisations now use AI regularly in at least one business function, 56% in three or more; the share scaling AI across the enterprise rose from 38% to 44%, and large-enterprise deployment of agents at scale jumped from 27% to 40% in a single cycle while small firms remain stuck at 22% — a two-speed divergence. The earnings side has not moved: among users of AI in their own work 80% report personal productivity gains, yet only 37% of organisations report any EBIT impact from AI (essentially flat on a year ago), and McKinsey’s stricter “high performers” category — at least 5% of EBIT attributed to AI and described as significant — has held at about 6%, meaning 94% of organisations cannot demonstrate an earnings impact. The most structural finding is build-over-buy: 32% of large organisations have skipped planned software purchases because internal agentic coding tools built the solution instead — a direct signal for enterprise software procurement and consulting models alike. Caveats: all figures are self-reported, not audited financials; definitions of “impact”, “scaling” and “high performer” differ across surveys and are not directly comparable; the figures here were cross-checked across several independent secondary accounts (1,719/97 countries, 80%/37%/6%, 32%, 27%→40%, 44% all consistent), and the original report should be read at McKinsey’s own publication.",
+        [
+            S("AI Insights News（2026-11 四研究对照：McKinsey 1,719 人/97 国、80%/37%、高绩效 6% 与方法学辨析）", "https://aiinsightsnews.net/ai-transformation-reality-gap/"),
+            S("You On AI（11-04/11-07 追踪：32% 自建替代采购、agent 规模化 27%→40%、44% 企业规模化）", "https://www.youonai.ai/entity?e=mckinsey"),
+            S("CXTMS（引麦肯锡：近九成常态使用、44% 规模化、56% 三职能以上与治理缺口讨论）", "https://cxtms.com/blog/ai-supply-chain-human-intervention-boundary"),
+        ],
+        True,
+    ),
+    IT(
+        "NBER 工作论文 34836 把“AI 生产率悖论”再压一档：近 9,000 名高管将过去三年 0.2% 的年生产率增长归因于 AI，未来三年预期也仅 0.6%；另一波次 89% 称对劳动生产率毫无影响",
+        "NBER working paper 34836 presses the AI productivity paradox further: nearly 9,000 executives credit AI with 0.2% annual productivity growth over the past three years and expect only 0.6% ahead, while an earlier wave had 89% reporting no labour-productivity impact at all",
+        "NBER 工作论文 34836（2026 年夏季波）给出了比企业自报调查更克制的宏观口径：覆盖 7 国近 9,000 名高管的调查显示，78% 的企业已使用 AI，但高管们把过去三年 0.2% 的年均生产率增长归因于 AI，对未来三年的预期也只有 0.6%——远低于舆论场的想象；更早一波覆盖美英德澳近 6,000 名高管的调查以另一种问法得出，89% 的受访者报告 AI 对劳动生产率没有任何影响。同方向的企业内部感知落差由沃顿商学院与 GBK 的《The Adaptive Advantage》（2026 年 10 月）补齐：73% 的管理者与领导者认为工作流已因 AI 显著改变，而一线与中层员工中只有 58% 这样认为——领导层的“变革感知”系统性高于实际执行层。须标注三点边界：①NBER 两波次口径不同（均值 vs 无影响占比），不能连成趋势线；②所有数字均为高管自报，非客观产出计量；③本条的详细数字目前仅见单一分析平台的系统转述（AI Insights News 的四研究对照表），按本期口径计为单源，故未标 verified，读者应以 NBER 原文为准。",
+        "NBER working paper 34836 (summer 2026 wave) offers a more restrained macro reading than self-reported corporate surveys: covering nearly 9,000 executives in seven countries, it finds 78% of firms using AI, yet executives credit AI with just 0.2% of annual productivity growth over the past three years and expect only 0.6% over the next three — far below public imagination; an earlier wave of nearly 6,000 executives in the US, UK, Germany and Australia, asked differently, had 89% reporting no impact on labour productivity at all. The internal perception gap points the same way: Wharton–GBK’s The Adaptive Advantage (October 2026) finds 73% of managers and leaders say workflows have changed significantly because of AI, against only 58% of entry- and mid-level employees — leadership perception of change runs systematically ahead of the executed reality. Three boundaries: the two NBER waves use different measures (an average effect versus a share reporting nothing) and cannot be joined into a trend; all figures are executive self-reports, not measured output; and the detailed numbers currently appear only via a single analysis platform’s systematic secondary account (AI Insights News’ four-study table), which counts as a single source under this issue’s standard — hence not verified — and readers should defer to the NBER original.",
+        [
+            S("AI Insights News（四研究对照表：NBER 34836 近 9,000 人/7 国、0.2%/0.6%、早期波 89% 无影响；Wharton-GBK 73%/58%）", "https://aiinsightsnews.net/ai-transformation-reality-gap/"),
+            S("CXTMS（同方向的企业内感知落差与治理讨论）", "https://cxtms.com/blog/ai-supply-chain-human-intervention-boundary"),
+        ],
+        False,
+    ),
+    IT(
+        "MHI 与德勤年度报告的供应链技术天平：AI 以 48%（+25 个百分点）居十年最大颠覆技术，机器人/自动化以 39%（+16）跃居第二——但另一项德勤调查显示仅 21% 的企业具备成熟的智能体治理",
+        "The MHI–Deloitte annual report’s supply chain technology scale: AI leads as the biggest disruptor of the decade at 48% (+25 points), robotics/automation jumps to second at 39% (+16) — yet a separate Deloitte survey finds only 21% with mature agentic-AI governance",
+        "MHI 与德勤联合发布的年度行业报告（2026 年 4 月 15 日经 Business Wire 首发，本期因仓储自动化议题再次被多平台引用）测量的不是装机量而是供应链领导者对颠覆的感知：AI 以 48% 的提及率居“未来十年最大颠覆技术”首位、较上年提高 25 个百分点；机器人与自动化以 39% 跃居第二、提高 16 个百分点——物理自动化正以与办公 AI 几乎同步的速度爬上董事会议程。同一报告系的另一组数字刻画“采用先于治理”：84% 的受访者计划在五年内采用 AI；德勤的另一项调查则发现 40% 的受访企业已在至少中等程度上允许 AI 无人审批执行决策或行动，但仅 21% 为智能体 AI 建立了成熟治理——委托授权的扩张快于问责结构的建设，这正是供应链场景最锋利的暴露面（一次错误建议可以直接变成询价、移库、报关指令或客户承诺变更）。须标注：①该报告原始发布于 2026 年 4 月，本期为引用回暖而非新发布；②报告测量的是“领导者认为的影响”而非已安装设备数，两套数字不能互换；③治理缺口（21%）与委托授权（40%）来自德勤不同调查，样本与问题不同，只能作方向一致的旁证。",
+        "The MHI–Deloitte Annual Industry Report (first published via Business Wire on 15 April 2026 and re-cited by multiple platforms this issue as warehouse automation returns to the agenda) measures not installed capacity but supply chain leaders’ perception of disruption: AI tops the “biggest disruptor over the next decade” list at 48%, up 25 percentage points year on year, while robotics and automation jumps to second at 39%, up 16 points — physical automation is climbing board agendas nearly as fast as office AI. A companion set of figures captures adoption outrunning governance: 84% of respondents plan to adopt AI within five years; a separate Deloitte survey finds 40% of enterprises already allow AI to execute decisions or actions without human approval to at least a moderate degree, yet only 21% have mature governance for agentic AI — delegated authority is expanding faster than accountability structures, which is the sharpest exposure in supply chain settings, where one bad recommendation can become a tender, a stock transfer, a customs instruction or a changed customer promise. Caveats: the report was originally published in April 2026 — this is renewed citation, not a new release; it measures perceived impact rather than installed robots, and the two cannot be interchanged; the governance (21%) and delegation (40%) figures come from different Deloitte surveys with different samples and questions and serve only as directionally consistent corroboration.",
+        [
+            S("Van de Star（引 MHI/德勤年度报告（2026-04-15 Business Wire 首发）：AI 48% +25pp、机器人 39% +16pp）", "https://www.vandestar.com/en/inzichten/amr-interne-logistiek"),
+            S("CXTMS（MHI/德勤 84% 五年内采用 AI；德勤另调 40% 允许自主执行、仅 21% 智能体治理成熟）", "https://cxtms.com/blog/ai-supply-chain-human-intervention-boundary"),
+        ],
+        True,
+    ),
+]
+
+# ---------------- 应用风向 / Apps & Adoption ----------------
+APPS = [
+    IT(
+        "AutoStore 三季度营收 +38% 并上调全年指引至约 7.5 亿美元，同时以最高 3,000 万欧元收购荷兰托盘机器人厂商 Logiqs——立方仓储霸主补上“托盘层”",
+        "AutoStore posts Q3 revenue up 38% and raises full-year guidance to about $750m while agreeing to buy Dutch pallet-robot maker Logiqs for up to €30m — the cube-storage leader adds the pallet layer",
+        "挪威仓储自动化公司 AutoStore 11 月 5 日发布三季报并同日宣布收购：三季度营收 1.921 亿美元、同比 +38.2%，EBIT 5,410 万美元、同比 +11.2%（毛利率由 73.1% 收窄至 71.3%），订单额 1.776 亿美元、同比 +16.5%、创其三季度历史最高；公司把 2026 年全年营收指引由约 7 亿美元上调至约 7.5 亿美元。收购标的 Logiqs 是荷兰漫游托盘自动存取系统（roaming pallet AS/RS）厂商：其 iCUBE 平台已在约 30 个客户站点投用、员工 60 人，E-Carrier 载荷最高 1.6 吨、单充可支持多达三班作业，且面向冷藏冷冻环境；交易以现金支付、最高 3,000 万欧元，预计 2026 年四季度交割，AutoStore 明确这是“把技术并入自身平台”的能力型收购而非并表生意——其立方仓储架构一直始于料箱，而托盘是拆零之前的那一层。须标注：收购价是上限而非固定金额、交易尚未交割；漫游托盘平台的商业化时间表未披露；Logiqs 约 30 个站点、60 人的规模与 AutoStore 全球约 2,050 套系统、68 国 1,350+ 客户相差悬殊，整合成效有待观察。",
+        "Norwegian warehouse-automation firm AutoStore published third-quarter results on 5 November and announced an acquisition the same day: Q3 revenue rose 38.2% year on year to $192.1m, EBIT rose 11.2% to $54.1m (gross margin narrowed to 71.3% from 73.1%), and order intake rose 16.5% to $177.6m, its highest-ever third quarter; full-year 2026 revenue guidance was raised from about $700m to about $750m. The target, Logiqs, is a Dutch maker of roaming pallet automated storage and retrieval systems: its iCUBE platform runs at roughly 30 customer sites with 60 employees, its E-Carriers carry up to 1.6 tonnes and can support up to three shifts per charge, and the system is aimed at chilled and frozen environments; the deal is cash-funded at up to €30m with closing expected in Q4 2026, and AutoStore frames it explicitly as a capability acquisition to fold the technology into its own platform — its cube architecture has always begun with bins, and pallets are the layer before piece-picking. Caveats: the price is a cap rather than a fixed amount and the deal has not closed; no commercial timetable for the roaming-pallet platform has been disclosed; Logiqs’s roughly 30 sites and 60 staff are tiny next to AutoStore’s about 2,050 systems across 68 countries and 1,350+ customers, and integration outcomes remain to be seen.",
+        [
+            S("AutoStore 官方（11-05 三季报与收购公告）", "https://www.autostoresystem.com/news/autostore-publishes-q3-2026-financial-results"),
+            S("Tech-quire（交易细节：3,000 万欧上限、iCUBE 约 30 站点、60 人、E-Carrier 参数）", "https://www.tech-quire.com/articles/autostore-buys-logiqs-pallet-robotics-30-million"),
+            S("Securities.io（Q3 财务拆解：EBIT 5,410 万 +11.2%、毛利率收窄、指引上调）", "https://www.securities.io/autostore-agrees-to-acquire-logiqs-for-up-to-eur-30-million/"),
+        ],
+        True,
+    ),
+    IT(
+        "人形机器人第一股：Agility Robotics 11 月 5 日以 AGLT 登陆纳斯达克，业务合并募资约 4.65 亿美元、Digit 5 承诺订单超 3 亿美元",
+        "The first pure-play humanoid listing: Agility Robotics begins trading on Nasdaq as AGLT on 5 November, raising about $465m gross from its business combination with Digit 5 committed orders above $300m",
+        "Agility Robotics 与 SPAC 公司 Churchill Capital Corp XI 的业务合并于 11 月 4 日交割，11 月 5 日其普通股与认股权证以 AGLT / AGLTW 登陆纳斯达克，成为美国首家以人形机器人为核心业务、且有实际商业部署经验的上市公司；合并及相关融资共募得约 4.65 亿美元（交易费用前），按中文产业媒体的拆解包括信托账户约 1.64 亿美元、富士康领投的 PIPE 约 2.01 亿美元及交易前已到位的 1 亿美元股权资金，原有股东 100% 滚入并锁定 180 天。基本盘口径（公司披露）：Digit 已在 GXO、舍弗勒与丰田加拿大等客户的真实运营中累计运行超 6.5 万小时，与 GXO 的合作将自 2027 年初扩展至另外两个美国仓（上期已收录）；Digit 5 于 9 月发布，已获超过 3 亿美元的多年期承诺订单（受合同里程碑与产品规格约束、非当期收入），早期客户交付预计 2027 年上半年、全面可用目标 2027 年底；俄勒冈 RoboFab 工厂设计年产能最高 1 万台，另有 30 余家潜在客户在谈。须标注：上市文件为公司口径，4.65 亿美元为毛额且其中含此前已披露的资金；盘中表现、锁定期豁免条款等市场变量不构成基本面证据；同行 Figure（自建 1,000 台 Figure 03、现金超 20 亿美元）仍为私有公司，“第一股”仅指美国上市纯人形机器人标的。",
+        "Agility Robotics completed its business combination with SPAC Churchill Capital Corp XI on 4 November and began trading on Nasdaq on 5 November under AGLT / AGLTW, becoming the first US-listed pure-play humanoid robotics company with proven commercial deployments; the combination and related financings raised about $465m gross before transaction expenses — per Chinese industry-media breakdown, roughly $164m from the trust account, about $201m in a PIPE led by Foxconn and $100m of equity secured before closing — with existing shareholders rolling 100% of equity and locked up for 180 days. On fundamentals (company-disclosed): Digit has accumulated more than 65,000 hours of real-world operation with customers including GXO, Schaeffler and Toyota Motor Manufacturing Canada, and the GXO partnership extends to two more US warehouses from early 2027 (covered last issue); Digit 5, unveiled in September, has secured more than $300m in committed multi-year orders (subject to contractual milestones and specifications, not current revenue), with early customer access expected in H1 2027 and general availability targeted for end-2027; the RoboFab plant in Oregon is designed for up to 10,000 robots a year, and 30+ prospective customers are in the pipeline. Caveats: listing figures are company statements, the $465m is gross and includes previously disclosed funds, and market variables such as trading performance or lock-up waivers are not fundamental evidence; peer Figure (1,000th Figure 03 built, over $2bn cash) remains private — “first” refers only to US-listed pure-play humanoids.",
+        [
+            S("Agility Robotics 官方新闻稿（11-05：AGLT 上市、约 4.65 亿美元、Digit 5 订单超 3 亿与商业化口径）", "https://www.agilityrobotics.com/content/agility-becomes-first-u-s-publicly-listed-pure-play-humanoid-robotics-company-begins-trading-today-on-nasdaq-as-aglt"),
+            S("SEC 8-K 文件（11-04 业务合并交割公告，监管存档口径）", "https://www.sec.gov/Archives/edgar/data/2074973/000121390026116898/ea031120401ex99-2.htm"),
+            S("机器人全球资讯（11-06 中文拆解：信托 1.64 亿、富士康领投 PIPE 2.01 亿、上市前 1 亿股权）", "https://www.toutiao.com/article/7705219569580786214/"),
+        ],
+        True,
+    ),
+    IT(
+        "CeMAT ASIA 2026 实况：950 余家参展商把“具身智能 + 集群调度”拉进真实仓——睿尔曼 W1 自拣选机器人 50 台集群、京东“保姆狼”首搭双臂、菜鸟攀爬机器人瞄准存量仓改造",
+        "CeMAT ASIA 2026 on the floor: 950+ exhibitors pull embodied AI and fleet orchestration into real warehouses — Rui Erman’s W1 self-picking robot runs 50-robot fleets, JD’s “Nanny Wolf” debuts dual arms, and Cainiao’s climbing robots target retrofitting existing warehouses",
+        "2026 亚洲国际物流技术与运输系统展览会（CeMAT ASIA 2026）于 11 月初在上海新国际博览中心开幕，展示面积超 8.5 万平方米、汇聚 950 余家海内外参展企业、预计吸引近 14 万名专业观众；与上期展前预告对应，现场报道称“演示味淡了、实战味浓了”。睿尔曼智能发布 W1 自拣选机器人：从接收任务、取放料箱到 AI 视觉识别、抓取投放全流程自主，自带智能调度最多支持 50 台集群作业、按业务峰谷自动分派任务与规划路径；免改造部署（无需重构货架与通道、拍摄商品特征图即可录入），在国内 3C 数码、化妆品等仓库平均每单拣选 18 秒，配合换电可 24 小时在岗；配套 ECO62 嵌入式机械臂自重 3.6 公斤、车规级关节模组平均无故障运行 5 万小时；其 GLN 远程作业网络支持一人管控多台。京东物流发布“狼族”机器人升级方案，“保姆狼”首次搭载双臂具身机器人，打通投递、分播、取换箱到打包全链路；菜鸟的攀爬机器人系统瞄准存量仓储柔性改造；库卡与瑞仕格以“AI，具身而至”发布联合智慧仓储方案。行业共识由展台提炼为三关：真实场景里“真干活”（媒体报道现场坦承当前模型在工厂的完全自主成功率或不足七成）、7×24 小时“持续在线”（停机即断产）、以及持续回流的“真有用数据”；多数物流场景可接受的回本周期约一年半。须标注：18 秒/单、50 台集群、5 万小时 MTBF 等均为厂商口径，尚无第三方实测；开幕日期媒体报道存在 11 月 2 日与 3 日两种口径。",
+        "CeMAT ASIA 2026 opened in early November at the Shanghai New International Expo Centre with over 85,000 sqm of exhibition space, more than 950 exhibitors and an expected near-140,000 trade visitors; on-the-floor reports note the “demo flavour has faded and real-work flavour has strengthened”, matching last issue’s preview. Rui Erman Intelligent unveiled the W1 self-picking robot: fully autonomous from task intake and tote handling to AI vision, grasping and placement, with built-in scheduling supporting fleets of up to 50 robots that assign tasks and plan paths automatically by demand peak; deployment is retrofit-free (no re-racking or re-aisling; a few product photos suffice for onboarding), picking averages 18 seconds per order in domestic 3C and cosmetics warehouses, and swappable batteries allow 24-hour duty; the companion ECO62 embedded arm weighs 3.6 kg with automotive-grade joint modules rated 50,000 hours MTBF, and the GLN remote-operation network lets one operator manage many robots. JD Logistics released an upgraded “wolf family” scheme in which the “Nanny Wolf” debuts a dual-arm embodied robot covering delivery, sortation, tote exchange and packing end to end; Cainiao’s climbing-robot system targets flexible retrofitting of existing warehouses; KUKA and Swisslog issued a joint smart-warehouse scheme under the banner “AI, embodied”. The floor distilled an industry consensus into three gates: really working in real settings (coverage candidly notes current models’ fully-autonomous success rates in factories may fall below 70%), staying continuously online 7×24 (downtime is lost output), and a closed loop of genuinely useful data; most logistics use cases accept a payback period of about a year and a half. Caveats: the 18-second pick, 50-robot fleet and 50,000-hour MTBF are vendor figures without third-party measurement, and media reports differ on whether opening day was 2 or 3 November.",
+        [
+            S("东方网（11-04：8.5 万平米、950 余家展商、14 万观众；库卡×瑞仕格“AI 具身而至”与睿尔曼三模式）", "https://nw.eastday.com/bjzx/20261104/ab7714749b354d5096838764b9427b5c.html"),
+            S("IT 时报 / 腾讯新闻（11-05：W1 全流程自主、50 台集群、18 秒/单、MTBF 5 万小时、回本周期约一年半）", "https://news.qq.com/rain/a/20261105A0A9F000"),
+            S("凤凰网科技（双十一备战：京东“保姆狼”双臂具身、菜鸟攀爬机器人与“三关”框架）", "https://tech.ifeng.com/c/8xpv5bDZNNf"),
+        ],
+        True,
+    ),
+    IT(
+        "灵初智能具身整机入驻李宁华东智慧物流中心：入箱拣场景进入试运行、承接商业订单——鞋服仓“非结构化拣选”再添一个单源案例",
+        "Psi Bot’s embodied robot enters Li-Ning’s East China smart logistics centre: tote-in-box picking enters trial operation on commercial orders — one more single-source case for unstructured apparel-warehouse picking",
+        "据中国日报网等渠道发布的企业通稿（机器人圈周刊记录部署时点为 11 月 2 日），灵初智能与恒岩科技共同履约的李宁华东智慧物流中心项目已完成现场部署、进入试运行阶段，设备投入常态化作业、履约正式商业订单；通稿称这是“业内领先的将具身智能技术落地仓储物流拣选场景”的里程碑。承载仓规模可观：李宁华东智慧物流中心今年 9 月正式启用，是李宁首个智慧物流仓，整体存储能力达 1,000 万件、单天作业能力 60 万件，覆盖江浙沪皖赣鲁六地需求（上述为通稿口径）。技术口径（企业自述）：鞋服仓属典型非结构化场景，SKU 繁多、鞋盒混储于周转箱内、货品姿态随机，传统自动化设备难以完成识别与抓取规划；灵初自研具身模型主打长程复杂推理，可自主拆解多步骤作业目标、动态规划连续动作序列，在箱内商品混储、光照波动等工况下完成目标识别、姿态解算、灵巧抓取、商品分拨的完整拣选流程，并在订单箱满箱后自动推箱；方案由恒岩集成适配，支持快速部署、无需大规模改造仓库基建、可对接现有仓储管理系统。后续计划：试运行阶段将联合开展持续运营、压力测试与异常工况验证，优化入箱拣成功率与长时间连续作业稳定性，再向鞋服及泛零售仓储推广。必须标注：本条信息全部出自企业/集成商/投资方三个利益相关方的同源通稿（中国日报网、恒岩科技公众号与先导基金公众号表述高度一致），未见独立媒体复核或第三方实测数据，按本期交叉验证口径计为单一来源，故未标 verified；入箱拣成功率、连续作业稳定性等关键指标在试运行阶段尚无公开数字，不宜据通稿外推。",
+        "According to a company release carried by China Daily’s website, the Li-Ning East China smart logistics centre project, delivered jointly by Psi Bot (Lingchu Intelligence) and Hengyan Technology, has completed on-site deployment and entered trial operation, with the robots working on commercial orders on a routine basis; the release calls it an industry-leading milestone in landing embodied AI in warehouse picking. Technical claims (company-stated): apparel warehouses are a typical unstructured setting — many SKUs, shoeboxes mixed in totes, random item poses — where conventional automation struggles to recognise and plan grasps; Psi Bot’s in-house embodied model emphasises long-horizon reasoning, decomposing multi-step task goals and planning continuous action sequences, and can complete target recognition, pose estimation, dexterous grasping and item sortation under mixed loads and lighting variation, pushing out filled order totes automatically; the solution is fast to deploy without major civil works and interfaces with existing WMS. Next steps: joint stress testing, continuous operations and abnormal-condition validation during the trial to improve in-box picking success rates and long-duration stability, before extension to footwear/apparel and broader retail warehousing. Must be flagged: all information comes from the company release with no independent media verification or third-party measurements, counting as a single source under this issue’s standard — hence not verified; key metrics such as picking success rate and long-run stability have no public numbers during the trial and should not be extrapolated from the release.",
+        [
+            S("中国日报网（企业通稿：李宁华东智慧物流中心部署与试运行口径）", "https://ex.chinadaily.com.cn/exchange/partners/82/rss/channel/cn/columns/sz8srm/stories/WS6ae94a6ee4b0e14252fc8c50.html"),
+            S("恒岩科技公众号（集成商口径：华东中心 2023 年交付、本次解锁具身拣选能力）", "http://mp.weixin.qq.com/s?__biz=Mzg3MDc2Mzc0Mw==&mid=2247485580&idx=1&sn=dc9db60eca3af64cd1c6cc077ad8c69f&chksm=cff81a79b47ec2f92094c8bf65492b1f92d94bf0bd192f84db6dc31f213212e6f7af89747389#rd"),
+            S("机器人圈周刊（11-02 部署时点；先导基金公众号补充李宁中心 9 月启用、1,000 万件存储、单天 60 万件）", "http://mp.weixin.qq.com/s?__biz=MzYzNTkyMjM3OQ==&mid=2247487171&idx=1&sn=541e70a9c1b9c7d07fd76d8c8bc394d5&chksm=f17ea54e0560cb29f62e71443cf601986d0832f916f205878e14f3cb3c846d574ddfeafd214d#rd"),
+        ],
+        False,
+    ),
+]
+
+
+DATA = {
+    "updatedAt": UPDATED_AT,
+    "columns": [
+        {"cat": {"zh": "重点新闻", "en": "Key News"}, "color": COLORS[0], "items": KEY_NEWS},
+        {"cat": {"zh": "热门议题", "en": "Hot Topics"}, "color": COLORS[1], "items": HOT_TOPICS},
+        {"cat": {"zh": "研究瞭望", "en": "Research"}, "color": COLORS[2], "items": RESEARCH},
+        {"cat": {"zh": "应用风向", "en": "Apps & Adoption"}, "color": COLORS[3], "items": APPS},
+    ],
+}
+
+
+def main():
+    payload = json.dumps(DATA, ensure_ascii=False, indent=2)
+
+    # 1) 写 JSON
+    JSON_PATH.write_text(payload + "\n", encoding="utf-8")
+
+    # 2) 同步 index.html 内嵌快照
+    html = HTML_PATH.read_text(encoding="utf-8")
+    pattern = re.compile(
+        r'(<script id="embeddedRadar" type="application/json">)(.*?)(</script>)',
+        re.S,
+    )
+    if not pattern.search(html):
+        raise SystemExit("未找到 embeddedRadar 块，请检查 index.html")
+    html2, n = pattern.subn(lambda m: m.group(1) + "\n" + payload + "\n" + m.group(3), html, count=1)
+    HTML_PATH.write_text(html2, encoding="utf-8")
+
+    total = sum(len(c["items"]) for c in DATA["columns"])
+    verified = sum(1 for c in DATA["columns"] for i in c["items"] if i["verified"])
+    srcs = {s["label"] for c in DATA["columns"] for i in c["items"] for s in i["sources"]}
+    print(f"written: {JSON_PATH}")
+    print(f"synced : {HTML_PATH} (replaced {n} block)")
+    print(f"updatedAt: {UPDATED_AT}")
+    print(f"items: {total} | verified: {verified} | source labels: {len(srcs)}")
+
+
+if __name__ == "__main__":
+    main()

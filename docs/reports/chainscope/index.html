@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>往期雷达归纳 · 端到端战略信号台 | Radar Recap Signal Deck</title>
-<meta name="description" content="以 14 期供应链雷达为唯一数据源，把 end-to-end 供应链外部信号映射到 SCOR 五段与六类风险，做确定性标注、滚动基线异动检测与可导出的业务核查行动单。纯静态、零外部请求、无 LLM、浏览器内可复算。">
+<meta name="description" content="以历期供应链雷达为唯一数据源，把 end-to-end 供应链外部信号映射到 SCOR 五段与六类风险，做确定性标注、滚动基线异动检测与可导出的业务核查行动单。纯静态、零外部请求、无 LLM、浏览器内可复算。">
 <link rel="icon" href="../../favicon.svg">
 <script>
 /* 渐进增强：.reveal 的 opacity:0 只允许挂在 html.js-ready 下。
@@ -497,7 +497,7 @@ function biasHtml(){
     'Conclusion: Deliver exceeds 60% of signals in '+P.atLeast60+' of '+P.total+' issues (≥90% in '+P.atLeast90+'); '+Og.title+' hits come from titles and '+Og.descOnly+' from descriptions alone. The shipping / rates / lanes bias of the corpus is the main driver, amplified by lexicon width and multi-label counting. '+O.total+' measures coverage density, not enterprise risk.');
   return '<h2>'+D('为什么「交付」是 '+O.total+' 条 · 口径核查','Why Deliver shows '+O.total+' hits · a definitions audit')+'</h2>'
     +'<div class="card biasbox">'
-      +'<div class="bias-sub">'+esc(D('三组数字全部由规则词典与 14 期语料推导，默认展开、不折叠。','All three groups are derived from the lexicon and the 14-issue corpus; expanded by default, never collapsed.'))
+      +'<div class="bias-sub">'+esc(D('三组数字全部由规则词典与 '+DATA.meta.periods+' 期语料推导，默认展开、不折叠。','All three groups are derived from the lexicon and the '+DATA.meta.periods+'-issue corpus; expanded by default, never collapsed.'))
       +'<br>'+esc(tx(B.recompute))+'</div>'
       +'<div class="bias-grid">'+cell1+cell2+cell3+'</div>'
       +'<div class="bias-concl">'+esc(concl)+'</div>'
@@ -555,7 +555,7 @@ function stacked(){
     var parts=SK.map(function(k){return V.stages[SK.indexOf(k)][LANG==='zh-CN'?'zh':'en']+' '+V.periods[i].byStage[k][ST.basis];});
     g+='<rect x="'+(L+i*step).toFixed(1)+'" y="'+T+'" width="'+step.toFixed(1)+'" height="'+(H-T-B)+'" fill="transparent"><title>'+esc(p.date+' · '+parts.join(' / '))+'</title></rect>';
   });
-  return '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(D('14 期 SCOR 环节堆叠面积图','Stacked SCOR stage area chart across 14 issues'))+'">'+g+out.join('')+'</svg>';
+  return '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(D(DATA.meta.periods+' 期 SCOR 环节堆叠面积图','Stacked SCOR stage area chart across '+DATA.meta.periods+' issues'))+'">'+g+out.join('')+'</svg>';
 }
 function heat(){
   var W=1000,cellW=57,cellH=25,L=150,T=26,B=28,H=T+RK.length*cellH+B;
@@ -574,7 +574,7 @@ function heat(){
     if(pi%2===0||pi===V.periods.length-1)
       g+='<text x="'+(L+pi*cellW+(cellW-3)/2)+'" y="'+(T+RK.length*cellH+17)+'" text-anchor="middle" font-size="9.5" fill="'+grid+'" font-family="monospace">'+p.date.slice(5)+'</text>';
   });
-  return '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(D('6 类风险 × 14 期热力图','6 risks × 14 issues heatmap'))+'">'+g+'</svg>';
+  return '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(D('6 类风险 × '+DATA.meta.periods+' 期热力图','6 risks × '+DATA.meta.periods+' issues heatmap'))+'">'+g+'</svg>';
 }
 
 /* ───────────────────────── 各视图渲染 ───────────────────────── */
@@ -669,10 +669,10 @@ function renderTrend(){
       +'<button type="button" data-basis="w" class="'+(ST.basis==='w'?'on':'')+'">'+D('按来源加权 w','Weighted w')+'</button></div>'
       +'<label class="switch"><input type="checkbox" id="dedupTrend" '+(ST.excludeDup?'checked':'')+'>'+D('排除跨期重复','Exclude cross-period duplicates')+'</label>'
       +'<span style="font-size:11.7px;color:var(--ink3)">'+esc(tx(m.weightRule))+'</span></div>'
-    +'<div class="chartbox"><h3 style="margin-top:0">'+D('14 期 × SCOR 五段 · 堆叠面积','14 issues × five SCOR stages · stacked area')
+    +'<div class="chartbox"><h3 style="margin-top:0">'+D(DATA.meta.periods+' 期 × SCOR 五段 · 堆叠面积',DATA.meta.periods+' issues × five SCOR stages · stacked area')
       +'<span class="hint" style="font-size:11.4px;color:var(--ink3);font-weight:400"> · '+D('悬停查看逐期分项，点击热力格子可下钻','Hover for per-issue values; click a heat cell to drill down')+'</span></h3>'
       +'<div class="scrollx">'+stacked()+'</div><div class="legend">'+l1+'</div></div>'
-    +'<div class="chartbox"><h3 style="margin-top:0">'+D('6 类风险 × 14 期 · 热力图','6 risk classes × 14 issues · heatmap')+'</h3>'
+    +'<div class="chartbox"><h3 style="margin-top:0">'+D('6 类风险 × '+DATA.meta.periods+' 期 · 热力图','6 risk classes × '+DATA.meta.periods+' issues · heatmap')+'</h3>'
       +'<div class="scrollx">'+heat()+'</div><div class="legend">'+l2+'</div>'
       +'<p style="font-size:11.7px;margin-top:9px">'+esc(D('颜色深浅 = 当期该风险命中条数；同一条信号可命中多类，行列不可相加求总。','Shade = signals hitting that risk in that issue; one signal may hit several classes, so rows and columns must not be summed.'))+'</p></div>';
   document.querySelectorAll('[data-basis]').forEach(function(b){b.addEventListener('click',function(){
@@ -882,7 +882,7 @@ function renderAll(){
 }
 function renderViewbar(){
   var t={
-    overview:D('全链路鸟瞰：按 SCOR 五段看本期信号密度、14 期走势与滚动基线异动。数字是「报道覆盖密度」，不是企业实际风险值。','Overview: signal density across five SCOR stages, 14-issue trends and rolling-baseline anomalies. Figures are coverage density, not actual enterprise risk.'),
+    overview:D('全链路鸟瞰：按 SCOR 五段看本期信号密度、'+DATA.meta.periods+' 期走势与滚动基线异动。数字是「报道覆盖密度」，不是企业实际风险值。','Overview: signal density across five SCOR stages, '+DATA.meta.periods+'-issue trends and rolling-baseline anomalies. Figures are coverage density, not actual enterprise risk.'),
     trend:D('趋势与热力：可切换条数 / 来源加权口径、排除跨期重复；点击热力格子直接下钻到该期该风险的原始信号。','Trend & heat: switch count / weighted basis, exclude cross-period repeats; click a heat cell to drill into the original signals.'),
     signals:D('信号明细：每条雷达新闻的环节、风险、命中词与首要来源逐条可核对。多标签是常态，不是重复计数错误。','Signals: stage, risk, hit terms and primary source are verifiable per row. Multi-label hits are expected, not a double-counting bug.'),
     playbook:D('行动剧本：勾选后导出 CSV 或打印，作为业务核查清单使用。剧本只触发核查，不产出补货量、下单量或承诺值。','Playbooks: select checks and export CSV or print. They trigger verification only — no replenishment, order quantities or promised figures.'),
