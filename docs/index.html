@@ -147,6 +147,8 @@
     /* Integrated Planning Workbench 配图：参考流程图的纸墨 + 赭橙 */
     --ipw-orange: #9f6140;
     --ipw-orange-soft: rgba(159,97,64,.10);
+    /* hero 版橙色主线条：预测折线 / PSI 阶梯 / 复核勾选 */
+    --ipw-stroke: #b7653e;
     --ipw-paper: #f2f0e8;
     --ipw-ink: #2a2f2a;
     --ipw-soft: #6e726a;
@@ -232,6 +234,7 @@
     /* Integrated Planning Workbench 配图（深色）：橙提亮，纸墨反转 */
     --ipw-orange: #e0a37a;
     --ipw-orange-soft: rgba(224,163,122,.14);
+    --ipw-stroke: #e8a986;
     --ipw-paper: #171d24;
     --ipw-ink: #e9edf2;
     --ipw-soft: #9aa3af;
@@ -1909,8 +1912,9 @@
         <text class="ipw-fig-zh" x="22" y="95" font-size="9" style="fill:var(--ipw-soft);font-family:var(--font-sans)">Forecast arena</text>
         <text class="ipw-fig-en" x="22" y="95" font-size="8.5" style="fill:var(--ipw-soft);font-family:var(--font-mono)">7 models · 56D / 28D</text>
         <path d="M22 186 H140" style="stroke:var(--ipw-line)" stroke-width="0.8"/>
-        <path d="M22 178 L34 168 L46 173 L58 156 L70 162 L82 143 L94 150 L106 132 L118 138 L138 122" style="stroke:var(--ipw-graph)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+        <path d="M22 178 L34 168 L46 173 L58 156 L70 162 L82 143 L94 150 L106 132 L118 138 L138 122" style="stroke:var(--ipw-graph);stroke-opacity:.5" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
         <path d="M22 176 L138 142" style="stroke:var(--ipw-soft)" stroke-width="1.1" stroke-dasharray="4 4"/>
+        <path class="ipw-fig-accent" d="M22 180 L34 172 L46 174 L58 158 L70 168 L82 156 L94 166 L106 148 L118 158 L130 142 L138 148" style="stroke:var(--ipw-stroke)" stroke-width="2.8" stroke-linejoin="round" stroke-linecap="round"/>
         <path d="M22 224 H438" style="stroke:var(--ipw-line)" stroke-width="0.8"/>
         <text class="ipw-fig-zh" x="22" y="211" font-size="8.5" font-weight="600" style="fill:var(--ipw-ink);font-family:var(--font-sans)">七种模型 / 7 MODELS</text>
         <text class="ipw-fig-en" x="22" y="211" font-size="8" font-weight="600" style="fill:var(--ipw-ink);font-family:var(--font-mono)">SEVEN-MODEL COMPARISON</text>
@@ -1925,8 +1929,9 @@
         <text class="ipw-fig-zh" x="171" y="95" font-size="9" style="fill:var(--ipw-soft);font-family:var(--font-sans)">Inventory scenarios</text>
         <text class="ipw-fig-en" x="171" y="95" font-size="8.5" style="fill:var(--ipw-soft);font-family:var(--font-mono)">SKU × STORE · DAILY</text>
         <path d="M171 190 H289" style="stroke:var(--ipw-line)" stroke-width="0.8"/>
-        <path d="M171 126 H184 V134 H196 V145 H208 V158 H220 V163 H232 V172 H244 V176 H256 V181 H289 V183" style="stroke:var(--ipw-graph)" stroke-width="1.7" stroke-dasharray="3 3" stroke-linejoin="round"/>
-        <path d="M240 112 V190" style="stroke:var(--ipw-orange);stroke-opacity:.65" stroke-width="1" stroke-dasharray="2 3"/>
+        <path d="M171 138 H196 V146 H221 V154 H246 V162 H271 V170 H289 V176" style="stroke:var(--ipw-soft)" stroke-width="1.4" stroke-dasharray="4 5" stroke-linejoin="round"/>
+        <path class="ipw-fig-accent" d="M171 132 H190 V140 H209 V148 H228 V156 H247 V164 H259 V122 H271 V130 H289 V138" style="stroke:var(--ipw-stroke)" stroke-width="2.8" stroke-linejoin="round" stroke-linecap="round"/>
+        <path d="M259 112 V190" style="stroke:var(--ipw-stroke);stroke-opacity:.45" stroke-width="1" stroke-dasharray="2 3"/>
         <text class="ipw-fig-zh" x="171" y="211" font-size="8.5" font-weight="600" style="fill:var(--ipw-ink);font-family:var(--font-sans)">服务目标 / 90 · 95 · 98%</text>
         <text class="ipw-fig-en" x="171" y="211" font-size="8" font-weight="600" style="fill:var(--ipw-ink);font-family:var(--font-mono)">90 / 95 / 98% SERVICE</text>
 
@@ -1940,12 +1945,15 @@
         <text class="ipw-fig-zh" x="320" y="95" font-size="9" style="fill:var(--ipw-soft);font-family:var(--font-sans)">Category actions</text>
         <text class="ipw-fig-en" x="320" y="95" font-size="8.5" style="fill:var(--ipw-soft);font-family:var(--font-mono)">ABC–XYZ · HUMAN REVIEW</text>
         <g style="fill:var(--ipw-grid)">
-          <rect x="320" y="120" width="24" height="17" rx="2"/><rect x="350" y="120" width="24" height="17" rx="2"/><rect x="380" y="120" width="24" height="17" rx="2"/>
+          <rect x="350" y="120" width="24" height="17" rx="2"/><rect x="380" y="120" width="24" height="17" rx="2"/>
           <rect x="320" y="144" width="24" height="17" rx="2"/><rect x="350" y="144" width="24" height="17" rx="2"/><rect x="380" y="144" width="24" height="17" rx="2"/>
           <rect x="320" y="168" width="24" height="17" rx="2"/><rect x="350" y="168" width="24" height="17" rx="2"/><rect x="380" y="168" width="24" height="17" rx="2"/>
         </g>
+        <rect class="ipw-fig-accent" x="320" y="120" width="24" height="17" rx="2" style="fill:var(--ipw-stroke)"/>
         <path d="M410 152 H419 M415 148 L419 152 L415 156" style="stroke:var(--ipw-soft)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M424 132 H438 M424 152 H438 M424 172 H438" style="stroke:var(--ipw-soft)" stroke-width="1.2"/>
+        <path class="ipw-fig-accent" d="M424 134 L428 138 L436 126" style="stroke:var(--ipw-stroke)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path class="ipw-fig-accent" d="M424 160 L428 164 L436 152" style="stroke:var(--ipw-stroke)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M424 178 H438" style="stroke:var(--ipw-soft)" stroke-width="1.2"/>
         <text class="ipw-fig-zh" x="320" y="211" font-size="8.5" font-weight="600" style="fill:var(--ipw-ink);font-family:var(--font-sans)">ABC–XYZ / 人工复核</text>
         <text class="ipw-fig-en" x="320" y="211" font-size="8" font-weight="600" style="fill:var(--ipw-ink);font-family:var(--font-mono)">REVIEW QUEUE EXPORT</text>
 
