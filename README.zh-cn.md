@@ -4,7 +4,7 @@
 
 一个持续更新的 AI 多模型供应链研究作品集：在相同的调研命题下，收集并对比不同模型与智能体各自独立产出的结果，同时实时追踪全球供应链的动态变化。
 
-![reports](https://img.shields.io/badge/reports-6-1a4fd6) ![spin-off app](https://img.shields.io/badge/%E8%A1%8D%E7%94%9F%E5%BA%94%E7%94%A8-2-0e7a6d) ![data sources](https://img.shields.io/badge/%E6%95%B0%E6%8D%AE%E6%9D%A5%E6%BA%90-25%2B-0969da) ![license](https://img.shields.io/badge/license-MIT-1a7f37) ![window](https://img.shields.io/badge/window-2026%20Q3-656d76)
+![reports](https://img.shields.io/badge/reports-6-1a4fd6) ![spin-off app](https://img.shields.io/badge/%E8%A1%8D%E7%94%9F%E5%BA%94%E7%94%A8-2-0e7a6d) ![data sources](https://img.shields.io/badge/%E6%95%B0%E6%8D%AE%E6%9D%A5%E6%BA%90-25%2B-0969da) ![license](https://img.shields.io/badge/license-CC%20BY--NC--ND%204.0-1a7f37) ![window](https://img.shields.io/badge/window-2026%20Q3-656d76)
 
 ## 📊 项目简介
 
@@ -97,11 +97,16 @@ README.md / README.zh-cn.md  # 中英双语作品集说明
 
 ## 📄 许可证
 
-MIT 许可证——详见 `LICENSE`。报告内容源自公开报道；每个数据点的原始引用请参见对应出处。
+**© 2026 SummerPapaya（Summer Li）** — [github.com/SummerPapaya](https://github.com/SummerPapaya)。
+
+本站原创内容（页面设计、代码、雷达汇编、分析文案与可视化）采用
+[CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh-hans) 许可：须署名、禁止商用、禁止改编。
+详见 [`LICENSE`](LICENSE)。第三方素材与各报告页自带的许可不受本许可覆盖，见 [`NOTICE`](NOTICE)，
+其原有许可对相应素材优先适用。雷达信息源自公开报道，每个数据点的原始引用请参见对应出处。
 
 ---
 
 <p align="center">
   <em>作为一个持续演进的实验而构建：一个命题，六种 AI 思维，一个开放的仓库。</em><br>
-  <a href="https://github.com/SummerPapaya">github.com/SummerPapaya</a>
+  <a href="https://github.com/SummerPapaya">github.com/SummerPapaya</a> · © 2026 SummerPapaya（Summer Li）· CC BY-NC-ND 4.0
 </p>

@@ -4,7 +4,7 @@
 
 A continuously updated portfolio of AI multi-model supply-chain research: collecting and comparing independent outputs from different models and agents on the same brief, while tracking global supply-chain shifts in real time.
 
-![reports](https://img.shields.io/badge/reports-6-1a4fd6) ![spin-off app](https://img.shields.io/badge/spin--off%20app-2-0e7a6d) ![data sources](https://img.shields.io/badge/data%20sources-25%2B-0969da) ![license](https://img.shields.io/badge/license-MIT-1a7f37) ![window](https://img.shields.io/badge/window-2026%20Q3-656d76)
+![reports](https://img.shields.io/badge/reports-6-1a4fd6) ![spin-off app](https://img.shields.io/badge/spin--off%20app-2-0e7a6d) ![data sources](https://img.shields.io/badge/data%20sources-25%2B-0969da) ![license](https://img.shields.io/badge/license-CC%20BY--NC--ND%204.0-1a7f37) ![window](https://img.shields.io/badge/window-2026%20Q3-656d76)
 
 ## 📊 About
 
@@ -97,11 +97,17 @@ README.md / README.zh-cn.md  # Bilingual portfolio documentation
 
 ## 📄 License
 
-MIT License — see `LICENSE` for details. Report content is sourced from public reporting; refer to original citations for each data point.
+**© 2026 SummerPapaya (Summer Li)** — [github.com/SummerPapaya](https://github.com/SummerPapaya).
+
+Original portfolio content (site design, code, radar compilation, analysis and visualisations) is licensed under
+[CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/): attribution required, no commercial use,
+no derivatives. See [`LICENSE`](LICENSE). Third-party material and individual report pages keep their own licences —
+see [`NOTICE`](NOTICE); those local licences take precedence for the material they cover. Radar items come from
+public reporting; refer to the original citation attached to each item.
 
 ---
 
 <p align="center">
   <em>Built as a living experiment: one brief, six AI minds, one open portfolio.</em><br>
-  <a href="https://github.com/SummerPapaya">github.com/SummerPapaya</a>
+  <a href="https://github.com/SummerPapaya">github.com/SummerPapaya</a> · © 2026 SummerPapaya (Summer Li) · CC BY-NC-ND 4.0
 </p>

@@ -1,0 +1,89 @@
+SPDX-License-Identifier: CC-BY-NC-ND-4.0
+
+Copyright © 2026 SummerPapaya (Summer Li) — https://github.com/SummerPapaya
+First published: 2026-08-14
+Site:       https://supply-chain-lab.summercommences.com/
+Repository: https://github.com/SummerPapaya/supply-chain-portfolio
+
+====================================================================
+LICENSE NOTICE / 许可声明
+====================================================================
+
+[EN]
+The original content of this repository and of the site published from
+docs/ is licensed under the Creative Commons
+Attribution-NonCommercial-NoDerivatives 4.0 International License
+(CC BY-NC-ND 4.0).
+
+"Original content" means the site design, layout and code, the weekly
+radar compilation and cross-verification notes, the written analysis,
+and the charts and visualisations produced by the author.
+
+You may copy and redistribute this material in any medium or format,
+in unadapted form, provided that you:
+  BY - give appropriate credit to SummerPapaya (Summer Li), provide a link to the
+       licence, and indicate if changes were made;
+  NC - do not use the material for commercial purposes;
+  ND - do not remix, transform, translate, adapt or build upon the
+       material, and do not distribute adapted versions of it.
+
+Human-readable summary: https://creativecommons.org/licenses/by-nc-nd/4.0/
+Full legal code:        https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode
+
+[ZH]
+本仓库及由 docs/ 发布的站点，其原创内容采用「知识共享
+署名-非商业性使用-禁止演绎 4.0 国际」许可协议（CC BY-NC-ND 4.0）。
+
+「原创内容」指页面设计、排版与代码，每周雷达的汇编与交叉核验说明，
+分析文案，以及作者制作的图表与可视化。
+
+允许以任何媒介或格式原文复制、转载，但须：
+  署名（BY）——标明 SummerPapaya（Summer Li）、附许可链接，并说明是否改动；
+  非商业（NC）——不得用于商业目的；
+  禁止演绎（ND）——不得改编、翻译、重排、二次创作，
+  也不得分发改编后的版本。
+
+许可概要：https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh-hans
+法律文本：https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode.zh-hans
+
+====================================================================
+SCOPE AND EXCLUSIONS / 适用范围与除外
+====================================================================
+
+This licence applies ONLY to the original portfolio material defined
+above. It does NOT override, replace or relicense:
+
+  * third-party datasets, fonts, libraries and media used by the site;
+  * licences attached to individual report pages under docs/reports/;
+  * the original news reports and data sources cited by the weekly radar.
+
+Those materials keep their own terms; see NOTICE for the inventory.
+Where a local licence file exists for a specific page or directory,
+that local licence governs that material.
+
+本许可仅覆盖上述原创部分，不覆盖、不改写第三方数据集／字体／开源库、
+docs/reports/ 下各报告页自带许可、以及雷达引用的原始报道与其出处。
+这些素材各从其许可，清单见 NOTICE；目录内若有独立许可文件，
+则以该文件的条款为准。
+
+====================================================================
+ATTRIBUTION AND ENFORCEMENT / 署名与维权举证
+====================================================================
+
+Rights holder: Summer Li (GitHub: SummerPapaya)
+  GitHub account      https://github.com/SummerPapaya
+  Repository owner    https://github.com/SummerPapaya/supply-chain-portfolio
+  Timestamped history https://github.com/SummerPapaya/supply-chain-portfolio/commits/main
+  Domain / CNAME      supply-chain-lab.summercommences.com (see docs/CNAME)
+
+A mirror or fork that removes or alters this notice is not an
+authoritative copy. Repository ownership, the timestamped commit
+history and the domain CNAME record are the primary evidence of
+authorship when filing a takedown or impersonation complaint.
+
+移除或篡改本声明的镜像／复刻并非权威副本。提交下架或冒用投诉时，
+仓库所有权、带时间戳的提交历史与域名 CNAME 记录是认定作者身份的
+主要证据。
+
+For permission requests or impersonation reports, open an issue in the
+repository above. / 授权申请或冒用举报请在上址仓库提交 issue。

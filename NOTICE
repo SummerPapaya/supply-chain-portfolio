@@ -1,0 +1,72 @@
+NOTICE — Third-Party Material, Per-Page Licences and Rights Evidence
+第三方素材、各页许可与权利人核验说明
+
+Repository: https://github.com/SummerPapaya/supply-chain-portfolio
+Site:       https://supply-chain-lab.summercommences.com/
+Updated:    2026-11-10
+
+The CC BY-NC-ND 4.0 licence in LICENSE covers ONLY the original
+portfolio material. It does not apply to the items below, each of which
+keeps its own terms. 本文件所列素材不受 LICENSE 中的许可覆盖，
+各自从其原始许可；目录内若有独立许可文件，以该文件为准。
+
+====================================================================
+1. DATASETS / 数据集
+====================================================================
+  * Olist Brazilian E-Commerce Public Dataset (via Kaggle)
+      CC BY-NC-SA 4.0 — non-commercial, share-alike.
+      Used in docs/reports/flowlens/ (99,441 orders) and the main-site
+      FlowLens card. Dataset itself is NOT covered by this site's licence.
+  * Mendeley Data, DOI 10.17632/27x8mjm8k4.1
+      CC BY 4.0 — de-identified / resampled retail series.
+      Used in docs/reports/psi/ and the main-site planning card.
+  * FreshRetailNet-50K
+      CC BY 4.0 — used in the module C comparison of docs/reports/m4/
+      (local experiment page, not published on the live site).
+  * Weekly Radar source material
+      Individual news items are drawn from public reporting; each item
+      carries its original citation. Rights remain with the original
+      publishers. This portfolio claims no copyright over those texts —
+      only over its own compilation, selection and cross-verification notes.
+
+====================================================================
+2. PER-PAGE LICENCES / 报告页自带许可
+====================================================================
+  * docs/reports/claudecode/LICENSE          MIT (code)
+  * docs/reports/claudecode/LICENSE-CONTENT  CC BY-NC 4.0 (report text)
+  * docs/reports/codex/LICENSE               CC BY-NC 4.0
+  Other report pages (cursorgrok, kimiagent, workbuddy, ...) were produced
+  independently by their respective AI tools; the sources and licence
+  notes shown on each page govern that page's content.
+
+====================================================================
+3. LIBRARIES AND FONTS / 开源库与字体
+====================================================================
+  * d3.js v7.9.0, d3-cloud, topojson-client — open-source licences of
+    their respective upstream projects; copyright notices (including
+    Mike Bostock) are retained in the vendored files.
+  * Web fonts served via Google Fonts (Inter, Noto Serif SC,
+    JetBrains Mono) and the site's display fonts — SIL Open Font License
+    or the licence published with each font family.
+  * Favicon / OG image assets are original to this site.
+
+====================================================================
+4. RIGHTS EVIDENCE / 权利人核验（防冒用）
+====================================================================
+  Rights holder: Summer Li (GitHub: SummerPapaya)
+    GitHub account ....... https://github.com/SummerPapaya
+    Repository owner ..... https://github.com/SummerPapaya/supply-chain-portfolio
+    Timestamped commits .. https://github.com/SummerPapaya/supply-chain-portfolio/commits/main
+    Domain ............... supply-chain-lab.summercommences.com
+    CNAME record ......... docs/CNAME (root CNAME also present)
+
+  The page-level declaration (footer + <meta name="copyright"> +
+  JSON-LD copyrightHolder/license) points to these anchors. A copy that
+  strips the notice, changes the byline or is hosted on another domain
+  can be identified: repository ownership, commit timestamps and the
+  domain CNAME are controlled by the rights holder and cannot be
+  reproduced by an impersonator.
+
+  页面声明（页脚 + copyright meta + JSON-LD）指向上述锚点。
+  删除声明、改署名或换域名托管的副本可被识别：仓库所有权、
+  提交时间戳与域名 CNAME 由权利人控制，冒用者无法复制。

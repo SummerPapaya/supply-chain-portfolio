@@ -30,6 +30,41 @@
 <meta name="twitter:title" content="AI 多模型视角下的全球供应链洞察研究" />
 <meta name="twitter:description" content="用不同 AI 模型与 Agent 工具制作的供应链行业研究对比、每日热点雷达与衍生应用作品集" />
 <meta name="twitter:image" content="https://supply-chain-lab.summercommences.com/og-cover.png" />
+<!-- 版权与许可：静态标签，爬虫 / 网页存档不执行 JS 也能读到，是权利人留痕的第一层 -->
+<meta name="author" content="SummerPapaya (Summer Li) — https://github.com/SummerPapaya" />
+<meta name="copyright" content="Copyright © 2026 SummerPapaya (Summer Li). Original content: CC BY-NC-ND 4.0." />
+<meta name="rights" content="© 2026 SummerPapaya (Summer Li) · CC BY-NC-ND 4.0 · see LICENSE and NOTICE" />
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" />
+<script type="application/ld+json" id="rightsJsonLd">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://supply-chain-lab.summercommences.com/#website",
+  "name": "供应链 × AI 研究索引 | Supply Chain × AI Research Index",
+  "url": "https://supply-chain-lab.summercommences.com/",
+  "inLanguage": ["zh-CN", "en"],
+  "datePublished": "2026-08-14",
+  "author": {
+    "@type": "Person",
+    "name": "Summer Li",
+    "alternateName": "SummerPapaya",
+    "url": "https://github.com/SummerPapaya",
+    "sameAs": [
+      "https://github.com/SummerPapaya",
+      "https://github.com/SummerPapaya/supply-chain-portfolio"
+    ]
+  },
+  "copyrightHolder": {
+    "@type": "Person",
+    "name": "Summer Li",
+    "alternateName": "SummerPapaya",
+    "url": "https://github.com/SummerPapaya"
+  },
+  "copyrightYear": 2026,
+  "license": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+  "creditText": "© 2026 SummerPapaya (Summer Li) · CC BY-NC-ND 4.0"
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com" data-page-node-id="5gGeabB6jmPOqa1LUUSlpg" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin data-page-node-id="TFlAdzERyWCQYIY0NY2pXH" />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+SC:wght@600;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" data-page-node-id="t22cFIY6CN5ZPclsNjZnDD" />
@@ -109,6 +144,15 @@
     --m4-a: #2f6f8f;
     --m4-b: #b4831e;
     --m4-c: #a63d33;
+    /* Integrated Planning Workbench 配图：参考流程图的纸墨 + 赭橙 */
+    --ipw-orange: #9f6140;
+    --ipw-orange-soft: rgba(159,97,64,.10);
+    --ipw-paper: #f2f0e8;
+    --ipw-ink: #2a2f2a;
+    --ipw-soft: #6e726a;
+    --ipw-line: #d6d8cf;
+    --ipw-grid: #d6d8cf;
+    --ipw-graph: #2a2f2a;
   }
   html[data-theme="dark"] {
     --paper: #0a0d11;
@@ -185,6 +229,15 @@
     --m4-a: #63a8cf;
     --m4-b: #e0b35a;
     --m4-c: #e0756a;
+    /* Integrated Planning Workbench 配图（深色）：橙提亮，纸墨反转 */
+    --ipw-orange: #e0a37a;
+    --ipw-orange-soft: rgba(224,163,122,.14);
+    --ipw-paper: #171d24;
+    --ipw-ink: #e9edf2;
+    --ipw-soft: #9aa3af;
+    --ipw-line: #39434f;
+    --ipw-grid: #4a5563;
+    --ipw-graph: #e9edf2;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -823,6 +876,12 @@
     transition: background .4s, border-color .4s;
   }
   .app-fig svg { width: 88%; max-width: 440px; height: auto; }
+  /* IPW 配图：中文主标题 / 英文主标题与说明按页面语言切换，避免中英混排 */
+  .app-fig svg .ipw-fig-en { display: none; }
+  html[lang="en"] .app-fig svg .ipw-fig-zh { display: none; }
+  html[lang="en"] .app-fig svg .ipw-fig-en { display: inline; }
+  /* IPW 赭橙主题只用于配图与卡片标签（局部 --card-accent）；卡片根不覆盖 --card-accent，
+     主按钮 / 展开收起 / 已接入·免费等交互控件一律沿用全站统一的 teal 绿色 */
   .app-left { padding: clamp(26px, 3.4vw, 42px); flex: 1; display: flex; flex-direction: column; }
   .app-left p { color: var(--app-soft); font-size: 14px; margin-bottom: 18px; }
   .app-left ul { list-style: none; margin-bottom: 26px; }
@@ -929,6 +988,10 @@
   .foot-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; align-items: center; }
   .foot-inner p { font-size: 12.5px; color: var(--ink-mute); }
   .foot-inner .mono { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .06em; }
+  .foot-left { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+  .foot-inner .foot-rights { font-size: 12px; line-height: 1.65; color: var(--ink-mute); }
+  .foot-rights a { color: var(--ink-soft); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 2px; }
+  .foot-rights a:hover { color: var(--accent); text-decoration-color: var(--accent); }
 
   /* ---------- 入场动效 ----------
      渐进增强：内容默认可见，只有 <html class="js-ready">（脚本确实跑起来、
@@ -1156,7 +1219,7 @@
   </p>
   <div class="hero-stats reveal reveal-d3" data-page-node-id="7IE7fqtq6P9NrgZ3aABJ65">
     <div class="stat" data-page-node-id="YnJADmNGOMtsthV6Dg8Wwd"><div class="num" data-count="6" data-page-node-id="CGxlgz8IJif1ms5HJ4RUhb">0</div><div class="lbl" data-i18n="stat1" data-page-node-id="0gT8W1y4NwfWprXrZBrrMK">独立研究报告</div></div>
-    <div class="stat" data-page-node-id="DzrO0FvUulX8iAOPazpEqm"><div class="num" data-count="3" data-page-node-id="8fsuHUJnuVDb07ZHizKFLF">3</div><div class="lbl" data-i18n="stat2" data-page-node-id="yEvEJ2ivcRueU7P1BAgjgk">衍生应用</div></div>
+    <div class="stat" data-page-node-id="DzrO0FvUulX8iAOPazpEqm"><div class="num" data-count="4" data-page-node-id="8fsuHUJnuVDb07ZHizKFLF">4</div><div class="lbl" data-i18n="stat2" data-page-node-id="yEvEJ2ivcRueU7P1BAgjgk">衍生应用</div></div>
     <div class="stat" data-page-node-id="Z5Uec7IgY2VQostWDnkuA5"><div class="num" data-page-node-id="omrlUhBMIo7amZenuAuKH5"><i data-page-node-id="lwYMCd5ZwTfCiTdFqFKlwZ">25</i>+</div><div class="lbl" data-i18n="stat3" data-page-node-id="eDIEgPTBrjIzdegK0ktHZA">机构数据源（WTO / Drewry / NY Fed…）</div></div>
     <div class="stat" data-page-node-id="tuNHpaBFqX8nSmg9CKKp57"><div class="num" data-page-node-id="R4y3cxix4wMdquCbKXqgxm">2026<i data-page-node-id="dgXTWVQl9IdpgiNt2sLDoq">Q3</i></div><div class="lbl" data-i18n="stat4" data-page-node-id="yFfBXe5Yl6951jhC9r2ogH">当前研究窗口</div></div>
   </div>
@@ -1799,6 +1862,104 @@
     </div>
   </div>
 
+  <div class="app-card reveal reveal-d3 is-collapsed" data-page-node-id="IpwCardNode">
+    <div class="app-head">
+      <span class="card-tool" style="--card-accent:var(--ipw-orange)" data-page-node-id="IpwToolNode">INTEGRATED PLANNING · S&amp;OP</span>
+      <h3 data-i18n="ipw-h3" data-page-node-id="IpwH3Node">计划与品类决策工作台</h3>
+      <div class="card-en" data-page-node-id="IpwEnNode">integrated-planning-workbench</div>
+    </div>
+    <div class="app-left" data-page-node-id="IpwLeftNode">
+      <p data-i18n="ipw-p" data-page-node-id="IpwPNode">面向需求计划员与品类经理的可运行决策原型：把「预测擂台 → PSI 决策台 → 品类行动台」放进同一业务范围，用同一套公开零售样本贯穿三层视图。浏览器原生 HTML / CSS / JS，无需安装依赖、账户或 API key；JSON 与模块须经 HTTP 加载，直接双击 HTML 无法运行。</p>
+      <button type="button" class="app-toggle" aria-expanded="false"></button>
+      <ul data-page-node-id="IpwUlNode">
+        <li data-i18n="ipw-l1" data-page-node-id="IpwL1Node">数字化：Mendeley 零售样本（DOI 10.17632/27x8mjm8k4.1，CC BY 4.0）按业务大类 → 产品线 → SKU 逐层筛选，三个视图共用当前范围；派生 demo.json 内嵌，构建脚本按记录的 SHA-256 核对源文件</li>
+        <li data-i18n="ipw-l2" data-page-node-id="IpwL2Node">预测擂台并列七种模型（上周同日 / 28 天移动平均 / 四周同星期 / 周季节 Holt-Winters / 趋势＋星期回归 / 滞后岭回归 / 树桩梯度提升）；较早 56 天选模、最后 28 天在单一起点做独立时间测试，参数固定不调参，弱模型、恶化与低样本回退照实展示</li>
+        <li data-i18n="ipw-l3" data-page-node-id="IpwL3Node">PSI 决策台按 SKU × 门店逐日滚动库存，比较 90 / 95 / 98% 安全量情景与交期、复盘周期、缓冲、总容量假设；汇总曲线只聚合、不互抵，逐日 P / S / I 明细可核。服务目标未经实际达成率校准，90/95/98 不是服务水平预测</li>
+        <li data-i18n="ipw-l4" data-page-node-id="IpwL4Node">品类行动台用 ABC–XYZ 与净销售额、退货率、库存成本、缺口门店排序；人工纳入、暂缓、不采纳并记录原因，导出带数据 SHA-256、规则版本与情景编号的待复核 CSV——导出标记 DEMO_ACTION_NOT_ORDER，不是采购单</li>
+        <li data-i18n="ipw-l5" data-page-node-id="IpwL5Node">边界照实：公开样本没有可售库存、PO/ETA、促销执行与收货回执，界面直接显示「未提供」；独立合成 P1 教学案例用虚构记录演示晚到货、缺货截尾与「建议 72 / 下单 18 / 实收 12 件」的负结果。公开样本、合成案例、用户 CSV 三种数据模式互不跨源连接</li>
+      </ul>
+      <div class="app-cost" data-page-node-id="IpwCostNode">
+        <div class="app-cost-row is-free" data-page-node-id="IpwCostFree">
+          <span class="app-cost-tag" data-i18n="ipw-c1h" data-page-node-id="IpwC1h">已接入 · 免费</span>
+          <span class="app-cost-txt" data-i18n="ipw-c1" data-page-node-id="IpwC1">Mendeley Data 公开样本（CC BY 4.0）+ 纯静态 HTML / JS · 零密钥、零账户、零服务端；构建脚本可复现，check 脚本覆盖模型、PSI 守恒与数据契约</span>
+        </div>
+        <div class="app-cost-row is-paid" data-page-node-id="IpwCostPaid">
+          <span class="app-cost-tag" data-i18n="ipw-c2h" data-page-node-id="IpwC2h">需接入 · 视数据源</span>
+          <span class="app-cost-txt" data-i18n="ipw-c2" data-page-node-id="IpwC2">换成企业真实流水时，瓶颈在数据治理与系统集成：可售库存、PO/ETA、促销执行、缺货暴露、收货回执、服务水平达成率校准；当前版本无服务端、身份权限、持久审批或 ERP/WMS 回写</span>
+        </div>
+      </div>
+      <div class="app-cost-note" data-i18n="ipw-cnote" data-page-node-id="IpwCnote">它的价值不在哪个模型赢了，而在把 56 天选模与 28 天独立测试分开、把「增加安全量却几乎不改善缺口」这类负结果留在首屏——并把导出明确标成待复核而非采购单。</div>
+      <div class="card-actions" data-page-node-id="IpwActions">
+        <a class="btn btn-primary" href="reports/integrated-planning-workbench/index.html" target="_blank" rel="noopener" data-page-node-id="IpwBtnApp"><span data-i18n="btn-app" data-page-node-id="IpwBtnAppTxt">打开应用</span> <span class="arr" data-page-node-id="IpwBtnAppArr">↗</span></a>
+        <a class="btn btn-ghost" href="https://github.com/SummerPapaya/integrated-planning-workbench" target="_blank" rel="noopener" data-page-node-id="IpwBtnGh"><span data-i18n="btn-gh" data-page-node-id="IpwBtnGhTxt">在 GitHub 查看</span> <span class="arr" data-page-node-id="IpwBtnGhArr">↗</span></a>
+      </div>
+    </div>
+    <div class="app-fig" aria-hidden="true" data-page-node-id="IpwFigNode">
+      <svg viewBox="0 0 460 320" fill="none" data-page-node-id="IpwSvg">
+        <rect x="0" y="0" width="460" height="320" rx="10" style="fill:var(--ipw-paper);stroke:var(--ipw-line)" stroke-width="1"/>
+        <!-- 眉标 -->
+        <text x="22" y="28" font-size="8.5" font-weight="700" style="fill:var(--ipw-orange);font-family:var(--font-mono)" letter-spacing="1.4">INTEGRATED PLANNING WORKFLOW</text>
+        <text x="438" y="28" text-anchor="end" font-size="7.5" style="fill:var(--ipw-soft);font-family:var(--font-mono)" letter-spacing="1">FORECAST · PSI · CATEGORY</text>
+        <path d="M22 40 H438" style="stroke:var(--ipw-line)" stroke-width="0.8"/>
+
+        <!-- 01 预测擂台 -->
+        <text x="22" y="76" font-size="16" font-weight="700" style="fill:var(--ipw-orange);font-family:var(--font-mono)">01</text>
+        <text class="ipw-fig-zh" x="54" y="76" font-size="12.5" font-weight="700" style="fill:var(--ipw-ink);font-family:var(--font-sans)">预测擂台</text>
+        <text class="ipw-fig-en" x="54" y="76" font-size="10.5" font-weight="700" style="fill:var(--ipw-ink);font-family:var(--font-sans)">Forecast Arena</text>
+        <text class="ipw-fig-zh" x="22" y="95" font-size="9" style="fill:var(--ipw-soft);font-family:var(--font-sans)">Forecast arena</text>
+        <text class="ipw-fig-en" x="22" y="95" font-size="8.5" style="fill:var(--ipw-soft);font-family:var(--font-mono)">7 models · 56D / 28D</text>
+        <path d="M22 186 H140" style="stroke:var(--ipw-line)" stroke-width="0.8"/>
+        <path d="M22 178 L34 168 L46 173 L58 156 L70 162 L82 143 L94 150 L106 132 L118 138 L138 122" style="stroke:var(--ipw-graph)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+        <path d="M22 176 L138 142" style="stroke:var(--ipw-soft)" stroke-width="1.1" stroke-dasharray="4 4"/>
+        <path d="M22 224 H438" style="stroke:var(--ipw-line)" stroke-width="0.8"/>
+        <text class="ipw-fig-zh" x="22" y="211" font-size="8.5" font-weight="600" style="fill:var(--ipw-ink);font-family:var(--font-sans)">七种模型 / 7 MODELS</text>
+        <text class="ipw-fig-en" x="22" y="211" font-size="8" font-weight="600" style="fill:var(--ipw-ink);font-family:var(--font-mono)">SEVEN-MODEL COMPARISON</text>
+
+        <!-- 箭头 1 -->
+        <path d="M148 152 H164 M159 147 L164 152 L159 157" style="stroke:var(--ipw-soft)" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+
+        <!-- 02 PSI 决策台 -->
+        <text x="171" y="76" font-size="16" font-weight="700" style="fill:var(--ipw-orange);font-family:var(--font-mono)">02</text>
+        <text class="ipw-fig-zh" x="203" y="76" font-size="12.5" font-weight="700" style="fill:var(--ipw-ink);font-family:var(--font-sans)">PSI 决策台</text>
+        <text class="ipw-fig-en" x="203" y="76" font-size="10.5" font-weight="700" style="fill:var(--ipw-ink);font-family:var(--font-sans)">PSI Decision</text>
+        <text class="ipw-fig-zh" x="171" y="95" font-size="9" style="fill:var(--ipw-soft);font-family:var(--font-sans)">Inventory scenarios</text>
+        <text class="ipw-fig-en" x="171" y="95" font-size="8.5" style="fill:var(--ipw-soft);font-family:var(--font-mono)">SKU × STORE · DAILY</text>
+        <path d="M171 190 H289" style="stroke:var(--ipw-line)" stroke-width="0.8"/>
+        <path d="M171 126 H184 V134 H196 V145 H208 V158 H220 V163 H232 V172 H244 V176 H256 V181 H289 V183" style="stroke:var(--ipw-graph)" stroke-width="1.7" stroke-dasharray="3 3" stroke-linejoin="round"/>
+        <path d="M240 112 V190" style="stroke:var(--ipw-orange);stroke-opacity:.65" stroke-width="1" stroke-dasharray="2 3"/>
+        <text class="ipw-fig-zh" x="171" y="211" font-size="8.5" font-weight="600" style="fill:var(--ipw-ink);font-family:var(--font-sans)">服务目标 / 90 · 95 · 98%</text>
+        <text class="ipw-fig-en" x="171" y="211" font-size="8" font-weight="600" style="fill:var(--ipw-ink);font-family:var(--font-mono)">90 / 95 / 98% SERVICE</text>
+
+        <!-- 箭头 2 -->
+        <path d="M297 152 H313 M308 147 L313 152 L308 157" style="stroke:var(--ipw-soft)" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+
+        <!-- 03 品类行动台 -->
+        <text x="320" y="76" font-size="16" font-weight="700" style="fill:var(--ipw-orange);font-family:var(--font-mono)">03</text>
+        <text class="ipw-fig-zh" x="352" y="76" font-size="12.5" font-weight="700" style="fill:var(--ipw-ink);font-family:var(--font-sans)">品类行动台</text>
+        <text class="ipw-fig-en" x="352" y="76" font-size="10" font-weight="700" style="fill:var(--ipw-ink);font-family:var(--font-sans)">Category Actions</text>
+        <text class="ipw-fig-zh" x="320" y="95" font-size="9" style="fill:var(--ipw-soft);font-family:var(--font-sans)">Category actions</text>
+        <text class="ipw-fig-en" x="320" y="95" font-size="8.5" style="fill:var(--ipw-soft);font-family:var(--font-mono)">ABC–XYZ · HUMAN REVIEW</text>
+        <g style="fill:var(--ipw-grid)">
+          <rect x="320" y="120" width="24" height="17" rx="2"/><rect x="350" y="120" width="24" height="17" rx="2"/><rect x="380" y="120" width="24" height="17" rx="2"/>
+          <rect x="320" y="144" width="24" height="17" rx="2"/><rect x="350" y="144" width="24" height="17" rx="2"/><rect x="380" y="144" width="24" height="17" rx="2"/>
+          <rect x="320" y="168" width="24" height="17" rx="2"/><rect x="350" y="168" width="24" height="17" rx="2"/><rect x="380" y="168" width="24" height="17" rx="2"/>
+        </g>
+        <path d="M410 152 H419 M415 148 L419 152 L415 156" style="stroke:var(--ipw-soft)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M424 132 H438 M424 152 H438 M424 172 H438" style="stroke:var(--ipw-soft)" stroke-width="1.2"/>
+        <text class="ipw-fig-zh" x="320" y="211" font-size="8.5" font-weight="600" style="fill:var(--ipw-ink);font-family:var(--font-sans)">ABC–XYZ / 人工复核</text>
+        <text class="ipw-fig-en" x="320" y="211" font-size="8" font-weight="600" style="fill:var(--ipw-ink);font-family:var(--font-mono)">REVIEW QUEUE EXPORT</text>
+
+        <!-- 底部橙标：局限与功能同级 -->
+        <rect x="22" y="238" width="416" height="58" rx="4" style="fill:var(--ipw-orange-soft)"/>
+        <rect x="22" y="238" width="3" height="58" style="fill:var(--ipw-orange)"/>
+        <text x="36" y="256" font-size="8.5" font-weight="700" style="fill:var(--ipw-orange);font-family:var(--font-mono)" letter-spacing=".6">REVIEW ONLY · NOT A PURCHASE ORDER</text>
+        <text class="ipw-fig-zh" x="36" y="272" font-size="8.5" style="fill:var(--ipw-ink);font-family:var(--font-sans)">导出是待复核行动单 · 合成案例标为教学用途</text>
+        <text class="ipw-fig-en" x="36" y="272" font-size="8.5" style="fill:var(--ipw-ink);font-family:var(--font-sans)">EXPORT = REVIEW QUEUE · SYNTHETIC CASE FOR TEACHING</text>
+        <text x="36" y="288" font-size="7.5" style="fill:var(--ipw-soft);font-family:var(--font-mono)" letter-spacing=".3">56D SELECT / 28D INDEPENDENT TEST · NEGATIVE RESULTS ON FIRST SCREEN</text>
+      </svg>
+    </div>
+  </div>
+
   <div class="app-card reveal reveal-d3 is-pending" data-page-node-id="PsiCardNode">
     <div class="app-head">
       <span class="card-tool" style="--card-accent:var(--accent)" data-page-node-id="PsiToolNode">PSI ENGINE · INVENTORY RECONCILIATION</span>
@@ -2070,7 +2231,7 @@
       <div class="app-cost-note" data-i18n="app6-cnote" data-page-node-id="FlCnote">它的价值不在把订单画成趋势线，而在把「93.22% 按时率 = 24 天承诺缓冲 − 10 天实际周期」放在首屏——多数看板会把这个 KPI 直接当成履约能力，而不去拆分母口径。</div>
       <div class="card-actions" data-page-node-id="FlActions">
         <a class="btn btn-primary" href="reports/flowlens/index.html" target="_blank" rel="noopener" data-page-node-id="FlBtnApp"><span data-i18n="btn-app" data-page-node-id="FlBtnAppTxt">打开应用</span> <span class="arr" data-page-node-id="FlBtnAppArr">↗</span></a>
-        <a class="btn btn-ghost" href="reports/flowlens/field-map.json" target="_blank" rel="noopener" data-page-node-id="FlBtnData"><span data-i18n="app6-btndata" data-page-node-id="FlBtnDataTxt">查看数据与字段映射（JSON）</span> <span class="arr" data-page-node-id="FlBtnDataArr">↗</span></a>
+        <a class="btn btn-ghost" href="https://github.com/SummerPapaya/supply-chain-portfolio" target="_blank" rel="noopener" data-page-node-id="FlBtnGh"><span data-i18n="btn-gh" data-page-node-id="FlBtnGhTxt">在 GitHub 查看</span> <span class="arr" data-page-node-id="FlBtnGhArr">↗</span></a>
       </div>
     </div>
     <div class="app-fig" aria-hidden="true" data-page-node-id="FlFigNode">
@@ -2262,7 +2423,10 @@
 
 <footer data-page-node-id="OJs6J1vkHUE7jXE0zHNyxH">
   <div class="foot-inner" data-page-node-id="UjSAQqHy8Kshglk9QvhKgc">
-    <p data-i18n="foot" data-page-node-id="hugE7AiveUfDgM0NjMWPpl">AI 多模型供应链研究作品集 · 各报告内容由对应 AI 工具独立生成；本周雷达信息来自公开报道，以其原始出处为准</p>
+    <div class="foot-left">
+      <p data-i18n="foot" data-page-node-id="hugE7AiveUfDgM0NjMWPpl">AI 多模型供应链研究作品集 · 各报告内容由对应 AI 工具独立生成；本周雷达信息来自公开报道，以其原始出处为准</p>
+      <p class="foot-rights" data-i18n="foot-rights" data-page-node-id="FootRightsNode">© 2026 <a href="https://github.com/SummerPapaya" target="_blank" rel="noopener">SummerPapaya</a>（Summer Li）· 本站原创内容采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh-hans" target="_blank" rel="license noopener">CC BY-NC-ND 4.0</a>（须署名 · 禁商用 · 禁改编） · 第三方素材各从其许可 · <a href="https://github.com/SummerPapaya/supply-chain-portfolio/blob/main/NOTICE" target="_blank" rel="noopener">NOTICE</a> · <a href="https://github.com/SummerPapaya/supply-chain-portfolio" target="_blank" rel="noopener">GitHub 仓库 ↗</a> · <a href="https://github.com/SummerPapaya/supply-chain-portfolio/commits/main" target="_blank" rel="noopener">提交历史 ↗</a> · <a href="https://github.com/SummerPapaya/supply-chain-portfolio/blob/main/LICENSE" target="_blank" rel="noopener">LICENSE ↗</a></p>
+    </div>
     <p class="mono" data-page-node-id="pwTFRGqWd1FHmx7mmXgI4k">UPDATED <span class="js-site-updated" data-page-node-id="SiteUpdatedDate01">2026-09-20</span> · MORE REPORTS COMING</p>
   </div>
 </footer>
@@ -2950,7 +3114,18 @@
     'app6-c2h': 'Needs integration · data-source dependent',
     'app6-c2': 'With real company transactions the bottleneck is data governance: order-key uniqueness, aggregating 1:N tables first, promised-date and timezone conventions, SLA-rule versions, significance-threshold calibration. The licence forbids commercial use, so production deployment requires replacing the source with your own data',
     'app6-cnote': 'Its value is not plotting orders over time but putting “93.22% on-time = 24-day promise buffer − 10-day actual cycle” on the first screen — most dashboards read that KPI as fulfilment capability without ever opening up the denominator.',
-    'app6-btndata': 'View data & field map (JSON)',
+    'ipw-h3': 'Integrated Planning Workbench · Planning & Category Decisions',
+    'ipw-p': 'A runnable decision prototype for demand planners and category managers: forecast arena → PSI decision desk → category action desk, all inside one business scope and fed by the same public retail sample. Native browser HTML / CSS / JavaScript with no dependencies, accounts or API keys. JSON and modules load over HTTP; opening the HTML file directly will not work.',
+    'ipw-l1': 'Digitisation: the Mendeley retail sample (DOI 10.17632/27x8mjm8k4.1, CC BY 4.0) is filtered by business category → line → SKU, with all three views sharing the current scope; a derived demo.json is embedded and the build script verifies the source against its recorded SHA-256',
+    'ipw-l2': 'The forecast arena compares seven models side by side (same weekday last week / 28-day moving average / four-week weekday / weekly-seasonal Holt-Winters / trend plus weekday regression / lagged ridge regression / stump gradient boosting); the earlier 56 days select the model and the final 28 days are a single-origin independent time test, with fixed parameters and no tuning, and weak models, deterioration and low-sample fallbacks shown as they are',
+    'ipw-l3': 'The PSI desk rolls inventory day by day at SKU × store level, comparing 90 / 95 / 98% safety-stock scenarios with lead-time, review-cycle, buffer and total-capacity assumptions; the aggregate curve only sums, never nets across SKUs, and a daily P / S / I breakdown is available. Service targets are not calibrated against achieved service levels, so 90/95/98 are not service-level forecasts',
+    'ipw-l4': 'The category desk ranks by ABC–XYZ plus net sales, return rate, inventory cost, stockout stores and future demand; a human includes, holds or rejects each action with a reason, and exports a review CSV carrying the data SHA-256, rule versions and scenario id — tagged DEMO_ACTION_NOT_ORDER, not a purchase order',
+    'ipw-l5': 'Boundaries stated plainly: the public sample has no available-to-promise stock, PO/ETA, promotion execution or goods-receipt records, and the page says “not provided”; a separate synthetic P1 teaching case uses fictional records to show late receipts, censored demand and the negative result of 72 suggested / 18 ordered / 12 received units. Public sample, synthetic case and user CSV are three isolated data modes, never cross-joined',
+    'ipw-c1h': 'Connected · free',
+    'ipw-c1': 'Mendeley Data public sample (CC BY 4.0) plus purely static HTML / JS · zero keys, zero accounts, zero server; reproducible build scripts and checks covering models, PSI conservation and data contracts',
+    'ipw-c2h': 'Needs integration · data-source dependent',
+    'ipw-c2': 'With real company transactions the bottleneck is data governance and system integration: available-to-promise stock, PO/ETA, promotion execution, stockout exposure, goods receipts and service-level calibration. This version has no server, identity model, durable approvals or ERP/WMS write-back',
+    'ipw-cnote': 'Its value is not which model won, but keeping 56-day selection separate from the 28-day independent test, leaving negative results such as “more safety stock barely reduces the gap” on the first screen — and labelling the export as pending review rather than a purchase order.',
     'btn-data': 'Data source · CC BY 4.0',
     'btn-dash': 'View Dashboard', 'btn-gh': 'View on GitHub', 'btn-app': 'Launch App',
     'gaps-title': 'Where AI Fills In · Top 7 Workflow Gaps',
@@ -2975,6 +3150,7 @@
     'g7t': 'Inventory Optimization (Multi-echelon / Foolproofing)', 'g7d': 'Working capital sits idle in safety stock while SKU-level stockouts and dead stock coexist. AI can run multi-echelon optimization with dynamic safety stock, and push foolproof rules (\u201cshould-have-replenished / should-have-stopped\u201d) into the replenishment suggestion. The hard part is ERP master-data quality; the payoff shows directly in cash flow and on-shelf availability.', 'g7e': 'Radar · App Trend',
     'gaps-note': 'Runner-up: digital twin (supply network, 7.3) — high value but low feasibility and data readiness, a long-term transformation; the AI copilot for supply-chain talent (6.9) — important, but generates no direct cash flow; it determines how fast the top seven can run.',
     'foot': 'A multi-model supply chain research portfolio · Reports generated independently by their respective AI tools; radar items sourced from public reporting — refer to original citations',
+    'foot-rights': '© 2026 <a href="https://github.com/SummerPapaya" target="_blank" rel="noopener">SummerPapaya</a> (Summer Li) · Original content licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="license noopener">CC BY-NC-ND 4.0</a> (attribution · non-commercial · no derivatives) · third-party material keeps its own licence · <a href="https://github.com/SummerPapaya/supply-chain-portfolio/blob/main/NOTICE" target="_blank" rel="noopener">NOTICE</a> · <a href="https://github.com/SummerPapaya/supply-chain-portfolio" target="_blank" rel="noopener">GitHub repo ↗</a> · <a href="https://github.com/SummerPapaya/supply-chain-portfolio/commits/main" target="_blank" rel="noopener">Commit history ↗</a> · <a href="https://github.com/SummerPapaya/supply-chain-portfolio/blob/main/LICENSE" target="_blank" rel="noopener">LICENSE ↗</a>',
     'nav-learn': 'Continuous Learning',
     'learn-title': 'Learning · Supply Chain Knowledge Graphs',
     'learn-sub': 'Two Interactive Knowledge Graphs',
