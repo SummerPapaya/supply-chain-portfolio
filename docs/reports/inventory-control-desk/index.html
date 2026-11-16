@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>库存控制工作台 · Inventory Control Workbench</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark"></span>
+    <div>
+      <div class="brand-name">库存控制工作台</div>
+      <div class="brand-sub">Inventory Control Workbench</div>
+    </div>
+  </div>
+  <span class="snapshot-badge"><span class="dot"></span><span id="topSnapshot">—</span></span>
+  <div class="top-meta">
+    <span>数据源 <b id="topSource">—</b></span>
+    <span class="sep"></span>
+    <span>在册 SKU <b class="num" id="topSku">—</b></span>
+    <span class="sep"></span>
+    <span>策略 <b class="num" id="topCsl">—</b></span>
+  </div>
+  <div class="topbar-spacer"></div>
+  <button class="btn" id="btnImport" title="导入自有库存数据（CSV / JSON）">导入数据</button>
+  <button class="btn" id="btnTemplate" title="下载标准 CSV 导入模板">模板</button>
+  <button class="btn" id="btnExport" title="导出当前视图筛选结果">导出 CSV</button>
+  <button class="btn btn-primary" id="btnParams" title="打开策略参数与口径">参数与口径</button>
+  <input type="file" id="fileInput" accept=".csv,.json,.js" class="hidden">
+</header>
+
+<div class="shell">
+  <nav class="sidenav" id="nav">
+    <div class="nav-group">
+      <div class="nav-group-title mono-label">监控 · Monitor</div>
+      <div class="nav-item active" data-view="overview"><span class="ico">◫</span><span>总览</span><span class="badge" id="badgeOverview"></span></div>
+      <div class="nav-item" data-view="alerts"><span class="ico">△</span><span>预警中心</span><span class="badge alert" id="badgeAlerts">—</span></div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title mono-label">执行 · Execution</div>
+      <div class="nav-item" data-view="inventory"><span class="ico">▤</span><span>库存台账</span><span class="badge" id="badgeInv"></span></div>
+      <div class="nav-item" data-view="purchase"><span class="ico">▦</span><span>采购订单</span><span class="badge" id="badgePo"></span></div>
+      <div class="nav-item" data-view="transit"><span class="ico">→</span><span>在途追踪</span><span class="badge" id="badgeTransit"></span></div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title mono-label">分析 · Analysis</div>
+      <div class="nav-item" data-view="aging"><span class="ico">▥</span><span>库龄分析</span></div>
+      <div class="nav-item" data-view="excess"><span class="ico">▧</span><span>冗余与 E&amp;O</span></div>
+      <div class="nav-item" data-view="metrics"><span class="ico">◱</span><span>绩效分析</span></div>
+      <div class="nav-item" data-view="segment"><span class="ico">▦</span><span>分类与服务水平</span><span class="badge" id="badgeSegment"></span></div>
+      <div class="nav-item" data-view="supplier"><span class="ico">↻</span><span>供应商交期与 OTD</span><span class="badge alert" id="badgeSupplier"></span></div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title mono-label">配置 · Setup</div>
+      <div class="nav-item" data-view="guide"><span class="ico">⚙</span><span>参数与口径</span></div>
+      <div class="nav-item" data-view="evidence"><span class="ico">⌑</span><span>证据与局限</span><span class="badge" id="badgeEvidence"></span></div>
+    </div>
+    <div class="nav-foot">
+      <div class="mono-label" style="margin-bottom:5px">Data Provenance</div>
+      <div class="src">
+        UCI ML Repository<br>Online Retail · id=352<br>
+        <span id="footPeriod">—</span><br>
+        <span style="color:var(--accent)">CC BY 4.0 · DOI 10.24432/C5BW33</span>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="page-head">
+      <div>
+        <div class="crumb">库存控制工作台 / <b id="crumb">总览</b></div>
+        <h1><span id="pageTitle">库存控制总览</span><span class="en" id="pageTitleEn">Inventory Control Overview</span></h1>
+        <div class="desc" id="pageDesc">—</div>
+      </div>
+      <div class="page-head-actions"><span class="result-count" id="resultCount">—</span><span id="pageActions"></span></div>
+    </div>
+
+    <div class="filterbar" id="filterbar">
+      <div class="field">
+        <label for="fSearch">检索</label>
+        <input type="search" id="fSearch" class="search-input" placeholder="SKU 编码 / 品名 / PO 号   (/)" autocomplete="off">
+      </div>
+      <div class="field"><label for="fCategory">品类</label><select id="fCategory"></select></div>
+      <div class="field"><label for="fWarehouse">仓库</label><select id="fWarehouse"></select></div>
+      <div class="field"><label for="fSupplier">供应商</label><select id="fSupplier"></select></div>
+      <div class="field"><label for="fAbc">分级</label><select id="fAbc" title="按 ABC 金额贡献或 XYZ 需求波动筛选"></select></div>
+      <div class="field" id="fStatusWrap"><label for="fStatus">状态</label><select id="fStatus"></select></div>
+      <div class="field" id="fSeverityWrap"><label for="fSeverity">严重度</label><select id="fSeverity"></select></div>
+      <div class="field accent-field" id="fCslWrap" title="修改后全表重算 SS / ROP / 预警 / 目标上限">
+        <label for="fCsl"><span id="fCslLabel">服务水平 CSL</span></label>
+        <select id="fCsl">
+          <option value="0.90">90% · z=1.282</option>
+          <option value="0.95" selected>95% · z=1.645</option>
+          <option value="0.975">97.5% · z=1.960</option>
+          <option value="0.99">99% · z=2.326</option>
+          <option value="0.995">99.5% · z=2.576</option>
+        </select>
+      </div>
+      <div class="field"><button class="btn btn-xs" id="btnReset">重置筛选</button></div>
+    </div>
+
+    <div id="view"></div>
+
+    <div class="footnote" id="footnote"></div>
+  </main>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer"></aside>
+<div class="toast" id="toast"></div>
+<div class="hover-tt hidden" id="tooltip"></div>
+
+<script src="assets/dataset.js"></script>
+<script src="assets/engine.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
