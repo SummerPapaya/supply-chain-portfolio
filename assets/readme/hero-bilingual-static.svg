@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600" role="img" aria-labelledby="hero-title hero-desc">
   <title id="hero-title">Supply Chain Intelligence · 全球供应链多模型洞察</title>
-  <desc id="hero-desc">Supply Chain Portfolio: one research brief, six independent AI perspectives — Cursor x Grok 4.5, Kimi K3 Deep Research, WorkBuddy x Deepseek-V4-Pro, Gemini 3.8 Flash, Codex GPT-6 Astra and Claude Code Opus 5.5. Weekly Radar and two research spin-offs: VeloCortex Maritime and TariffLens. 供应链研究作品集：同一命题、六种独立 AI 视角，每周情报雷达与两个研究衍生应用。静态备用版本。</desc>
+  <desc id="hero-desc">Supply Chain Portfolio: one research brief, six independent AI perspectives — Cursor x Grok 4.5, Kimi K3 Deep Research, WorkBuddy x Deepseek-V4-Pro, Gemini 3.8 Flash, Codex GPT-6 Astra and Claude Code Opus 5.5. Weekly Radar and five spin-off apps: VeloCortex Maritime, TariffLens, Integrated Planning Workbench, Inventory Control Desk and FLOWLENS. 供应链研究作品集：同一命题、六种独立 AI 视角，每周情报雷达与五个研究衍生应用。静态备用版本。</desc>
   <defs>
     <clipPath id="frame-clip">
       <rect width="1200" height="600" rx="24" />
@@ -86,9 +86,9 @@
       <text class="mono" x="440" y="528" font-size="42" fill="#1a4fd6">06</text>
       <text x="516" y="523" font-size="25" font-weight="600" fill="#101418">独立研究报告</text>
       <text x="516" y="552" font-size="20" fill="#6e767f">Independent reports</text>
-      <text class="mono" x="803" y="528" font-size="42" fill="#0e7a6d">02</text>
+      <text class="mono" x="803" y="528" font-size="42" fill="#0e7a6d">05</text>
       <text x="878" y="523" font-size="22" font-weight="600" fill="#101418">衍生应用 / Spin-off apps</text>
-      <text x="803" y="552" font-size="20" fill="#6e767f">VeloCortex Maritime · TariffLens</text>
+      <text x="803" y="552" font-size="20" fill="#6e767f">5 apps · plan → execute</text>
     </g>
   </g>
 </svg>

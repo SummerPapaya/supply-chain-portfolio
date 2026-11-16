@@ -4,7 +4,7 @@
 
 动画源文件为 `hero-bilingual.svg`，静态备用版为 `hero-bilingual-static.svg`，渲染预览为 `hero-bilingual-preview.png`。中英文同时展示，两个 README 可使用同一张封面。
 
-The composition follows the portfolio's existing paper, ink, cobalt and teal palette. The six incoming research lanes correspond to Cursor x Grok 4.5, Kimi K3 Deep Research, WorkBuddy x Deepseek-V4-Pro, Gemini 3.8 Flash, Codex GPT-6 Astra and Claude Code Opus 5.5. The footer counts six independent reports and explicitly two spin-off apps: VeloCortex Maritime and TariffLens. The globe is a schematic research motif, not a live map or quantitative chart.
+The composition follows the portfolio's existing paper, ink, cobalt and teal palette. The six incoming research lanes correspond to Cursor x Grok 4.5, Kimi K3 Deep Research, WorkBuddy x Deepseek-V4-Pro, Gemini 3.8 Flash, Codex GPT-6 Astra and Claude Code Opus 5.5. The footer counts six independent reports and five spin-off apps: VeloCortex Maritime, TariffLens, Integrated Planning Workbench, Inventory Control Desk and FLOWLENS. The globe is a schematic research motif, not a live map or quantitative chart.
 
 8-second loop: six research lanes converge, a radar sector scans, a confirmation ring appears, then the scene rests. Text remains stationary and readable. `prefers-reduced-motion: reduce` disables all animation. The SVG uses no scripts, external fonts, remote images or `foreignObject`.
 
@@ -33,4 +33,4 @@ For a guaranteed static presentation, replace the image path with `assets/readme
 
 [GitHub's file-viewer documentation](https://docs.github.com/en/repositories/working-with-files/using-files/working-with-non-code-files) states that SVG animation is not supported there. Animated SVG playback depends on the display context; the local browser preview shows the complete motion. No GIF has been substituted for the requested SVG.
 
-Both root README files embed `assets/readme/hero-bilingual.svg`; their cover links point to the same bilingual asset. README body content is unchanged.
+Both root README files embed `assets/readme/hero-bilingual.svg`; their cover links point to the same bilingual asset. The README body, badges and cover alt text now all state five spin-off apps (the three newer ones are Integrated Planning Workbench, Inventory Control Desk and FLOWLENS).
