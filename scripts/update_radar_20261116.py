@@ -1,0 +1,270 @@
+# -*- coding: utf-8 -*-
+"""供应链雷达周更脚本（2026-11-16）
+
+标准：ee6be6d —— 权威来源 / 交叉验证 / 来源可溯 / 中英双语
+- 四栏固定顺序：重点新闻 → 热门议题 → 研究瞭望 → 应用风向
+- verified=True 仅用于 ≥2 家独立媒体（或独立研究机构）佐证的条目
+- 同步两处：docs/radar-data.json 与 docs/index.html 内嵌 <script id="embeddedRadar">
+幂等：整份重建，重复执行结果一致。
+
+本期收录区间：2026-11-10 ~ 2026-11-16
+本期单源条目（verified=False，如实标注）：
+  - 热门议题「智利卡车司机第二轮罢工」：新一轮罢工规模仅见 WSSA 全球物流周报，贸促预警只覆盖 11-06 结束的上一轮
+  - 研究瞭望「智能体 AI 元分析」：核心数字仅见单一二次来源（Truvace 对论文的结构化摘要），论文本身为同行评议期刊
+  - 应用风向「中兴南京滨江数字员工」：两条链接同属新华社通稿，非独立佐证
+选题已避开上期重复（霍尔木兹 MT Velos Sapphire/IMO 谴责、中美关税与美船特港费延期、WCI 4,389/11 月宣涨证伪、
+美西守夜人罢工延期至 11-20、苏伊士回摆 ME1/Ever Superb/53 艘/60 万 TEU、胡塞邮件审批、进博会签约、
+麦肯锡 State of AI 2026、NBER 生产率、MHI/德勤技术天平、AutoStore/Agility/宇树、CeMAT ASIA 实况、
+灵初智能×李宁）。
+"""
+import json
+import re
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+DOCS = ROOT / "docs"
+JSON_PATH = DOCS / "radar-data.json"
+HTML_PATH = DOCS / "index.html"
+
+UPDATED_AT = "2026-11-16T16:00:00+08:00"
+
+COLORS = ["#e05656", "#f0a13a", "#5b8cff", "#35c2b0"]
+
+
+def S(label, url):
+    return {"label": label, "url": url}
+
+
+def IT(zh_t, en_t, zh_d, en_d, sources, verified):
+    return {
+        "title": {"zh": zh_t, "en": en_t},
+        "desc": {"zh": zh_d, "en": en_d},
+        "sources": sources,
+        "verified": verified,
+    }
+
+
+# ---------------- 重点新闻 / Key News ----------------
+KEY_NEWS = [
+    IT(
+        "霍尔木兹海峡十日十船：11 月 12 日四艘油轮爆炸、13 日一艘 LNG 船触雷起火，10 月 37 起袭船创冲突以来单月最高——德路里记录上周仅 1 艘船通过海峡",
+        "Ten ships hit in ten days in Hormuz: four tankers exploded on 12 November and an LNG carrier struck a mine on 13 November, after October’s 37 attacks set a monthly high — Drewry logged just one vessel through the strait last week",
+        "伊朗伊斯兰革命卫队海军公共关系部门 11 月 13 日发表声明：一艘“违规”液化气运输船在霍尔木兹海峡东部无视多次警告、试图从海峡南部一条未经许可的航道通过，触雷后发生剧烈爆炸并起火；革命卫队称该船“在美国战机支援下”航行（伊朗方面说法），并警告任何违反伊方规定、驶入未经许可航道的船只“都将面临同样的结局”。此前一天（12 日），伊朗媒体报道四艘油轮在海峡内爆炸起火，称这些船只“无视警告进入伊方认定的限制区域”。规模口径：华盛顿近东政策研究所统计显示，11 月前 10 天至少 10 艘船被击中，而 10 月记录 37 起袭击、为 2 月底冲突爆发以来单月最高。新华社德黑兰分社与路透社均以“伊方声明”为口径转述，未获独立核实，涉事船舶名称、船旗与受损程度至今未公开。市场侧两条硬信号：布伦特原油上周四单日上涨逾 3 美元/桶；德路里 11 月 12 日周评记录，上周苏伊士运河过境 53 艘集装箱船，而霍尔木兹海峡仅 1 艘——两条水道的通行量已严重分化。须并列双方说法：伊朗宣布海峡“已关闭”、仅其武装部队批准的航道安全；美方称海峡不构成封锁、美军控制外侧水域并为船舶护航；双方均未提供可核查的通行数据，本条不采信任何单方定性。",
+        "On 13 November Iran’s Revolutionary Guards navy said a “non-compliant” liquefied gas carrier ignored repeated warnings in the eastern Strait of Hormuz, tried to pass through an unauthorised southern route, struck a naval mine and suffered a violent explosion and fire; the Guards said the vessel was sailing “with the support of US fighter jets” — an Iranian characterization — and warned that any ship violating its rules “will meet the same fate”. A day earlier, on 12 November, Iranian media reported that four oil tankers had exploded and caught fire in the strait after ignoring warnings and entering areas Iran considers restricted. On scale: data from the Washington Institute for Near East Policy puts at least 10 ships hit in the first 10 days of November, after 37 attacks in October, the highest monthly tally since the conflict began in late February. Xinhua’s Tehran bureau and Reuters both attribute the account to Iranian statements without independent verification, and the vessels’ names, flags and damage have not been disclosed. Two hard market signals: Brent rose more than $3 a barrel on Thursday, and Drewry’s 12 November weekly assessment records 53 containership transits through Suez last week against just one vessel through Hormuz — the two waterways have decoupled sharply. Both positions are carried in parallel: Iran declares the strait “closed” with only routes authorised by its armed forces safe, while the US says Hormuz is not under blockade, that its forces control the outer passage and escort vessels; neither side has published verifiable transit data, and this issue endorses no unilateral characterization.",
+        [
+            S("The Hindu（引路透：11-13 革命卫队称 LNG 船触雷爆炸、未公布船名、10 月 37 起为冲突以来最高）", "https://www.thehindu.com/news/international/tanker-carrying-lng-hit-mine-suffered-explosion-in-hormuz-iran/article71696996.ece/amp"),
+            S("新华社德黑兰（11-13 革命卫队声明全文：海峡东部、未经许可南部航道、剧烈爆炸起火）", "https://www.china.com.cn/txt/2026-11/13/content_118773574.shtml"),
+            S("央视财经（11-13 现场：违规液化气船触雷、伊方“坚定严肃管控”表述）", "https://news.qq.com/rain/a/20261113A0EA7M00"),
+            S("WSSA 全球物流周报（11-13：12 日四艘油轮爆炸、13 日 LNG 触雷、11 月前 10 天 ≥10 艘、布伦特 +$3）", "https://www.wssa.com/blog/global-logistics-update-november-13-2026"),
+            S("德路里 WCI 周评（11-12：上周苏伊士 53 艘过境、霍尔木兹仅 1 艘）", "https://www.drewry.co.uk/maritime-research-opinion-browser/world-container-index-assessed-by-drewry"),
+        ],
+        True,
+    ),
+    IT(
+        "西班牙 14 年来首次全国总罢工停摆三大港：阿尔赫西拉斯两码头停 24 小时、码头参与率 100%，塔拉戈纳卡车进港暴跌 97.47%",
+        "Spain’s first general strike in 14 years halts its three biggest container ports: both Algeciras terminals shut for 24 hours with dockworker participation at 100%, and truck arrivals at Tarragona collapse 97.47%",
+        "11 月 11 日，西班牙举行自 2012 年以来首次全国总罢工（CCOO 与 UGT 发起，诉求住房成本、工资购买力与物价）。港口是受影响最集中的部门：阿尔赫西拉斯港两大集装箱码头 APM Terminals Algeciras 与 TTI Algeciras 自 11 日 02:00 起停止商业作业 24 小时，CCOO 地区书记 Manuel Triano 称该港码头工人参与率达 100%（工会对全行业的口径约 90%），仅保留与休达之间的客滚与补给航次；瓦伦西亚港常规装卸停止，危险品与冷藏箱按最低服务维持，码头 12 日 06:00 提前开门消化积压；巴塞罗那港需码头工人参与的货运作业与相关海关查验全部停止，APMT Barcelona 与 Hutchison Ports BEST 宣布 24 小时暂停作业；北部巴斯克地区各港与拉科鲁尼亚报告 100% 参与。陆侧受影响更甚：塔拉戈纳港 11 日 00:00—14:00 仅 40 辆卡车进港（去年同期 1,586 辆，-97.47%）、出港 9 辆（去年 1,417 辆，-99.36%），A-27 与 Reus、Llevant 码头通道被封锁；Renfe 货运夜班 38 班取消 25 班（最低服务仅设 26%）。同期风暴 Charles 迫使阿尔赫西拉斯港维持自保预案。三大港合计占 2025 年西班牙集装箱吞吐 75.8%。须并列双方口径：港口与航运雇主协会 UNO 称对运输影响“有限且局部”，APMT 称其在阿尔赫西拉斯“无员工或承包商参与罢工”、影响主要来自此前公布的天气限制；而 CCOO 瓦伦西亚海事代表称罢工期间“无工人可用、无船舶作业”。积压规模取决于码头复工后的闸口与堆场周转，目前无官方数字。",
+        "On 11 November Spain held its first nationwide general strike since 2012, called by CCOO and UGT over housing costs, wage purchasing power and prices. Ports were the most concentratedly affected sector: at Algeciras the two container terminals, APM Terminals Algeciras and TTI Algeciras, stopped commercial operations for 24 hours from 02:00 on the 11th, with CCOO regional secretary Manuel Triano putting dockworker participation at 100% (unions estimate about 90% across the port sector) and only passenger and supply sailings to Ceuta maintained; Valencia halted regular loading and discharge, keeping minimum service for dangerous goods and reefers and planning to open container terminals early at 06:00 on the 12th to clear the backlog; Barcelona suspended all cargo work requiring dockworkers plus associated customs inspections, with APMT Barcelona and Hutchison Ports BEST announcing 24-hour suspensions; Basque ports and A Coruña reported 100% participation. Landside impact was sharper: at Tarragona only 40 trucks entered between 00:00 and 14:00 on the 11th against 1,586 a year earlier (-97.47%), with nine departures against 1,417 (-99.36%), as access at the A-27, Reus and Llevant quays was blocked; Renfe Mercancías cancelled 25 of 38 freight trains on the night shift, with minimum service set at 26%. Storm Charles simultaneously kept Algeciras’ self-protection plan active. The three ports handled 75.8% of Spain’s 2025 container throughput. Both accounts are carried: employers’ association UNO calls the transport impact “limited and localized” and APMT says no employees or contractors struck at Algeciras, attributing disruption mainly to previously announced weather restrictions, whereas CCOO’s Valencia maritime representative says that during the strike “there were no workers available and no ship operations”. The size of the backlog depends on gate and yard turnaround after resumption; no official figure has been published.",
+        [
+            S("El Estrecho Digital（11-11 现场：阿尔赫西拉斯两码头 02:00 停 24 小时、100% 参与、塔拉戈纳 -97.47%、Renfe 38 班取消 25 班）", "https://www.elestrechodigital.com/en/2026/11/11/the-general-strike-halts-cargo-handling-at-spains-main-ports-and-barely-affects-road-transport"),
+            S("IAM Movers（引 The Loadstar：14 年来首次总罢工、85%—100% 参与、风暴 Charles、UNO 口径）", "https://iamovers.org/news/spanish-ports-recover-after-general-strike-halts-container-operations"),
+            S("Ship Universe（三大港占 2025 年西班牙 TEU 75.8%、逐港作业状态与 Tarragona 官方流量对比）", "https://www.shipuniverse.com/news/spains-three-biggest-container-ports-hit-by-strike-as-truck-arrivals-plunge-97-at-fourth-port"),
+            S("中国贸促会聊城市委预警第 253 期（中西使馆紧急提醒、三大港集装箱作业受阻）", "http://www.lcsmch.org.cn/channel_t_167_12413/doc_6afa7860dd94f2f639bd71b8.html"),
+        ],
+        True,
+    ),
+    IT(
+        "法国 11 月 17 日第三次港口罢工叠加全国跨行业行动日：CGT 号召全法码头 24 小时停工，预计主要港口停摆、当日无闸口进出",
+        "France’s third port strike in under three weeks lands on 17 November alongside a cross-industry day of action: CGT calls a 24-hour dock stoppage with major ports expected to halt gate operations",
+        "法国全国港口与码头联合会（CGT）号召码头工人与港口员工于 2026 年 11 月 17 日举行为期 24 小时的停工——这是不到三周内的第三次罢工号召，并与六大公务员工会（CGT、UNSA、FSU、Solidaires、CFE-CGC、FAFP）发起的全国跨行业行动日重合；CGT 总书记 Sophie Binet 已呼吁公私部门全面停工。法国海事媒体 Le Marin 报道，多数法国港口预计停摆；物流企业已提示当日“所有法国港口码头预计关闭、无闸口进出（no gate-in / gate-out）”，船公司需重新发布截关时间与安排。南特—圣纳泽尔大港（含 Montoir-de-Bretagne 码头）的码头工人诉求覆盖工资、工作条件与军用货物装卸争议，具体影响仍取决于码头层面的谈判。与此同时，CGT-Transports 组织了 11 月 16—20 日覆盖物流、公交、出租与机场的行动周。须标注：Force Ouvrière 与 CFDT 两大联合会暂未支持 17 日罢工、正在等待 11 月 13 日与总理 Sébastien Lecornu 的会谈结果，罢工规模仍可能变化；法国海关信息系统 11 月 6 日已修复，但此前多轮罢工留下的积压仍在消化。",
+        "France’s National Federation of Ports and Docks (CGT) has called dockworkers and port staff to a 24-hour stoppage on 17 November 2026, its third strike call in less than three weeks, coinciding with a nationwide cross-industry day of action launched by six civil-service unions (CGT, UNSA, FSU, Solidaires, CFE-CGC, FAFP), with CGT general secretary Sophie Binet urging walkouts across the public and private sectors. French maritime outlet Le Marin reports most French ports are expected to come to a standstill; logistics operators have advised that “all French port terminals are expected to be closed, with no gate-in or gate-out” that day, and carriers will need to reissue cut-off instructions and schedules. At the Grand Port Maritime de Nantes–Saint-Nazaire, including the Montoir-de-Bretagne terminal, dockers’ demands cover pay, working conditions and military cargo handling, with local impact still subject to terminal-level negotiations. Separately, CGT-Transports has organised a week of action from 16 to 20 November spanning logistics, buses, taxis and airports. Caveats: the two big confederations Force Ouvrière and CFDT have withheld backing for the 17 November strike pending the outcome of talks with Prime Minister Sébastien Lecornu on 13 November, so the scale may still change; France’s customs IT system was repaired on 6 November, but backlogs from earlier strike rounds are still being worked off.",
+        [
+            S("Kuehne+Nagel myKN（引 Le Marin：11-17 CGT 全国港口 24 小时停工、第三次号召、多数港口预计停摆）", "https://mykn.kuehne-nagel.com/news/article/french-public-sector-unions-call-nationwide"),
+            S("WSSA 全球物流周报（11-13：法国港口当日无闸口进出、船司需改截关；FO/CFDT 暂不支持）", "https://www.wssa.com/blog/global-logistics-update-november-13-2026"),
+        ],
+        True,
+    ),
+    IT(
+        "德路里 WCI 再跌 2% 至 4,305 美元、跨太平洋创两个多月新低：上海港等待时间反升至 49 小时、下周停航 8 班，11 月下半月 FAK/PSS 再宣涨",
+        "Drewry’s WCI falls another 2% to $4,305 with the transpacific at a two-month low: Shanghai waiting times reverse up to 49 hours, eight blank sailings are announced, and carriers post fresh FAK/PSS for late November",
+        "德路里 11 月 12 日评估：世界集装箱运价指数（WCI）环比下跌 2% 至 4,305 美元/FEU，跨太平洋与亚欧/地中海同步走低——上海—纽约跌 3% 至 9,020 美元（2026 年 8 月以来最低）、上海—洛杉矶跌 2% 至 7,416 美元（9 月以来最低）、上海—鹿特丹跌 3% 至 3,504 美元、上海—热那亚持平 4,168 美元。一个反直觉信号是拥堵：上海港船舶平均等待时间上周升至 49 小时（前一周 36 小时），结束了此前连续 11 周的缓解趋势；德路里把这一现象与“需求疲弱下船司靠停航托价”并列——下周东西向主干线宣布 8 班停航（本周跨太平洋 4 班、亚欧 5 班），运力管理力度明显加码。船司已宣布 11 月下半月亚欧/地中海 FAK 与 PSS 上调，德路里据此判断亚欧运价“未来数周或小幅上涨”，而跨太平洋因需求疲弱预计续跌——同一个指数内部出现方向分歧。中国出口端参考：上海航运交易所 SCFI 11 月 6 日综合指数 3,633.45、环比 -1.46%（五周来首跌），美西 7,381 美元/FEU、美东 9,857 美元/FEU、北欧 2,325 美元/TEU、地中海 3,393 美元/TEU。德路里同时提示两项尾部风险：洛杉矶/长滩劳工谈判与地缘不确定性；春节前抢运或短暂托底需求。须标注：WCI 与 SCFI 的篮子、取样与计价单位不同（FEU / TEU），同周可反向，不可互换。",
+        "Drewry’s 12 November assessment puts the World Container Index down 2% week on week to $4,305 per 40ft container, with the transpacific and Asia–Europe/Mediterranean lanes falling together: Shanghai–New York down 3% to $9,020 (lowest since August 2026), Shanghai–Los Angeles down 2% to $7,416 (lowest since September), Shanghai–Rotterdam down 3% to $3,504 and Shanghai–Genoa flat at $4,168. One counter-intuitive signal is congestion: average vessel waiting times at Shanghai rose to 49 hours last week from 36 the week before, reversing 11 consecutive weeks of easing — a development Drewry sets alongside carriers using blank sailings to support rates amid weak demand, with eight blank sailings announced on the east–west headhauls for next week against four on the transpacific and five on Asia–Europe this week. Carriers have announced higher FAKs and PSS on Asia–Europe/Mediterranean effective the second half of November, on which Drewry expects Asia–Europe rates to edge up over the coming weeks while the transpacific keeps falling on soft demand — a divergence inside one index. China export reference: the Shanghai Shipping Exchange’s SCFI composite was 3,633.45 on 6 November, down 1.46% week on week, its first drop in five weeks, with the US west coast at $7,381 per FEU, the US east coast $9,857, North Europe $2,325 per TEU and the Mediterranean $3,393. Drewry also flags two tail risks: labour negotiations at Los Angeles and Long Beach, and geopolitical uncertainty, with pre-Lunar New Year shipments possibly supporting demand briefly. Caveat: WCI and SCFI differ in basket, sampling and unit (FEU versus TEU), can move in opposite directions in the same week and are not interchangeable.",
+        [
+            S("德路里 WCI 周评（11-12：4,305 美元 -2%、逐航线读数、上海等待 49 小时、停航 8 班、下半月 FAK/PSS）", "https://www.drewry.co.uk/maritime-research-opinion-browser/world-container-index-assessed-by-drewry"),
+            S("Daily Cargo News（11-12 WCI 全文转载：8 月以来/9 月以来最低、53 艘苏伊士 vs 1 艘霍尔木兹）", "https://www.thedcn.com.au/news/world-container-index-12-november-2026"),
+            S("航运信息网 CSI（德路里 11-05 期：停航率 6%、46 个空班、亚欧占 50%）", "https://news.csi.com.cn/e23c9181-e6ce-433c-a802-5056320f266e.html"),
+            S("一航航运（11-12 期：SCFI 3,633.45 -1.46% 五周来首跌、四条航线读数与 GRI 落空复盘）", "https://yihang-shipping.com/insights/index-12-november-2026"),
+        ],
+        True,
+    ),
+]
+
+# ---------------- 热门议题 / Hot Topics ----------------
+HOT_TOPICS = [
+    IT(
+        "美国 CBP 收紧外国进口商记录人（IOR）：2027 年 1 月 5 日起须自身 CTPAT 验证或委托 CTPAT 验证清关行，3461/7501 表新增三个字段",
+        "US CBP tightens foreign importers of record: from 5 January 2027 a foreign IOR must itself be CTPAT-validated or use a CTPAT-validated broker, with three new data fields on Forms 3461/7501",
+        "美国海关与边境保护局（CBP）11 月 6 日在《联邦公报》刊发临时最终规则《Heightened Requirements for Foreign Importers of Record》：自 2027 年 1 月 5 日起，外国进口商记录人（foreign IOR）一般必须本身通过 CTPAT 验证，或委托一家通过 CTPAT 验证的美国报关行办理清关；CBP 同时在 3461（报关单）与 7501（报关单摘要）上新增三个数据字段（见 CSMS #70381183）。对华出口的直接含义：中国卖家长期依赖的“双清包税”通道——以货代或其美国关联公司充当 IOR——将被要求提供 CTPAT 资质，无资质者需改由验证报关行接单，成本与合规链条同步上移；中国贸促系统已将其列为出口预警事项（第 253 期），提示“中国卖家清关通道将受限”。须标注：核心条款源自 CBP 临时最终规则与行业通报（WSSA 全球物流周报 11-13、贸促预警），临时最终规则通常设评议期，条款细节（如“一般”之外的豁免情形）仍可能微调，实操影响须以 CBP 正式文本与报关行反馈为准；本期未见 CBP 就该规则单独发布的中文说明。",
+        "US Customs and Border Protection published an interim final rule, “Heightened Requirements for Foreign Importers of Record,” in the Federal Register on 6 November: from 5 January 2027 a foreign importer of record must generally either be CTPAT-validated itself or use a CTPAT-validated US customs broker, and CBP has added three new data fields to Forms 3461 and 7501 (see CSMS #70381183). The direct implication for China-origin exports: the widely used “double-clearance, duty-included” channel, in which a forwarder or its US affiliate acts as IOR, will require CTPAT credentials, and those without them must file through a validated broker, lifting both cost and compliance-chain complexity; China’s trade promotion council system has listed the rule as an exporter alert (issue 253), warning that Chinese sellers’ customs clearance channels will be constrained. Caveats: the core provisions come from the CBP interim final rule as reported by industry channels (WSSA’s Global Logistics Update of 13 November and the trade council alert); interim final rules normally carry a comment period and details beyond the “generally” wording, exemptions among them, may still be adjusted, so practical impact should be read against CBP’s own text and broker feedback; no CBP Chinese-language explainer for the rule was seen this issue.",
+        [
+            S("WSSA 全球物流周报（11-13：CBP 11-06 临时最终规则、2027-01-05 生效、CTPAT 要求、CSMS #70381183）", "https://www.wssa.com/blog/global-logistics-update-november-13-2026"),
+            S("中国贸促会聊城市委预警第 253 期（美国 IOR 新规：中国卖家清关通道将受限）", "http://www.lcsmch.org.cn/channel_t_167_12413/doc_6afa7860dd94f2f639bd71b8.html"),
+        ],
+        True,
+    ),
+    IT(
+        "HMM Platinum 宣布共同海损：2,300 箱货主须同时出具救助与共同海损双重担保，火船仍锚泊德班外海近一月、Ngqura 避难港申请未获批",
+        "HMM declares general average on the HMM Platinum, leaving 2,300 boxes needing both salvage and general-average security — the fire-hit ship is still anchored off Durban a month on, with its Ngqura refuge request unapproved",
+        "HMM 已就 10 月 6 日起火的集装箱船 HMM Platinum（5,593 TEU、利比里亚旗）正式宣布共同海损（general average），委任 Korhi Average Adjusters & Surveyors 担任理算人，担保收取由 Korhi 与 Richards Hogg Lindley 共同负责（W.E. Cox 11 月 6 日通报）。事故链条：该轮 10 月 6 日自印度 Kattupalli 驶往巴西 Santos 途中、在马达加斯加以南报告甲板或舱内集装箱起火，船上约 2,300 箱，24 名船员安全；救助由 SMIT 按劳氏救助合同（LOF）实施，船舶转向南非但避难港迟迟未定——Transnet 国家港务局确认已收到进入 Ngqura 的申请，但能否靠泊取决于与相关部门的磋商以及泊位、设备与运营资源；AIS 数据显示截至 11 月 9 日该轮仍锚泊于德班东北约 29 公里处，自起火以来尚未完成任何一次靠泊。对货主的实际含义：共同海损不是“货损理赔”——只要货在船上，即使未受烟熏水浸也是分摊方；船上货物须先提供救助担保与共同海损担保，货物才能转运或放行，未投保货主需缴纳现金保证金（金额尚未公布），理算周期按行业惯例以月计。须标注：起火原因、货损范围与后续船期均未公布；本条由 The Loadstar 原始报道与多家航运媒体转述交叉印证；“5,593 TEU”为 The Loadstar 口径，另有媒体记 5,023 TEU，差异未获官方澄清。",
+        "HMM has formally declared general average on the 5,593 teu, Liberia-flagged containership HMM Platinum, which caught fire on 6 October, appointing Korhi Average Adjusters & Surveyors to handle the adjustment with Korhi and Richards Hogg Lindley collecting security, per W.E. Cox’s 6 November circular. The sequence: the ship reported a container fire on deck or in the hold on 6 October while sailing from Kattupalli, India, to Santos, Brazil, south of Madagascar, with about 2,300 boxes aboard and all 24 crew safe; salvage was undertaken by SMIT under a Lloyd’s Open Form, the vessel diverted towards South Africa, but a port of refuge has proved elusive — Transnet National Ports Authority confirms it has received a request to enter Ngqura, with clearance depending on consultations with the relevant authorities and on berth, equipment and operational availability; AIS data placed the ship at anchor about 29 km north-east of Durban as of 9 November, with no berthing completed since the fire. What it means for cargo interests: general average is not cargo-damage insurance — any box on board is a contributing party even if untouched by smoke or water; cargo must post salvage security and general-average security before being forwarded or released, uninsured owners face cash deposits of an as-yet unset amount, and adjustment typically runs for months. Caveats: the cause of the fire, the extent of cargo damage and the forward schedule remain unpublished; this item is cross-checked between The Loadstar’s original report and multiple shipping-media accounts, with The Loadstar citing 5,593 teu while some outlets say 5,023 teu, a discrepancy not officially clarified.",
+        [
+            S("The Loadstar（经 ship247 转载：11-06 宣布共同海损、Korhi 理算、2,300 箱、双重担保）", "https://ship247.com/market-insights/hmm-platinum-general-average-adds-to-cargo-woes-as-search-for-refuge-drags-on"),
+            S("Tedarik Zinciri Portali（11-10：5,593 TEU、救助担保/共同海损担保、未投保需现金保证金）", "https://tzp.news/en/news/2026-11-10-hmm-yangin-hasarli-hmm-platinum-icin-musterek-avarya-ilan-etti"),
+            S("Vessel Hunter（11-11：Transnet 收到 Ngqura 靠泊申请、仍处南非港口界限外、24 名船员安全）", "https://vesselhunter.io/news/hmm-platinum-fire-waits-ngqura-berth-south-africa"),
+            S("全球定制网（中文口径：11-08 AIS 仍在德班外锚地 29 公里、共同海损非货损理赔的逻辑拆解）", "https://www.globalpod.cn/article/5262"),
+        ],
+        True,
+    ),
+    IT(
+        "智利卡车司机第二轮罢工 11 月 10 日起无限期展开、多地车主协会相继加入：圣安东尼奥前一轮 9 天罢工影响约 2,500 箱，樱桃出口季撞上陆路瘫痪",
+        "Chile’s second truckers’ strike opens indefinitely from 10 November as owner associations join: about 2,500 container movements were disrupted by the previous nine-day stoppage, and the cherry export season meets inland paralysis",
+        "智利圣安东尼奥地区的独立卡车司机罢工在持续九天后达成协议结束，但已造成约 2,500 个集装箱运输受阻，堆场拥堵与提货积压需要时间消化；紧接着 11 月 10 日新一轮无限期卡车司机罢工在多个大区展开，11 月 12 日 Valparaíso 大区与 Puerto Montt 的车主协会加入。政府宣布将向国会提交法案，撤销 11 月 12 日生效的油价上调并将油价冻结至 2027 年 2 月，但运输协会认为措施不足。港口侧仍在运转：圣安东尼奥与瓦尔帕莱索等主要港口保持装卸作业，问题集中在内陆——多区公路通行受限，影响设备堆场与港口的陆路接驳，由此带来提还箱延迟、错过截关以及滞箱费、堆存费等附加成本。时间点值得注意：这正撞上智利樱桃出口季（对华空运与海运高峰），任何陆路中断都会被放大成生鲜货损与船期延误。须标注：新一轮罢工的规模与参与方仅见 WSSA 全球物流周报（11-13）单源描述，中国贸促系统预警（第 253 期）只覆盖已于 11 月 6 日结束的上一轮罢工，两者不可混为同一事件；港口装卸未停，故本条不构成“港口停摆”结论。",
+        "The independent truckers’ strike around Chile’s San Antonio ended after nine days with an agreement, but about 2,500 container movements had been disrupted and yard congestion plus a pickup backlog will take time to clear; a new indefinite truckers’ strike then began on 10 November across several regions, with owner associations from the Valparaíso Region and Puerto Montt joining on 12 November. The government said it would send a bill to Congress to reverse the fuel-price increase that took effect on 12 November and freeze prices until February 2027, but transport associations called the measures insufficient. Ports remain operational: San Antonio, Valparaíso and other main ports continue loading and discharge, and the problem is inland, with restricted road movements in various areas limiting access to equipment depots and ports, bringing delays in container pickup and delivery, a risk of missed vessel cut-offs and extra costs such as demurrage, detention and storage. The timing matters: this collides with Chile’s cherry export season, the peak of fresh-fruit air and sea lift, so any inland interruption is amplified into spoilage and schedule risk. Caveats: the scale and participants of the new strike appear only in WSSA’s Global Logistics Update of 13 November, a single source, while China’s trade council alert (issue 253) covers only the earlier strike that ended on 6 November — the two must not be conflated; port handling has not stopped, so this is not a “port shutdown” finding.",
+        [
+            S("WSSA 全球物流周报（11-13：9 天罢工结束、约 2,500 箱受影响、11-10 起新一轮无限期、油价冻结至 2027-02）", "https://www.wssa.com/blog/global-logistics-update-november-13-2026"),
+            S("中国贸促会聊城市委预警第 253 期（上一轮圣安东尼奥罢工：11-06 达成协议、约 2,500 箱积压、500 余工作班次）", "http://www.lcsmch.org.cn/channel_t_167_12413/doc_6afa7860dd94f2f639bd71b8.html"),
+        ],
+        False,
+    ),
+]
+
+# ---------------- 研究瞭望 / Research ----------------
+RESEARCH = [
+    IT(
+        "麦肯锡全球研究院《全球贸易的阿喀琉斯之踵》：23% 的进口商品至少踩中三项脆弱性中的两项（2000 年为 15%），24 个海上咽喉点承载 80% 海运贸易、霍尔木兹/博斯普鲁斯/渤海海峡/丹麦海峡无替代航线",
+        "MGI’s The Achilles’ Heel of Global Trade: 23% of imports now carry at least two of three vulnerabilities (15% in 2000), and 24 maritime chokepoints carry 80% of seaborne trade with no alternative to Hormuz, the Bosporus, the Bohai Strait or the Danish Straits",
+        "麦肯锡全球研究院 11 月 12 日发布《The Achilles’ Heel of Global Trade: Building Resilience Where It Matters Most》，覆盖 6,000 种商品、合计 19 万亿美元进口（2024 年数据），按三类脆弱性打分：产品关键性、供应商集中度、地缘政治距离（以 2005—2022 年联合国大会投票模式衡量）。结论：23% 的贸易商品同时踩中至少两项脆弱性（2000 年为 15%），仅 4% 三项全占，其中包括美国自中国进口的稀土磁体与智能手机；电子、基础制造、金属与矿产合计占“阿喀琉斯”类商品的 60% 以上，仅智能手机、存储芯片、笔记本电脑等五类产品就占其中 20%。供应商侧：中国供应美国“阿喀琉斯”类产品的 31%，而美国对华仅 8%。海运通道：24 个咽喉点承载约 80% 的全球海运贸易，其中 14 个可较容易改道（成本上升）、6 个需大幅绕行，霍尔木兹海峡、博斯普鲁斯海峡、渤海海峡与丹麦海峡“无合适海运替代”。报告同时给出反向提醒：贸易并未变得更不可靠，真正变化是各方开始识别失效点；而 2025 年以来由 AI 投资热潮驱动的贸易扩张“很可能放大了这些脆弱性”——“随着 AI 采用扩大，既有供应集中度可能变得更关键，新的依赖会在算力基础设施与关键材料上出现”。须标注：地缘政治距离是政治一致性度量，不是中断预测；研究基于 2024 年贸易数据，与当前关税环境存在时滞；数字经 Morningstar/道琼斯、Axios、彭博多家独立报道交叉核对一致。",
+        "The McKinsey Global Institute published The Achilles’ Heel of Global Trade: Building Resilience Where It Matters Most on 12 November, covering 6,000 products accounting for $19 trillion of imports (2024 data) and scoring three vulnerabilities: product criticality, supplier concentration and geopolitical distance, measured by UN General Assembly voting patterns from 2005 to 2022. Findings: 23% of traded products carry at least two vulnerabilities, up from 15% in 2000, while only 4% carry all three — including US imports of rare-earth magnets and smartphones from China; electronics, basic manufacturing, and metals and minerals make up more than 60% of these Achilles’-heel goods, and just five products such as smartphones, memory chips and laptops account for 20% of them. On suppliers: China supplies 31% of the Achilles’-heel products the US imports, while the US supplies just 8% of such products to China. On maritime routes: 24 chokepoints carry about 80% of global seaborne trade — 14 can be rerouted relatively easily at higher cost, six require substantially longer diversions, and there are no suitable maritime alternatives to the Strait of Hormuz, the Bosporus, the Bohai Strait or the Danish Straits. The report cautions in the other direction too: trade has not necessarily become less reliable, and what has changed is that actors want to map points of failure — while the trade expansion driven by the AI investment boom since 2025 “likely increased the vulnerabilities”, since “as AI adoption scales, existing supply concentrations could become more consequential, while new dependencies emerge across computing infrastructure and resources such as critical materials”. Caveats: geopolitical distance measures political alignment, not the likelihood of interruption; the study rests on 2024 trade data and lags the current tariff environment; the figures were cross-checked across independent reports by Morningstar/Dow Jones, Axios and Bloomberg and are consistent.",
+        [
+            S("Morningstar / Dow Jones（11-12：6,000 种商品/19 万亿美元、23% vs 15%、仅 4% 三项全占、中国供应 31% vs 美国 8%、OECD 40% 数据）", "https://www.morningstar.com/news/dow-jones/2026111292/a-quarter-of-key-goods-vulnerable-to-supply-disruptions-study-finds"),
+            S("Axios（11-13：24 个咽喉点承载 80% 海运贸易、产品关键性/供应商集中/地缘距离三分类、研究者访谈）", "http://axios.com/2026/11/13/global-trade-supply-hormuz-mckinsey"),
+            S("Bloomberg（11-12：近四分之一进口暴露、AI 热潮放大脆弱性）", "https://www.bloomberg.com/news/newsletters/2026-11-12/world-trade-s-achilles-heel-grows-as-ai-boom-fuels-risks"),
+            S("Poland Insight（引 MGI 报告 11-12：霍尔木兹/博斯普鲁斯/渤海/丹麦海峡无海运替代、14 个可改道、6 个需长绕）", "https://polandinsight.com/global-import-supply-risks-18544"),
+        ],
+        True,
+    ),
+    IT(
+        "凯捷研究院 1,000 名高管调查：供应链智能体试点率升至 22%（2025 年 16%），但预期“三到五年内全自动”的比例反从 37% 降至 25%——84% 要求人类保留决策验证权",
+        "Capgemini’s survey of 1,000 executives: agent pilots in supply chains rise to 22% (16% in 2025) while those expecting full automation within three to five years falls from 37% to 25% — and 84% insist humans keep authority to validate AI decisions",
+        "凯捷研究院（Capgemini Research Institute）报告《Resilient by design: Reinventing supply chains with human-agent operations》基于 2026 年 7 月对 13 国、4 个行业（快消、生命科学、工业制造、航空航天与国防）1,000 名总监及以上高管的调查。三组数字构成“采用上升、期待下降”的剪刀：①已试点或落地供应链 AI 智能体的比例由 2025 年的 16% 升至 22%，表示“无计划探索”的比例从 32% 降至 21%，65% 已为智能体划出专项预算；②但预期三到五年内实现“完全自动化供应链”的比例从 2025 年的 37% 降至 25%——复杂自主决策、监管要求、数据质量参差与例外处理仍需情境判断；③人类监督成为硬约束：84% 认为人必须保留验证 AI 生成决策的权限，80% 认为对负责任 AI 的信任取决于能否随时干预。组织侧：75% 称供应链近年发生显著变化，71% 设有专职转型团队，68% 计划未来 12—18 个月增加转型投入，73% 把韧性列为首要任务；但“韧性雄心跑在准备度前面”——78% 视地缘政治不稳定为重大挑战，却不足半数定期开展供应链风险评估、依赖关系测试或设定降低高风险敞口的 KPI，可视性在超过一级供应商之后普遍衰减。63% 称可持续举措提升了供应链效率。须标注：全部为自报问卷；国别样本差异大（西班牙样本 36% 已用智能体、仅 26% 预期全自动），跨国横比需谨慎；该报告为单一机构研究，但经 Capgemini 官网与多家独立媒体分别引用，关键数字一致。",
+        "The Capgemini Research Institute’s report, Resilient by design: Reinventing supply chains with human-agent operations, draws on a July 2026 survey of 1,000 director-level and above executives across 13 countries and four industries — consumer products, life sciences, industrial manufacturing, and aerospace and defence. Three figures form a scissors of rising adoption and falling expectations: (1) 22% of organisations have piloted or implemented AI agents in their supply chains, up from 16% in 2025, while those with no plans to explore fell from 32% to 21%, and 65% have allocated dedicated budget for AI agents; (2) yet only 25% expect fully automated supply chains within three to five years, down from 37% in 2025, because complex autonomous decision-making, regulatory requirements, uneven data quality and exceptions still need contextual judgement; (3) human oversight is a hard constraint — 84% say people must retain authority to validate AI-generated decisions and 80% say trust in responsible AI depends on the ability to intervene. On organisation: 75% say their supply chains have changed significantly in recent years, 71% have dedicated transformation teams, 68% plan to raise transformation spending over the next 12 to 18 months and 73% rank resilience a top priority; but resilience ambition runs ahead of readiness — 78% cite geopolitical instability as a significant challenge, yet fewer than half regularly conduct risk assessments, test dependencies or set KPIs for reducing high-risk exposure, and visibility weakens beyond tier-1 suppliers. 63% say sustainability initiatives have improved supply chain efficiency. Caveats: all figures are self-reported; country samples vary widely (36% of Spanish organisations use agents but only 26% expect full automation), so cross-country comparison needs care; this is single-institution research, though the key numbers are consistent across Capgemini’s own publication and independent outlets.",
+        [
+            S("Capgemini 研究院（报告原文：22%/16%、25%/37%、84%、65%、68%、73%、78%、1,000 人 13 国）", "https://www.capgemini.com/insights/research-library/reinventing-supply-chains/"),
+            S("Asia Tech Journal（西班牙样本：36% 已用智能体 vs 全球 22%、26% 预期全自动、86% 数据质量风险）", "https://asiatechjournal.com/36-of-spanish-companies-already-use-ai-agents"),
+            S("Empresa Exterior（西班牙对比表：80%/75% 显著变化、84%/73% 韧性首要、80% 关税担忧）", "https://en.empresaexterior.com/adopcion-de-ia-en-cadenas-de-suministro-espana-supera-el-promedio-mundial-segun-el-informe-reinventing-supply-chains-de-capgemini"),
+        ],
+        True,
+    ),
+    IT(
+        "Gartner 把“电”列为供应链增长的主要约束：2029 年前缺乏先进能源管理的多数制造商成本将高出 20%—30%，2026 年全球数据中心用电 565TWh（+26%）",
+        "Gartner names electricity a primary constraint on supply chain growth: most manufacturers without advanced energy management will face 20–30% higher costs by 2029, with global data-centre demand at 565TWh in 2026 (+26%)",
+        "Gartner 11 月发布判断：能源可得性正成为供应链增长的主要约束之一——电力需求上升叠加基础设施容量与可靠性挑战，企业将遇到运营成本上升、扩张计划延迟与电气化受阻。量化口径：到 2029 年，多数缺乏先进能源管理能力的制造商将因价格与供应波动、网络拥堵和容量约束承担高出 20%—30% 的成本；AI 负载是需求侧主引擎——2026 年全球数据中心用电预计达 565TWh（2025 年为 447TWh，+26%），到 2030 年将翻倍以上，AI 采用、工业电气化与人口增长合计将占本十年末全球用电增量的约 90%。设备侧瓶颈更硬：2026 年电力变压器与变电站市场缺口估计分别为 15% 与 8%，大型变压器交期已从不足一年拉长到 2—5 年，Wood Mackenzie 预计美国 2025 年供应缺口 30%，而美国约 80% 的变压器依赖进口。对供应链的传导路径被逐条列出：电网中断、容量不足、并网延迟、能源价格波动、扩张受限、电气化延后、供应商中断——最后一项对采购方最直接：能源受限地区的工厂可能减产、延误交期或把成本转嫁。物流地产侧已给出实证：Prologis 数据显示近 90% 的企业在过去一年经历过能源中断，90% 表示愿为具备可靠电力基础设施的场地支付溢价，电力容量正与净高、装卸口并列成为选址主筛选项——在美国西部部分地区已成为决定性因素。须标注：20%—30% 为对 2029 年的预测而非实测；565TWh 等用电数据来自 Gartner 引用而非其自有统计；变压器缺口与交期为第三方（Wood Mackenzie）口径。",
+        "Gartner’s November assessment finds access to energy is becoming one of the most significant constraints on supply chain growth — rising electricity demand colliding with capacity and reliability challenges means higher operating costs, delayed expansion and stalled electrification. Quantified: by 2029 most manufacturers without advanced energy management capabilities will face 20–30% higher costs from price and supply volatility, network congestion and capacity constraints; AI workloads are the demand-side engine — global data-centre electricity use is forecast at 565TWh in 2026, up 26% from 447TWh in 2025, and will more than double by 2030, with AI adoption, industrial electrification and population growth accounting for roughly 90% of global load growth by the end of the decade. The equipment bottleneck is harder still: power transformers and substations are in an estimated 15% and 8% market shortage in 2026, lead times for large power transformers have stretched from under a year to two to five years, Wood Mackenzie forecasts a 30% US supply deficit in 2025, and about 80% of US transformer supply is imported. The transmission paths into supply chains are itemised: grid outages, capacity shortages, interconnection delays, energy price volatility, expansion constraints, electrification delays and supplier disruption — the last being most direct for buyers, as factories in constrained regions may cut output, miss ship dates or pass costs on. Logistics real estate already provides the evidence: Prologis data shows almost 90% of companies experienced energy disruptions in the past year and 90% would pay a premium for sites with reliable power, with power capacity now a primary site-selection filter alongside clear height and loading docks — and in parts of the western US a deciding factor. Caveats: the 20–30% figure is a 2029 projection, not a measurement; the 565TWh and related load data are cited by Gartner rather than its own statistics; the transformer shortfall and lead times are third-party (Wood Mackenzie) figures.",
+        [
+            S("Supply & Demand Chain Executive（Gartner 原口径：能源可得性约束增长、2029 年 20%—30%、七条传导路径）", "https://www.sdcexec.com/sustainability/clean-energy/news/22977974/gartner-inc-energy-constraints-threaten-supply-chain-growth"),
+            S("MHL News（Marta Muñoz 访谈：CSCO 应把能源纳入网络设计与增长规划、选址评估）", "https://www.mhlnews.com/global-supply-chain/news/55416970/access-to-energy-is-major-constraint-on-supply-chain-growth"),
+            S("ASR University（565TWh/447TWh、2030 年翻倍、变压器/变电站 15%/8% 缺口、Wood Mackenzie 30%、Prologis 90%）", "https://asrwe.com/asr-university/energy-constraints-supply-chain-hidden-crisis-2026"),
+        ],
+        True,
+    ),
+    IT(
+        "元分析给智能体 AI 泼一盆冷水：19 项研究、5,292 人的合并效应虽显著（Hedges’ g=1.58），但异质性 I²=99.5%、预测区间横跨 -4.20 至 7.36——平均有效不等于可复制",
+        "A meta-analysis cools the agentic AI story: across 19 studies and 5,292 participants the pooled effect is significant (Hedges’ g = 1.58) yet heterogeneity is I² = 99.5% with a prediction interval from -4.20 to 7.36 — an average gain is not a reproducible one",
+        "发表于《Industrial Artificial Intelligence》（2026 年 10 月 24 日）的跨情境元分析，首次系统量化智能体 AI 在零售与供应链运营中的实证效果：合并 19 项研究、合计 N=5,292，采用限制最大似然（REML）随机效应模型与 Hartung-Knapp 校正，得到合并效应 Hedges’ g=1.58（95% 置信区间 0.26—2.89，p=0.022），统计显著。但作者强调不能把它当作实施预期：异质性近乎完全（I²=99.5%、τ²=7.18），95% 预测区间从 -4.20 到 7.36——意味着在一个新场景落地，真实效果可能落在“显著有害”到“极佳收益”之间的全域；四类运营域（零售、供应链、电商、库存）的差异在随机效应模型下不显著（Q=6.73，p=0.081），电商仅 3 项研究故仅作描述性处理；限额元分析（limit meta-analysis）校正选择性报告后，效应降至 g=1.26（p=0.066），提示存在实质性发表偏倚。作者建议：分域试点、把仿真研究与真实场景证据分开计量、按 AI 架构差异分别评估，并公开零结果。对供应链实践的含义：现有证据无法支撑“上智能体即提效”的一般性承诺，项目论证应停留在具体场景的具体指标。须标注：本条核心数字来自单一二次来源（Truvace 对该论文的结构化摘要），论文本身为同行评议期刊、DOI 10.1007/s44244-026-00039-3，但未获第二家独立媒体转述，按本期口径计为单源，故未标 verified。",
+        "A cross-contextual meta-analysis published in Industrial Artificial Intelligence (24 October 2026) is the first systematic quantification of agentic AI’s empirical effects in retail and supply chain operations: pooling 19 studies with a combined N = 5,292 and using a random-effects model with restricted maximum likelihood (REML) estimation and the Hartung-Knapp adjustment, it reports a pooled Hedges’ g of 1.58 (95% CI 0.26–2.89, p = 0.022), statistically significant. But the authors stress it must not be read as an implementation expectation: heterogeneity is near-total (I² = 99.5%, τ² = 7.18) and the 95% prediction interval runs from -4.20 to 7.36, meaning a new deployment could land anywhere from substantial harm to exceptional benefit; differences across four operational domains — retail, supply chain, e-commerce and inventory — are not significant under the random-effects model (Q = 6.73, p = 0.081), with e-commerce resting on only three studies and treated descriptively; and a limit meta-analysis adjusting for selective reporting lowers the estimate to g = 1.26 (p = 0.066), pointing to meaningful publication bias. The authors recommend domain-specific pilots, separating simulation-based from real-world evidence, evaluating by AI architecture and publishing null results. The implication for supply chain practice: current evidence cannot support a general claim that deploying agents improves performance, and business cases should be argued on specific metrics in specific settings. Caveat: the core figures come from a single secondary source, Truvace’s structured summary of the paper; the paper itself is peer-reviewed with DOI 10.1007/s44244-026-00039-3, but no second independent outlet was found, so under this issue’s standard it counts as a single source and is not marked verified.",
+        [
+            S("Industrial Artificial Intelligence（论文原文，DOI 10.1007/s44244-026-00039-3，2026-10-24）", "https://doi.org/10.1007/s44244-026-00039-3"),
+            S("Truvace（论文结构化摘要：19 项研究/N=5,292、g=1.58 [0.26, 2.89]、I²=99.5%、预测区间 -4.20—7.36、limit 校正 g=1.26）", "https://truvace.com/item/a-cross-contextual-meta-analysis-of-agentic-ai-in-retail-and-supply-chain-operat"),
+        ],
+        False,
+    ),
+]
+
+# ---------------- 应用风向 / Apps & Adoption ----------------
+APPS = [
+    IT(
+        "双 11 攀爬机器人首次完整跑完大促：菜鸟增城仓 135 台连续作业 7 小时、峰值单台日垂直运行超 140 公里，存储密度 +40%、人效 +100%",
+        "Climbing robots complete their first full peak season: 135 Cainiao units run seven hours straight at Zengcheng, one unit travels over 140 km vertically in a day, storage density +40% and labour productivity +100%",
+        "菜鸟自研攀爬机器人 ZeeBot 在今年双 11 首次完整经历大促，并从单仓试点转向多城、多场景常态化：广州增城天猫超市仓（8 万平方米、超 6 万个 SKU、大促高峰出库量为日常同时段 3 倍）在 11 月 11 日凌晨由 135 台机器人连续作业 7 小时（常态 96 台，大促扩容至 135 台），峰值日单台垂直运行里程超 140 公里、小时垂直运行峰值 11 公里。技术路线与收益口径：与传统“地面搬运 + 立体存取”两套独立系统不同，ZeeBot 采用“单机闭环”——一台设备以最高 4 米/秒在地面移动，并可直接攀爬货架完成取箱、转运，无需设备交接；增城仓攀爬区货架作业高度约 9 米（传统人工仓约 3 米），搭载该方案的仓库存储空间利用率提升 40%、整体人效提升 100%。落地范围：已进入广州增城天猫超市仓、东莞跨境仓、天津服饰退货仓、苏州运动品牌仓，香港 eHub 仓及西班牙、荷兰境外项目已交付投用；自 4 月发布以来累计交付超千台，国内 2 个仓库部署约 300 台。菜鸟供应链运营管理中心总经理袁流称，大促承压能力来自“AI 前置备货 + 机器人集群调度 + 全链路异常分钟级响应”的整套体系。须标注：140 公里/日、40%/100% 等均为企业口径，未附第三方测算；“人效 +100%”未说明岗位基准与统计窗口；本条由地方政府网站与《环球时报》报道交叉印证，事实性描述（135 台、7 小时、9 米、增城仓规模）一致。",
+        "Cainiao’s in-house climbing robot ZeeBot has completed its first full peak season and moved from single-warehouse pilots to routine multi-city, multi-scenario operations: at the Guangzhou Zengcheng Tmall Supermarket warehouse — 80,000 sqm, over 60,000 SKUs, peak outbound at three times the normal rate for the same hours — 135 robots worked seven consecutive hours in the early hours of 11 November, up from 96 in normal operations, with a single unit travelling more than 140 km vertically on its peak day and a peak hourly vertical rate of 11 km. On the technical route and claimed gains: unlike conventional warehouses that separate floor transport from vertical storage-and-retrieval, ZeeBot uses a single-machine closed loop — one unit moves on the floor at up to 4 m/s and climbs the racking itself to retrieve and transfer totes without hand-offs; the Zengcheng climbing zone works at about 9 metres against roughly 3 metres in a manual warehouse, and warehouses running the system report 40% higher storage-space utilisation and 100% higher overall labour productivity. Footprint: deployments at Guangzhou Zengcheng, the Dongguan cross-border warehouse, a Tianjin apparel returns warehouse and a Suzhou sportswear warehouse, plus delivery to the Hong Kong eHub and projects in Spain and the Netherlands; more than 1,000 units delivered since the April launch, with about 300 in two domestic warehouses. Cainiao supply chain operations head Yuan Liu attributes peak resilience to a combined system of AI pre-positioning, robot fleet scheduling and minute-level exception response across the chain. Caveats: the 140 km/day, 40% and 100% figures are company statements without third-party measurement, and the productivity gain does not specify a job baseline or measurement window; this item is cross-checked between a local government website and a Global Times report, which agree on the factual details (135 units, seven hours, 9 metres, Zengcheng scale).",
+        [
+            S("杭州市余杭区政府网站（记者徐赣鹰：增城仓 8 万㎡/6 万 SKU/3 倍出库、135 台连续 7 小时、140 公里、40%/100%、累计交付超千台）", "https://www.yuhang.gov.cn/col/col1532133/art/2026/art_053cb2abf70a422a996bf13df9410074.html"),
+            S("环球时报（经网易转载：11 月 11 日凌晨 135 台整夜作业、9 米货架、香港 eHub 与西班牙/荷兰项目）", "https://dy.163.com/article/LBJKK9LF0514R9OJ.html"),
+        ],
+        True,
+    ),
+    IT(
+        "神州控股科捷双 11 交卷：武清仓机器人拣货占全场 24.3%、累计作业时长为人工 5.3 倍，“捷小果”智能体 13 个部门对话 1.4 万轮、平均每问触发 6.8 次工具调用",
+        "Digital China’s Kejie reports its 11.11 numbers: robots handle 24.3% of picks at the Wuqing warehouse with 5.3× human hours, while the Jiexiaoguo agent runs 14,000 dialogues across 13 departments at 6.8 tool calls per question",
+        "据科技日报 11 月 14 日报道，神州控股旗下科捷物流天津武清仓在双 11 期间由具身智能机器人完成全场近四分之一拣货量：截至第一波峰值结束，仓内单量同比增长 36.9%、整体人效同比提升 17.2%；机器人与大咖机器人联合部署，跑了数百个任务、数千单作业，单日累计作业时长为人工的 4.2 倍；对比 10 月 21 日首个促销日，件量增长 83%、任务数增长 94%、单量增长 98%，拣货效率提升 25%，机器人件量占比从 14.1% 升至 30%；拉长到整个大促，机器人累计作业时长为同期人工的 5.3 倍、拣货量占全场总件数 24.3%。该方案属科捷“人机共舞 5.0”（9 月发布），采用“云脑 + 端脑”分工：云脑汇总波次、安排拣选优先级与任务调度，端脑机器人负责识别、避障与拣选。智能体侧：9 月发布的企业级供应链智能体“捷小果”上线前用四个月遍历 118 个供应链岗位、梳理 115 项需求、整理出百余个可直接调用的岗位技能；双 11 期间 13 个业务部门实际使用、完成对话 1.4 万轮、调用工具 9.5 万次，平均每个问题触发 6.8 次调用，直连 WMS/OMS/TMS 等业务系统生成报表。行业底数：中国物流与采购联合会报告称 AI 在物流与供应链领域应用渗透率超过 37%。须标注：全部数字为企业与单一媒体报道口径，未见第二家独立媒体复核或第三方测算；“人效 +17.2%”与“机器人件量占比 24.3%”分母不同（前者含全仓人机协同，后者为机器人单独拣货量占比），不可混用。",
+        "Technology Daily reported on 14 November that the Wuqing warehouse of Kejie Logistics, part of Digital China Holdings, had embodied-AI robots complete nearly a quarter of all picking during 11.11: by the end of the first demand peak, warehouse order volume was up 36.9% year on year and overall labour productivity up 17.2%; the robots, deployed with Daka Robotics, ran hundreds of tasks and thousands of order operations, with daily cumulative operating hours 4.2× those of human workers; against 21 October, the first promotion day, piece volume rose 83%, task count 94% and order count 98%, picking efficiency improved 25% and the robots’ share of pieces climbed from 14.1% to 30%; across the whole campaign, robot operating hours were 5.3× the human equivalent and robot picks accounted for 24.3% of all pieces. The scheme is Kejie’s Human–Machine Dance 5.0, launched in September, split between a “cloud brain” that aggregates waves, sets picking priorities and dispatches tasks and “edge brains” on the robots handling recognition, obstacle avoidance and picking. On the agent side: the enterprise supply chain agent Jiexiaoguo, launched in September, was built over four months by traversing 118 supply chain roles and distilling 115 requirements into more than 100 callable job skills; during 11.11 it was used by 13 business departments, completing 14,000 dialogue turns and 95,000 tool calls at 6.8 calls per question, connecting directly to WMS, OMS and TMS to generate reports. Industry baseline: the China Federation of Logistics and Purchasing reports AI penetration above 37% in logistics and supply chains. Caveats: all figures are company and single-outlet statements with no independent verification or third-party measurement, and the 17.2% productivity gain and the 24.3% robot share have different denominators — the former covers the whole warehouse including human–robot collaboration, the latter is the robots’ stand-alone pick share — so they cannot be used interchangeably.",
+        [
+            S("科技日报（11-14：武清仓 24.3%、5.3 倍、36.9%/17.2%、捷小果 13 部门 1.4 万轮 9.5 万次 6.8 次/问、中物联 37%）", "https://www.stdaily.com/web/gdxw/2026-11/14/content_613138.html"),
+            S("中国日报网（独立成稿：AI 控制塔每小时播报 1,821 次、三类超时预警、省 300—455 小时；机器人 24.3% 同口径）", "https://ex.chinadaily.com.cn/exchange/partners/82/rss/channel/cn/columns/sz8srm/stories/WS6afaa9c8e4b0e14252fcb461.html"),
+        ],
+        True,
+    ),
+    IT(
+        "新华社走笔中兴南京滨江基地：10 万库位立体仓由 80 多名“数字员工”调度，供应链场景日词元消耗超 90 亿、月拣选距离从 40 多万米降到 16 万米",
+        "Xinhua tours ZTE’s Nanjing Binjiang base: 100,000 bin locations are dispatched by 80-plus “digital employees”, with supply chain token consumption above 9 billion a day and monthly picking distance down from 400,000-plus metres to 160,000",
+        "新华社 11 月 12 日播发的《智能体加速落地，“数字员工”走进千行百业》给出一个可核查的工厂级样本：中兴通讯南京滨江基地 10 万多个库位在立体仓内层层排开，四向穿梭车、提升机、堆垛机等设备协同，为产线不间断分派物料——“哪只箱子该在什么时间送到产线哪个位置，全靠多个智能体拿主意、下指令”。效果口径（副总裁周建峰）：以负责仓储优化的智能体为例，夜间没有拣料任务时，它按第二天的生产订单优化编排，把高频使用的物料提前挪到近端，使月拣选距离从 40 多万米降到 16 万米（降幅约 60%）；基地内已有 80 多名“数字员工”跑在业务线上，分别负责排生产计划、盯订单流转、管产品全生命周期，仅供应链场景每天词元消耗量就超 90 亿且仍在快速增长。宏观背景同篇给出：智能体产品今年密集上线（“豆包工作”“千问办公”“Kimi Work”等），被国家发改委宏观经济研究院研究员陈曦定义为“以大模型为能力底座，具备自主感知、记忆、决策、交互与执行能力的智能系统”。同篇还有一组刹车数字：调研显示我国企业智能体采纳率已从 2024 年底的 17.3% 升至 2026 年上半年的 40.3%，但《毕马威 2026 全球技术报告》称 88% 的受访企业已将智能体融入系统、仅 24% 能实现投资回报——采用率高、兑现率低。须标注：90 亿词元/日、80 多名数字员工、40 万→16 万米均为企业向新华社提供的口径，无第三方审计；“数字员工”是内部称谓而非产品名录，与裁员或替代人数无对应关系，不应据此推算人力节省；毕马威与采纳率数字来自新华社同一篇报道的引用，非本期独立核验。",
+        "Xinhua’s 12 November feature on agents entering industry offers a checkable factory-level sample: at ZTE’s Nanjing Binjiang base, more than 100,000 bin locations are stacked in a high-bay warehouse where four-way shuttles, lifts and stacker cranes coordinate to feed the production lines continuously — which tote goes to which line position at what time is decided and instructed by multiple agents. On results, per vice-president Zhou Jianfeng: the warehouse-optimisation agent, when there is no overnight picking work, re-sequences by the next day’s production orders and moves fast-moving materials closer to the point of use, cutting monthly picking distance from over 400,000 metres to 160,000, a reduction of about 60%; more than 80 “digital employees” already work the base’s business lines, scheduling production, tracking order flow and managing product lifecycles, and the supply chain scenario alone consumes over 9 billion tokens a day, still growing fast. The same piece sets the macro backdrop: agent products have launched thick and fast this year (Doubao Work, Qwen Office, Kimi Work among others), defined by Chen Xi of the National Development and Reform Commission’s Academy of Macroeconomic Research as systems built on large-model foundations with autonomous perception, memory, decision-making, interaction and execution. It also carries a braking set of numbers: surveys put Chinese enterprise agent adoption at 40.3% in the first half of 2026, up from 17.3% at the end of 2024, yet KPMG’s 2026 Global Technology Report finds 88% of surveyed companies have integrated agents into systems while only 24% achieve a return on investment — high adoption, low realisation. Caveats: the 9 billion tokens a day, the 80-plus digital employees and the 400,000 to 160,000 metre reduction are company figures given to Xinhua with no third-party audit; “digital employee” is an internal label rather than a product list and does not map to headcount reductions, so no labour savings should be inferred; the KPMG and adoption figures are quoted within the same Xinhua report and were not independently checked this issue.",
+        [
+            S("新华社（经中国经济网转载，11-12：10 万库位、80 多名数字员工、90 亿词元/日、40 多万米→16 万米）", "https://www.ce.cn/xwzx/gnsz/gdxw/202611/t20261113_3293984.shtml"),
+            S("梅州日报数字报（11-13 报纸版全文，同一通稿：采纳率 17.3%→40.3%、毕马威 88%/24% 对照）", "https://mzrb.meizhou.cn/html/2026-11/13/content_416366.htm"),
+        ],
+        False,
+    ),
+]
+
+
+DATA = {
+    "updatedAt": UPDATED_AT,
+    "columns": [
+        {"cat": {"zh": "重点新闻", "en": "Key News"}, "color": COLORS[0], "items": KEY_NEWS},
+        {"cat": {"zh": "热门议题", "en": "Hot Topics"}, "color": COLORS[1], "items": HOT_TOPICS},
+        {"cat": {"zh": "研究瞭望", "en": "Research"}, "color": COLORS[2], "items": RESEARCH},
+        {"cat": {"zh": "应用风向", "en": "Apps & Adoption"}, "color": COLORS[3], "items": APPS},
+    ],
+}
+
+
+def main():
+    payload = json.dumps(DATA, ensure_ascii=False, indent=2)
+
+    # 1) 写 JSON
+    JSON_PATH.write_text(payload + "\n", encoding="utf-8")
+
+    # 2) 同步 index.html 内嵌快照
+    html = HTML_PATH.read_text(encoding="utf-8")
+    pattern = re.compile(
+        r'(<script id="embeddedRadar" type="application/json">)(.*?)(</script>)',
+        re.S,
+    )
+    if not pattern.search(html):
+        raise SystemExit("未找到 embeddedRadar 块，请检查 index.html")
+    html2, n = pattern.subn(lambda m: m.group(1) + "\n" + payload + "\n" + m.group(3), html, count=1)
+    HTML_PATH.write_text(html2, encoding="utf-8")
+
+    total = sum(len(c["items"]) for c in DATA["columns"])
+    verified = sum(1 for c in DATA["columns"] for i in c["items"] if i["verified"])
+    srcs = {s["label"] for c in DATA["columns"] for i in c["items"] for s in i["sources"]}
+    urls = {s["url"] for c in DATA["columns"] for i in c["items"] for s in i["sources"]}
+    print(f"written: {JSON_PATH}")
+    print(f"synced : {HTML_PATH} (replaced {n} block)")
+    print(f"updatedAt: {UPDATED_AT}")
+    print(f"items: {total} | verified: {verified} | source labels: {len(srcs)} | unique urls: {len(urls)}")
+
+
+if __name__ == "__main__":
+    main()
